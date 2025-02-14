@@ -60,12 +60,16 @@ class AuthUserController extends Controller
             // 'cf-turnstile-response' => ['required', Rule::turnstile()],
         ]);
 
+        $registerName = strtoupper($request->name);
+        $char = $registerName[0] ?? '';
+
         $user = User::create([
-            'name' => strtoupper($request->name),
+            'name' => $registerName,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'email_verified_at' => null,
             'remember_token' => Str::random(10),
+            'icon_avatar' => $char,
         ]);
 
         $user->assignRole('user');

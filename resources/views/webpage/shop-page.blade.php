@@ -49,7 +49,7 @@
                             </div>
                             <div class="collection-collapse-block open">
                                 <div class="accordion collection-accordion" id="accordionPanelsStayOpenExample">
-                                    @if(isset($categories) && $categories->isNotEmpty())
+                                    @if(isset($categoriesSidebar) && $categoriesSidebar->isNotEmpty())
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
                                             <button class="accordion-button pt-0" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">Categories</button>
@@ -57,11 +57,11 @@
                                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                                             <div class="accordion-body">
                                                 <ul class="collection-listing">
-                                                    @forelse($categories as $key => $category)
+                                                    @forelse($categoriesSidebar as $key => $categoryItem)
                                                     <li>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" value="" id="{{ $key . '-' . $category->id }}">
-                                                            <label class="form-check-label" for="{{ $key . '-' . $category->id }}">{{ $category->name }}</label>
+                                                            <input class="form-check-input" type="checkbox" value="" id="{{ $key . '-' . $categoryItem->id }}">
+                                                            <label class="form-check-label" for="{{ $key . '-' . $categoryItem->id }}">{{ $categoryItem->name }}</label>
                                                         </div>
                                                     </li>
                                                     @empty

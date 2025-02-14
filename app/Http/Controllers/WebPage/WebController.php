@@ -18,11 +18,11 @@ class WebController extends Controller
     {
         $category = Category::active()->where('slug', $category)->firstOrFail();
         $products = $category->products()->active()->get();
-        $categories = Category::active()->get();
+        $categoriesSidebar = Category::active()->get();
         return view('webpage.shop-page', [
             'category' => $category,
             'products' => $products,
-            'categories' => $categories,
+            'categoriesSidebar' => $categoriesSidebar,
         ]);
     }
 

@@ -90,9 +90,9 @@
                         <div class="sticky-top-custom">
                             <div class="product-slick">
                                 @forelse($product->merged_images as $key => $image)
-                                <div>
-                                    <img src="{{ asset($image) }}" alt="" class="img-fluid blur-up lazyload w-100">
-                                </div>
+                                    <div>
+                                        <img src="{{ asset($image) }}" alt="" class="img-fluid blur-up lazyload w-100">
+                                    </div>
                                 @empty
 
                                 @endforelse
@@ -101,9 +101,9 @@
                                 <div class="col-12">
                                     <div class="slider-nav">
                                         @forelse($product->merged_images as $key => $image)
-                                        <div>
-                                            <img src="{{ asset($image) }}" alt="" class="img-fluid blur-up lazyload">
-                                        </div>
+                                            <div>
+                                                <img src="{{ asset($image) }}" alt="" class="img-fluid blur-up lazyload">
+                                            </div>
                                         @empty
 
                                         @endforelse
@@ -114,127 +114,130 @@
                     </div>
                     <div class="col-lg-6 rtl-text">
                         <div class="product-page-details sticky-details">
-                            {{--<div class="trending-text">
-                                <img src="{{ asset('assets/images/product-details/trending.gif') }}" class="img-fluid" alt="">
-                                <h5>Selling fast! 51 people have this in their carts.</h5>
-                            </div>--}}
-                            <h2 class="main-title">{{ $product->name }}</h2>
-                            {{--<div class="product-rating">
-                                <div class="rating-list">
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-line"></i>
-                                </div>
-                                <span class="divider">|</span>
-                                <a href="#!">20 Reviews</a>
-                            </div>--}}
-                            <div class="price-text">
-                                <h3>
-                                    {{ $product->price }}
-                                    {{--<del> $ 18.00 </del><span class="discounted-price"> 7% Off </span>--}}
-                                </h3>
-                                {{--<span>Inclusive all the text</span>--}}
-                            </div>
-
-                            <div class="size-delivery-info">
-                                @isset($product->information)
-                                <a href="#return" data-bs-toggle="modal" class=""><i class="ri-truck-line"></i> Delivery &amp; Return </a>
-                                @endisset
-                                {{--<a href="#ask-question" class="" data-bs-toggle="modal"><i class="ri-questionnaire-line"></i> Ask a Question </a>--}}
-                                {{--<a href="#chart" class="" data-bs-toggle="modal"><i class="ri-ruler-line"></i> Size Chat </a>--}}
-                            </div>
-
-                            @forelse($product->options as $p => $option)
-                                <div class="mt-3">
-                                    <h4 class="sub-title mb-2">{{ $option->name }}</h4>
-                                    <div class="variation-box size-box">
-                                        <ul class="quantity-variant rectangle">
-                                            @forelse($option->values as $i => $value)
-                                                <li class="p-0">
-                                                    <button type="button" class="px-3 py-2">{{ $value->value }}</button>
-                                                    <input type="radio" name="variation" id="" value="{!! $value->id !!}" class="d-none">
-                                                </li>
-                                            @empty
-
-                                            @endforelse
-                                        </ul>
+                            <form action="" method="POST">
+                                @csrf
+                                {{--<div class="trending-text">
+                                    <img src="{{ asset('assets/images/product-details/trending.gif') }}" class="img-fluid" alt="">
+                                    <h5>Selling fast! 51 people have this in their carts.</h5>
+                                </div>--}}
+                                <h2 class="main-title">{{ $product->name }}</h2>
+                                {{--<div class="product-rating">
+                                    <div class="rating-list">
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-fill"></i>
+                                        <i class="ri-star-line"></i>
                                     </div>
+                                    <span class="divider">|</span>
+                                    <a href="#!">20 Reviews</a>
+                                </div>--}}
+                                <div class="price-text">
+                                    <h3>
+                                        {{ $product->price }}
+                                        {{--<del> $ 18.00 </del><span class="discounted-price"> 7% Off </span>--}}
+                                    </h3>
+                                    {{--<span>Inclusive all the text</span>--}}
                                 </div>
-                            @empty
 
-                            @endforelse
+                                <div class="size-delivery-info">
+                                    @isset($product->information)
+                                        <a href="#return" data-bs-toggle="modal" class=""><i class="ri-truck-line"></i> Delivery &amp; Return </a>
+                                    @endisset
+                                    {{--<a href="#ask-question" class="" data-bs-toggle="modal"><i class="ri-questionnaire-line"></i> Ask a Question </a>--}}
+                                    {{--<a href="#chart" class="" data-bs-toggle="modal"><i class="ri-ruler-line"></i> Size Chat </a>--}}
+                                </div>
 
-                            <div class="product-buttons">
-                                <div class="qty-section">
-                                    <div class="qty-box">
-                                        <div class="input-group">
+                                @forelse($product->options as $p => $option)
+                                    <div class="mt-3">
+                                        <h4 class="sub-title mb-2">{{ $option->name }}</h4>
+                                        <div class="variation-box size-box">
+                                            <ul class="quantity-variant rectangle">
+                                                @forelse($option->values as $i => $value)
+                                                    <li class="p-0">
+                                                        <button type="button" class="px-3 py-2">{{ $value->value }}</button>
+                                                        <input type="radio" name="variation" id="" value="{!! $value->id !!}" class="d-none">
+                                                    </li>
+                                                @empty
+
+                                                @endforelse
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @empty
+
+                                @endforelse
+
+                                <div class="product-buttons">
+                                    <div class="qty-section">
+                                        <div class="qty-box">
+                                            <div class="input-group">
                                             <span class="input-group-prepend">
                                                 <button type="button" class="btn quantity-left-minus" data-type="minus" data-field="">
                                                     <i class="ri-arrow-left-s-line"></i>
                                                 </button>
                                             </span>
-                                            <input type="text" name="quantity" class="form-control input-number" value="1">
-                                            <span class="input-group-prepend">
+                                                <input type="text" name="quantity" class="form-control input-number" value="1">
+                                                <span class="input-group-prepend">
                                                 <button type="button" class="btn quantity-right-plus" data-type="plus" data-field="">
                                                     <i class="ri-arrow-right-s-line"></i>
                                                 </button>
                                             </span>
+                                            </div>
                                         </div>
                                     </div>
+
+                                    <div class="d-flex align-items-center gap-3">
+                                        <button class="btn btn-animation btn-solid hover-solid scroll-button" type="button">
+                                            <i class="ri-shopping-cart-line me-1"></i>Add To Cart
+                                        </button>
+                                        <a href="#!" class="btn btn-solid buy-button">Buy Now</a>
+                                    </div>
+                                </div>
+                                <div class="buy-box">
+                                    {{--<a href="#!" class="wishlist-btn">
+                                        <i class="ri-heart-line"></i>
+                                        <span>Add To Wishlist</span>
+                                    </a>--}}
+                                    {{--<a href="#!" class="add-compare">
+                                        <i class="ri-refresh-line"></i>
+                                        <span>Add To Compare</span>
+                                    </a>--}}
+                                    {{--<a href="#share" data-bs-toggle="modal">
+                                        <i class="ri-share-line"></i>
+                                        <span>Share</span>
+                                    </a>--}}
+                                </div>
+                                <div class="bordered-box">
+                                    <h4 class="sub-title">Product Info:</h4>
+                                    <ul class="shipping-info">
+                                        <li>{{ 'SKU: ' . $product->sku }}</li>
+                                        <li><span>Unit:</span> 1 Item</li>
+                                        <li>{{ 'Weight: ' . $product->weight }}</li>
+                                        @isset($product->total_stock)
+                                            <li><span>Stock Status:</span> In Stock</li>
+                                        @endisset
+                                        <li>{{ 'Quantity: ' . $product->total_stock }} Items Left</li>
+                                    </ul>
                                 </div>
 
-                                <div class="d-flex align-items-center gap-3">
-                                    <button class="btn btn-animation btn-solid hover-solid scroll-button" type="button">
-                                        <i class="ri-shopping-cart-line me-1"></i>Add To Cart
-                                    </button>
-                                    <a href="#!" class="btn btn-solid buy-button">Buy Now</a>
+                                <div class="bordered-box">
+                                    <h4 class="sub-title">Delivery Details</h4>
+                                    <ul class="product-offer delivery-details">
+                                        <li><i class="ri-truck-line"></i> Your order is likely to reach you within 7 days. </li>
+                                        <li><i class="ri-arrow-left-right-line"></i> Hassle free returns within 7 Days. </li>
+                                    </ul>
                                 </div>
-                            </div>
-                            <div class="buy-box">
-                                {{--<a href="#!" class="wishlist-btn">
-                                    <i class="ri-heart-line"></i>
-                                    <span>Add To Wishlist</span>
-                                </a>--}}
-                                {{--<a href="#!" class="add-compare">
-                                    <i class="ri-refresh-line"></i>
-                                    <span>Add To Compare</span>
-                                </a>--}}
-                                {{--<a href="#share" data-bs-toggle="modal">
-                                    <i class="ri-share-line"></i>
-                                    <span>Share</span>
-                                </a>--}}
-                            </div>
-                            <div class="bordered-box">
-                                <h4 class="sub-title">product Info:</h4>
-                                <ul class="shipping-info">
-                                    <li>{{ 'SKU: ' . $product->sku }}</li>
-                                    <li><span>Unit:</span> 1 Item</li>
-                                    <li>{{ 'Weight: ' . $product->weight }}</li>
-                                    @isset($product->total_stock)
-                                    <li><span>Stock Status:</span> In Stock</li>
-                                    @endisset
-                                    <li>{{ 'Quantity: ' . $product->total_stock }} Items Left</li>
-                                </ul>
-                            </div>
 
-                            <div class="bordered-box">
-                                <h4 class="sub-title">Delivery Details</h4>
-                                <ul class="product-offer delivery-details">
-                                    <li><i class="ri-truck-line"></i> Your order is likely to reach you within 7 days. </li>
-                                    <li><i class="ri-arrow-left-right-line"></i> Hassle free returns within 7 Days. </li>
-                                </ul>
-                            </div>
-
-                            {{--<div class="dashed-border-box">
-                                <h4 class="sub-title">Guaranteed Safe Checkout</h4>
-                                <img src="{{ asset('assets/images/product-details/payments.png') }}" alt="" class="img-fluid payment-img">
-                            </div>--}}
-                            {{--<div class="dashed-border-box">
-                                <h4 class="sub-title">Secure Checkout</h4>
-                                <img src="{{ asset('assets/images/product-details/secure_payments.png') }}" alt="" class="img-fluid payment-img">
-                            </div>--}}
+                                {{--<div class="dashed-border-box">
+                                    <h4 class="sub-title">Guaranteed Safe Checkout</h4>
+                                    <img src="{{ asset('assets/images/product-details/payments.png') }}" alt="" class="img-fluid payment-img">
+                                </div>--}}
+                                {{--<div class="dashed-border-box">
+                                    <h4 class="sub-title">Secure Checkout</h4>
+                                    <img src="{{ asset('assets/images/product-details/secure_payments.png') }}" alt="" class="img-fluid payment-img">
+                                </div>--}}
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -632,23 +635,23 @@
     <!-- related products -->
 
     @isset($product->information)
-    <!-- return delivery modal starts -->
-    <div class="modal fade theme-modal-2" id="return" tabindex="-1">
-        <div class=" modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="fw-semibold">Delivery & Return</h3>
-                    <button class="btn btn-close" type="submit" data-bs-dismiss="modal">
-                        <i class="ri-close-line"></i>
-                    </button>
-                </div>
-                <div class="modal-body policy-body">
-                    <p>{!! $product->information !!}</p>
+        <!-- return delivery modal starts -->
+        <div class="modal fade theme-modal-2" id="return" tabindex="-1">
+            <div class=" modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="fw-semibold">Delivery & Return</h3>
+                        <button class="btn btn-close" type="submit" data-bs-dismiss="modal">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
+                    <div class="modal-body policy-body">
+                        <p>{!! $product->information !!}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- return delivery modal starts -->
+        <!-- return delivery modal starts -->
     @endisset
 
 @endsection

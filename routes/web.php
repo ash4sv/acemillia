@@ -11,6 +11,7 @@ use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
 use App\Http\Controllers\User\DashboardUserController;
+use App\Http\Controllers\User\ProfileUserController;
 use App\Http\Controllers\WebPage\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,8 +37,14 @@ Route::middleware(['auth:web'])->group(function () {
     Route::post('email/resend', [AuthUserVerifyController::class, 'resend'])->middleware(['throttle:6,1'])->name('verification.resend');
 });
 
+
+
 Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
     Route::get('dashboard', [DashboardUserController::class, 'index'])->name('dashboard');
+
+    Route::get('profile-edit', [ProfileUserController::class, 'profileEdit'])->name('profile.edit');
+    Route::post('profile-update', [ProfileUserController::class, 'profileUpdate'])->name('profile.update');
+    Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
 });
 
 
