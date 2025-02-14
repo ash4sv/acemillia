@@ -1,0 +1,129 @@
+"use strict";
+const formAuthentication = document.querySelector("#formAuthentication");
+document.addEventListener("DOMContentLoaded", function(e) {
+    var t;
+    formAuthentication && FormValidation.formValidation(formAuthentication, {
+        fields: {
+            company: {
+                validators: {
+                    notEmpty: {
+                        message: "Please enter name of company / shop"
+                    },
+                    stringLength: {
+                        min: 1,
+                        message: "Company name must be more than 1 character"
+                    }
+                }
+            },
+            roc: {
+                validators: {
+                    notEmpty: {
+                        message: "Please enter roc / rob"
+                    },
+                    stringLength: {
+                        min: 4,
+                        message: "ROC or ROB must be valid "
+                    }
+                }
+            },
+            phone: {
+                validators: {
+                    notEmpty: {
+                        message: "Please enter phone number"
+                    },
+                    stringLength: {
+                        min: 8,
+                        message: "Phone number must be valid for verification"
+                    }
+                }
+            },
+            name: {
+                validators: {
+                    notEmpty: {
+                        message: "Please enter name of person in charge"
+                    },
+                    stringLength: {
+                        min: 8,
+                        message: "Full name must be more than 8 characters"
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: "Please enter your email"
+                    },
+                    emailAddress: {
+                        message: "Please enter valid email address"
+                    }
+                }
+            },
+            "email-username": {
+                validators: {
+                    notEmpty: {
+                        message: "Please enter email / username"
+                    },
+                    stringLength: {
+                        min: 8,
+                        message: "Username must be more than 8 characters"
+                    }
+                }
+            },
+            password: {
+                validators: {
+                    notEmpty: {
+                        message: "Please enter your password"
+                    },
+                    stringLength: {
+                        min: 8,
+                        message: "Password must be more than 8 characters"
+                    }
+                }
+            },
+            "confirm-password": {
+                validators: {
+                    notEmpty: {
+                        message: "Please confirm password"
+                    },
+                    identical: {
+                        compare: function() {
+                            return formAuthentication.querySelector('[name="password"]').value
+                        },
+                        message: "The password and its confirm are not the same"
+                    },
+                    stringLength: {
+                        min: 8,
+                        message: "Password must be more than 8 characters"
+                    }
+                }
+            },
+            terms: {
+                validators: {
+                    notEmpty: {
+                        message: "Please agree terms & conditions"
+                    }
+                }
+            }
+        },
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger,
+            bootstrap5: new FormValidation.plugins.Bootstrap5({
+                eleValidClass: "",
+                rowSelector: ".mb-3"
+            }),
+            submitButton: new FormValidation.plugins.SubmitButton,
+            defaultSubmit: new FormValidation.plugins.DefaultSubmit,
+            autoFocus: new FormValidation.plugins.AutoFocus
+        },
+        init: e => {
+            e.on("plugins.message.placed", function(e) {
+                e.element.parentElement.classList.contains("input-group") && e.element.parentElement.insertAdjacentElement("afterend", e.messageElement)
+            })
+        }
+    }),
+    (t = document.querySelectorAll(".numeral-mask")).length && t.forEach(e => {
+        new Cleave(e, {
+            numeral: !0
+        })
+    })
+});

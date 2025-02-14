@@ -1,0 +1,173 @@
+<?php
+
+namespace App\Support;
+
+class Menu
+{
+    public static function getMenuItems()
+    {
+        return [
+            // SYSTEM / ADMINISTRATOR TEMPLATE
+            [
+                'header'     => __('NEXES | EMS'),
+                'role'       => ['system'],
+                'menus'      => [
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => route('admin.dashboard'),
+                        'active_on'  => 'admin/dashboard*',
+                        'icon'       => 'tf-icons ti ti-layout-sidebar',
+                        'text'       => __('Dashboard'),
+                        'target'     => '',
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => '#',
+                        'active_on'  => 'admin/shop*',
+                        'icon'       => 'tf-icons ti ti-mail',
+                        'text'       => __('Shop'),
+                        'target'     => '',
+                        'sub'        => [
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shop.categories.index'),
+                                'active_on'  => 'admin/shop/categories*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Category'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shop.sub-categories.index'),
+                                'active_on'  => 'admin/shop/sub-categories*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Sub Category'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shop.tags.index'),
+                                'active_on'  => 'admin/shop/tags*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Tag'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shop.products.index'),
+                                'active_on'  => 'admin/shop/products*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Product'),
+                                'target'     => '',
+                            ],
+                        ]
+                    ],
+                ]
+            ],
+            [
+                'header'     => __('Apps'),
+                'role'       => ['system'],
+                'menus'      => [
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => '#',
+                        'active_on'  => '',
+                        'icon'       => 'tf-icons ti ti-mail',
+                        'text'       => __('Level 1'),
+                        'target'     => '',
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => '#',
+                        'active_on'  => '',
+                        'icon'       => 'tf-icons ti ti-mail',
+                        'text'       => __('Level 1'),
+                        'target'     => '',
+                        'sub'        => [
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => '',
+                                'active_on'  => '',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Level 2'),
+                                'target'     => '',
+                            ],
+                        ]
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => '#',
+                        'active_on'  => '',
+                        'icon'       => 'tf-icons ti ti-mail',
+                        'text'       => __('Level 1'),
+                        'target'     => '',
+                        'sub'        => [
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => '#',
+                                'active_on'  => '',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Level 2'),
+                                'target'     => '',
+                                'sub2'       => [
+                                    [
+                                        'permission' => 'admin-systems-management-access',
+                                        'url'        => '#',
+                                        'active_on'  => '',
+                                        'icon'       => 'tf-icons ti ti-mail',
+                                        'text'       => __('Level 3'),
+                                        'target'     => '',
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => '#',
+                        'active_on'  => '',
+                        'icon'       => 'tf-icons ti ti-mail',
+                        'text'       => __('Level 1'),
+                        'target'     => '#',
+                        'sub'        => [
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => '#',
+                                'active_on'  => '',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Level 2'),
+                                'target'     => '',
+                                'sub2'       => [
+                                    [
+                                        'permission' => 'admin-systems-management-access',
+                                        'url'        => '#',
+                                        'active_on'  => '',
+                                        'icon'       => 'tf-icons ti ti-mail',
+                                        'text'       => __('Level 3'),
+                                        'target'     => '',
+                                        'sub3'       => [
+                                            [
+                                                'permission' => 'admin-systems-management-access',
+                                                'url'        => '#',
+                                                'active_on'  => '',
+                                                'icon'       => 'tf-icons ti ti-mail',
+                                                'text'       => __('Level 4'),
+                                                'target'     => '',
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                ]
+            ],
+        ];
+    }
+
+    public static function setActiveMenuItem($segment, $urlLast)
+    {
+
+    }
+
+}

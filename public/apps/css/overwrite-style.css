@@ -1,0 +1,75 @@
+.layout-menu-fixed body:not(.modal-open) .layout-navbar-full .layout-navbar {
+    z-index: 1050;
+}
+
+.boxed-check-group .boxed-check.disabled::before {
+    content: 'SOLD';
+    display: block;
+    width: 100%;
+    height: auto;
+    background-color: rgba(211, 211, 211, .9);
+    position: absolute;
+    text-align: center;
+    line-height: 5.5;
+    font-weight: bolder;
+    z-index: 1;
+}
+
+.grid-custom .card-body {
+    position: relative;
+}
+
+.grid-custom .disabled::before,
+.grid-custom .early-bird-price::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center center;
+    position: absolute;
+    text-align: center;
+    line-height: 5.5;
+    font-weight: bolder;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.grid-custom .disabled::before {
+    background-color: rgba(211, 211, 211, .4);
+    background-image: url('../img/mhx_lay_comingsoon_672x672.png');
+}
+
+.grid-custom .early-bird-price::after {
+    width: 125px;
+    height: 125px;
+    background-image: url('../img/mhx_lay_early bird.png');
+    top: 0;
+    left: 0;
+    bottom: auto;
+    right: auto;
+}
+
+@media (max-width:760px)  {
+    .grid-custom .disabled::before {
+        background-color: rgba(211, 211, 211, .4);
+        background-image: url('../img/mhx_lay_comingsoon_398x157.png');
+    }
+
+    .grid-custom .early-bird-price::after {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+.modal.fade .modal-dialog {
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.pac-logo {
+    z-index:1100;
+}
