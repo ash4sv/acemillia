@@ -194,7 +194,7 @@
                                         <button class="btn btn-animation btn-solid hover-solid scroll-button" type="submit">
                                             <i class="ri-shopping-cart-line me-1"></i>Add To Cart
                                         </button>
-                                        <a href="#!" class="btn btn-solid buy-button">Buy Now</a>
+                                        {{--<a href="#!" class="btn btn-solid buy-button">Buy Now</a>--}}
                                     </div>
                                 </div>
                                 <div class="buy-box">
