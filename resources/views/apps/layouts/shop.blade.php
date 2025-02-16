@@ -691,21 +691,21 @@
                                     @endforeach
                                 @endif
 
-                                <div class="qty-box">
+                                {{--<div class="qty-box">
                                     <div class="input-group qty-container">
                                         <button class="btn qty-btn-minus"><i class="ri-subtract-line"></i></button>
                                         <input type="text" readonly name="qty" class="form-control input-qty" value="{{ __($item->quantity) }}">
                                         <button class="btn qty-btn-plus"><i class="ri-add-line"></i></button>
                                     </div>
-                                </div>
+                                </div>--}}
 
                                 <div class="close-circle">
-                                    <button class="close_button edit-button" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('purchase.options', $item->id) !!}" data-create-title="Edit Options">
+                                    {{--<button class="close_button edit-button" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('purchase.options', $item->id) !!}" data-create-title="Edit Options">
                                         <i class="ri-pencil-line"></i>
-                                    </button>
-                                    <button class="close_button refresh-button">
+                                    </button>--}}
+                                    {{--<button class="close_button refresh-button">
                                         <i class="ri-refresh-line"></i>
-                                    </button>
+                                    </button>--}}
                                     <button class="close_button delete-button" type="submit" onclick="event.preventDefault(); document.getElementById('remove-cart-item-{{ $key }}-{{ $item->id }}').submit();">
                                         <i class="ri-delete-bin-line"></i>
                                     </button>
