@@ -36,8 +36,8 @@
                             <h4>about</h4>
                         </div>
                         <div class="footer-content">
-                            <a href="index.html" class="footer-logo d-block">
-                                <img src="{{ asset('assets/images/furniture-3/logo.png') }}" alt="">
+                            <a href="{!! url('/') !!}" class="footer-logo d-block">
+                                <img src="{{ asset('assets/images/logo-acemillia-white.png') }}" alt="">
                             </a>
                             <p>Discover the latest fashion trends, explore unique styles, and enjoy seamless
                                 shopping with our carefully curated exclusive collections, designed to elevate your

@@ -8,7 +8,7 @@
                         <div class="menu-left">
                             <div class="brand-logo">
                                 <a href="{{ url('/') }}">
-                                    <img src="{{ asset('assets/images/furniture-3/logo.png') }}" class="img-fluid blur-up lazyload" alt="">
+                                    <img src="{{ asset('assets/images/logo-acemillia-white.png') }}" class="img-fluid blur-up lazyload" alt="">
                                 </a>
                             </div>
                         </div>

@@ -1,0 +1,6 @@
+.footer-theme .footer-logo img {
+    height: calc(40px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
+}
+.main-menu .brand-logo img {
+    height: calc(35px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
+}
