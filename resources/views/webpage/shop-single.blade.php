@@ -114,13 +114,15 @@
                     </div>
                     <div class="col-lg-6 rtl-text">
                         <div class="product-page-details sticky-details">
-                            <form action="" method="POST">
+                            <form action="{{ route('purchase.add-to-cart') }}" method="POST">
                                 @csrf
                                 {{--<div class="trending-text">
                                     <img src="{{ asset('assets/images/product-details/trending.gif') }}" class="img-fluid" alt="">
                                     <h5>Selling fast! 51 people have this in their carts.</h5>
                                 </div>--}}
                                 <h2 class="main-title">{{ $product->name }}</h2>
+                                <input type="hidden" name="product" readonly value="{{ $product->id }}">
+                                <input type="hidden" name="price" readonly value="{{ $product->price }}">
                                 {{--<div class="product-rating">
                                     <div class="rating-list">
                                         <i class="ri-star-fill"></i>
@@ -151,12 +153,13 @@
                                 @forelse($product->options as $p => $option)
                                     <div class="mt-3">
                                         <h4 class="sub-title mb-2">{{ $option->name }}</h4>
+                                        <input type="hidden" name="options[{{ $p }}][option]" value="{{ $option->id }}">
                                         <div class="variation-box size-box">
                                             <ul class="quantity-variant rectangle">
                                                 @forelse($option->values as $i => $value)
                                                     <li class="p-0">
                                                         <button type="button" class="px-3 py-2">{{ $value->value }}</button>
-                                                        <input type="radio" name="variation" id="" value="{!! $value->id !!}" class="d-none">
+                                                        <input type="radio" name="options[{{ $p }}][value]" id="" value="{!! $value->id !!}" class="d-none">
                                                     </li>
                                                 @empty
 
@@ -188,7 +191,7 @@
                                     </div>
 
                                     <div class="d-flex align-items-center gap-3">
-                                        <button class="btn btn-animation btn-solid hover-solid scroll-button" type="button">
+                                        <button class="btn btn-animation btn-solid hover-solid scroll-button" type="submit">
                                             <i class="ri-shopping-cart-line me-1"></i>Add To Cart
                                         </button>
                                         <a href="#!" class="btn btn-solid buy-button">Buy Now</a>

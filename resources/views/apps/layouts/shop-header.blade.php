@@ -140,7 +140,9 @@
                                             <div data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
                                                 <i class="ri-shopping-cart-line"></i>
                                             </div>
-                                            <span class="cart_qty_cls">2</span>
+                                            @if(cart()->count() > 0)
+                                            <span class="cart_qty_cls">{{ cart()->count() }}</span>
+                                            @endif
                                         </li>
                                     </ul>
                                 </div>

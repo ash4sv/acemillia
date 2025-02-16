@@ -12,6 +12,7 @@ use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
 use App\Http\Controllers\User\DashboardUserController;
 use App\Http\Controllers\User\ProfileUserController;
+use App\Http\Controllers\User\PurchaseUserController;
 use App\Http\Controllers\WebPage\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,14 +38,24 @@ Route::middleware(['auth:web'])->group(function () {
     Route::post('email/resend', [AuthUserVerifyController::class, 'resend'])->middleware(['throttle:6,1'])->name('verification.resend');
 });
 
-
+Route::prefix('purchase')->name('purchase.')->group(function () {
+    Route::post('add-to-cart', [PurchaseUserController::class, 'updateOrCreateCart'])->name('add-to-cart');
+    Route::post('remove-from-cart/{id}', [PurchaseUserController::class, 'removeFromCart'])->name('remove-from-cart');
+    Route::get('clear-cart', [PurchaseUserController::class, 'clearCart'])->name('clear-cart');
+    Route::get('options/{option}', [PurchaseUserController::class, 'options'])->name('options');
+});
 
 Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
     Route::get('dashboard', [DashboardUserController::class, 'index'])->name('dashboard');
-
     Route::get('profile-edit', [ProfileUserController::class, 'profileEdit'])->name('profile.edit');
     Route::post('profile-update', [ProfileUserController::class, 'profileUpdate'])->name('profile.update');
     Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
+
+    Route::prefix('purchase')->name('purchase.')->group(function () {
+        Route::get('cart', [PurchaseUserController::class, 'viewCart'])->name('cart');
+        Route::get('checkout', [PurchaseUserController::class, 'checkout'])->name('checkout');
+        Route::post('checkoutPost', [PurchaseUserController::class, 'checkoutPost'])->name('checkout-post');
+    });
 });
 
 

@@ -47,7 +47,7 @@
     @include('apps.layouts.shop-footer')
 
 
-{{--    <!-- offer section start -->
+    {{-- <!-- offer section start -->
     <div class="sale-box" data-bs-toggle="modal" data-bs-target="#blackfriday">
         <div class="heading-right">
             <h3>Black Friday</h3>
@@ -106,7 +106,6 @@
     </div>
     <!--modal popup end-->--}}
 
-
     <!-- Quick View modal popup start-->
     <div class="modal fade theme-modal-2 quick-view-modal" id="quickView">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -122,15 +121,15 @@
                                     <div class="col-12">
                                         <div class="view-main-slider">
                                             <div>
-                                                <img src="../assets/images/fashion-1/product/1.jpg" class="img-fluid"
+                                                <img src="{{ asset('assets/images/fashion-1/product/1.jpg') }}" class="img-fluid"
                                                     alt="">
                                             </div>
                                             <div>
-                                                <img src="../assets/images/fashion-1/product/1-1.jpg" class="img-fluid"
+                                                <img src="{{ asset('assets/images/fashion-1/product/1-1.jpg') }}" class="img-fluid"
                                                     alt="">
                                             </div>
                                             <div>
-                                                <img src="../assets/images/fashion-1/product/1-2.jpg" class="img-fluid"
+                                                <img src="{{ asset('assets/images/fashion-1/product/1-2.jpg') }}" class="img-fluid"
                                                     alt="">
                                             </div>
                                         </div>
@@ -139,20 +138,17 @@
                                         <div class="view-thumbnail-slider no-arrow">
                                             <div>
                                                 <div class="slider-image">
-                                                    <img src="../assets/images/fashion-1/product/1.jpg"
-                                                        class="img-fluid" alt="">
+                                                    <img src="{{ asset('assets/images/fashion-1/product/1.jpg') }}" class="img-fluid" alt="">
                                                 </div>
                                             </div>
                                             <div>
                                                 <div class="slider-image">
-                                                    <img src="../assets/images/fashion-1/product/1-1.jpg"
-                                                        class="img-fluid" alt="">
+                                                    <img src="{{ asset('assets/images/fashion-1/product/1-1.jpg') }}" class="img-fluid" alt="">
                                                 </div>
                                             </div>
                                             <div>
                                                 <div class="slider-image">
-                                                    <img src="../assets/images/fashion-1/product/1-2.jpg"
-                                                        class="img-fluid" alt="">
+                                                    <img src="{{ asset('assets/images/fashion-1/product/1-2.jpg') }}" class="img-fluid" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -272,8 +268,7 @@
                                     </button>
                                     <div class="media">
                                         <a href="#!">
-                                            <img class="img-fluid blur-up lazyload pro-img"
-                                                src="../assets/images/fashion/product/55.jpg" alt="">
+                                            <img class="img-fluid blur-up lazyload pro-img" src="{{ asset('assets/images/fashion/product/55.jpg') }}" alt="">
                                         </a>
                                         <div class="media-body align-self-center text-center">
                                             <a href="#!">
@@ -288,10 +283,8 @@
                                                 <a href="#!" class="checkout btn btn-solid">Check out</a>
                                                 <a href="#!" class="continue btn btn-solid">Continue shopping</a>
                                             </div>
-
                                             <div class="upsell_payment">
-                                                <img src="../assets/images/payment_cart.png"
-                                                    class="img-fluid blur-up lazyload" alt="">
+                                                <img src="{{ asset('assets/images/payment_cart.png') }}" class="img-fluid blur-up lazyload" alt="">
                                             </div>
                                         </div>
                                     </div>
@@ -304,9 +297,7 @@
                                                 <div class="img-wrapper">
                                                     <div class="front">
                                                         <a href="#!">
-                                                            <img src="../assets/images/fashion/product/1.jpg"
-                                                                class="img-fluid blur-up lazyload mb-1"
-                                                                alt="cotton top">
+                                                            <img src="{{ asset('assets/images/fashion/product/1.jpg') }}" class="img-fluid blur-up lazyload mb-1" alt="cotton top">
                                                         </a>
                                                     </div>
                                                     <div class="product-detail">
@@ -319,9 +310,7 @@
                                                 <div class="img-wrapper">
                                                     <div class="front">
                                                         <a href="#!">
-                                                            <img src="../assets/images/fashion/product/34.jpg"
-                                                                class="img-fluid blur-up lazyload mb-1"
-                                                                alt="cotton top">
+                                                            <img src="{{ asset('assets/images/fashion/product/34.jpg') }}" class="img-fluid blur-up lazyload mb-1" alt="cotton top">
                                                         </a>
                                                     </div>
                                                     <div class="product-detail">
@@ -334,9 +323,7 @@
                                                 <div class="img-wrapper">
                                                     <div class="front">
                                                         <a href="#!">
-                                                            <img src="../assets/images/fashion/product/13.jpg"
-                                                                class="img-fluid blur-up lazyload mb-1"
-                                                                alt="cotton top">
+                                                            <img src="{{ asset('assets/images/fashion/product/13.jpg') }}" class="img-fluid blur-up lazyload mb-1" alt="cotton top">
                                                         </a>
                                                     </div>
                                                     <div class="product-detail">
@@ -349,9 +336,7 @@
                                                 <div class="img-wrapper">
                                                     <div class="front">
                                                         <a href="#!">
-                                                            <img src="../assets/images/fashion/product/19.jpg"
-                                                                class="img-fluid blur-up lazyload mb-1"
-                                                                alt="cotton top">
+                                                            <img src="{{ asset('assets/images/fashion/product/19.jpg') }}" class="img-fluid blur-up lazyload mb-1" alt="cotton top">
                                                         </a>
                                                     </div>
                                                     <div class="product-detail">
@@ -415,8 +400,7 @@
                                         <div class="img-wrapper">
                                             <div class="ribbon"><span>Exclusive</span></div>
                                             <a href="product-page(image-swatch).html">
-                                                <img src="../assets/images/fashion-1/product/1.jpg"
-                                                    class="img-fluid blur-up lazyloaded" alt="">
+                                                <img src="{{ asset('assets/images/fashion-1/product/1.jpg') }}" class="img-fluid blur-up lazyloaded" alt="">
                                             </a>
                                             <div class="rating-label"><i class="ri-star-fill"></i><span>2.5</span>
                                             </div>
@@ -452,9 +436,9 @@
                                                     </div>
                                                 </div>
                                                 <h6>Boyfriend Shirts</h6>
-                                                <h4 class="price">$ 2.79<del> $3.00 </del><span
-                                                        class="discounted-price"> 7%
-                                                        Off
+                                                <h4 class="price">$ 2.79<del> $3.00 </del>
+                                                    <span class="discounted-price">
+                                                        7% Off
                                                     </span>
                                                 </h4>
                                             </div>
@@ -465,12 +449,16 @@
                                                     </span>
                                                     Limited Time Offer: 4% off
                                                 </li>
-                                                <li><span class="offer-icon"><i
-                                                            class="ri-discount-percent-fill"></i></span>
-                                                    Limited Time Offer: 4% off</li>
-                                                <li><span class="offer-icon"><i
-                                                            class="ri-discount-percent-fill"></i></span>
-                                                    Limited Time Offer: 4% off</li>
+                                                <li><span class="offer-icon">
+                                                        <i class="ri-discount-percent-fill"></i>
+                                                    </span>
+                                                    Limited Time Offer: 4% off
+                                                </li>
+                                                <li><span class="offer-icon">
+                                                        <i class="ri-discount-percent-fill"></i>
+                                                    </span>
+                                                    Limited Time Offer: 4% off
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -481,9 +469,7 @@
                                 <div class="basic-product theme-product-1">
                                     <div class="overflow-hidden">
                                         <div class="img-wrapper">
-                                            <a href="product-page(accordian).html"><img
-                                                    src="../assets/images/fashion-1/product/11.jpg"
-                                                    class="img-fluid blur-up lazyloaded" alt=""></a>
+                                            <a href="product-page(accordian).html"><img src="{{ asset('assets/images/fashion-1/product/11.jpg') }}" class="img-fluid blur-up lazyloaded" alt=""></a>
                                             <div class="rating-label"><i class="fa fa-star"></i>
                                                 <span>6.5</span>
                                             </div>
@@ -511,22 +497,27 @@
                                                     </a>
                                                 </div>
                                                 <h6>Chic Crop Top</h6>
-                                                <h4 class="price">$ 5.60<del> $6.80 </del><span
-                                                        class="discounted-price"> 5%
-                                                        Off
-                                                    </span>
+                                                <h4 class="price">$ 5.60<del> $6.80 </del>
+                                                    <span class="discounted-price"> 5% Off </span>
                                                 </h4>
                                             </div>
                                             <ul class="offer-panel">
-                                                <li><span class="offer-icon"><i
-                                                            class="ri-discount-percent-fill"></i></span>
-                                                    Limited Time Offer: 25% off</li>
-                                                <li><span class="offer-icon"><i
-                                                            class="ri-discount-percent-fill"></i></span>
-                                                    Limited Time Offer: 25% off</li>
-                                                <li><span class="offer-icon"><i
-                                                            class="ri-discount-percent-fill"></i></span>
-                                                    Limited Time Offer: 25% off</li>
+                                                <li>
+                                                    <span class="offer-icon">
+                                                        <i class="ri-discount-percent-fill"></i>
+                                                    </span>
+                                                    Limited Time Offer: 25% off
+                                                </li>
+                                                <li><span class="offer-icon">
+                                                        <i class="ri-discount-percent-fill"></i>
+                                                    </span>
+                                                    Limited Time Offer: 25% off
+                                                </li>
+                                                <li><span class="offer-icon">
+                                                        <i class="ri-discount-percent-fill"></i>
+                                                    </span>
+                                                    Limited Time Offer: 25% off
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -537,9 +528,9 @@
                                 <div class="basic-product theme-product-1">
                                     <div class="overflow-hidden">
                                         <div class="img-wrapper">
-                                            <a href="product-page(accordian).html"><img
-                                                    src="../assets/images/fashion-1/product/15.jpg"
-                                                    class="img-fluid blur-up lazyloaded" alt=""></a>
+                                            <a href="product-page(accordian).html">
+                                                <img src="{{ asset('assets/images/fashion-1/product/15.jpg') }}" class="img-fluid blur-up lazyloaded" alt="">
+                                            </a>
                                             <div class="rating-label"><i class="fa fa-star"></i>
                                                 <span>3.7</span>
                                             </div>
@@ -590,8 +581,7 @@
                                     <div class="overflow-hidden">
                                         <div class="img-wrapper">
                                             <a href="product-page(image-swatch).html">
-                                                <img src="../assets/images/fashion-1/product/16.jpg"
-                                                    class="img-fluid blur-up lazyloaded" alt="">
+                                                <img src="{{ asset('assets/images/fashion-1/product/16.jpg') }}" class="img-fluid blur-up lazyloaded" alt="">
                                             </a>
                                             <div class="rating-label"><i class="fa fa-star"></i>
                                                 <span>8.7</span>
@@ -600,8 +590,7 @@
                                                 <a href="#!" title="Add to Wishlist" class="wishlist-icon">
                                                     <i class="ri-heart-line"></i>
                                                 </a>
-                                                <button data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas"
-                                                    title="Add to cart">
+                                                <button data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" title="Add to cart">
                                                     <i class="ri-shopping-cart-line"></i>
                                                 </button>
                                                 <a href="#quickView" data-bs-toggle="modal" title="Quick View">
@@ -624,15 +613,21 @@
                                                 </h4>
                                             </div>
                                             <ul class="offer-panel">
-                                                <li><span class="offer-icon"><i
-                                                            class="ri-discount-percent-fill"></i></span>
-                                                    Limited Time Offer: 12% off</li>
-                                                <li><span class="offer-icon"><i
-                                                            class="ri-discount-percent-fill"></i></span>
-                                                    Limited Time Offer: 12% off</li>
-                                                <li><span class="offer-icon"><i
-                                                            class="ri-discount-percent-fill"></i></span>
-                                                    Limited Time Offer: 12% off</li>
+                                                <li><span class="offer-icon">
+                                                        <i class="ri-discount-percent-fill"></i>
+                                                    </span>
+                                                    Limited Time Offer: 12% off
+                                                </li>
+                                                <li><span class="offer-icon">
+                                                        <i class="ri-discount-percent-fill"></i>
+                                                    </span>
+                                                    Limited Time Offer: 12% off
+                                                </li>
+                                                <li><span class="offer-icon">
+                                                        <i class="ri-discount-percent-fill"></i>
+                                                    </span>
+                                                    Limited Time Offer: 12% off
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -649,145 +644,94 @@
     <!-- Cart Offcanvas Start -->
     <div class="offcanvas offcanvas-end cart-offcanvas" tabindex="-1" id="cartOffcanvas">
         <div class="offcanvas-header">
-            <h3 class="offcanvas-title">My Cart (3)</h3>
+            <h3 class="offcanvas-title">My Cart @if(cart()->count() > 0) {{ '(' . cart()->count() . ')' }} @endif</h3>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas">
                 <i class="ri-close-line"></i>
             </button>
         </div>
         <div class="offcanvas-body">
-            <div class="pre-text-box">
+            {{--<div class="pre-text-box">
                 <p>spend $20.96 More And Enjoy Free Shipping!</p>
                 <div class="progress" role="progressbar">
                     <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 58.08%;">
                         <i class="ri-truck-line"></i>
                     </div>
                 </div>
-            </div>
+            </div>--}}
 
             <div class="sidebar-title">
-                <a href="#!">Clear Cart</a>
+                <a href="{{ route('purchase.clear-cart') }}">Clear Cart</a>
             </div>
 
             <div class="cart-media">
                 <ul class="cart-product">
+                    @forelse(cart()->all() as $key => $item)
                     <li>
                         <div class="media">
                             <a href="#!">
-                                <img src="../assets/images/fashion-1/product/5.jpg" class="img-fluid"
-                                    alt="Classic Jacket">
+                                <img src="{{ asset($item->options->item_img) }}" class="img-fluid" alt="Classic Jacket">
                             </a>
                             <div class="media-body">
-                                <a href="#!">
-                                    <h4>Couture Edge</h4>
-                                </a>
+                                <p class="mb-1">{{ __($item->options->item_category) }}</p>
+                                <a href="#!"><h4>{{ __($item->name) }}</h4></a>
                                 <h4 class="quantity">
-                                    <span>1 x $6.74</span>
+                                    <span>{{ __($item->quantity) }} x {{ __('MYR' . number_format($item->price, 2)) }}</span>
                                 </h4>
+                                @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
+                                    @foreach($item->options->option_groups as $group)
+                                        <div class="option-group mb-3">
+                                            @foreach($group->options as $option)
+                                                <p class="mb-1">
+                                                    <strong>{{ $option->option_name }}:</strong> {{ $option->value_name }}
+                                                </p>
+                                            @endforeach
+                                            <p class="mb-1"><strong>Quantity:</strong> {{ $group->quantity }}</p>
+                                        </div>
+                                    @endforeach
+                                @endif
 
                                 <div class="qty-box">
                                     <div class="input-group qty-container">
-                                        <button class="btn qty-btn-minus">
-                                            <i class="ri-subtract-line"></i>
-                                        </button>
-                                        <input type="number" readonly name="qty" class="form-control input-qty"
-                                            value="1">
-                                        <button class="btn qty-btn-plus">
-                                            <i class="ri-add-line"></i>
-                                        </button>
+                                        <button class="btn qty-btn-minus"><i class="ri-subtract-line"></i></button>
+                                        <input type="text" readonly name="qty" class="form-control input-qty" value="{{ __($item->quantity) }}">
+                                        <button class="btn qty-btn-plus"><i class="ri-add-line"></i></button>
                                     </div>
                                 </div>
 
                                 <div class="close-circle">
-                                    <button class="close_button edit-button" data-bs-toggle="modal"
-                                        data-bs-target="#variationModal">
+                                    <button class="close_button edit-button" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('purchase.options', $item->id) !!}" data-create-title="Edit Options">
                                         <i class="ri-pencil-line"></i>
                                     </button>
-                                    <button class="close_button delete-button" type="submit">
+                                    <button class="close_button refresh-button">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button class="close_button delete-button" type="submit" onclick="event.preventDefault(); document.getElementById('remove-cart-item-{{ $key }}-{{ $item->id }}').submit();">
                                         <i class="ri-delete-bin-line"></i>
                                     </button>
+                                    <form id="remove-cart-item-{{ $key }}-{{ __($item->id) }}" action="{{ route('purchase.remove-from-cart', ['id' => $item->id]) }}" method="POST">
+                                        @csrf
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </li>
+                    @empty
                     <li>
-                        <div class="media">
-                            <a href="#!">
-                                <img src="../assets/images/fashion-1/product/13.jpg" class="img-fluid"
-                                    alt="Classic Jacket">
-                            </a>
-                            <div class="media-body">
-                                <a href="#!">
-                                    <h4>Classic Jacket</h4>
-                                </a>
-                                <h4 class="quantity">
-                                    <span>1 x $7.84</span>
-                                </h4>
-                                <div class="qty-box">
-                                    <div class="input-group qty-container">
-                                        <button class="btn qty-btn-minus">
-                                            <i class="ri-subtract-line"></i>
-                                        </button>
-                                        <input type="number" readonly name="qty" class="form-control input-qty"
-                                            value="1">
-                                        <button class="btn qty-btn-plus">
-                                            <i class="ri-add-line"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="close-circle">
-                                    <button class="close_button delete-button" type="submit">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <h4 class="small mb-1">No items in cart</h4>
                     </li>
-                    <li>
-                        <div class="media">
-                            <a href="#!">
-                                <img src="../assets/images/fashion-1/product/12.jpg" class="img-fluid"
-                                    alt="Classic Jacket">
-                            </a>
-                            <div class="media-body">
-                                <a href="#!">
-                                    <h4>Urban Chic</h4>
-                                </a>
-                                <h4 class="quantity">
-                                    <span>2 x $3.84</span>
-                                </h4>
-                                <div class="qty-box">
-                                    <div class="input-group qty-container">
-                                        <button class="btn qty-btn-minus">
-                                            <i class="ri-subtract-line"></i>
-                                        </button>
-                                        <input type="number" readonly name="qty" class="form-control input-qty"
-                                            value="1">
-                                        <button class="btn qty-btn-plus">
-                                            <i class="ri-add-line"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="close-circle">
-                                    <button class="close_button delete-button" type="submit">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
+                    @endforelse
                 </ul>
 
                 <ul class="cart_total">
                     <li>
                         <div class="total">
-                            <h5>Sub Total : <span>$36.74</span>
-                            </h5>
+                            <h5>Sub Total : <span>{{ __('MYR' . number_format(cart()->subtotal(), 2)) }}</span></h5>
                         </div>
                     </li>
                     <li>
                         <div class="buttons">
-                            <a href="cart.html" class="btn view-cart">View Cart</a>
-                            <a href="checkout.html" class="btn checkout">Check Out</a>
+                            <a href="{{ route('purchase.cart') }}" class="btn view-cart">View Cart</a>
+                            <a href="{{ route('purchase.checkout') }}" class="btn checkout">Check Out</a>
                         </div>
                     </li>
                 </ul>

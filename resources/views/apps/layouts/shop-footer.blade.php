@@ -113,8 +113,8 @@
                             <div class="footer-content">
                                 <ul class="contact-list">
                                     <li><i class="ri-map-pin-2-fill"></i>{!! __('63 (1st Floor)<br> Jalan Metro 1/1,<br> Bandar Metro<br> 47160 Puchong,<br> Selangor Darul Ehsan') !!}</li>
-                                    <li><i class="ri-phone-fill"></i>{!! __('Call Us: +603-8082 1362') !!}</li>
-                                    <li><i class="ri-mail-fill"></i><span style="text-transform: lowercase !important;">{!! __('Email Us: info@acemillia.com') !!}</span></li>
+                                    <li><i class="ri-phone-fill"></i>{!! __('Call: ') !!}{!! __('+603-8082 1362') !!}</li>
+                                    <li><i class="ri-mail-fill"></i>{!! __('Email: ') !!}<span style="text-transform: lowercase !important;">{!! __('info@acemillia.com') !!}</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -135,21 +135,11 @@
                     <div class="col-md-6">
                         <div class="payment-card-bottom">
                             <ul>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/visa.png') !!}" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/mastercard.png') !!}" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/paypal.png') !!}" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/american-express.png') !!}" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/discover.png') !!}" alt=""></a>
-                                </li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/visa.png') !!}" alt=""></a></li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/mastercard.png') !!}" alt=""></a></li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/paypal.png') !!}" alt=""></a></li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/american-express.png') !!}" alt=""></a></li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/discover.png') !!}" alt=""></a></li>
                             </ul>
                         </div>
                     </div>
