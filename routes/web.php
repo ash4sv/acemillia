@@ -20,6 +20,7 @@ Route::name('web.')->group(function () {
     Route::get('/', [WebController::class, 'index'])->name('index');
     Route::get('shop/{category}', [WebController::class, 'category'])->name('shop.index');
     Route::get('shop/{category}/{product}', [WebController::class, 'product'])->name('shop.product');
+    Route::get('quick-view/{product}', [WebController::class, 'quickview'])->name('shop.quickview');
 });
 
 Route::get('login', [AuthUserController::class, 'login'])->name('login');

@@ -348,29 +348,21 @@
                                                                     <a href="#!" title="Add to Wishlist" class="wishlist-icon">
                                                                         <i class="ri-heart-line"></i>
                                                                     </a>
-                                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                                                    {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
                                                                         <i class="ri-shopping-cart-line"></i>
-                                                                    </button>
-                                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View">
+                                                                    </button>--}}
+                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('web.shop.quickview', $product->id) !!}" data-create-title="Quick View">
                                                                         <i class="ri-eye-line"></i>
                                                                     </a>
-                                                                    <a href="compare.html" title="Compare">
+                                                                    {{--<a href="compare.html" title="Compare">
                                                                         <i class="ri-loop-left-line"></i>
-                                                                    </a>
+                                                                    </a>--}}
                                                                 </div>
                                                             </div>
                                                             <div class="product-detail">
                                                                 <div>
                                                                     <div class="brand-w-color">
                                                                         <a class="product-title" href="{{ route('web.shop.product', [$category->slug, $product->slug]) }}">{{ $product->name }}</a>
-                                                                        {{--<div class="color-panel">
-                                                                            <ul>
-                                                                                <li style="background-color: papayawhip;"></li>
-                                                                                <li style="background-color: burlywood;"></li>
-                                                                                <li style="background-color: gainsboro;"></li>
-                                                                            </ul>
-                                                                            <span>+2</span>
-                                                                        </div>--}}
                                                                     </div>
 
                                                                     {{--<h6>Purple Mini Dress</h6>--}}

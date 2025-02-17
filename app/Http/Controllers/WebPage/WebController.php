@@ -14,7 +14,7 @@ class WebController extends Controller
         return view('webpage.index');
     }
 
-    public function category($category)
+    public function category(string $category)
     {
         $category = Category::active()->where('slug', $category)->firstOrFail();
         $products = $category->products()->active()->get();
@@ -26,12 +26,20 @@ class WebController extends Controller
         ]);
     }
 
-    public function product($category, $slug)
+    public function product(string $category, string $slug)
     {
         $category = Category::active()->where('slug', $category)->firstOrFail();
         $product  = Product::with(['images', 'options', 'options.values', 'categories', 'sub_categories', 'tags'])->active()->where('slug', $slug)->firstOrFail();
         return view('webpage.shop-single', [
             'category' => $category,
+            'product' => $product,
+        ]);
+    }
+
+    public function quickview(string $id)
+    {
+        $product  = Product::with(['images', 'options', 'options.values', 'categories', 'sub_categories', 'tags'])->active()->where('id', $id)->firstOrFail();
+        return view('webpage.quick-view', [
             'product' => $product,
         ]);
     }

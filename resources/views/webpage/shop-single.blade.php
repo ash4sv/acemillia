@@ -150,7 +150,7 @@
                                     {{--<a href="#chart" class="" data-bs-toggle="modal"><i class="ri-ruler-line"></i> Size Chat </a>--}}
                                 </div>
 
-                                @forelse($product->options as $p => $option)
+                                @forelse($product->options->sortBy('name') as $p => $option)
                                     <div class="mt-3">
                                         <h4 class="sub-title mb-2">{{ $option->name }}</h4>
                                         <input type="hidden" name="options[{{ $p }}][option]" value="{{ $option->id }}">
