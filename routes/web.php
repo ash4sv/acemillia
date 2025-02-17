@@ -4,9 +4,11 @@ use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\AuthAdminVerifyController;
 use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Admin\MerchantAdminController;
 use App\Http\Controllers\Admin\ProductAdminController;
 use App\Http\Controllers\Admin\SubCategoryAdminController;
 use App\Http\Controllers\Admin\TagAdminController;
+use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
@@ -98,6 +100,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     });
     Route::middleware(['auth:admin', 'apps-verified:admin'])->group(function (){
         Route::get('dashboard', [DashboardAdminController::class, 'dashboard'])->name('dashboard');
+        Route::prefix('registered-user')->name('registered-user.')->group(function () {
+            Route::resources([
+                'users' => UserAdminController::class,
+                'merchants' => MerchantAdminController::class,
+            ]);
+        });
         Route::prefix('shop')->name('shop.')->group(function () {
             Route::resources([
                 'categories' => CategoryAdminController::class,

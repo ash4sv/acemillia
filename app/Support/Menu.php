@@ -23,6 +23,32 @@ class Menu
                     [
                         'permission' => 'admin-systems-management-access',
                         'url'        => '#',
+                        'active_on'  => 'admin/registered-user*',
+                        'icon'       => 'tf-icons ti ti-mail',
+                        'text'       => __('Registered User'),
+                        'target'     => '',
+                        'sub'        => [
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.registered-user.users.index'),
+                                'active_on'  => 'admin/registered-user/users*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Customers'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.registered-user.merchants.index'),
+                                    'active_on'  => 'admin/registered-user/merchants*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Merchants'),
+                                'target'     => '',
+                            ]
+                        ],
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => '#',
                         'active_on'  => 'admin/shop*',
                         'icon'       => 'tf-icons ti ti-mail',
                         'text'       => __('Shop'),
