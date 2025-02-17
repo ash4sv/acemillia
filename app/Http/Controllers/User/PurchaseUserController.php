@@ -54,7 +54,7 @@ class PurchaseUserController extends Controller
 
         // 5. Prepare the attributes array (we use "option_groups" for grouping options)
         $attributes = [
-            'item_category' => $product->categories->pluck('name')->first() ?? '',
+            'item_category' => $product->categories->pluck('name')->implode(', ') ?? '',
             'item_img'      => $product->image,
             'option_groups' => [], // to be set or merged later
         ];
