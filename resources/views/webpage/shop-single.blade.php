@@ -74,6 +74,9 @@
                         <a href="{!! url('/') !!}">Home</a>
                     </li>
                     <li class="breadcrumb-item"><a href="{{ route('web.shop.index', $category->slug) }}">{!! $category->name !!}</a></li>
+                    @if($product->sub_categories && $product->sub_categories->isNotEmpty())
+                    <li class="breadcrumb-item active">{{ $product->sub_categories->pluck('name')->first() }}</li>
+                    @endif
                     <li class="breadcrumb-item active">{!! strtoupper($product->name) !!}</li>
                 </ol>
             </nav>
