@@ -36,7 +36,7 @@
             </div>
         @endif
     </div>
-    
+
     <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" name="name" id="" class="form-control" value="{{ old('name', $product->name ?? '') }}">
