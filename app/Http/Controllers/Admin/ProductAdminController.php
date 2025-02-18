@@ -306,6 +306,11 @@ class ProductAdminController extends Controller
             }
 
             $product->categories()->sync($request->input('categories'));
+
+            if ($request->has('sub_category')) {
+                $product->sub_categories()->sync($request->input('sub_category'));
+            }
+
             $product->tags()->sync($request->input('tags'));
 
             DB::commit();

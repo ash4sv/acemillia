@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MerchantAdminController;
 use App\Http\Controllers\Admin\ProductAdminController;
+use App\Http\Controllers\Admin\ShopAdminController;
 use App\Http\Controllers\Admin\SubCategoryAdminController;
 use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
@@ -107,6 +108,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ]);
         });
         Route::prefix('shop')->name('shop.')->group(function () {
+            Route::get('categories/{category}/subcategories', [ShopAdminController::class, 'getSubcategories'])->name('categories.subcategories');
             Route::resources([
                 'categories' => CategoryAdminController::class,
                 'sub-categories' => SubCategoryAdminController::class,
