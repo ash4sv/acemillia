@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\AuthAdminVerifyController;
 use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
+use App\Http\Controllers\Admin\MenuAdminController;
 use App\Http\Controllers\Admin\MerchantAdminController;
 use App\Http\Controllers\Admin\ProductAdminController;
 use App\Http\Controllers\Admin\ShopAdminController;
@@ -21,8 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::name('web.')->group(function () {
     Route::get('/', [WebController::class, 'index'])->name('index');
-    Route::get('shop/{category}', [WebController::class, 'category'])->name('shop.index');
-    Route::get('shop/{category}/{product}', [WebController::class, 'product'])->name('shop.product');
+    Route::get('shop/{menu}', [WebController::class, 'shopIndex'])->name('shop.index');
+    Route::get('shop/{menu}/{category}', [WebController::class, 'shopCategory'])->name('shop.category');
+    Route::get('shop/{menu}/{category}/{product}', [WebController::class, 'shopProduct'])->name('shop.product');
     Route::get('quick-view/{product}', [WebController::class, 'quickview'])->name('shop.quickview');
 });
 
@@ -116,5 +118,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'products' => ProductAdminController::class
             ]);
         });
+        Route::resource('menus', MenuAdminController::class);
     });
 });

@@ -3,7 +3,7 @@
 @section('description', '')
 @section('keywords', '')
 @section('author', '')
-@section('title', $category->name)
+@section('title', $menuSlug->name)
 
 @push('style')
     <style>
@@ -22,13 +22,22 @@
     <!-- breadcrumb start -->
     <div class="breadcrumb-section">
         <div class="container">
-            <h2>{!! $category->name !!}</h2>
+            <h2>{!! $menuSlug->name !!}</h2>
             <nav class="theme-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{!! url('/') !!}">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active">{!! strtoupper($category->name) !!}</li>
+                    <li class="breadcrumb-item"><a href="{!! url('/') !!}">Home</a></li>
+                    @if(isset($menuSlug))
+                    <li class="breadcrumb-item"><a href="{!! route('web.shop.index', $menuSlug->slug) !!}">{!! $menuSlug->name !!}</a></li>
+                    @endif
+                    @if(isset($category))
+                    <li class="breadcrumb-item"><a href="{!! route('web.shop.category', [$menuSlug->slug, $category->slug]) !!}">{!! $category->name !!}</a></li>
+                    @endif
+                    @if(isset($product->sub_categories) && $product->sub_categories->isNotEmpty())
+                    <li class="breadcrumb-item"><a href="">{!! $product->sub_categories->pluck('name')->implode('/') !!}</a></li>
+                    @endif
+                    @if(isset($product))
+                    <li class="breadcrumb-item active">{!! strtoupper($product->name) !!}</li>
+                    @endif
                 </ol>
             </nav>
         </div>
@@ -49,23 +58,25 @@
                             </div>
                             <div class="collection-collapse-block open">
                                 <div class="accordion collection-accordion" id="accordionPanelsStayOpenExample">
-                                    @if(isset($subCategoriesSidebar) && $subCategoriesSidebar->isNotEmpty())
+                                    @if(isset($categories) && $categories->isNotEmpty())
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
-                                            <button class="accordion-button pt-0" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">Sub Categories</button>
+                                            <button class="accordion-button pt-0" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">Categories</button>
                                         </h2>
                                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                                             <div class="accordion-body">
                                                 <ul class="collection-listing">
-                                                    @forelse($subCategoriesSidebar as $key => $subCategorySidebar)
+                                                    @forelse($categories as $key => $category)
                                                     <li>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" value="" id="{{ $key . '-' . $subCategorySidebar->id }}">
-                                                            <label class="form-check-label" for="{{ $key . '-' . $subCategorySidebar->id }}">{{ $subCategorySidebar->name }}</label>
+                                                            <input class="form-check-input" type="checkbox" value="" id="{{ $key . '-' . $category->id }}">
+                                                            <label class="form-check-label" for="{{ $key . '-' . $category->id }}">{{ $category->name }}</label>
                                                         </div>
                                                     </li>
                                                     @empty
+                                                    <li>
 
+                                                    </li>
                                                     @endforelse
                                                 </ul>
                                             </div>
@@ -287,7 +298,7 @@
                                 <div class="col-sm-12">
                                     @isset($category->image)
                                     <div class="top-banner-wrapper">
-                                        <a href="{{ route('web.shop.index', $category->slug) }}">
+                                        <a href="{{--{{ route('web.shop.index', $category->slug) }}--}}">
                                             <img src="{{ asset($category->image) }}" class="img-fluid blur-up lazyload" alt="">
                                         </a>
                                     </div>
@@ -337,7 +348,7 @@
                                                     <div class="basic-product theme-product-1">
                                                         <div class="overflow-hidden">
                                                             <div class="img-wrapper">
-                                                                <a href="{{ route('web.shop.product', [$category->slug, $product->slug]) }}">
+                                                                <a href="{{ route('web.shop.product', [$menuSlug->slug, $product->categories->pluck('slug')->first(), $product->slug]) }}">
                                                                     <img src="{{ asset($product->merged_images->first()) }}" class="w-100 img-fluid blur-up lazyload" alt="">
                                                                 </a>
                                                                 {{--<div class="rating-label">
@@ -362,7 +373,7 @@
                                                             <div class="product-detail">
                                                                 <div>
                                                                     <div class="brand-w-color">
-                                                                        <a class="product-title" href="{{ route('web.shop.product', [$category->slug, $product->slug]) }}">{{ $product->name }}</a>
+                                                                        <a class="product-title" href="{{ route('web.shop.product', [$menuSlug->slug, $product->categories->pluck('slug')->first(), $product->slug]) }}">{{ $product->name }}</a>
                                                                     </div>
 
                                                                     {{--<h6>Purple Mini Dress</h6>--}}

@@ -2,13 +2,14 @@
 
 namespace App\Support;
 
+use App\Models\Admin\MenuSetup;
 use App\Models\Shop\Category;
 
 class Shop
 {
     public static function getShopItems()
     {
-        $modelItems = Category::active()->get();
+        $modelItems = MenuSetup::active()->get();
 
         // Map each model into the array structure you want
         $mappedModelItems = $modelItems->map(function($model) {
@@ -621,6 +622,27 @@ class Shop
                             'menu-items' => []
                         ]
                     ]
+                ]
+            ],
+            [
+                'menu-show' => false,
+                'mega-menu' => false,
+                'menu-name' => __('Blog'),
+                'menu-url' => '#',
+                'menu-target' => __('_self'),
+                'menu-items' => [
+                    [
+                        'menu-name' => __('Left Sidebar'),
+                        'menu-url' => 'blog-page.html',
+                        'menu-target' => __('_self'),
+                        'menu-sub-items' => [
+                            [
+                                'menu-sub-name' => __('Left Sidebar'),
+                                'menu-sub-url' => 'blog-page.html',
+                                'menu-sub-target' => __('_self'),
+                            ]
+                        ],
+                    ],
                 ]
             ],
             [

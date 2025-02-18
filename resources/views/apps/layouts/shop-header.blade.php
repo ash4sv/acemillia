@@ -74,7 +74,20 @@
                                                         @if(count($item['menu-items']) > 0)
                                                             <ul>
                                                                 @foreach($item['menu-items'] as $subItem)
-                                                                    <li><a {!! $subItem['menu-target'] !!} href="{!! $subItem['menu-url'] !!}">{!! $subItem['menu-name'] !!}</a></li>
+                                                                    <li>
+                                                                        <a {!! $subItem['menu-target'] !!} href="{!! $subItem['menu-url'] !!}">{!! $subItem['menu-name'] !!}</a>
+                                                                        @if(isset($subItem['menu-sub-items']) && count($subItem['menu-sub-items']) > 0)
+                                                                            <ul>
+                                                                                @foreach($subItem['menu-sub-items'] as $menuSubItem)
+                                                                                    <li>
+                                                                                        <a target="{{ $menuSubItem['menu-sub-target'] }}" href="{!! $menuSubItem['menu-sub-url'] !!}">
+                                                                                            {!! $menuSubItem['menu-sub-name'] !!}
+                                                                                        </a>
+                                                                                    </li>
+                                                                                @endforeach
+                                                                            </ul>
+                                                                        @endif
+                                                                    </li>
                                                                 @endforeach
                                                             </ul>
                                                         @endif

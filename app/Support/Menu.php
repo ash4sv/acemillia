@@ -91,6 +91,20 @@ class Menu
                 ]
             ],
             [
+                'header'     => __('Config'),
+                'role'       => ['system'],
+                'menus'      => [
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => route('admin.menus.index'),
+                        'active_on'  => 'admin/menu*',
+                        'icon'       => 'tf-icons ti ti-layout-sidebar',
+                        'text'       => __('Menu Configuration'),
+                        'target'     => '',
+                    ],
+                ],
+            ],
+            [
                 'header'     => __('Apps'),
                 'role'       => ['system'],
                 'menus'      => [

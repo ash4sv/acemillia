@@ -70,14 +70,19 @@
             <h2>{!! $product->name !!}</h2>
             <nav class="theme-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{!! url('/') !!}">Home</a>
-                    </li>
-                    <li class="breadcrumb-item"><a href="{{ route('web.shop.index', $category->slug) }}">{!! $category->name !!}</a></li>
-                    @if($product->sub_categories && $product->sub_categories->isNotEmpty())
-                    <li class="breadcrumb-item active">{{ $product->sub_categories->pluck('name')->first() }}</li>
+                    <li class="breadcrumb-item"><a href="{!! url('/') !!}">Home</a></li>
+                    @if(isset($menuSlug))
+                    <li class="breadcrumb-item"><a href="{!! route('web.shop.index', $menuSlug->slug) !!}">{!! $menuSlug->name !!}</a></li>
                     @endif
+                    @if(isset($category))
+                    <li class="breadcrumb-item"><a href="{!! route('web.shop.category', [$menuSlug->slug, $category->slug]) !!}">{!! $category->name !!}</a></li>
+                    @endif
+                    @if(isset($product->sub_categories) && $product->sub_categories->isNotEmpty())
+                    <li class="breadcrumb-item"><a href="">{!! $product->sub_categories->pluck('name')->implode('/') !!}</a></li>
+                    @endif
+                    @if(isset($product))
                     <li class="breadcrumb-item active">{!! strtoupper($product->name) !!}</li>
+                    @endif
                 </ol>
             </nav>
         </div>
@@ -582,15 +587,16 @@
             </div>
 
             <div class="product-5 product-m no-arrow">
-
+                @forelse($relatedProducts as $key => $relatedProduct)
                 <div class="basic-product theme-product-1">
                     <div class="overflow-hidden">
                         <div class="img-wrapper">
-                            <a href="product-page(accordian).html">
-                                <img src="{{ asset('assets/images/product-details/product/5.jpg') }}" class="img-fluid blur-up lazyload" alt="">
+                            <a href="{{ route('web.shop.product', [$menuSlug->slug, $relatedProduct->categories->pluck('slug')->first(), $relatedProduct->slug]) }}">
+                                <img src="{{ asset($relatedProduct->image) }}" class="img-fluid blur-up lazyload" alt="">
                             </a>
-                            <div class="rating-label"><i class="ri-star-fill"></i><span>4.5</span>
-                            </div>
+                            {{--<div class="rating-label">
+                                <i class="ri-star-fill"></i><span>4.5</span>
+                            </div>--}}
                             <div class="cart-info">
                                 <ul class="hover-action">
                                     <li>
@@ -598,32 +604,33 @@
                                             <i class="ri-shopping-cart-line"></i>
                                         </button>
                                     </li>
-                                    <li>
+                                    {{--<li>
                                         <a href="#!" title="Add to Wishlist">
                                             <i class="ri-heart-line"></i>
                                         </a>
-                                    </li>
+                                    </li>--}}
                                     <li>
                                         <a href="#quickView" data-bs-toggle="modal" title="Quick View">
                                             <i class="ri-eye-line"></i>
                                         </a>
                                     </li>
-                                    <li>
+                                    {{--<li>
                                         <a href="compare.html" title="Compare">
                                             <i class="ri-loop-left-line"></i>
                                         </a>
-                                    </li>
+                                    </li>--}}
                                 </ul>
                             </div>
                         </div>
                         <div class="product-detail">
                             <div>
                                 <div class="brand-w-color">
-                                    <a class="product-title" href="product-page(accordian).html">Glamour Gaze</a>
+                                    <a class="product-title" href="{{ route('web.shop.product', [$menuSlug->slug, $relatedProduct->categories->pluck('slug')->first(), $relatedProduct->slug]) }}">{!! Str::limit($relatedProduct->name, 20, '...') !!}</a>
                                 </div>
                                 {{--<h6>Purple Mini Dress</h6>--}}
-                                <h4 class="price">$ 4.34<del> $5.00 </del>
-                                    <span class="discounted-price">5% Off</span>
+                                <h4 class="price">
+                                    {!! $relatedProduct->price !!} {{--<del> $5.00 </del>--}}
+                                    {{--<span class="discounted-price">5% Off</span>--}}
                                 </h4>
                             </div>
                             <ul class="offer-panel">
@@ -634,7 +641,9 @@
                         </div>
                     </div>
                 </div>
+                @empty
 
+                @endforelse
             </div>
         </div>
     </section>
