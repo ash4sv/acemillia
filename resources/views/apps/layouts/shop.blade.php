@@ -668,6 +668,60 @@
                 <ul class="cart-product">
                     @forelse(cart()->all() as $key => $item)
                     <li>
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 me-2">
+                                <a href="#!">
+                                    <img src="{{ asset($item->options->item_img) }}" class="img-fluid" alt="Classic Jacket" style="width:calc(75px + 15 * (100vw - 320px) / 1600); object-fit: contain;">
+                                </a>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-1">{{ __($item->options->item_category) }}</h6>
+                                <h4 class="mb-1 fw-bolder">{{ __($item->name) }}</h4>
+                                <h5 class="mb-2">{{ __('MYR' . number_format($item->price, 2)) }} x {{ __($item->quantity) }}</h5>
+                                @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
+                                    @foreach($item->options->option_groups as $key => $group)
+                                        <div class="d-flex">
+                                            <div class="flex-grow-1 option-group mb-2">
+                                                @foreach($group->options as $option)
+                                                    <p class="mb-1"><strong>{{ $option->option_name }}:</strong> {{ $option->value_name }}</p>
+                                                @endforeach
+                                                @isset($group->quantity)
+                                                <p class="mb-1"><strong>Quantity:</strong> {{ $group->quantity }}</p>
+                                                @endisset
+                                            </div>
+                                            <div class="flex-shrink-0 offset-scriptnew offset-scriptnew2">
+                                                <div class="close-circle">
+                                                    <button class="close_button delete-button" onclick="event.preventDefault(); document.getElementById('remove-opt-group-{{ $key }}').submit();">
+                                                        <i class="ri-close-line"></i>
+                                                    </button>
+                                                    <form id="remove-opt-group-" action="" method="POST">
+                                                        @csrf
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                            <div class="flex-shrink-0 offset-scriptnew">
+                                <div class="close-circle">
+                                    {{--<button class="close_button edit-button" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('purchase.options', $item->id) !!}" data-create-title="Edit Options">
+                                        <i class="ri-pencil-line"></i>
+                                    </button>--}}
+                                    {{--<button class="close_button refresh-button">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>--}}
+                                    <button class="close_button delete-button" type="submit" onclick="event.preventDefault(); document.getElementById('remove-cart-item-{{ $key }}-{{ $item->id }}').submit();">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                    <form id="remove-cart-item-{{ $key }}-{{ __($item->id) }}" action="{{ route('purchase.remove-from-cart', ['id' => $item->id]) }}" method="POST">
+                                        @csrf
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {{--<li>
                         <div class="media">
                             <a href="#!">
                                 <img src="{{ asset($item->options->item_img) }}" class="img-fluid" alt="Classic Jacket">
@@ -691,21 +745,21 @@
                                     @endforeach
                                 @endif
 
-                                {{--<div class="qty-box">
+                                --}}{{--<div class="qty-box">
                                     <div class="input-group qty-container">
                                         <button class="btn qty-btn-minus"><i class="ri-subtract-line"></i></button>
                                         <input type="text" readonly name="qty" class="form-control input-qty" value="{{ __($item->quantity) }}">
                                         <button class="btn qty-btn-plus"><i class="ri-add-line"></i></button>
                                     </div>
-                                </div>--}}
+                                </div>--}}{{--
 
                                 <div class="close-circle">
-                                    {{--<button class="close_button edit-button" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('purchase.options', $item->id) !!}" data-create-title="Edit Options">
+                                    --}}{{--<button class="close_button edit-button" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('purchase.options', $item->id) !!}" data-create-title="Edit Options">
                                         <i class="ri-pencil-line"></i>
-                                    </button>--}}
-                                    {{--<button class="close_button refresh-button">
+                                    </button>--}}{{--
+                                    --}}{{--<button class="close_button refresh-button">
                                         <i class="ri-refresh-line"></i>
-                                    </button>--}}
+                                    </button>--}}{{--
                                     <button class="close_button delete-button" type="submit" onclick="event.preventDefault(); document.getElementById('remove-cart-item-{{ $key }}-{{ $item->id }}').submit();">
                                         <i class="ri-delete-bin-line"></i>
                                     </button>
@@ -715,7 +769,7 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li>--}}
                     @empty
                     <li>
                         <h4 class="small mb-1">No items in cart</h4>

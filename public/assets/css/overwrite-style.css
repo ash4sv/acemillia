@@ -4,3 +4,28 @@
 .main-menu .brand-logo img {
     height: calc(35px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
 }
+.offset-scriptnew .close-circle .close_button {
+    width: calc(24px + 6 * (100vw - 320px) / 1600);
+    height: calc(24px + 6 * (100vw - 320px) / 1600);
+    background-color: #f8f8f8;
+    border: 1px solid #eee;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.offset-scriptnew.offset-scriptnew2 .close-circle .close_button {
+    width: calc(15px + 6 * (100vw - 320px) / 1600);
+    height: calc(15px + 6 * (100vw - 320px) / 1600);
+}
+.offset-scriptnew .close-circle .close_button {
+    background-color: #232323;
+    border-color: #404040;
+    color: #ffffff;
+    font-size: 16px;
+}

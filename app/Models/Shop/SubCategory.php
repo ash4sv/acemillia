@@ -48,6 +48,11 @@ class SubCategory extends Model
         return QueryScopes::scopeInactive($query);
     }
 
+    public function categories()
+    {
+        return $this->morphToMany(Category::class, 'model', 'category_relations');
+    }
+
     public function products()
     {
         return $this->morphedByMany(Product::class, 'model', 'sub_category_relations');

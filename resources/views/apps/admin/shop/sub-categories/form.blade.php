@@ -9,6 +9,27 @@
     @endif
 
     <div class="mb-3">
+        <label for="categories" class="form-label">Category</label>
+        <select name="categories" id="" class="form-select select2">
+            <option value="">Select value</option>
+            @php
+                $selectedCategories = old('categories', $subCategory?->categories?->pluck('id')->toArray() ?? []);
+                if (!isset($subCategory)) {
+                    $selectedCategories = old('categories', []);
+                }
+            @endphp
+            @foreach($categories as $key => $category)
+                <option
+                    {{ in_array($category->id, $selectedCategories) ? 'selected' : '' }}
+                    value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+        @error('categories')
+        <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" name="name" id="" class="form-control @error('name')is-invalid @enderror" value="{{ old('name', $subCategory->name ?? '') }}">
         @error('name')
