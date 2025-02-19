@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\Admin\CategoryAdminDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\MenuSetup;
 use App\Models\Shop\Category;
 use App\Services\ImageUploader;
 use App\Services\SlugGenerator;
@@ -14,6 +15,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 class CategoryAdminController extends Controller
 {
     protected string $view = 'apps.admin.shop.categories.';
+
+    public function __construct()
+    {
+        $this->menus = MenuSetup::active()->get();
+    }
 
     /**
      * Display a listing of the resource.
@@ -32,6 +38,7 @@ class CategoryAdminController extends Controller
     public function create()
     {
         return view($this->view . 'form', [
+            'menus' => $this->menus,
             'category' => null
         ]);
     }
@@ -62,6 +69,7 @@ class CategoryAdminController extends Controller
     public function edit(string $id)
     {
         return view($this->view . 'form', [
+            'menus' => $this->menus,
             'category' => $this->findOrFailCategory($id)
         ]);
     }
@@ -103,6 +111,7 @@ class CategoryAdminController extends Controller
         DB::beginTransaction();
         try {
             $data = $request->only([
+                'menu',
                 'name',
                 'description',
                 'image',
@@ -129,6 +138,11 @@ class CategoryAdminController extends Controller
                     'status'      => strtolower($data['publish']),
                 ]
             );
+
+            if ($request->has('menu')) {
+                $menus = $request->input('menu');
+                $category->menus()->sync($menus ? [$menus] : []);
+            }
 
             DB::commit();
             return $category;

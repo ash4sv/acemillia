@@ -9,6 +9,28 @@
     @endif
 
     <div class="mb-3">
+        <label for="menu" class="form-label">Menu</label>
+        <select name="menu" id="" class="form-select select2">
+            <option value="">Please select</option>
+            @php
+                $selectedMenus = old('menu', $category?->menus?->pluck('id')->toArray() ?? []);
+                if (!isset($category)) {
+                    $selectedMenus = old('menu', []);
+                }
+            @endphp
+
+            @foreach($menus as $key => $menu)
+                <option
+                    {{ in_array($menu->id, $selectedMenus) ? 'selected' : '' }}
+                    value="{{ $menu->id }}">{{ $menu->name }}</option>
+            @endforeach
+        </select>
+        @error('menu')
+        <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" name="name" id="" class="form-control @error('name')is-invalid @enderror" value="{{ old('name', $category->name ?? '') }}">
         @error('name')

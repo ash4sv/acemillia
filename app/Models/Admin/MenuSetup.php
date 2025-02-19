@@ -1,35 +1,28 @@
 <?php
 
-namespace App\Models\Shop;
+namespace App\Models\Admin;
 
+use App\Models\Shop\Category;
 use App\Services\QueryScopes;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SubCategory extends Model
+class MenuSetup extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'sub_categories';
+    protected $table = 'menu_setups';
 
     protected $fillable = [
-        'merchant_id',
         'name',
         'slug',
-        'description',
-        'icon',
-        'image',
         'status',
     ];
 
     protected $guarded = [
-        'merchant_id',
         'name',
         'slug',
-        'description',
-        'icon',
-        'image',
         'status',
     ];
 
@@ -51,10 +44,5 @@ class SubCategory extends Model
     public function categories()
     {
         return $this->morphToMany(Category::class, 'model', 'category_relations');
-    }
-
-    public function products()
-    {
-        return $this->morphedByMany(Product::class, 'model', 'sub_category_relations');
     }
 }

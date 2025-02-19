@@ -36,8 +36,8 @@
                             <h4>about</h4>
                         </div>
                         <div class="footer-content">
-                            <a href="index.html" class="footer-logo d-block">
-                                <img src="../assets/images/furniture-3/logo.png" alt="">
+                            <a href="{!! url('/') !!}" class="footer-logo d-block">
+                                <img src="{{ asset('assets/images/logo-acemillia-white.png') }}" alt="">
                             </a>
                             <p>Discover the latest fashion trends, explore unique styles, and enjoy seamless
                                 shopping with our carefully curated exclusive collections, designed to elevate your
@@ -112,11 +112,9 @@
                             </div>
                             <div class="footer-content">
                                 <ul class="contact-list">
-                                    <li><i class="ri-map-pin-2-fill"></i>Multikart Demo Store, Demo store India
-                                        345-659</li>
-                                    <li><i class="ri-phone-fill"></i>Call Us: 123-456-7898</li>
-                                    <li><i class="ri-mail-fill"></i>Email Us: Support@Multikart.com</li>
-                                    <li><i class="ri-printer-fill"></i>Fax: 123456</li>
+                                    <li><i class="ri-map-pin-2-fill"></i>{!! __('63 (1st Floor)<br> Jalan Metro 1/1,<br> Bandar Metro<br> 47160 Puchong,<br> Selangor Darul Ehsan') !!}</li>
+                                    <li><i class="ri-phone-fill"></i>{!! __('Call: ') !!}{!! __('+603-8082 1362') !!}</li>
+                                    <li><i class="ri-mail-fill"></i>{!! __('Email: ') !!}<span style="text-transform: lowercase !important;">{!! __('info@acemillia.com') !!}</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -130,28 +128,18 @@
                     <div class="col-md-6">
                         <div class="footer-end">
                             <p>
-                                <i class="ri-copyright-line"></i> {!! date('Y') !!} Powered and designed by Ardia Nexus
+                                <i class="ri-copyright-line"></i> {!! date('Y') !!} {!! __('Copyright ACEMILLIA MARKETING 2025 - All Rights Reserved') !!} {!! __('Powered and designed by Ardia Nexus') !!}
                             </p>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="payment-card-bottom">
                             <ul>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/visa.png') !!}" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/mastercard.png') !!}" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/paypal.png') !!}" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/american-express.png') !!}" alt=""></a>
-                                </li>
-                                <li>
-                                    <a href="#!"><img src="{!! asset('assets/images/icon/discover.png') !!}" alt=""></a>
-                                </li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/visa.png') !!}" alt=""></a></li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/mastercard.png') !!}" alt=""></a></li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/paypal.png') !!}" alt=""></a></li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/american-express.png') !!}" alt=""></a></li>
+                                <li><a href="#!"><img src="{!! asset('assets/images/icon/discover.png') !!}" alt=""></a></li>
                             </ul>
                         </div>
                     </div>

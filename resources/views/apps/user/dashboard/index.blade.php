@@ -48,19 +48,23 @@
                             <div class="profile-top-box">
                                 <div class="profile-image">
                                     <div class="position-relative">
+                                        @isset($authUser->icon_avatar)
                                         <div class="user-round">
-                                            <h4>J</h4>
+                                            <h4 class="text-center">{!! $authUser->icon_avatar !!}</h4>
                                         </div>
+                                        @endisset
+                                        @isset($authUser->img_avatar)
                                         <div class="user-icon">
-                                            <input type="file" accept="image/*">
+                                            <input type="file" accept="image/*" name="avatar">
                                             <i class="ri-image-edit-line d-lg-block d-none"></i>
                                             <i class="ri-pencil-fill edit-icon d-lg-none"></i>
                                         </div>
+                                        @endisset
                                     </div>
                                 </div>
                             </div>
                             <div class="profile-detail">
-                                <h5>{{ $authUser->name }}</h5>
+                                <h5>{{ Str::limit($authUser->name, 17, '...') }}</h5>
                                 <h6>{{ $authUser->email }}</h6>
                             </div>
                         </div>
@@ -68,14 +72,12 @@
                             <ul id="pills-tab" role="tablist" class="nav nav-tabs">
                                 <li role="presentation" class="nav-item">
                                     <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info-tab-pane" type="button" role="tab">
-                                        <i class="ri-home-line"></i>
-                                        dashboard
+                                        <i class="ri-home-line"></i> Dashboard
                                     </button>
                                 </li>
                                 <li role="presentation" class="nav-item">
                                     <button class="nav-link" id="notification-tab" data-bs-toggle="tab" data-bs-target="#notification-tab-pane" type="button" role="tab">
-                                        <i class="ri-notification-line"></i>
-                                        Notifications
+                                        <i class="ri-notification-line"></i> Notifications
                                     </button>
                                 </li>
                                 <li role="presentation" class="nav-item">
@@ -166,12 +168,16 @@
                                         <div class="col-sm-12">
                                             <div class="box">
                                                 <ul class="box-content">
+                                                    @isset($authUser->name)
                                                     <li class="w-100">
-                                                        <h6>{{ $authUser->name }}</h6>
+                                                        <h6>{{ 'Name: ' . $authUser->name }}</h6>
                                                     </li>
+                                                    @endisset
+                                                    @isset($authUser->phone)
                                                     <li class="w-100">
-                                                        <h6>Phone: +1 65558845</h6>
+                                                        <h6>{{ 'Phone: ' . $authUser->phone }}</h6>
                                                     </li>
+                                                    @endisset
                                                 </ul>
                                             </div>
                                         </div>
@@ -182,12 +188,12 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <h6>Email : {{ $authUser->email }}</h6>
-                                                <a href="#edit-profile" data-bs-toggle="modal">Edit</a>
+                                                <h6 class="mb-1">Email : {{ $authUser->email }}</h6>
+                                                <a data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{{ route('profile.edit') }}" data-create-title="Edit Profile" href="#!">Edit</a>
                                             </div>
                                             <div class="col-sm-6">
-                                                <h6>Password : ●●●●●●</h6>
-                                                <a href="#edit-password" data-bs-toggle="modal">Edit</a>
+                                                <h6 class="mb-1">Password : ●●●●●●</h6>
+                                                <a data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{{ route('password.edit') }}" data-create-title="Edit Password" href="#!">Edit</a>
                                             </div>
                                         </div>
                                     </div>

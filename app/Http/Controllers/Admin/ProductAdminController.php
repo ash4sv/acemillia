@@ -306,6 +306,13 @@ class ProductAdminController extends Controller
             }
 
             $product->categories()->sync($request->input('categories'));
+
+            if ($request->has('sub_category')) {
+                $subCategoryId = $request->input('sub_category');
+                // If a sub category is selected, wrap it in an array; otherwise, use an empty array.
+                $product->sub_categories()->sync($subCategoryId ? [$subCategoryId] : []);
+            }
+
             $product->tags()->sync($request->input('tags'));
 
             DB::commit();

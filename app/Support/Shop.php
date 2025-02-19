@@ -2,20 +2,43 @@
 
 namespace App\Support;
 
+use App\Models\Admin\MenuSetup;
 use App\Models\Shop\Category;
 
 class Shop
 {
     public static function getShopItems()
     {
-        $modelItems = Category::active()->get();
+        // Retrieve active MenuSetup items
+        $modelItems = MenuSetup::active()->get();
 
-        // Map each model into the array structure you want
+        // Map MenuSetup for the "Shop" block (as before)
         $mappedModelItems = $modelItems->map(function($model) {
             return [
                 'menu-name'   => __($model->name),
                 'menu-url'    => route('web.shop.index', $model->slug),
                 'menu-target' => __('_self'),
+            ];
+        })->toArray();
+
+        // Build dynamic Blog items:
+        // For each MenuSetup, create a menu item,
+        // and its sub-items are the active categories linked to that MenuSetup.
+        $mappedBlogItems = $modelItems->map(function($menu) {
+            return [
+                'menu-name'   => __($menu->name),
+                'menu-url'    => route('web.shop.index', $menu->slug),
+                'menu-target' => __('_self'),
+                'menu-sub-items' => $menu->categories()
+                    ->active()
+                    ->get()
+                    ->map(function($category) use ($menu) {
+                        return [
+                            'menu-sub-name'   => __($category->name),
+                            'menu-sub-url'    => route('web.shop.category', [$menu->slug, $category->slug]),
+                            'menu-sub-target' => __('_self'),
+                        ];
+                    })->toArray(),
             ];
         })->toArray();
 
@@ -29,12 +52,20 @@ class Shop
                 'menu-items' => [],
             ],
             [
-                'menu-show' => true,
+                'menu-show' => false,
                 'mega-menu' => false,
                 'menu-name' => __('Shop'),
                 'menu-url' => '#',
                 'menu-target' => __('_self'),
                 'menu-items' => $mappedModelItems,
+            ],
+            [
+                'menu-show'   => true,
+                'mega-menu'   => false,
+                'menu-name'   => __('Shop'),
+                'menu-url'    => '#',
+                'menu-target' => __('_self'),
+                'menu-items'  => $mappedBlogItems,
             ],
 
             // ============ START HERE IS THE TEMPLATE ==============
@@ -621,6 +652,27 @@ class Shop
                             'menu-items' => []
                         ]
                     ]
+                ]
+            ],
+            [
+                'menu-show' => false,
+                'mega-menu' => false,
+                'menu-name' => __('Blog'),
+                'menu-url' => '#',
+                'menu-target' => __('_self'),
+                'menu-items' => [
+                    [
+                        'menu-name' => __('Left Sidebar'),
+                        'menu-url' => 'blog-page.html',
+                        'menu-target' => __('_self'),
+                        'menu-sub-items' => [
+                            [
+                                'menu-sub-name' => __('Left Sidebar'),
+                                'menu-sub-url' => 'blog-page.html',
+                                'menu-sub-target' => __('_self'),
+                            ]
+                        ],
+                    ],
                 ]
             ],
             [

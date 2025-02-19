@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\Admin\SubCategoryAdminDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Shop\Category;
 use App\Models\Shop\SubCategory;
 use App\Services\ImageUploader;
 use App\Services\SlugGenerator;
@@ -32,7 +33,8 @@ class SubCategoryAdminController extends Controller
     public function create()
     {
         return view($this->view . 'form', [
-            'subCategory' => null
+            'categories' => Category::active()->get(),
+            'subCategory' => null,
         ]);
     }
 
@@ -62,6 +64,7 @@ class SubCategoryAdminController extends Controller
     public function edit(string $id)
     {
         return view($this->view . 'form', [
+            'categories' => Category::active()->get(),
             'subCategory' => $this->findOrFailSubCategory($id)
         ]);
     }
@@ -129,6 +132,8 @@ class SubCategoryAdminController extends Controller
                     'status'      => strtolower($data['publish']),
                 ]
             );
+
+            $subCategory->categories()->sync($request->input('categories'));
 
             DB::commit();
             return $subCategory;

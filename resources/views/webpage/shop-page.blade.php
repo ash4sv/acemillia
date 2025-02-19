@@ -3,7 +3,7 @@
 @section('description', '')
 @section('keywords', '')
 @section('author', '')
-@section('title', $category->name)
+@section('title', $menuSlug->name)
 
 @push('style')
     <style>
@@ -22,13 +22,22 @@
     <!-- breadcrumb start -->
     <div class="breadcrumb-section">
         <div class="container">
-            <h2>{!! $category->name !!}</h2>
+            <h2>{!! $menuSlug->name !!}</h2>
             <nav class="theme-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{!! url('/') !!}">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active">{!! strtoupper($category->name) !!}</li>
+                    <li class="breadcrumb-item"><a href="{!! url('/') !!}">Home</a></li>
+                    @if(isset($menuSlug))
+                    <li class="breadcrumb-item"><a href="{!! route('web.shop.index', $menuSlug->slug) !!}">{!! $menuSlug->name !!}</a></li>
+                    @endif
+                    @if(isset($category))
+                    <li class="breadcrumb-item"><a href="{!! route('web.shop.category', [$menuSlug->slug, $category->slug]) !!}">{!! $category->name !!}</a></li>
+                    @endif
+                    @if(isset($product->sub_categories) && $product->sub_categories->isNotEmpty())
+                    <li class="breadcrumb-item"><a href="">{!! $product->sub_categories->pluck('name')->implode('/') !!}</a></li>
+                    @endif
+                    @if(isset($product))
+                    <li class="breadcrumb-item active">{!! strtoupper($product->name) !!}</li>
+                    @endif
                 </ol>
             </nav>
         </div>
@@ -65,7 +74,9 @@
                                                         </div>
                                                     </li>
                                                     @empty
+                                                    <li>
 
+                                                    </li>
                                                     @endforelse
                                                 </ul>
                                             </div>
@@ -287,7 +298,7 @@
                                 <div class="col-sm-12">
                                     @isset($category->image)
                                     <div class="top-banner-wrapper">
-                                        <a href="{{ route('web.shop.index', $category->slug) }}">
+                                        <a href="{{--{{ route('web.shop.index', $category->slug) }}--}}">
                                             <img src="{{ asset($category->image) }}" class="img-fluid blur-up lazyload" alt="">
                                         </a>
                                     </div>
@@ -337,7 +348,7 @@
                                                     <div class="basic-product theme-product-1">
                                                         <div class="overflow-hidden">
                                                             <div class="img-wrapper">
-                                                                <a href="{{ route('web.shop.product', [$category->slug, $product->slug]) }}">
+                                                                <a href="{{ route('web.shop.product', [$menuSlug->slug, $product->categories->pluck('slug')->first(), $product->slug]) }}">
                                                                     <img src="{{ asset($product->merged_images->first()) }}" class="w-100 img-fluid blur-up lazyload" alt="">
                                                                 </a>
                                                                 {{--<div class="rating-label">
@@ -348,29 +359,21 @@
                                                                     <a href="#!" title="Add to Wishlist" class="wishlist-icon">
                                                                         <i class="ri-heart-line"></i>
                                                                     </a>
-                                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                                                    {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
                                                                         <i class="ri-shopping-cart-line"></i>
-                                                                    </button>
-                                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View">
+                                                                    </button>--}}
+                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('web.shop.quickview', $product->id) !!}" data-create-title="Quick View">
                                                                         <i class="ri-eye-line"></i>
                                                                     </a>
-                                                                    <a href="compare.html" title="Compare">
+                                                                    {{--<a href="compare.html" title="Compare">
                                                                         <i class="ri-loop-left-line"></i>
-                                                                    </a>
+                                                                    </a>--}}
                                                                 </div>
                                                             </div>
                                                             <div class="product-detail">
                                                                 <div>
                                                                     <div class="brand-w-color">
-                                                                        <a class="product-title" href="{{ route('web.shop.product', [$category->slug, $product->slug]) }}">{{ $product->name }}</a>
-                                                                        {{--<div class="color-panel">
-                                                                            <ul>
-                                                                                <li style="background-color: papayawhip;"></li>
-                                                                                <li style="background-color: burlywood;"></li>
-                                                                                <li style="background-color: gainsboro;"></li>
-                                                                            </ul>
-                                                                            <span>+2</span>
-                                                                        </div>--}}
+                                                                        <a class="product-title" href="{{ route('web.shop.product', [$menuSlug->slug, $product->categories->pluck('slug')->first(), $product->slug]) }}">{{ $product->name }}</a>
                                                                     </div>
 
                                                                     {{--<h6>Purple Mini Dress</h6>--}}
