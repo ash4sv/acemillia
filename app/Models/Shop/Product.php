@@ -67,6 +67,11 @@ class Product extends Model
         return $this->morphToMany(Tag::class, 'model', 'tag_relations');
     }
 
+    public function specialOffers()
+    {
+        return $this->hasMany(SpecialOffer::class, 'product_id', 'id');
+    }
+
     /**
      * Accessor to merge images from various relationships.
      *

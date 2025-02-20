@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Shop\SpecialOffer;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -46,5 +47,10 @@ class Merchant extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function specialOffers()
+    {
+        return $this->hasMany(SpecialOffer::class, 'product_id', 'id');
     }
 }

@@ -15,6 +15,7 @@
 
 @section('webpage')
 
+    @if(isset($carousels) && count($carousels) > 0)
     <!-- Home slider -->
     <section class="p-0 height-100 sm-responsive">
         <div class="slide-1 home-slider">
@@ -34,6 +35,7 @@
         </div>
     </section>
     <!-- Home slider end -->
+    @endif
 
     <!-- collection banner -->
     <section class="banner-padding absolute-banner banner-style-2 pb-0 ratio2_1">
@@ -100,16 +102,17 @@
     </section>
     <!-- collection banner end -->
 
+    @if(isset($specialOffers) && count($specialOffers) > 0)
     <!-- Paragraph-->
     <div class="title1 section-t-space">
-        <h4>special offer</h4>
-        <h2 class="title-inner1">top collection</h2>
+        <h4>{!! __('Special Offer') !!}</h4>
+        <h2 class="title-inner1">{!! __('Top Collection') !!}</h2>
     </div>
     <div class="container">
         <div class="row">
             <div class="col-xl-6 offset-xl-3">
                 <div class="product-para">
-                    <p class="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,</p>
+                    <p class="text-center">{!! __('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,') !!}</p>
                 </div>
             </div>
         </div>
@@ -120,208 +123,73 @@
     <section class="pt-0 ratio_asos section-b-space">
         <div class="container">
             <div class="row dark-box partition-five">
+                @forelse($specialOffers as $key => $specialOffer)
                 <div class="col">
                     <div class="basic-product theme-product-4">
                         <div class="img-wrapper">
-                            <a href="product-page(accordian).html">
-                                <img src="{{ asset('assets/images/furniture-3/product/13.png') }}" class="img-fluid blur-up lazyload bg-img" alt="">
+                            <a href="{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}">
+                                @if($specialOffer->single_image)
+                                <img src="{{ asset($specialOffer->single_image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! __($specialOffer?->product?->name) !!}">
+                                @else
+                                <img src="{{ asset($specialOffer?->product?->image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! __($specialOffer?->product?->name) !!}">
+                                @endif
                             </a>
-
                             <div class="cart-info">
                                 <a href="#!" title="Add to Wishlist" class="wishlist-icon">
                                     <i class="ri-heart-line"></i>
                                 </a>
-                                <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
                                     <i class="ri-shopping-cart-line"></i>
-                                </button>
+                                </button>--}}
                                 <a href="#quickView" data-bs-toggle="modal" title="Quick View">
                                     <i class="ri-eye-line"></i>
                                 </a>
-                                <a href="compare.html" title="Compare">
+                                {{--<a href="compare.html" title="Compare">
                                     <i class="ri-loop-left-line"></i>
-                                </a>
+                                </a>--}}
                             </div>
                         </div>
                         <div class="product-detail">
-                            <a class="product-title" href="product-page(accordian).html">
-                                Woodan Diwan
+                            <a class="product-title" href="{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}">
+                                {!! __($specialOffer?->product?->name) !!}
                             </a>
                             <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                <div class="rating"><i class="ri-star-fill"></i> <i class="ri-star-fill"></i> <i
-                                        class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
+                                {{--<div class="rating">
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
+                                    <i class="ri-star-fill"></i>
                                 </div>
-                                <span>(10)</span>
+                                <span>(10)</span>--}}
                             </div>
-                            <h4 class="price">$ 18.50 <del class="ms-auto"> $20.00 </del><span class="discounted-price">
-                                    8% Off </span>
+                            <h4 class="price">
+                                {!! __($specialOffer?->product?->price) !!}
+                                {{--<del class="ms-auto"> $20.00 </del>--}}
+                                {{--<span class="discounted-price">8% Off </span>--}}
                             </h4>
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="basic-product theme-product-4">
-                        <div class="img-wrapper">
-                            <a href="product-page(accordian).html">
-                                <img src="{{ asset('assets/images/furniture-3/product/14.png') }}" class="img-fluid blur-up lazyload bg-img" alt="">
-                            </a>
-                            <div class="cart-info">
-                                <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                    <i class="ri-heart-line"></i>
-                                </a>
-                                <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
-                                    <i class="ri-shopping-cart-line"></i>
-                                </button>
-                                <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                    <i class="ri-eye-line"></i>
-                                </a>
-                                <a href="compare.html" title="Compare">
-                                    <i class="ri-loop-left-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-detail">
-                            <a class="product-title" href="product-page(accordian).html">
-                                Wing Lounge Chair </a>
-                            <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                <div class="rating"><i class="ri-star-fill"></i> <i class="ri-star-fill"></i> <i
-                                        class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                </div>
-                                <span>(10)</span>
-                            </div>
-                            <h4 class="price">$ 23.49<del class="ms-auto"> $25.50 </del><span class="discounted-price">
-                                    10% Off </span>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="basic-product theme-product-4">
-                        <div class="img-wrapper">
-                            <a href="product-page(accordian).html"><img
-                                    src="../assets/images/furniture-3/product/15.png"
-                                    class="img-fluid blur-up lazyload bg-img" alt=""></a>
+                @empty
 
-                            <div class="cart-info">
-                                <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                    <i class="ri-heart-line"></i>
-                                </a>
-                                <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
-                                    <i class="ri-shopping-cart-line"></i>
-                                </button>
-                                <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                    <i class="ri-eye-line"></i>
-                                </a>
-                                <a href="compare.html" title="Compare">
-                                    <i class="ri-loop-left-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-detail">
-                            <a class="product-title" href="product-page(accordian).html">
-                                Sheeesham Settee
-                            </a>
-                            <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                <div class="rating"><i class="ri-star-fill"></i> <i class="ri-star-fill"></i> <i
-                                        class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                </div>
-                                <span>(10)</span>
-                            </div>
-                            <h4 class="price">$ 26.30 </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="basic-product theme-product-4">
-                        <div class="img-wrapper">
-                            <a href="product-page(accordian).html">
-                                <img src="../assets/images/furniture-3/product/18.png" class="img-fluid blur-up lazyload bg-img" alt="">
-                            </a>
-                            <div class="cart-info">
-                                <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                    <i class="ri-heart-line"></i>
-                                </a>
-                                <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
-                                    <i class="ri-shopping-cart-line"></i>
-                                </button>
-                                <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                    <i class="ri-eye-line"></i>
-                                </a>
-                                <a href="compare.html" title="Compare">
-                                    <i class="ri-loop-left-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-detail">
-                            <a class="product-title" href="product-page(accordian).html">
-                                Egon Wood Chair
-                            </a>
-                            <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                <div class="rating"><i class="ri-star-fill"></i> <i class="ri-star-fill"></i> <i
-                                        class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                </div>
-                                <span>(10)</span>
-                            </div>
-                            <h4 class="price">$ 22.10<del class="ms-auto"> $24.00 </del><span class="discounted-price">
-                                    6% Off </span>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="basic-product theme-product-4">
-                        <div class="img-wrapper">
-                            <a href="product-page(accordian).html"><img
-                                    src="../assets/images/furniture-3/product/17.png"
-                                    class="img-fluid blur-up lazyload bg-img" alt=""></a>
-
-                            <div class="cart-info">
-                                <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                    <i class="ri-heart-line"></i>
-                                </a>
-                                <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
-                                    <i class="ri-shopping-cart-line"></i>
-                                </button>
-                                <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                    <i class="ri-eye-line"></i>
-                                </a>
-                                <a href="compare.html" title="Compare">
-                                    <i class="ri-loop-left-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-detail">
-                            <a class="product-title" href="product-page(accordian).html">
-                                Woodan Center Table
-                            </a>
-                            <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                <div class="rating"><i class="ri-star-fill"></i> <i class="ri-star-fill"></i> <i
-                                        class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                </div>
-                                <span>(10)</span>
-                            </div>
-                            <h4 class="price">$ 18.10 </h4>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
         </div>
     </section>
     <!-- Product slider end -->
+    @endif
 
+    @if(isset($categories) && count($categories) > 0)
     <!-- category section start -->
     <div class="container category-button button-dark">
         <section class="section-b-space border-section">
             <div class="slide-6 no-arrow slick-default-margin">
-                @forelse($categories as $key => $categorie)
+                @forelse($categories as $key => $category)
                 <div>
                     <a href="" class="btn btn-outline btn-block">
                         <img src="{{ asset('assets/svg/furniture/sofa.svg') }}" class="img-fluid" alt="">
-                        {{ $categorie->name }}
+                        {{ $category->name }}
                     </a>
                 </div>
                 @empty
@@ -331,6 +199,8 @@
         </section>
     </div>
     <!-- category section end -->
+    @endif
+
 
     <!-- category -->
     <div class="category-bg onerow-cat ratio3_2">
@@ -338,8 +208,7 @@
             <div class="row order-section">
                 <div class="col-sm-4 p-0">
                     <a href="#!" class="image-block">
-                        <img alt="" src="../assets/images/furniture-3/banner/1.png"
-                            class="img-fluid blur-up lazyload bg-img">
+                        <img alt="" src="{!! asset('assets/images/furniture-3/banner/1.png') !!}" class="img-fluid blur-up lazyload bg-img">
                     </a>
                 </div>
                 <div class="col-sm-4 p-0">
@@ -348,7 +217,8 @@
                             <h6>new products</h6>
                             <a href="category-page.html">
                                 <h2>zipper storage bag</h2>
-                            </a><a href="category-page.html" class="btn btn-solid category-btn">-80% off</a>
+                            </a>
+                            <a href="category-page.html" class="btn btn-solid category-btn">-80% off</a>
                             <a href="category-page.html">
                                 <h6><span>shop now</span></h6>
                             </a>
@@ -356,14 +226,14 @@
                     </div>
                 </div>
                 <div class="col-sm-4 p-0">
-                    <a href="#!" class="image-block"><img alt="" src="../assets/images/furniture-3/banner/2.png"
-                            class="img-fluid blur-up lazyload bg-img"></a>
+                    <a href="#!" class="image-block">
+                        <img alt="" src="{!! asset('assets/images/furniture-3/banner/2.png') !!}" class="img-fluid blur-up lazyload bg-img">
+                    </a>
                 </div>
             </div>
         </div>
     </div>
     <!-- category end -->
-
 
     <!-- slider and product -->
     <section class="container">
@@ -380,308 +250,51 @@
                         <div class="row">
                             <div class="col">
                                 <div class="four-product row dark-box">
-                                    <div class="col">
-                                        <div class="basic-product theme-product-4">
-                                            <div class="img-wrapper">
-                                                <a href="product-page(accordian).html"><img
-                                                        src="../assets/images/furniture-3/product/1.png"
-                                                        class="img-fluid blur-up lazyload" alt=""></a>
 
-                                                <div class="cart-info">
-                                                    <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                                        <i class="ri-heart-line"></i>
-                                                    </a>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart"
-                                                        title="Add to cart">
-                                                        <i class="ri-shopping-cart-line"></i>
-                                                    </button>
-                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                                        <i class="ri-eye-line"></i>
-                                                    </a>
-                                                    <a href="compare.html" title="Compare">
-                                                        <i class="ri-loop-left-line"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a class="product-title" href="product-page(accordian).html">
-                                                    Herit Chair </a>
-                                                <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                                    <div class="rating"><i class="ri-star-fill"></i> <i
-                                                            class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                        <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                    </div>
-                                                    <span>(10)</span>
-                                                </div>
-                                                <h4 class="price">$ 20.90<del class="ms-auto"> $25.00 </del><span
-                                                        class="discounted-price"> 10%
-                                                        Off </span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="basic-product theme-product-4">
-                                            <div class="img-wrapper">
-                                                <a href="product-page(accordian).html"><img
-                                                        src="../assets/images/furniture-3/product/2.png"
-                                                        class="img-fluid blur-up lazyload" alt=""></a>
-
-                                                <div class="cart-info">
-                                                    <a href="#!" title="Add to Wishlist" class="wishlist-icon"><i
-                                                            class="ri-heart-line"></i></a>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart"
-                                                        title="Add to cart"><i
-                                                            class="ri-shopping-cart-line"></i></button>
-                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View"><i
-                                                            class="ri-eye-line"></i></a> <a href="compare.html"
-                                                        title="Compare"><i class="ri-loop-left-line"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a class="product-title" href="product-page(accordian).html">
-                                                    woodan chair </a>
-                                                <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                                    <div class="rating"><i class="ri-star-fill"></i> <i
-                                                            class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                        <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                    </div>
-                                                    <span>(10)</span>
-                                                </div>
-                                                <h4 class="price">$ 22.30<del class="ms-auto"> $26.00 </del><span
-                                                        class="discounted-price"> 7%
-                                                        Off </span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="basic-product theme-product-4">
-                                            <div class="img-wrapper">
-                                                <a href="product-page(accordian).html"><img
-                                                        src="../assets/images/furniture-3/product/3.png"
-                                                        class="img-fluid blur-up lazyload" alt=""></a>
-
-                                                <div class="cart-info">
-                                                    <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                                        <i class="ri-heart-line"></i>
-                                                    </a>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart"
-                                                        title="Add to cart">
-                                                        <i class="ri-shopping-cart-line"></i>
-                                                    </button>
-                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                                        <i class="ri-eye-line"></i>
-                                                    </a>
-                                                    <a href="compare.html" title="Compare">
-                                                        <i class="ri-loop-left-line"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a class="product-title" href="product-page(accordian).html">
-                                                    Armchair Full Steel </a>
-                                                <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                                    <div class="rating"><i class="ri-star-fill"></i> <i
-                                                            class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                        <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                    </div>
-                                                    <span>(10)</span>
-                                                </div>
-                                                <h4 class="price">$ 16.30 </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="basic-product theme-product-4">
-                                            <div class="img-wrapper">
-                                                <a href="product-page(accordian).html"><img
-                                                        src="../assets/images/furniture-3/product/5.png"
-                                                        class="img-fluid blur-up lazyload" alt=""></a>
-
-                                                <div class="cart-info">
-                                                    <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                                        <i class="ri-heart-line"></i>
-                                                    </a>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart"
-                                                        title="Add to cart">
-                                                        <i class="ri-shopping-cart-line"></i>
-                                                    </button>
-                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                                        <i class="ri-eye-line"></i>
-                                                    </a>
-                                                    <a href="compare.html" title="Compare">
-                                                        <i class="ri-loop-left-line"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a class="product-title" href="product-page(accordian).html">
-                                                    Tie and Dye Chiffon Top
+                                <div class="col">
+                                    <div class="basic-product theme-product-4">
+                                        <div class="img-wrapper">
+                                            <a href="product-page(accordian).html">
+                                                <img src="{{ asset('assets/images/furniture-3/product/13.png') }}" class="img-fluid blur-up lazyload bg-img" alt="">
+                                            </a>
+                                            <div class="cart-info">
+                                                <a href="#!" title="Add to Wishlist" class="wishlist-icon">
+                                                    <i class="ri-heart-line"></i>
                                                 </a>
-                                                <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                                    <div class="rating"><i class="ri-star-fill"></i> <i
-                                                            class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                        <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                    </div>
-                                                    <span>(10)</span>
-                                                </div>
-                                                <h4 class="price">$ 2.79<del class="ms-auto"> $3.00 </del><span
-                                                        class="discounted-price"> 7%
-                                                        Off </span>
-                                                </h4>
+                                                {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                                    <i class="ri-shopping-cart-line"></i>
+                                                </button>--}}
+                                                <a href="#quickView" data-bs-toggle="modal" title="Quick View">
+                                                    <i class="ri-eye-line"></i>
+                                                </a>
+                                                {{--<a href="compare.html" title="Compare">
+                                                    <i class="ri-loop-left-line"></i>
+                                                </a>--}}
                                             </div>
                                         </div>
+                                        <div class="product-detail">
+                                            <a class="product-title" href="product-page(accordian).html">
+                                                Woodan Diwan
+                                            </a>
+                                            <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
+                                                {{--<div class="rating">
+                                                    <i class="ri-star-fill"></i>
+                                                    <i class="ri-star-fill"></i>
+                                                    <i class="ri-star-fill"></i>
+                                                    <i class="ri-star-fill"></i>
+                                                    <i class="ri-star-fill"></i>
+                                                </div>
+                                                <span>(10)</span>--}}
+                                            </div>
+                                            <h4 class="price">
+                                                $ 18.50
+                                                {{--<del class="ms-auto"> $20.00 </del>--}}
+                                                {{--<span class="discounted-price">8% Off </span>--}}
+                                            </h4>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        <div class="basic-product theme-product-4">
-                                            <div class="img-wrapper">
-                                                <a href="product-page(accordian).html"><img
-                                                        src="../assets/images/furniture-3/product/9.png"
-                                                        class="img-fluid blur-up lazyload" alt=""></a>
+                                </div>
 
-                                                <div class="cart-info">
-                                                    <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                                        <i class="ri-heart-line"></i>
-                                                    </a>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart"
-                                                        title="Add to cart">
-                                                        <i class="ri-shopping-cart-line"></i>
-                                                    </button>
-                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                                        <i class="ri-eye-line"></i>
-                                                    </a>
-                                                    <a href="compare.html" title="Compare">
-                                                        <i class="ri-loop-left-line"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a class="product-title" href="product-page(accordian).html">
-                                                    Wooden Arm Chair </a>
-                                                <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                                    <div class="rating"><i class="ri-star-fill"></i> <i
-                                                            class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                        <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                    </div>
-                                                    <span>(10)</span>
-                                                </div>
-                                                <h4 class="price">$ 16.60<del class="ms-auto"> $18.30 </del><span
-                                                        class="discounted-price"> 8% Off </span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="basic-product theme-product-4">
-                                            <div class="img-wrapper">
-                                                <a href="product-page(accordian).html"><img
-                                                        src="../assets/images/furniture-3/product/11.png"
-                                                        class="img-fluid blur-up lazyload" alt=""></a>
-
-                                                <div class="cart-info">
-                                                    <a href="#!" title="Add to Wishlist" class="wishlist-icon"><i
-                                                            class="ri-heart-line"></i></a>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart"
-                                                        title="Add to cart"><i
-                                                            class="ri-shopping-cart-line"></i></button>
-                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View"><i
-                                                            class="ri-eye-line"></i></a> <a href="compare.html"
-                                                        title="Compare"><i class="ri-loop-left-line"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a class="product-title" href="product-page(accordian).html">
-                                                    blue buttoned sofa </a>
-                                                <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                                    <div class="rating"><i class="ri-star-fill"></i> <i
-                                                            class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                        <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                    </div>
-                                                    <span>(10)</span>
-                                                </div>
-                                                <h4 class="price">$ 30.50<del class="ms-auto"> $40.00 </del><span
-                                                        class="discounted-price"> 10%
-                                                        Off </span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="basic-product theme-product-4">
-                                            <div class="img-wrapper">
-                                                <a href="product-page(accordian).html"><img
-                                                        src="../assets/images/furniture-3/product/12.png"
-                                                        class="img-fluid blur-up lazyload" alt=""></a>
-
-                                                <div class="cart-info">
-                                                    <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                                        <i class="ri-heart-line"></i>
-                                                    </a>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart"
-                                                        title="Add to cart">
-                                                        <i class="ri-shopping-cart-line"></i>
-                                                    </button>
-                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                                        <i class="ri-eye-line"></i>
-                                                    </a>
-                                                    <a href="compare.html" title="Compare">
-                                                        <i class="ri-loop-left-line"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a class="product-title" href="product-page(accordian).html">
-                                                    Woodan Rounded Table </a>
-                                                <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                                    <div class="rating"><i class="ri-star-fill"></i> <i
-                                                            class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                        <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                    </div>
-                                                    <span>(10)</span>
-                                                </div>
-                                                <h4 class="price">$ 15.60<del class="ms-auto"> $18.00 </del><span
-                                                        class="discounted-price"> 8%
-                                                        Off </span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="basic-product theme-product-4">
-                                            <div class="img-wrapper">
-                                                <a href="product-page(accordian).html"><img
-                                                        src="../assets/images/furniture-3/product/10.png"
-                                                        class="img-fluid blur-up lazyload" alt=""></a>
-
-                                                <div class="cart-info">
-                                                    <a href="#!" title="Add to Wishlist" class="wishlist-icon"><i
-                                                            class="ri-heart-line"></i></a>
-                                                    <button data-bs-toggle="modal" data-bs-target="#addtocart"
-                                                        title="Add to cart"><i
-                                                            class="ri-shopping-cart-line"></i></button>
-                                                    <a href="#quickView" data-bs-toggle="modal" title="Quick View"><i
-                                                            class="ri-eye-line"></i></a> <a href="compare.html"
-                                                        title="Compare"><i class="ri-loop-left-line"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="product-detail">
-                                                <a class="product-title" href="product-page(accordian).html">
-                                                    Hanging Lamp </a>
-                                                <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                                    <div class="rating"><i class="ri-star-fill"></i> <i
-                                                            class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                        <i class="ri-star-fill"></i> <i class="ri-star-fill"></i>
-                                                    </div>
-                                                    <span>(10)</span>
-                                                </div>
-                                                <h4 class="price">$ 16.35<del class="ms-auto"> $20.00 </del><span
-                                                        class="discounted-price"> 7%
-                                                        Off </span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

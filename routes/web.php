@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SubCategoryAdminController;
 use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
+use App\Http\Controllers\Merchant\SpecialOfferMerchantController;
 use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
 use App\Http\Controllers\User\DashboardUserController;
@@ -116,7 +117,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'categories' => CategoryAdminController::class,
                 'sub-categories' => SubCategoryAdminController::class,
                 'tags' => TagAdminController::class,
-                'products' => ProductAdminController::class
+                'products' => ProductAdminController::class,
+                'special-offer' => SpecialOfferMerchantController::class
             ]);
         });
         Route::resource('menus', MenuAdminController::class);

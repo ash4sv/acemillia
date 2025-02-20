@@ -7,6 +7,7 @@ use App\Models\Admin\CarouselSlider;
 use App\Models\Admin\MenuSetup;
 use App\Models\Shop\Category;
 use App\Models\Shop\Product;
+use App\Models\Shop\SpecialOffer;
 use App\Models\Shop\SubCategory;
 use Illuminate\Http\Request;
 
@@ -16,9 +17,11 @@ class WebController extends Controller
     {
         $carousels = CarouselSlider::active()->get();
         $categories = Category::active()->get();
+        $specialOffers = SpecialOffer::approved()->active()->get();
         return view('webpage.index', [
             'carousels' => $carousels,
             'categories' => $categories,
+            'specialOffers' => $specialOffers
         ]);
     }
 

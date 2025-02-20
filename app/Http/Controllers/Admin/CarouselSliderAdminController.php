@@ -84,7 +84,7 @@ class CarouselSliderAdminController extends Controller
      */
     public function destroy(string $id)
     {
-        $category = $this->findOrFailMenu($id);
+        $category = $this->findOrFailCarouselSlider($id);
         $category->delete();
         Alert::success('Successfully Deleted!', 'Carousel slider has been deleted!');
         return redirect()->back();

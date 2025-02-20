@@ -43,4 +43,46 @@ class Publish
         <input type="hidden" name="publish" id="publish-status" value="{$status}">
         HTML;
     }
+
+    /**
+     * Generate the publish button.
+     *
+     * @param string|null $status
+     * @return string
+     */
+    public static function submissionBtn($status = null)
+    {
+        $status = ucfirst($status) ?? 'Pending';
+
+        // Define button colors based on status
+        $colorClass = [
+            'Pending' => 'btn-warning',
+            'Approved' => 'btn-success',
+            'Rejected' => 'btn-danger',
+            'Archived' => 'btn-secondary'
+        ];
+
+        $btnClass = $colorClass[$status] ?? 'btn-warning'; // Default to Draft if not found
+
+        return <<<HTML
+        <label for="publish" class="form-label">Submission</label>
+        <div class="btn-submission-set">
+            <div class="btn-group">
+                <button type="button" class="btn {$btnClass} w-px-150">
+                    {$status}
+                </button>
+                <button type="button" class="btn {$btnClass} dropdown-toggle dropdown-toggle-split" id="dropdownMenuSubmission" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuSubmission">
+                    <li><a class="dropdown-item" href="#">Pending</a></li>
+                    <li><a class="dropdown-item" href="#">Approved</a></li>
+                    <li><a class="dropdown-item" href="#">Rejected</a></li>
+                    <li><a class="dropdown-item" href="#">Archived</a></li>
+                </ul>
+            </div>
+        </div>
+        <input type="hidden" name="submission" id="submission-status" value="{$status}">
+        HTML;
+    }
 }

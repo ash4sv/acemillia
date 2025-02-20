@@ -86,6 +86,14 @@ class Menu
                                 'text'       => __('Product'),
                                 'target'     => '',
                             ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shop.special-offer.index'),
+                                'active_on'  => 'admin/shop/special-offer*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Special Offer'),
+                                'target'     => '',
+                            ],
                         ]
                     ],
                 ]
