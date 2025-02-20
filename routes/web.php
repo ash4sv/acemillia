@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\AuthAdminVerifyController;
+use App\Http\Controllers\Admin\CarouselSliderAdminController;
 use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MenuAdminController;
@@ -119,5 +120,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ]);
         });
         Route::resource('menus', MenuAdminController::class);
+        Route::resource('carousel-slider', CarouselSliderAdminController::class);
     });
 });

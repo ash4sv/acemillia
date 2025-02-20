@@ -17,11 +17,21 @@
 
     <!-- Home slider -->
     <section class="p-0 height-100 sm-responsive">
-        <a href="category-page.html" class="home-slider">
-            <div class="home">
-                <img src="{{ asset('assets/images/furniture-3/full-banner/1.png') }}" alt="" class="bg-img blur-up lazyload">
+        <div class="slide-1 home-slider">
+            @forelse($carousels as $key => $carousel)
+            <div>
+                <a href="{!! $carousel->url !!}" class="home">
+                    <img src="{!! asset($carousel->image) !!}" alt="" class="bg-img blur-up lazyload">
+                </a>
             </div>
-        </a>
+            @empty
+            <div>
+                <a href="{{ url('/') }}" class="home">
+                    <img src="{!! asset('assets/images/furniture-3/full-banner/1.png') !!}" alt="" class="bg-img blur-up lazyload">
+                </a>
+            </div>
+            @endforelse
+        </div>
     </section>
     <!-- Home slider end -->
 
@@ -307,42 +317,16 @@
     <div class="container category-button button-dark">
         <section class="section-b-space border-section">
             <div class="slide-6 no-arrow slick-default-margin">
+                @forelse($categories as $key => $categorie)
                 <div>
-                    <a href="category-page.html" class="btn btn-outline btn-block">
+                    <a href="" class="btn btn-outline btn-block">
                         <img src="{{ asset('assets/svg/furniture/sofa.svg') }}" class="img-fluid" alt="">
-                        living
+                        {{ $categorie->name }}
                     </a>
                 </div>
-                <div>
-                    <a href="category-page.html" class="btn btn-outline btn-block">
-                        <img src="{{ asset('assets/svg/furniture/kitchen.svg') }}" class="img-fluid" alt="">
-                        kitchen
-                    </a>
-                </div>
-                <div>
-                    <a href="category-page.html" class="btn btn-outline btn-block">
-                        <img src="{{ asset('assets/svg/furniture/bed.svg') }}" class="img-fluid" alt="">
-                        bedroom
-                    </a>
-                </div>
-                <div>
-                    <a href="category-page.html" class="btn btn-outline btn-block">
-                        <img src="{{ asset('assets/svg/furniture/washbasin.svg') }}" class="img-fluid" alt="">
-                        bathroom
-                    </a>
-                </div>
-                <div>
-                    <a href="category-page.html" class="btn btn-outline btn-block">
-                        <img src="{{ asset('assets/svg/furniture/office.svg') }}" class="img-fluid" alt="">
-                        office
-                    </a>
-                </div>
-                <div>
-                    <a href="category-page.html" class="btn btn-outline btn-block">
-                        <img src="{{ asset('assets/svg/furniture/hanger.svg') }}" class="img-fluid" alt="">
-                        decor
-                    </a>
-                </div>
+                @empty
+
+                @endforelse
             </div>
         </section>
     </div>
@@ -728,9 +712,9 @@
                 </div>
                 <div class="col-md-4 service-block">
                     <div class="media">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-                            id="Capa_1" x="0px" y="0px" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480;"
-                            xml:space="preserve" width="512px" height="512px">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                             id="Capa_1" x="0px" y="0px" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480;"
+                             xml:space="preserve" width="512px" height="512px">
                             <g>
                                 <g>
                                     <g>
@@ -758,10 +742,10 @@
                 </div>
                 <div class="col-md-4 service-block">
                     <div class="media">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
-                            id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
-                            style="enable-background:new 0 0 512 512;" xml:space="preserve" width="512px"
-                            height="512px">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                             id="Layer_1" x="0px" y="0px" viewBox="0 0 512 512"
+                             style="enable-background:new 0 0 512 512;" xml:space="preserve" width="512px"
+                             height="512px">
                             <g>
                                 <g>
                                     <g>

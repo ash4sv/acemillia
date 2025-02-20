@@ -1,6 +1,6 @@
 @extends('apps.layouts.apps')
 
-@section('title', 'Menu Configuration')
+@section('title', 'Carousel slider')
 @section('description', '')
 @section('keywords', '')
 

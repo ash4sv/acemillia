@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\WebPage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\CarouselSlider;
 use App\Models\Admin\MenuSetup;
 use App\Models\Shop\Category;
 use App\Models\Shop\Product;
+use App\Models\Shop\SubCategory;
 use Illuminate\Http\Request;
 
 class WebController extends Controller
 {
     public function index()
     {
-        return view('webpage.index');
+        $carousels = CarouselSlider::active()->get();
+        $categories = Category::active()->get();
+        return view('webpage.index', [
+            'carousels' => $carousels,
+            'categories' => $categories,
+        ]);
     }
 
     public function shopIndex(string $menu)
