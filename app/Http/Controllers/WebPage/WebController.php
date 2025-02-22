@@ -17,6 +17,15 @@ use Illuminate\Http\Request;
 
 class WebController extends Controller
 {
+    protected $tagsSidebar, $categoriesSidebar, $recentPosts;
+
+    public function __construct()
+    {
+        $this->tagsSidebar = PostTag::active()->get();
+        $this->categoriesSidebar = PostCategory::active()->get();
+        $this->recentPosts = Post::where('created_at', '>=', Carbon::now()->subWeeks(4))->orderBy('created_at', 'desc')->get();
+    }
+
     public function index()
     {
         $carousels = CarouselSlider::active()->get();
@@ -125,29 +134,23 @@ class WebController extends Controller
 
     public function blog()
     {
-        $categoriesSidebar = PostCategory::active()->get();
-        $tagsSidebar = PostTag::active()->get();
-        $recentPosts = Post::where('created_at', '>=', Carbon::now()->subWeeks(4))->orderBy('created_at', 'desc')->get();
         $posts = Post::active()->paginate(12);
         return response()->view('webpage.blog-page', [
-            'categoriesSidebar' => $categoriesSidebar,
-            'tagsSidebar' => $tagsSidebar,
-            'recentPosts' => $recentPosts,
+            'categoriesSidebar' => $this->categoriesSidebar,
+            'tagsSidebar' => $this->tagsSidebar,
+            'recentPosts' => $this->recentPosts,
             'posts' => $posts,
         ]);
     }
 
     public function blogCategory(string $category)
     {
-        $tagsSidebar = PostTag::active()->get();
-        $categoriesSidebar = PostCategory::active()->get();
-        $recentPosts = Post::where('created_at', '>=', Carbon::now()->subWeeks(4))->orderBy('created_at', 'desc')->get();
         $categories = PostCategory::active()->where('slug', $category)->firstOrFail();
         $posts = $categories->posts()->active()->paginate(12);
         return response()->view('webpage.blog-page', [
-            'categoriesSidebar' => $categoriesSidebar,
-            'tagsSidebar' => $tagsSidebar,
-            'recentPosts' => $recentPosts,
+            'categoriesSidebar' => $this->categoriesSidebar,
+            'tagsSidebar' => $this->tagsSidebar,
+            'recentPosts' => $this->recentPosts,
             'posts' => $posts,
         ]);
     }
