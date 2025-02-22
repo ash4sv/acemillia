@@ -126,7 +126,7 @@ class WebController extends Controller
     {
         $categoriesSidebar = PostCategory::active()->get();
         $tagsSidebar = PostTag::active()->get();
-        $posts = Post::active()->get();
+        $posts = Post::active()->paginate(12);
         return response()->view('webpage.blog-page', [
             'categoriesSidebar' => $categoriesSidebar,
             'tagsSidebar' => $tagsSidebar,
@@ -137,7 +137,7 @@ class WebController extends Controller
     public function blogCategory(string $category)
     {
         $categories = PostCategory::active()->where('slug', $category)->firstOrFail();
-        $posts = $categories->posts()->active()->get();
+        $posts = $categories->posts()->active()->paginate(12);
         $tagsSidebar = PostTag::active()->get();
         $categoriesSidebar = PostCategory::active()->get();
         return response()->view('webpage.blog-page', [

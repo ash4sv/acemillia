@@ -44,9 +44,9 @@
                     <div class="sticky-details">
                         <div class="row g-4">
                             @forelse($posts as $key => $post)
-                                @php
-                                    $postUrl = route('web.blog.post', [$post?->category?->slug, $post?->slug])
-                                @endphp
+                            @php
+                                $postUrl = route('web.blog.post', [$post?->category?->slug, $post?->slug])
+                            @endphp
                             <div class="col-sm-6 col-xxl-4">
                                 <div class="blog-box sticky-blog-box">
                                     <div class="blog-image">
@@ -61,21 +61,13 @@
                                         </a>
                                     </div>
                                     <div class="blog-contain">
-                                        <a href="{!! $postUrl !!}">
-                                            <h3>{!! Str::limit($post->title, 36, '...') !!}</h3>
-                                        </a>
+                                        <a href="{!! $postUrl !!}"><h3>{!! Str::limit($post->title, 25, '...') !!}</h3></a>
                                         <div class="blog-label">
-                                            <span class="time">
-                                                <i class="ri-time-line"></i><span>{!! $post->created_at->format('d M Y h:i:A') !!}</span>
-                                            </span>
-                                            <span class="super">
-                                                <i class="ri-user-line"></i><span>{!! $post->author?->name !!}</span>
-                                            </span>
+                                            <span class="time"><i class="ri-time-line"></i><span>{!! $post->created_at->format('d M Y h:i:A') !!}</span></span>
+                                            <span class="super"><i class="ri-user-line"></i><span>{!! $post->author?->name !!}</span></span>
                                         </div>
-                                        <p>{!! $post->body !!}</p>
-                                        <a class="blog-button" href="{!! $postUrl !!}">
-                                            Read More <i class="ri-arrow-right-line"></i>
-                                        </a>
+                                        {!! $post->body !!}
+                                        <a class="blog-button" href="{!! $postUrl !!}">Read More <i class="ri-arrow-right-line"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -91,39 +83,8 @@
                             </div>
                             @endforelse
                         </div>
-                        <div class="product-pagination">
-                            <div class="theme-paggination-block">
-                                <nav>
-                                    <ul class="pagination">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#!" aria-label="Previous">
-                                                <span>
-                                                    <i class="ri-arrow-left-s-line"></i>
-                                                </span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a class="page-link" href="#!">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#!">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#!">3</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#!" aria-label="Next">
-                                                <span>
-                                                    <i class="ri-arrow-right-s-line"></i>
-                                                </span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
+
+                        {{ $posts->links('apps.layouts.pagination-custom') }}
                     </div>
                 </div>
                 <div class="col-xxl-3 col-lg-4">

@@ -4,6 +4,7 @@ namespace App\Models\Admin\Blog;
 
 use App\Models\Admin;
 use App\Services\QueryScopes;
+use Database\Factories\PostFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -33,6 +34,11 @@ class Post extends Model
         'banner',
         'status',
     ];
+
+    public static function newFactory()
+    {
+        return PostFactory::new();
+    }
 
     public function scopeDraft($query)
     {

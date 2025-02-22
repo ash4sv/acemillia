@@ -23,7 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // PermissionRoleSeeder::class,
             // AdminSeeder::class,
-            CarouselSliderSeeder::class,
+            // CarouselSliderSeeder::class,
+            PostCategorySeeder::class,
+            PostTagSeeder::class,
+            PostSeeder::class,
         ]);
     }
 }

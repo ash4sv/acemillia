@@ -3,6 +3,7 @@
 namespace App\Models\Admin\Blog;
 
 use App\Services\QueryScopes;
+use Database\Factories\PostTagFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -28,6 +29,11 @@ class PostTag extends Model
         'image',
         'status',
     ];
+
+    public static function newFactory()
+    {
+        return PostTagFactory::new();
+    }
 
     public function scopeDraft($query)
     {

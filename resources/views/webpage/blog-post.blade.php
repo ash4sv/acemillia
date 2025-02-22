@@ -3,7 +3,7 @@
 @php
     $title = $post->title;
     $description = '';
-    $keywords = '';
+    $keywords = $post->tags->pluck('name')->implode(', ');
     $author = $post?->author?->name;
 @endphp
 
@@ -31,10 +31,10 @@
                     <li class="breadcrumb-item"><a href="{!! url('/') !!}">{!! __('Home') !!}</a></li>
                     <li class="breadcrumb-item"><a href="{!! route('web.blog.index') !!}">{!! __('Blog') !!}</a></li>
                     @if(isset($post->category) && $post->category->count() > 0)
-                    <li class="breadcrumb-item"><a href="{!! route('web.blog.category', $post?->category?->slug) !!}">{!! __($post?->category?->name) !!}</a></li>
+                    <li class="breadcrumb-item"><a href="{!! route('web.blog.category', $post?->category?->slug) !!}">{!! Str::limit($post?->category?->name, 20, '...') !!}</a></li>
                     @endif
                     @if(isset($post))
-                    <li class="breadcrumb-item"><a href="">{!! __($title) !!}</a></li>
+                    <li class="breadcrumb-item"><a href="">{!! Str::limit($title, 20, '...') !!}</a></li>
                     @endif
                 </ol>
             </nav>
