@@ -41,7 +41,7 @@
     <section class="banner-padding absolute-banner banner-style-2 pb-0 ratio2_1">
         <div class="absolute-bg">
             <div class="container">
-                <div class="row partition2">
+                <div class="row partition2 justify-content-center">
                     <div class="col-md-4">
                         <a href="category-page.html">
                             <div class="collection-banner p-right text-center">
@@ -78,7 +78,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-md-4">
+                    {{--<div class="col-md-4">
                         <a href="category-page.html">
                             <div class="collection-banner p-right text-center">
                                 <div>
@@ -95,7 +95,7 @@
                                 </div>
                             </div>
                         </a>
-                    </div>
+                    </div>--}}
                 </div>
             </div>
         </div>
@@ -122,7 +122,7 @@
     <!-- Product slider -->
     <section class="pt-0 ratio_asos section-b-space">
         <div class="container">
-            <div class="row dark-box partition-five">
+            <div class="row dark-box partition-five justify-content-center">
                 @forelse($specialOffers as $key => $specialOffer)
                 <div class="col">
                     <div class="basic-product theme-product-4">

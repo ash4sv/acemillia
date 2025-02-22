@@ -679,7 +679,7 @@
                                 <h4 class="mb-1 fw-bolder">{{ __($item->name) }}</h4>
                                 <h5 class="mb-2">{{ __('MYR' . number_format($item->price, 2)) }} x {{ __($item->quantity) }}</h5>
                                 @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
-                                    @foreach($item->options->option_groups as $key => $group)
+                                    @foreach($item->options->option_groups as $groupKey => $group)
                                         <div class="d-flex">
                                             <div class="flex-grow-1 option-group mb-2">
                                                 @foreach($group->options as $option)
@@ -691,10 +691,10 @@
                                             </div>
                                             <div class="flex-shrink-0 offset-scriptnew offset-scriptnew2">
                                                 <div class="close-circle">
-                                                    <button class="close_button delete-button" onclick="event.preventDefault(); document.getElementById('remove-opt-group-{{ $key }}').submit();">
+                                                    <button class="close_button delete-button" onclick="event.preventDefault(); document.getElementById('remove-opt-group-{{ $item->id }}-{{ $groupKey }}').submit();">
                                                         <i class="ri-close-line"></i>
                                                     </button>
-                                                    <form id="remove-opt-group-" action="" method="POST">
+                                                    <form id="remove-opt-group-{{ $item->id }}-{{ $groupKey }}" action="{{ route('purchase.remove-option-group', ['productId' => $item->id, 'groupKey' => $groupKey]) }}" method="POST">
                                                         @csrf
                                                     </form>
                                                 </div>

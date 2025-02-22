@@ -58,6 +58,7 @@ Route::middleware(['auth:web'])->group(function () {
 Route::prefix('purchase')->name('purchase.')->group(function () {
     Route::post('add-to-cart', [PurchaseUserController::class, 'updateOrCreateCart'])->name('add-to-cart');
     Route::post('remove-from-cart/{id}', [PurchaseUserController::class, 'removeFromCart'])->name('remove-from-cart');
+    Route::post('remove-option-group/{productId}/{groupKey}', [PurchaseUserController::class, 'removeOptionGroup'])->name('remove-option-group');
     Route::get('clear-cart', [PurchaseUserController::class, 'clearCart'])->name('clear-cart');
     Route::get('options/{option}', [PurchaseUserController::class, 'options'])->name('options');
 });

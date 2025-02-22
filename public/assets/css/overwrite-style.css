@@ -1,3 +1,6 @@
+.main-menu .brand-logo {
+    padding-block: calc(15px + (35 - 15) * ((100vw - 320px) / (1920 - 320)));
+}
 .footer-theme .footer-logo img {
     height: calc(40px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
 }
@@ -28,4 +31,8 @@
     border-color: #404040;
     color: #ffffff;
     font-size: 16px;
+}
+.dark header {
+    background-color: rgba(43, 43, 43, 0.6);
+    z-index:1;
 }
