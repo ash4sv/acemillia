@@ -398,7 +398,7 @@
     </div>
     <!-- service section end -->
 
-
+    @if(isset($blogPosts) && count($blogPosts) > 0)
     <!-- blog section -->
     <div class="container">
         <div class="row">
@@ -415,83 +415,38 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="slide-3 no-arrow">
+                        @forelse($blogPosts as $post)
+                            @php
+                                $postUrl = route('web.blog.post', [$post?->category?->slug, $post?->slug])
+                            @endphp
                         <div class="col-md-12">
-                            <a href="blog-details.html">
+                            <a href="{!! $postUrl !!}">
                                 <div class="basic-effect">
                                     <div>
-                                        <img src="../assets/images/furniture-3/blog/1.png"
-                                            class="img-fluid blur-up lazyload bg-img" alt="">
+                                        <img src="{{ asset($post->banner) }}" class="img-fluid blur-up lazyload bg-img" alt="">
                                         <span></span>
                                     </div>
                                 </div>
                             </a>
                             <div class="blog-details">
-                                <h4>25 January 2018</h4>
-                                <a href="#!">
-                                    <p>Lorem ipsum dolor sit consectetur adipiscing elit, </p>
+                                <h4>{{ $post->created_at->format('d F Y h:i:A') }}</h4>
+                                <a href="{!! $postUrl !!}">
+                                    <p>{!! Str::limit($post->title, 36, '...') !!}</p>
                                 </a>
-                                <h6>by: John Dio , 2 Comment</h6>
+                                @if(isset($post->author))
+                                <h6>BY: {{ $post->author?->name }}, {{--2 Comment--}}</h6>
+                                @endif
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <a href="blog-details.html">
-                                <div class="basic-effect">
-                                    <div>
-                                        <img src="../assets/images/furniture-3/blog/2.png"
-                                            class="img-fluid blur-up lazyload bg-img" alt="">
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="blog-details">
-                                <h4>25 January 2018</h4>
-                                <a href="#!">
-                                    <p>Lorem ipsum dolor sit consectetur adipiscing elit, </p>
-                                </a>
-                                <h6>by: John Dio , 2 Comment</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <a href="blog-details.html">
-                                <div class="basic-effect">
-                                    <div>
-                                        <img src="../assets/images/furniture-3/blog/3.png"
-                                            class="img-fluid blur-up lazyload bg-img" alt="">
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="blog-details">
-                                <h4>25 January 2018</h4>
-                                <a href="#!">
-                                    <p>Lorem ipsum dolor sit consectetur adipiscing elit, </p>
-                                </a>
-                                <h6>by: John Dio , 2 Comment</h6>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <a href="blog-details.html">
-                                <div class="basic-effect">
-                                    <div>
-                                        <img src="../assets/images/furniture-3/blog/2.png"
-                                            class="img-fluid blur-up lazyload bg-img" alt="">
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="blog-details">
-                                <h4>25 January 2018</h4>
-                                <a href="#!">
-                                    <p>Lorem ipsum dolor sit consectetur adipiscing elit, </p>
-                                </a>
-                                <h6>by: John Dio , 2 Comment</h6>
-                            </div>
-                        </div>
+                        @empty
+
+                        @endforelse
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- blog section end -->
+    @endif
 
 @endsection

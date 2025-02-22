@@ -96,6 +96,40 @@ class Menu
                             ],
                         ]
                     ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => '#',
+                        'active_on'  => 'admin/blog*',
+                        'icon'       => 'tf-icons ti ti-brand-blogger',
+                        'text'       => __('Blog'),
+                        'target'     => '',
+                        'sub'        => [
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.blog.categories.index'),
+                                'active_on'  => 'admin/blog/categories*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Category'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.blog.tags.index'),
+                                'active_on'  => 'admin/blog/tags*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Tag'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.blog.posts.index'),
+                                'active_on'  => 'admin/blog/posts*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Post'),
+                                'target'     => '',
+                            ],
+                        ]
+                    ]
                 ]
             ],
             [

@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MenuAdminController;
 use App\Http\Controllers\Admin\MerchantAdminController;
+use App\Http\Controllers\Admin\PostAdminController;
+use App\Http\Controllers\Admin\PostCategoryAdminController;
+use App\Http\Controllers\Admin\PostTagAdminController;
 use App\Http\Controllers\Admin\ProductAdminController;
 use App\Http\Controllers\Admin\ShopAdminController;
 use App\Http\Controllers\Admin\SubCategoryAdminController;
@@ -28,6 +31,12 @@ Route::name('web.')->group(function () {
     Route::get('shop/{menu}/{category}', [WebController::class, 'shopCategory'])->name('shop.category');
     Route::get('shop/{menu}/{category}/{product}', [WebController::class, 'shopProduct'])->name('shop.product');
     Route::get('quick-view/{product}', [WebController::class, 'quickview'])->name('shop.quickview');
+
+    Route::prefix('blog')->name('blog.')->group(function () {
+        Route::get('/', [WebController::class, 'blog'])->name('index');
+        Route::get('{category}', [WebController::class, 'blogCategory'])->name('category');
+        Route::get('{category}/{post}', [WebController::class, 'blogPost'])->name('post');
+    });
 });
 
 Route::get('login', [AuthUserController::class, 'login'])->name('login');
@@ -109,6 +118,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::resources([
                 'users' => UserAdminController::class,
                 'merchants' => MerchantAdminController::class,
+            ]);
+        });
+        Route::prefix('blog')->name('blog.')->group(function () {
+            Route::resources([
+                'categories' => PostCategoryAdminController::class,
+                'tags' => PostTagAdminController::class,
+                'posts' => PostAdminController::class,
             ]);
         });
         Route::prefix('shop')->name('shop.')->group(function () {

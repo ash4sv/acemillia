@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models\User;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class AddressBook extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'address_books';
+
+    protected $fillable = [
+        'user_id',
+        'title',
+        'address',
+        'phone',
+        'country',
+        'state',
+        'city',
+        'postcode',
+    ];
+}

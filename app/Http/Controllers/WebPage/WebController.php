@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\WebPage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Blog\Post;
+use App\Models\Admin\Blog\PostCategory;
+use App\Models\Admin\Blog\PostTag;
 use App\Models\Admin\CarouselSlider;
 use App\Models\Admin\MenuSetup;
 use App\Models\Shop\Category;
@@ -18,10 +21,12 @@ class WebController extends Controller
         $carousels = CarouselSlider::active()->get();
         $categories = Category::active()->get();
         $specialOffers = SpecialOffer::approved()->active()->get();
+        $blogPosts = Post::active()->get();
         return view('webpage.index', [
             'carousels' => $carousels,
             'categories' => $categories,
-            'specialOffers' => $specialOffers
+            'specialOffers' => $specialOffers,
+            'blogPosts' => $blogPosts,
         ]);
     }
 
@@ -114,6 +119,40 @@ class WebController extends Controller
         $product  = Product::with(['images', 'options', 'options.values', 'categories', 'sub_categories', 'tags'])->active()->where('id', $id)->firstOrFail();
         return view('webpage.quick-view', [
             'product' => $product,
+        ]);
+    }
+
+    public function blog()
+    {
+        $categoriesSidebar = PostCategory::active()->get();
+        $tagsSidebar = PostTag::active()->get();
+        $posts = Post::active()->get();
+        return response()->view('webpage.blog-page', [
+            'categoriesSidebar' => $categoriesSidebar,
+            'tagsSidebar' => $tagsSidebar,
+            'posts' => $posts,
+        ]);
+    }
+
+    public function blogCategory(string $category)
+    {
+        $categories = PostCategory::active()->where('slug', $category)->firstOrFail();
+        $posts = $categories->posts()->active()->get();
+        $tagsSidebar = PostTag::active()->get();
+        $categoriesSidebar = PostCategory::active()->get();
+        return response()->view('webpage.blog-page', [
+            'categoriesSidebar' => $categoriesSidebar,
+            'tagsSidebar' => $tagsSidebar,
+            'posts' => $posts,
+        ]);
+    }
+
+    public function blogPost(string $category, string $post)
+    {
+        $posting = PostCategory::active()->where('slug', $category)->firstOrFail();
+        $post = $posting->posts()->active()->where('slug', $post)->firstOrFail();
+        return response()->view('webpage.blog-post', [
+            'post' => $post,
         ]);
     }
 }
