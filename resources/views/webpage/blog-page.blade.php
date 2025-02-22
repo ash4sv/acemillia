@@ -89,25 +89,30 @@
                 </div>
                 <div class="col-xxl-3 col-lg-4">
                     <div class="blog-sidebar">
-
+                        @if(isset($recentPosts) && $recentPosts->count() > 0)
                         <div class="theme-card">
                             <h4>Recent Blog</h4>
                             <ul class="recent-blog">
+                                @forelse($recentPosts as $key => $post)
                                 <li>
                                     <div class="media blog-box">
                                         <div class="blog-image">
-                                            <img class="img-fluid lazyload" src="{!! asset('assets/images/blog/1.jpg') !!}" alt="Elevate Your Space: The Art of Stylish Furnishing!">
+                                            <img class="img-fluid lazyload" src="{!! asset($post->banner) !!}" alt="{!! $post->title !!}">
                                         </div>
                                         <div class="media-body blog-content">
-                                            <h6>07 May 2024 09:45:AM</h6>
-                                            <a href="">
-                                                <h5 class="recent-name">Elevate Your Space: The Art of Stylish Furnishing!</h5>
-                                            </a>
+                                            <h6>{!! $post->created_at->format('d M Y h:i:A') !!}</h6>
+                                            <a href="{!! route('web.blog.post', [$post?->category?->slug, $post?->slug]) !!}"><h5 class="recent-name">{!! Str::limit($post->title, 20, '...') !!}</h5></a>
                                         </div>
                                     </div>
                                 </li>
+                                @empty
+                                <li>
+                                    No recent blog posting
+                                </li>
+                                @endforelse
                             </ul>
                         </div>
+                        @endif
 
                         @if(isset($categoriesSidebar) && $categoriesSidebar->count() > 0)
                         <div class="theme-card">

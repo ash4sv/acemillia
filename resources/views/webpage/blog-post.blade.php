@@ -2,14 +2,14 @@
 
 @php
     $title = $post->title;
-    $description = '';
+    $description = $post->body;
     $keywords = $post->tags->pluck('name')->implode(', ');
     $author = $post?->author?->name;
 @endphp
 
-@section('description', '')
-@section('keywords', '')
-@section('author', '')
+@section('description', $description)
+@section('keywords', $keywords)
+@section('author', $author)
 @section('title', $title)
 
 @push('style')

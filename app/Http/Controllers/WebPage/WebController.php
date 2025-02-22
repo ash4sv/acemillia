@@ -12,6 +12,7 @@ use App\Models\Shop\Category;
 use App\Models\Shop\Product;
 use App\Models\Shop\SpecialOffer;
 use App\Models\Shop\SubCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class WebController extends Controller
@@ -126,23 +127,27 @@ class WebController extends Controller
     {
         $categoriesSidebar = PostCategory::active()->get();
         $tagsSidebar = PostTag::active()->get();
+        $recentPosts = Post::where('created_at', '>=', Carbon::now()->subWeeks(4))->orderBy('created_at', 'desc')->get();
         $posts = Post::active()->paginate(12);
         return response()->view('webpage.blog-page', [
             'categoriesSidebar' => $categoriesSidebar,
             'tagsSidebar' => $tagsSidebar,
+            'recentPosts' => $recentPosts,
             'posts' => $posts,
         ]);
     }
 
     public function blogCategory(string $category)
     {
-        $categories = PostCategory::active()->where('slug', $category)->firstOrFail();
-        $posts = $categories->posts()->active()->paginate(12);
         $tagsSidebar = PostTag::active()->get();
         $categoriesSidebar = PostCategory::active()->get();
+        $recentPosts = Post::where('created_at', '>=', Carbon::now()->subWeeks(4))->orderBy('created_at', 'desc')->get();
+        $categories = PostCategory::active()->where('slug', $category)->firstOrFail();
+        $posts = $categories->posts()->active()->paginate(12);
         return response()->view('webpage.blog-page', [
             'categoriesSidebar' => $categoriesSidebar,
             'tagsSidebar' => $tagsSidebar,
+            'recentPosts' => $recentPosts,
             'posts' => $posts,
         ]);
     }
