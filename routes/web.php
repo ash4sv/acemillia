@@ -120,6 +120,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest'])->group(function (){
         Route::get('login', [AuthAdminController::class, 'login'])->name('login');
         Route::post('login', [AuthAdminController::class, 'loginAuth'])->name('auth.login');
+        Route::get('register', [AuthAdminController::class, 'register'])->name('register');
+        Route::post('register', [AuthAdminController::class, 'registerAuth'])->name('auth.register');
+        Route::get('forgot-password', [AuthAdminController::class, 'forgetPassword'])->name('password.request');
+        Route::post('forgot-password', [AuthAdminController::class, 'forgetPasswordAuth'])->name('auth.password.request');
+        Route::get('reset-password/{token}', [AuthAdminController::class, 'resetPassword'])->name('password.reset');
+        Route::post('reset-password', [AuthAdminController::class, 'resetPasswordAuth'])->name('auth.password.reset');
         Route::post('logout', [AuthAdminController::class, 'destroy'])->name('auth.destroy');
     });
     Route::middleware(['auth:admin'])->group(function () {
