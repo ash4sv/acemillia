@@ -161,7 +161,35 @@ class MenuSetupSeeder extends Seeder
                         'status' => 'active',
                         'sub_categories' => [
                             [
-                                'name' => 'Soft transparent pvc',
+                                'name' => 'Microfiber',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Cotton',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Lacoste',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Denim',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'F1 Uniform',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Jacket',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Accessories',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Clearance',
                                 'status' => 'active',
                             ],
                         ]
@@ -171,7 +199,63 @@ class MenuSetupSeeder extends Seeder
                         'status' => 'active',
                         'sub_categories' => [
                             [
-                                'name' => 'Soft transparent pvc',
+                                'name' => 'Metal Pen',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Foldable Nylon Bag',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Foldable Duffle Bag',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Foldable Backpack',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Foldable Travelling bag',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Drawstring Bag',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Non Woven Bag',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Canvas Bag',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Lanyard',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Eco stainless steel straw',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Stationeries',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Drinkwares Bottles',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Mug',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Umbrella',
+                                'status' => 'active',
+                            ],
+                            [
+                                'name' => 'Collection award',
                                 'status' => 'active',
                             ],
                         ]

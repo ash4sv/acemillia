@@ -97,13 +97,11 @@ class WebController extends Controller
             ->orderBy('name', 'asc')
             ->get();
 
-        // Merge all active sub_categories from these categories.  The sub_categories are fetched using the relationship on the Category model, filtered with the active() scope, ordered by name, and merged into a unique collection.
-        $subCategories = $allCategories->flatMap(function ($cat) {
-            return $cat->sub_categories()
-                ->active()
-                ->orderBy('name', 'asc')
-                ->get();
-        })->unique('id')->sortBy('name')->values();
+        // Retrieve active subcategories for the current category, ordered by name.
+        $subCategories = $categoryModel->sub_categories()
+            ->active()
+            ->orderBy('name', 'asc')
+            ->get();
 
         return view('webpage.shop-page', [
             'menuSlug' => $menuSlug,
