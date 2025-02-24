@@ -59,7 +59,12 @@ class WebController extends Controller
             return $category->products;
         })->unique('id')->values();
 
-        $subCategories = SubCategory::active()->get();
+        $subCategories = $categories->flatMap(function ($category) {
+            return $category->sub_categories()
+                ->active()
+                ->orderBy('name', 'asc')
+                ->get();
+        })->unique('id')->sortBy('name')->values();
 
         return view('webpage.shop-page', [
             'menuSlug' => $menuSlug,

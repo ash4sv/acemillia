@@ -127,7 +127,7 @@
                 <div class="col">
                     <div class="basic-product theme-product-4">
                         <div class="img-wrapper">
-                            <a href="{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}">
+                            <a href="{{--{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}--}}">
                                 @if($specialOffer->single_image)
                                 <img src="{{ asset($specialOffer->single_image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! __($specialOffer?->product?->name) !!}">
                                 @else
@@ -150,7 +150,7 @@
                             </div>
                         </div>
                         <div class="product-detail">
-                            <a class="product-title" href="{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}">
+                            <a class="product-title" href="{{--{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}--}}">
                                 {!! __($specialOffer?->product?->name) !!}
                             </a>
                             <div class="rating-w-count mb-0 d-sm-inline-flex d-none">

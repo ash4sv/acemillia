@@ -70,7 +70,7 @@
                                                     <li>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox" value="" id="{{ $key . '-' . $category->id }}">
-                                                            <label class="form-check-label" for="{{ $key . '-' . $category->id }}">{{ $category->name }}</label>
+                                                            <label class="form-check-label" for="{{ $key . '-' . $category->id }}">{{ Str::limit($category->name, 30, '...') }}</label>
                                                         </div>
                                                     </li>
                                                     @empty
@@ -87,7 +87,7 @@
                                     @if(isset($subCategories) && $subCategories->isNotEmpty())
                                     <div class="accordion-item">
                                         <h2 class="accordion-header">
-                                            <button class="accordion-button pt-0" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">Categories</button>
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">Sub Categories</button>
                                         </h2>
                                         <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
                                             <div class="accordion-body">
@@ -96,7 +96,7 @@
                                                     <li>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox" value="" id="{{ $key . '-' . $category->id }}">
-                                                            <label class="form-check-label" for="{{ $key . '-' . $category->id }}">{{ $category->name }}</label>
+                                                            <label class="form-check-label" for="{{ $key . '-' . $category->id }}">{{ Str::limit($category->name, 20, '...') }}</label>
                                                         </div>
                                                     </li>
                                                     @empty
@@ -109,6 +109,7 @@
                                         </div>
                                     </div>
                                     @endif
+
                                     {{--<div class="accordion-item">
                                         <h2 class="accordion-header">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">Brand </button>
