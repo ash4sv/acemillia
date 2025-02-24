@@ -69,7 +69,7 @@ class WebController extends Controller
         return view('webpage.shop-page', [
             'menuSlug' => $menuSlug,
             'products' => $products,
-            'categories' => $categories,
+            'categories' => null,
             'subCategories' => $subCategories,
         ]);
     }
@@ -91,10 +91,26 @@ class WebController extends Controller
             ->with('categories')
             ->get();
 
+        // Retrieve all active categories linked to the MenuSetup, ordered by name.
+        $allCategories = $menuSlug->categories()
+            ->active()
+            ->orderBy('name', 'asc')
+            ->get();
+
+        // Merge all active sub_categories from these categories.  The sub_categories are fetched using the relationship on the Category model, filtered with the active() scope, ordered by name, and merged into a unique collection.
+        $subCategories = $allCategories->flatMap(function ($cat) {
+            return $cat->sub_categories()
+                ->active()
+                ->orderBy('name', 'asc')
+                ->get();
+        })->unique('id')->sortBy('name')->values();
+
         return view('webpage.shop-page', [
             'menuSlug' => $menuSlug,
             'category' => $categoryModel,
             'products' => $products,
+            'categories' => null,
+            'subCategories' => $subCategories,
         ]);
     }
 
