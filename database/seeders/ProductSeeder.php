@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         Schema::disableForeignKeyConstraints();
-        Product::truncate();
+        $products = Product::truncate();
         Schema::enableForeignKeyConstraints();
 
         // Provided menu setup (used only as reference for category/subcategory linking)

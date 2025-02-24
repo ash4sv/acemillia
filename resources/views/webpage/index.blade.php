@@ -17,7 +17,7 @@
 
     @if(isset($carousels) && count($carousels) > 0)
     <!-- Home slider -->
-    <section class="p-0 height-100 sm-responsive">
+    <section class="p-0 sm-responsive">
         <div class="slide-1 home-slider">
             @forelse($carousels as $key => $carousel)
             <div>
@@ -127,7 +127,7 @@
                 <div class="col">
                     <div class="basic-product theme-product-4">
                         <div class="img-wrapper">
-                            <a href="{{--{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}--}}">
+                            <a href="{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}">
                                 @if($specialOffer->single_image)
                                 <img src="{{ asset($specialOffer->single_image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! __($specialOffer?->product?->name) !!}">
                                 @else
@@ -150,7 +150,7 @@
                             </div>
                         </div>
                         <div class="product-detail">
-                            <a class="product-title" href="{{--{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}--}}">
+                            <a class="product-title" href="{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}">
                                 {!! __($specialOffer?->product?->name) !!}
                             </a>
                             <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
@@ -187,9 +187,9 @@
             <div class="slide-6 no-arrow slick-default-margin">
                 @forelse($categories as $key => $category)
                 <div class="text-center">
-                    <a href="" class="btn btn-outline btn-block py-4">
+                    <a href="{{ route('web.shop.category', [$category->menus->first()->slug, $category->slug]) }}" class="btn btn-outline btn-block py-4">
                         {{--<img src="{{ asset('assets/svg/furniture/sofa.svg') }}" class="img-fluid" alt="">--}}
-                        {{ $category->name }}
+                        <span class="d-block w-100">{{ __($category->name) }}</span>
                     </a>
                 </div>
                 @empty

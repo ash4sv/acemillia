@@ -96,7 +96,7 @@
                                                     <li>
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox" value="" id="{{ $key . '-' . $category->id }}">
-                                                            <label class="form-check-label" for="{{ $key . '-' . $category->id }}">{{ Str::limit($category->name, 24, '...') }}</label>
+                                                            <label class="form-check-label" for="{{ $key . '-' . $category->id }}">{{ Str::limit($category->name, 20, '...') }}</label>
                                                         </div>
                                                     </li>
                                                     @empty

@@ -42,3 +42,6 @@
 .wishlist-section tbody tr td:nth-child(2) {
     text-align: left;
 }
+.collection-collapse-block .collection-accordion .accordion-item .accordion-body {
+    max-height:100%;
+}
