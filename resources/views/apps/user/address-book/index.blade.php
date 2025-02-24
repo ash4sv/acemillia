@@ -14,7 +14,7 @@
                     <div class="address-book-section">
                         <div class="row g-4">
                             @forelse(auth()->guard('web')->user()->addressBooks as $key => $address)
-                                <div class="select-box active col-xl-4 col-md-6">
+                                <div class="select-box active col-xl-6 col-md-6">
                                     <div class="address-box">
                                         <div class="top">
                                             <h6>John Due {{--<span>New Home</span>--}}</h6>
@@ -26,7 +26,7 @@
                                                 <p>{!! $address->postcode !!}, {!! $address->city !!}</p>
                                             </div>
                                             <div class="number">
-                                                <p>Phone: <span>+1 5551855359</span></p>
+                                                <p>Phone: <span>{!! $address->phone !!}</span></p>
                                             </div>
                                         </div>
                                         <div class="bottom">

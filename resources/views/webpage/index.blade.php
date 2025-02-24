@@ -17,7 +17,7 @@
 
     @if(isset($carousels) && count($carousels) > 0)
     <!-- Home slider -->
-    <section class="p-0 sm-responsive">
+    <section class="p-0 sm-responsive"> {{--height-100--}}
         <div class="slide-1 home-slider">
             @forelse($carousels as $key => $carousel)
             <div>
