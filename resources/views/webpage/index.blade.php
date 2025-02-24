@@ -186,9 +186,9 @@
         <section class="section-b-space border-section">
             <div class="slide-6 no-arrow slick-default-margin">
                 @forelse($categories as $key => $category)
-                <div>
-                    <a href="" class="btn btn-outline btn-block">
-                        <img src="{{ asset('assets/svg/furniture/sofa.svg') }}" class="img-fluid" alt="">
+                <div class="text-center">
+                    <a href="" class="btn btn-outline btn-block py-4">
+                        {{--<img src="{{ asset('assets/svg/furniture/sofa.svg') }}" class="img-fluid" alt="">--}}
                         {{ $category->name }}
                     </a>
                 </div>
