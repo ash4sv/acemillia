@@ -36,3 +36,9 @@
     background-color: rgba(43, 43, 43, 0.6);
     z-index:1;
 }
+.cart-section .cart-table thead th:nth-child(2),
+.wishlist-section .cart-table thead th:nth-child(2),
+.cart-section tbody tr td:nth-child(2),
+.wishlist-section tbody tr td:nth-child(2) {
+    text-align: left;
+}

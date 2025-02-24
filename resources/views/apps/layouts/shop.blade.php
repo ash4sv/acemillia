@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/themify-icons.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/fancyapps/fancybox.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/select2/select2.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/sweetalert2/sweetalert2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/overwrite-style.css') }}">
@@ -677,7 +678,7 @@
                             <div class="flex-grow-1">
                                 <h6 class="mb-1">{{ __($item->options->item_category) }}</h6>
                                 <h4 class="mb-1 fw-bolder">{{ __($item->name) }}</h4>
-                                <h5 class="mb-2">{{ __('MYR' . number_format($item->price, 2)) }} x {{ __($item->quantity) }}</h5>
+                                <h5 class="mb-2">{{ __('MYR' . number_format($item->price, 2)) . ' x ' . __($item->quantity) }}</h5>
                                 @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
                                     @foreach($item->options->option_groups as $groupKey => $group)
                                         <div class="d-flex">
@@ -721,55 +722,6 @@
                             </div>
                         </div>
                     </li>
-                    {{--<li>
-                        <div class="media">
-                            <a href="#!">
-                                <img src="{{ asset($item->options->item_img) }}" class="img-fluid" alt="Classic Jacket">
-                            </a>
-                            <div class="media-body">
-                                <p class="mb-1">{{ __($item->options->item_category) }}</p>
-                                <a href="#!"><h4>{{ __($item->name) }}</h4></a>
-                                <h4 class="quantity">
-                                    <span>{{ __($item->quantity) }} x {{ __('MYR' . number_format($item->price, 2)) }}</span>
-                                </h4>
-                                @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
-                                    @foreach($item->options->option_groups as $group)
-                                        <div class="option-group mb-3">
-                                            @foreach($group->options as $option)
-                                                <p class="mb-1">
-                                                    <strong>{{ $option->option_name }}:</strong> {{ $option->value_name }}
-                                                </p>
-                                            @endforeach
-                                            <p class="mb-1"><strong>Quantity:</strong> {{ $group->quantity }}</p>
-                                        </div>
-                                    @endforeach
-                                @endif
-
-                                --}}{{--<div class="qty-box">
-                                    <div class="input-group qty-container">
-                                        <button class="btn qty-btn-minus"><i class="ri-subtract-line"></i></button>
-                                        <input type="text" readonly name="qty" class="form-control input-qty" value="{{ __($item->quantity) }}">
-                                        <button class="btn qty-btn-plus"><i class="ri-add-line"></i></button>
-                                    </div>
-                                </div>--}}{{--
-
-                                <div class="close-circle">
-                                    --}}{{--<button class="close_button edit-button" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('purchase.options', $item->id) !!}" data-create-title="Edit Options">
-                                        <i class="ri-pencil-line"></i>
-                                    </button>--}}{{--
-                                    --}}{{--<button class="close_button refresh-button">
-                                        <i class="ri-refresh-line"></i>
-                                    </button>--}}{{--
-                                    <button class="close_button delete-button" type="submit" onclick="event.preventDefault(); document.getElementById('remove-cart-item-{{ $key }}-{{ $item->id }}').submit();">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </button>
-                                    <form id="remove-cart-item-{{ $key }}-{{ __($item->id) }}" action="{{ route('purchase.remove-from-cart', ['id' => $item->id]) }}" method="POST">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </li>--}}
                     @empty
                     <li>
                         <h4 class="small mb-1">No items in cart</h4>
@@ -871,6 +823,7 @@
     <script src="{{ asset('apps/vendor/libs/fancyapps/fancybox.umd.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.vide.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
+    <script src="{{ asset('apps/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('assets/js/theme-setting.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/custom-slick-animated.js') }}"></script>

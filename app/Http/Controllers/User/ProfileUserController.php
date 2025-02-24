@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Services\ImageUploader;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ProfileUserController extends Controller
@@ -33,6 +34,7 @@ class ProfileUserController extends Controller
             'icon_avatar' => $char,
             'img_avatar' => $imageFilePath
         ]);
+
         Alert::success('Successfully Update!', 'Profile has been updated!');
         return redirect()->back();
     }
@@ -41,4 +43,30 @@ class ProfileUserController extends Controller
     {
         return response()->view('apps.user.profile.password');
     }
+
+    public function passwordUpdate(Request $request)
+    {
+        // Validate the inputs
+        $request->validate([
+            'current_password' => 'required',
+            'password'         => 'required|confirmed',
+        ]);
+
+        // Retrieve the authenticated user
+        $user = auth()->guard('web')->user();
+
+        // Check if the provided current password matches the one stored
+        if (!Hash::check($request->current_password, $user->password)) {
+            Alert::error('Error', 'Current password is incorrect.');
+            return redirect()->back();
+        }
+
+        // Update the user's password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        Alert::success('Success', 'Password updated successfully.');
+        return redirect()->back();
+    }
+
 }

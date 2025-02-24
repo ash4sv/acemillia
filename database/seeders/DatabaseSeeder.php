@@ -24,9 +24,10 @@ class DatabaseSeeder extends Seeder
             // PermissionRoleSeeder::class,
             // AdminSeeder::class,
             // CarouselSliderSeeder::class,
-            PostCategorySeeder::class,
-            PostTagSeeder::class,
-            PostSeeder::class,
+            MenuSetupSeeder::class,
+            // PostCategorySeeder::class,
+            // PostTagSeeder::class,
+            // PostSeeder::class,
         ]);
     }
 }

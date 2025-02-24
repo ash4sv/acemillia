@@ -222,7 +222,8 @@ class PurchaseUserController extends Controller
 
     public function checkout()
     {
-        $temporaryUniqid   = sprintf("%06d", mt_rand(1, 999999));
+        $temporaryUniqid = sprintf("%06d", mt_rand(1, 999999));
+        return response()->view('apps.user.purchase.checkout');
     }
 
     public function checkoutPost(Request $request)

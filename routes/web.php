@@ -17,8 +17,10 @@ use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\Merchant\SpecialOfferMerchantController;
+use App\Http\Controllers\User\AddressUserController;
 use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
+use App\Http\Controllers\User\DashboardRedirectController;
 use App\Http\Controllers\User\DashboardUserController;
 use App\Http\Controllers\User\ProfileUserController;
 use App\Http\Controllers\User\PurchaseUserController;
@@ -64,10 +66,17 @@ Route::prefix('purchase')->name('purchase.')->group(function () {
 });
 
 Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
-    Route::get('dashboard', [DashboardUserController::class, 'index'])->name('dashboard');
-    Route::get('profile-edit', [ProfileUserController::class, 'profileEdit'])->name('profile.edit');
-    Route::post('profile-update', [ProfileUserController::class, 'profileUpdate'])->name('profile.update');
-    Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
+    Route::get('dashboard', [DashboardRedirectController::class, 'index'])->name('dashboard');
+
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('profile-edit', [ProfileUserController::class, 'profileEdit'])->name('profile.edit');
+        Route::post('profile-update', [ProfileUserController::class, 'profileUpdate'])->name('profile.update');
+        Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
+        Route::post('password-update', [ProfileUserController::class, 'passwordUpdate'])->name('password.update');
+        Route::resource('saved-address', AddressUserController::class);
+    });
+
+    Route::get('address', [ProfileUserController::class, 'addressBook'])->name('address');
 
     Route::prefix('purchase')->name('purchase.')->group(function () {
         Route::get('cart', [PurchaseUserController::class, 'viewCart'])->name('cart');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\User\AddressBook;
 use App\Notifications\User\UserEmailVerificationNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,9 +54,13 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-
     public function sendUserEmailVerificationNotification()
     {
         $this->notify(new UserEmailVerificationNotification());
+    }
+
+    public function addressBooks()
+    {
+        return $this->hasMany(AddressBook::class, 'user_id', 'id');
     }
 }

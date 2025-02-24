@@ -59,10 +59,13 @@ class WebController extends Controller
             return $category->products;
         })->unique('id')->values();
 
+        $subCategories = SubCategory::active()->get();
+
         return view('webpage.shop-page', [
             'menuSlug' => $menuSlug,
             'products' => $products,
             'categories' => $categories,
+            'subCategories' => $subCategories,
         ]);
     }
 
