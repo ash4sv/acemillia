@@ -45,3 +45,12 @@
 .collection-collapse-block .collection-accordion .accordion-item .accordion-body {
     max-height:100%;
 }
+
+.theme-modal-2 .form .form-box .form-select {
+    height: auto;
+    padding: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))) calc(13px + (19 - 13) * ((100vw - 320px) / (1920 - 320)));
+    font-weight: 500;
+    /*border: 1px solid #eee;*/
+    font-size: calc(14px + (14 - 14) * ((100vw - 320px) / (1920 - 320)));
+    border-radius: 0;
+}

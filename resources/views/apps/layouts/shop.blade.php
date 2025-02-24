@@ -851,24 +851,31 @@
 
         $(document).ready(function() {
             if (window.location.pathname !== '/') {
-                function updateNewDivHeight() {
-                    var headerHeight = $('header.header-5').height();
-                    $('.new-div').height(headerHeight);
-                }
-
-                if ($('header.header-5').next('.new-div').length === 0) {
-                    $('<div>', {
-                        class: 'new-div',
-                        css: {
-                            height: $('header.header-5').height()
+                function updateNewDiv() {
+                    if ($(window).width() >= 768) {
+                        // If new-div does not exist, create it
+                        if ($('header.header-5').next('.new-div').length === 0) {
+                            $('<div>', {
+                                class: 'new-div',
+                                css: {
+                                    height: $('header.header-5').height()
+                                }
+                            }).insertAfter('header.header-5');
                         }
-                    }).insertAfter('header.header-5');
+                        // Update the height on resize
+                        $('.new-div').height($('header.header-5').height());
+                    } else {
+                        // Remove the new-div when the window is less than 760px wide
+                        $('.new-div').remove();
+                    }
                 }
 
-                updateNewDivHeight();
+                // Initial check on document ready
+                updateNewDiv();
 
+                // Update on window resize
                 $(window).on('resize', function() {
-                    updateNewDivHeight();
+                    updateNewDiv();
                 });
             }
         });
