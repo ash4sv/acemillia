@@ -70,6 +70,11 @@
 
 <script>
 $(document).ready(function(){
+    window.selectedState = '{{ $addressBook->state ?? '' }}';
+    window.selectedCity = '{{ $addressBook->city ?? '' }}';
+    window.selectedStreet = '{{ $addressBook->street_address ?? '' }}';
+    window.selectedPostcode = '{{ $addressBook->postcode ?? '' }}';
+    
     // Assume these variables are provided in edit mode (or set to null for new entries)
     var selectedState = window.selectedState || null;
     var selectedCity = window.selectedCity || null;

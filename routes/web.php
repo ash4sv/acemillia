@@ -74,6 +74,11 @@ Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
         Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
         Route::post('password-update', [ProfileUserController::class, 'passwordUpdate'])->name('password.update');
         Route::resource('saved-address', AddressUserController::class);
+
+        Route::get('/states', [AddressUserController::class, 'getStates']);
+        Route::get('/cities', [AddressUserController::class, 'getCities']);
+        Route::get('/streets', [AddressUserController::class, 'getStreets']);
+        Route::get('/postcodes', [AddressUserController::class, 'getPostcodes']);
     });
 
     Route::get('address', [ProfileUserController::class, 'addressBook'])->name('address');
