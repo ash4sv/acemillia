@@ -1,6 +1,6 @@
 @extends('apps.layouts.apps')
 
-@section('title', 'Category')
+@section('title', 'Menu Configuration')
 @section('description', '')
 @section('keywords', '')
 

@@ -67,6 +67,14 @@ class Shop
                 'menu-target' => __('_self'),
                 'menu-items'  => $mappedBlogItems,
             ],
+            [
+                'menu-show' => true,
+                'mega-menu' => false,
+                'menu-name' => __('Blog'),
+                'menu-url' => route('web.blog.index'),
+                'menu-target' => __('_self'),
+                'menu-items' => [],
+            ],
 
             // ============ START HERE IS THE TEMPLATE ==============
             [

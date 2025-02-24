@@ -21,8 +21,13 @@ class DatabaseSeeder extends Seeder
         ]);*/
 
         $this->call([
-            PermissionRoleSeeder::class,
-            AdminSeeder::class,
+            // PermissionRoleSeeder::class,
+            // AdminSeeder::class,
+            // CarouselSliderSeeder::class,
+            MenuSetupSeeder::class,
+            // PostCategorySeeder::class,
+            // PostTagSeeder::class,
+            // PostSeeder::class,
         ]);
     }
 }

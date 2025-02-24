@@ -24,7 +24,7 @@ class Menu
                         'permission' => 'admin-systems-management-access',
                         'url'        => '#',
                         'active_on'  => 'admin/registered-user*',
-                        'icon'       => 'tf-icons ti ti-mail',
+                        'icon'       => 'tf-icons ti ti-users',
                         'text'       => __('Registered User'),
                         'target'     => '',
                         'sub'        => [
@@ -50,7 +50,7 @@ class Menu
                         'permission' => 'admin-systems-management-access',
                         'url'        => '#',
                         'active_on'  => 'admin/shop*',
-                        'icon'       => 'tf-icons ti ti-mail',
+                        'icon'       => 'tf-icons ti ti-shopping-cart',
                         'text'       => __('Shop'),
                         'target'     => '',
                         'sub'        => [
@@ -86,8 +86,50 @@ class Menu
                                 'text'       => __('Product'),
                                 'target'     => '',
                             ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shop.special-offer.index'),
+                                'active_on'  => 'admin/shop/special-offer*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Special Offer'),
+                                'target'     => '',
+                            ],
                         ]
                     ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => '#',
+                        'active_on'  => 'admin/blog*',
+                        'icon'       => 'tf-icons ti ti-brand-blogger',
+                        'text'       => __('Blog'),
+                        'target'     => '',
+                        'sub'        => [
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.blog.categories.index'),
+                                'active_on'  => 'admin/blog/categories*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Category'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.blog.tags.index'),
+                                'active_on'  => 'admin/blog/tags*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Tag'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.blog.posts.index'),
+                                'active_on'  => 'admin/blog/posts*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Post'),
+                                'target'     => '',
+                            ],
+                        ]
+                    ]
                 ]
             ],
             [
@@ -98,8 +140,16 @@ class Menu
                         'permission' => 'admin-systems-management-access',
                         'url'        => route('admin.menus.index'),
                         'active_on'  => 'admin/menu*',
-                        'icon'       => 'tf-icons ti ti-layout-sidebar',
+                        'icon'       => 'tf-icons ti ti-category',
                         'text'       => __('Menu Configuration'),
+                        'target'     => '',
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => route('admin.carousel-slider.index'),
+                        'active_on'  => 'admin/carousel-slider*',
+                        'icon'       => 'tf-icons ti ti-photo-cog',
+                        'text'       => __('Carousel Slider'),
                         'target'     => '',
                     ],
                 ],

@@ -101,6 +101,7 @@
                                     <li><a href="#!">gallery</a></li>
                                     <li><a href="#!">affiliates</a></li>
                                     <li><a href="#!">contacts</a></li>
+                                    <li><a href="{!! route('merchant.redirect') !!}">Become a Merchant</a></li>
                                 </ul>
                             </div>
                         </div>

@@ -157,6 +157,56 @@ class PurchaseUserController extends Controller
         return redirect()->back();
     }
 
+    public function removeOptionGroup($productId, $groupKey)
+    {
+        // Retrieve the cart item using the product ID.
+        $existingItem = Cart::get($productId);
+        if (!$existingItem) {
+            Alert::error('Error', 'Product not found in cart.');
+            return redirect()->back();
+        }
+
+        // If Cart::get returns an array, use the first CartItem.
+        if (is_array($existingItem)) {
+            $existingItem = reset($existingItem);
+        }
+
+        // Retrieve current options and option groups.
+        $options = $existingItem->getOptions();
+        $optionGroups = isset($options['option_groups']) ? $options['option_groups'] : [];
+
+        // Validate that the provided group key exists.
+        if (!isset($optionGroups[$groupKey])) {
+            Alert::error('Error', 'Option group not found.');
+            return redirect()->back();
+        }
+
+        // Remove the option group at the specified key.
+        unset($optionGroups[$groupKey]);
+        // Re-index the array so that keys are reset.
+        $optionGroups = array_values($optionGroups);
+
+        // Recalculate the overall quantity from the remaining groups.
+        $overallQuantity = 0;
+        foreach ($optionGroups as $group) {
+            $overallQuantity += $group['quantity'];
+        }
+
+        if ($overallQuantity <= 0) {
+            // If no option groups remain, remove the entire product from the cart.
+            Cart::remove($productId);
+            Alert::success('Success', 'Product removed from cart.');
+        } else {
+            // Otherwise, update the cart item options and overall quantity.
+            $options['option_groups'] = $optionGroups;
+            Cart::updateOptions($productId, $options);
+            Cart::updateQuantity($productId, $overallQuantity);
+            Alert::success('Success', 'Option group removed from cart.');
+        }
+
+        return redirect()->back();
+    }
+
     public function clearCart(Request $request)
     {
         Cart::removeCoupon();
@@ -172,7 +222,8 @@ class PurchaseUserController extends Controller
 
     public function checkout()
     {
-        $temporaryUniqid   = sprintf("%06d", mt_rand(1, 999999));
+        $temporaryUniqid = sprintf("%06d", mt_rand(1, 999999));
+        return response()->view('apps.user.purchase.checkout');
     }
 
     public function checkoutPost(Request $request)

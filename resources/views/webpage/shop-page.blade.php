@@ -83,6 +83,32 @@
                                         </div>
                                     </div>
                                     @endif
+
+                                    @if(isset($subCategories) && $subCategories->isNotEmpty())
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button pt-0" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">Categories</button>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                                            <div class="accordion-body">
+                                                <ul class="collection-listing">
+                                                    @forelse($subCategories as $key => $category)
+                                                    <li>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value="" id="{{ $key . '-' . $category->id }}">
+                                                            <label class="form-check-label" for="{{ $key . '-' . $category->id }}">{{ $category->name }}</label>
+                                                        </div>
+                                                    </li>
+                                                    @empty
+                                                    <li>
+
+                                                    </li>
+                                                    @endforelse
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                     {{--<div class="accordion-item">
                                         <h2 class="accordion-header">
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">Brand </button>

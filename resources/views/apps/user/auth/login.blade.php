@@ -43,7 +43,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h3>Login</h3>
+                    <h3>{!! $title !!}</h3>
                     <div class="theme-card">
                         <form class="theme-form" action="{{ route('auth.login') }}" method="POST">
                             @csrf

@@ -61,13 +61,25 @@
                     </thead>
                     @forelse(cart()->all() as $key => $item)
                     <tr>
-                        <td>
+                        <td class="align-text-top">
                             <a href="">
                                 <img src="{{ asset($item->options->item_img) }}" class="img-fluid" alt="">
                             </a>
                         </td>
-                        <td>
+                        <td class="">
                             <a href="">{{ __($item->name) }}</a>
+                            @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
+                                <div class="row">
+                                @foreach($item->options->option_groups as $groupKey => $group)
+                                    @foreach($group->options as $option)
+                                        <p class="mb-1"><strong>{{ $option->option_name }}:</strong> {{ $option->value_name }}</p>
+                                    @endforeach
+                                    @isset($group->quantity)
+                                        <p class="mb-1"><strong>Quantity:</strong> {{ $group->quantity }}</p>
+                                    @endisset
+                                @endforeach
+                                </div>
+                            @endif
                             <div class="mobile-cart-content row">
                                 <div class="col">
                                     <div class="qty-box">
@@ -90,10 +102,10 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="table-price">
+                        <td class="align-baseline table-price">
                             <h2>{!! __('MYR' . number_format($item->price, 2)) !!}</h2>
                         </td>
-                        <td>
+                        <td class="align-text-top">
                             <div class="qty-box">
                                 <div class="input-group qty-container">
                                     <button class="btn qty-btn-minus"><i class="ri-arrow-left-s-line"></i></button>
@@ -102,10 +114,10 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td class="align-text-top">
                             <h2 class="td-color">{!! __('MYR' . number_format($item->quantity * $item->price, 2)) !!}</h2>
                         </td>
-                        <td>
+                        <td class="align-text-top">
                             {{--<a href="" class="icon remove-btn">
                                 <i class="ri-refresh-line"></i>
                             </a>--}}
@@ -119,7 +131,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6"></td>
+                        <td colspan="6"><h2 class="mb-0 py-5">No items in cart</h2></td>
                     </tr>
                     @endforelse
                     <tfoot>

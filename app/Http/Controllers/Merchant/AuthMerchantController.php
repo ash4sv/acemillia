@@ -17,7 +17,7 @@ class AuthMerchantController extends Controller
 
     public function login()
     {
-
+        return response()->view($this->view . 'login');
     }
 
     public function loginAuth()
@@ -27,7 +27,7 @@ class AuthMerchantController extends Controller
 
     public function register()
     {
-
+        return response()->view($this->view . 'register');
     }
 
     public function registerAuth()
@@ -37,7 +37,7 @@ class AuthMerchantController extends Controller
 
     public function forgetPassword()
     {
-
+        return response()->view($this->view . 'password-request');
     }
 
     public function forgetPasswordAuth()

@@ -1,4 +1,4 @@
-<form class="theme-form" action="{{ route('profile.update') }}" method="POST">
+<form class="theme-form" action="{{ route('user.profile.update') }}" method="POST">
     @csrf
     <div class="form-box mb-3">
         <label for="" class="form-label">Full Name</label>

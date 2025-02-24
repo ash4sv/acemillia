@@ -12,6 +12,7 @@ var Apps = {
         Apps.fancyApps();
         Apps.summernote('.text-editor');
         Apps.btnPublishBtn();
+        Apps.btnSubmissionBtn();
     },
 
     bulkDeleteMethod: function (idBtn, idContainer, csrf) {
@@ -296,6 +297,7 @@ var Apps = {
                     Apps.getBoothType();
                     Apps.initBootyAreaType();
                     Apps.btnPublishBtn();
+                    Apps.btnSubmissionBtn();
                 },
                 error: function(xhr) {
                     console.error('AJAX Error:', xhr.status, xhr.statusText);
@@ -672,6 +674,33 @@ var Apps = {
                 .addClass(colorClass[selectedText] || "btn-primary");
             $(".btn-publish-set .btn:first-child").text(selectedText);
             $("#publish-status").val(selectedText);
+        });
+    },
+
+    btnSubmissionBtn: function () {
+        let currentStatus = $("#submission-status").val(); // Get the stored value
+
+        let colorClass = {
+            "Pending": "btn-warning",
+            "Approved": "btn-success",
+            "Rejected": "btn-danger",
+            "Archived": "btn-secondary",
+        };
+
+        let btnGroup = $(".btn-submission-set .btn-group .btn");
+
+        btnGroup.removeClass("btn-warning btn-success btn-danger btn-secondary")
+            .addClass(colorClass[currentStatus] || "btn-primary");
+
+        $(".btn-submission-set .btn:first-child").text(currentStatus);
+
+        $(".btn-submission-set .dropdown-menu .dropdown-item").click(function (e) {
+            e.preventDefault();
+            let selectedText = $(this).text();
+            btnGroup.removeClass("btn-warning btn-success btn-danger btn-secondary")
+                .addClass(colorClass[selectedText] || "btn-primary");
+            $(".btn-submission-set .btn:first-child").text(selectedText);
+            $("#submission-status").val(selectedText);
         });
     }
 };

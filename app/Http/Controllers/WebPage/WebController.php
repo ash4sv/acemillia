@@ -3,16 +3,41 @@
 namespace App\Http\Controllers\WebPage;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Blog\Post;
+use App\Models\Admin\Blog\PostCategory;
+use App\Models\Admin\Blog\PostTag;
+use App\Models\Admin\CarouselSlider;
 use App\Models\Admin\MenuSetup;
 use App\Models\Shop\Category;
 use App\Models\Shop\Product;
+use App\Models\Shop\SpecialOffer;
+use App\Models\Shop\SubCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class WebController extends Controller
 {
+    protected $tagsSidebar, $categoriesSidebar, $recentPosts;
+
+    public function __construct()
+    {
+        $this->tagsSidebar = PostTag::active()->get();
+        $this->categoriesSidebar = PostCategory::active()->get();
+        $this->recentPosts = Post::where('created_at', '>=', Carbon::now()->subWeeks(4))->orderBy('created_at', 'desc')->get();
+    }
+
     public function index()
     {
-        return view('webpage.index');
+        $carousels = CarouselSlider::active()->get();
+        $categories = Category::active()->get();
+        $specialOffers = SpecialOffer::approved()->active()->get();
+        $blogPosts = Post::active()->get();
+        return view('webpage.index', [
+            'carousels' => $carousels,
+            'categories' => $categories,
+            'specialOffers' => $specialOffers,
+            'blogPosts' => $blogPosts,
+        ]);
     }
 
     public function shopIndex(string $menu)
@@ -34,10 +59,13 @@ class WebController extends Controller
             return $category->products;
         })->unique('id')->values();
 
+        $subCategories = SubCategory::active()->get();
+
         return view('webpage.shop-page', [
             'menuSlug' => $menuSlug,
             'products' => $products,
             'categories' => $categories,
+            'subCategories' => $subCategories,
         ]);
     }
 
@@ -104,6 +132,38 @@ class WebController extends Controller
         $product  = Product::with(['images', 'options', 'options.values', 'categories', 'sub_categories', 'tags'])->active()->where('id', $id)->firstOrFail();
         return view('webpage.quick-view', [
             'product' => $product,
+        ]);
+    }
+
+    public function blog()
+    {
+        $posts = Post::active()->paginate(12);
+        return response()->view('webpage.blog-page', [
+            'categoriesSidebar' => $this->categoriesSidebar,
+            'tagsSidebar' => $this->tagsSidebar,
+            'recentPosts' => $this->recentPosts,
+            'posts' => $posts,
+        ]);
+    }
+
+    public function blogCategory(string $category)
+    {
+        $categories = PostCategory::active()->where('slug', $category)->firstOrFail();
+        $posts = $categories->posts()->active()->paginate(12);
+        return response()->view('webpage.blog-page', [
+            'categoriesSidebar' => $this->categoriesSidebar,
+            'tagsSidebar' => $this->tagsSidebar,
+            'recentPosts' => $this->recentPosts,
+            'posts' => $posts,
+        ]);
+    }
+
+    public function blogPost(string $category, string $post)
+    {
+        $posting = PostCategory::active()->where('slug', $category)->firstOrFail();
+        $post = $posting->posts()->active()->where('slug', $post)->firstOrFail();
+        return response()->view('webpage.blog-post', [
+            'post' => $post,
         ]);
     }
 }

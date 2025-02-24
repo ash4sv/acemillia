@@ -2,18 +2,25 @@
 
 use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\AuthAdminVerifyController;
+use App\Http\Controllers\Admin\CarouselSliderAdminController;
 use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MenuAdminController;
 use App\Http\Controllers\Admin\MerchantAdminController;
+use App\Http\Controllers\Admin\PostAdminController;
+use App\Http\Controllers\Admin\PostCategoryAdminController;
+use App\Http\Controllers\Admin\PostTagAdminController;
 use App\Http\Controllers\Admin\ProductAdminController;
 use App\Http\Controllers\Admin\ShopAdminController;
 use App\Http\Controllers\Admin\SubCategoryAdminController;
 use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
+use App\Http\Controllers\Merchant\SpecialOfferMerchantController;
+use App\Http\Controllers\User\AddressUserController;
 use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
+use App\Http\Controllers\User\DashboardRedirectController;
 use App\Http\Controllers\User\DashboardUserController;
 use App\Http\Controllers\User\ProfileUserController;
 use App\Http\Controllers\User\PurchaseUserController;
@@ -26,6 +33,12 @@ Route::name('web.')->group(function () {
     Route::get('shop/{menu}/{category}', [WebController::class, 'shopCategory'])->name('shop.category');
     Route::get('shop/{menu}/{category}/{product}', [WebController::class, 'shopProduct'])->name('shop.product');
     Route::get('quick-view/{product}', [WebController::class, 'quickview'])->name('shop.quickview');
+
+    Route::prefix('blog')->name('blog.')->group(function () {
+        Route::get('/', [WebController::class, 'blog'])->name('index');
+        Route::get('{category}', [WebController::class, 'blogCategory'])->name('category');
+        Route::get('{category}/{post}', [WebController::class, 'blogPost'])->name('post');
+    });
 });
 
 Route::get('login', [AuthUserController::class, 'login'])->name('login');
@@ -47,15 +60,23 @@ Route::middleware(['auth:web'])->group(function () {
 Route::prefix('purchase')->name('purchase.')->group(function () {
     Route::post('add-to-cart', [PurchaseUserController::class, 'updateOrCreateCart'])->name('add-to-cart');
     Route::post('remove-from-cart/{id}', [PurchaseUserController::class, 'removeFromCart'])->name('remove-from-cart');
+    Route::post('remove-option-group/{productId}/{groupKey}', [PurchaseUserController::class, 'removeOptionGroup'])->name('remove-option-group');
     Route::get('clear-cart', [PurchaseUserController::class, 'clearCart'])->name('clear-cart');
     Route::get('options/{option}', [PurchaseUserController::class, 'options'])->name('options');
 });
 
 Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
-    Route::get('dashboard', [DashboardUserController::class, 'index'])->name('dashboard');
-    Route::get('profile-edit', [ProfileUserController::class, 'profileEdit'])->name('profile.edit');
-    Route::post('profile-update', [ProfileUserController::class, 'profileUpdate'])->name('profile.update');
-    Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
+    Route::get('dashboard', [DashboardRedirectController::class, 'index'])->name('dashboard');
+
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('profile-edit', [ProfileUserController::class, 'profileEdit'])->name('profile.edit');
+        Route::post('profile-update', [ProfileUserController::class, 'profileUpdate'])->name('profile.update');
+        Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
+        Route::post('password-update', [ProfileUserController::class, 'passwordUpdate'])->name('password.update');
+        Route::resource('saved-address', AddressUserController::class);
+    });
+
+    Route::get('address', [ProfileUserController::class, 'addressBook'])->name('address');
 
     Route::prefix('purchase')->name('purchase.')->group(function () {
         Route::get('cart', [PurchaseUserController::class, 'viewCart'])->name('cart');
@@ -109,15 +130,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'merchants' => MerchantAdminController::class,
             ]);
         });
+        Route::prefix('blog')->name('blog.')->group(function () {
+            Route::resources([
+                'categories' => PostCategoryAdminController::class,
+                'tags' => PostTagAdminController::class,
+                'posts' => PostAdminController::class,
+            ]);
+        });
         Route::prefix('shop')->name('shop.')->group(function () {
             Route::get('categories/{category}/subcategories', [ShopAdminController::class, 'getSubcategories'])->name('categories.subcategories');
             Route::resources([
                 'categories' => CategoryAdminController::class,
                 'sub-categories' => SubCategoryAdminController::class,
                 'tags' => TagAdminController::class,
-                'products' => ProductAdminController::class
+                'products' => ProductAdminController::class,
+                'special-offer' => SpecialOfferMerchantController::class
             ]);
         });
         Route::resource('menus', MenuAdminController::class);
+        Route::resource('carousel-slider', CarouselSliderAdminController::class);
     });
 });
