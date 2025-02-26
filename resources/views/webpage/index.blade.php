@@ -122,7 +122,7 @@
     <!-- Product slider -->
     <section class="pt-0 ratio_asos section-b-space">
         <div class="container">
-            <div class="row dark-box partition-five justify-content-center">
+            <div class="row gy-4 dark-box partition-five justify-content-center">
                 @forelse($specialOffers as $key => $specialOffer)
                 <div class="col">
                     <div class="basic-product theme-product-4">
@@ -250,12 +250,12 @@
                         <div class="row">
                             <div class="col">
                                 <div class="four-product row dark-box">
-
+                                    @forelse($products as $key => $product)
                                 <div class="col">
                                     <div class="basic-product theme-product-4">
                                         <div class="img-wrapper">
-                                            <a href="product-page(accordian).html">
-                                                <img src="{{ asset('assets/images/furniture-3/product/13.png') }}" class="img-fluid blur-up lazyload bg-img" alt="">
+                                            <a href="">
+                                                <img src="{{ asset($product->image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! $product->name !!}">
                                             </a>
                                             <div class="cart-info">
                                                 <a href="#!" title="Add to Wishlist" class="wishlist-icon">
@@ -273,8 +273,8 @@
                                             </div>
                                         </div>
                                         <div class="product-detail">
-                                            <a class="product-title" href="product-page(accordian).html">
-                                                Woodan Diwan
+                                            <a class="product-title" href="">
+                                                {!! $product->name !!}
                                             </a>
                                             <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
                                                 {{--<div class="rating">
@@ -287,14 +287,16 @@
                                                 <span>(10)</span>--}}
                                             </div>
                                             <h4 class="price">
-                                                $ 18.50
+                                                {!! $product->price !!}
                                                 {{--<del class="ms-auto"> $20.00 </del>--}}
                                                 {{--<span class="discounted-price">8% Off </span>--}}
                                             </h4>
                                         </div>
                                     </div>
                                 </div>
+                                        @empty
 
+                                        @endforelse
                                 </div>
                             </div>
                         </div>
@@ -325,9 +327,7 @@
                 </div>
                 <div class="col-md-4 service-block">
                     <div class="media">
-                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-                             id="Capa_1" x="0px" y="0px" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480;"
-                             xml:space="preserve" width="512px" height="512px">
+                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480;" xml:space="preserve" width="512px" height="512px">
                             <g>
                                 <g>
                                     <g>

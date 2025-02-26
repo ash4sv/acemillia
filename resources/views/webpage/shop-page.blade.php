@@ -389,7 +389,7 @@
                                                                     {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
                                                                         <i class="ri-shopping-cart-line"></i>
                                                                     </button>--}}
-                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('web.shop.quickview', $product->id) !!}" data-create-title="Quick View">
+                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('web.shop.quickview', $product->slug) !!}" data-create-title="Quick View">
                                                                         <i class="ri-eye-line"></i>
                                                                     </a>
                                                                     {{--<a href="compare.html" title="Compare">

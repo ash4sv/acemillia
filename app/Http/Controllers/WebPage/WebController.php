@@ -30,6 +30,7 @@ class WebController extends Controller
     {
         $carousels = CarouselSlider::active()->get();
         $categories = Category::active()->get();
+        $products = Product::active()->where('price', '<=', 500)->inRandomOrder()->take(8)->get();
         $specialOffers = SpecialOffer::approved()->active()->get();
         $blogPosts = Post::active()->get();
         return view('webpage.index', [
@@ -37,6 +38,7 @@ class WebController extends Controller
             'categories' => $categories,
             'specialOffers' => $specialOffers,
             'blogPosts' => $blogPosts,
+            'products' => $products,
         ]);
     }
 
@@ -146,9 +148,9 @@ class WebController extends Controller
         ]);
     }
 
-    public function quickview(string $id)
+    public function quickview(string $slug)
     {
-        $product  = Product::with(['images', 'options', 'options.values', 'categories', 'sub_categories', 'tags'])->active()->where('id', $id)->firstOrFail();
+        $product  = Product::with(['images', 'options', 'options.values', 'categories', 'sub_categories', 'tags'])->active()->where('slug', $slug)->firstOrFail();
         return view('webpage.quick-view', [
             'product' => $product,
         ]);
