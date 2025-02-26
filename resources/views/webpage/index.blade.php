@@ -124,10 +124,13 @@
         <div class="container">
             <div class="row gy-4 dark-box partition-five justify-content-center">
                 @forelse($specialOffers as $key => $specialOffer)
+                    @php
+                        $specialOfferUrl = route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]);
+                    @endphp
                 <div class="col">
                     <div class="basic-product theme-product-4">
                         <div class="img-wrapper">
-                            <a href="{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}">
+                            <a href="{{ $specialOfferUrl }}">
                                 @if($specialOffer->single_image)
                                 <img src="{{ asset($specialOffer->single_image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! __($specialOffer?->product?->name) !!}">
                                 @else
@@ -150,7 +153,7 @@
                             </div>
                         </div>
                         <div class="product-detail">
-                            <a class="product-title" href="{{ route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]) }}">
+                            <a class="product-title" href="{{ $specialOfferUrl }}">
                                 {!! __($specialOffer?->product?->name) !!}
                             </a>
                             <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
@@ -251,52 +254,55 @@
                             <div class="col">
                                 <div class="four-product row dark-box">
                                     @forelse($products as $key => $product)
-                                <div class="col">
-                                    <div class="basic-product theme-product-4">
-                                        <div class="img-wrapper">
-                                            <a href="">
-                                                <img src="{{ asset($product->image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! $product->name !!}">
-                                            </a>
-                                            <div class="cart-info">
-                                                <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                                    <i class="ri-heart-line"></i>
-                                                </a>
-                                                {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
-                                                    <i class="ri-shopping-cart-line"></i>
-                                                </button>--}}
-                                                <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                                    <i class="ri-eye-line"></i>
-                                                </a>
-                                                {{--<a href="compare.html" title="Compare">
-                                                    <i class="ri-loop-left-line"></i>
-                                                </a>--}}
-                                            </div>
-                                        </div>
-                                        <div class="product-detail">
-                                            <a class="product-title" href="">
-                                                {!! $product->name !!}
-                                            </a>
-                                            <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                                {{--<div class="rating">
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
-                                                    <i class="ri-star-fill"></i>
+                                        @php
+                                            $urlProduct = route('web.shop.product', [$product?->categories?->first()->menus?->first()->slug, $product?->categories?->pluck('slug')->first(), $product?->slug])
+                                        @endphp
+                                        <div class="col">
+                                            <div class="basic-product theme-product-4">
+                                                <div class="img-wrapper">
+                                                    <a href="{!! $urlProduct !!}">
+                                                        <img src="{{ asset($product->image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! $product->name !!}">
+                                                    </a>
+                                                    <div class="cart-info">
+                                                        <a href="#!" title="Add to Wishlist" class="wishlist-icon">
+                                                            <i class="ri-heart-line"></i>
+                                                        </a>
+                                                        {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                                            <i class="ri-shopping-cart-line"></i>
+                                                        </button>--}}
+                                                        <a href="#quickView" data-bs-toggle="modal" title="Quick View">
+                                                            <i class="ri-eye-line"></i>
+                                                        </a>
+                                                        {{--<a href="compare.html" title="Compare">
+                                                            <i class="ri-loop-left-line"></i>
+                                                        </a>--}}
+                                                    </div>
                                                 </div>
-                                                <span>(10)</span>--}}
+                                                <div class="product-detail">
+                                                    <a class="product-title" href="{!! $urlProduct !!}">
+                                                        {!! $product->name !!}
+                                                    </a>
+                                                    <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
+                                                        {{--<div class="rating">
+                                                            <i class="ri-star-fill"></i>
+                                                            <i class="ri-star-fill"></i>
+                                                            <i class="ri-star-fill"></i>
+                                                            <i class="ri-star-fill"></i>
+                                                            <i class="ri-star-fill"></i>
+                                                        </div>
+                                                        <span>(10)</span>--}}
+                                                    </div>
+                                                    <h4 class="price">
+                                                        {!! $product->price !!}
+                                                        {{--<del class="ms-auto"> $20.00 </del>--}}
+                                                        {{--<span class="discounted-price">8% Off </span>--}}
+                                                    </h4>
+                                                </div>
                                             </div>
-                                            <h4 class="price">
-                                                {!! $product->price !!}
-                                                {{--<del class="ms-auto"> $20.00 </del>--}}
-                                                {{--<span class="discounted-price">8% Off </span>--}}
-                                            </h4>
                                         </div>
-                                    </div>
-                                </div>
-                                        @empty
+                                    @empty
 
-                                        @endforelse
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
