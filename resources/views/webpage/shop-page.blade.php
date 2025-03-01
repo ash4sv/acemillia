@@ -54,7 +54,7 @@
                         <div class="collection-filter-block">
                             <!-- brand filter start -->
                             <div class="collection-mobile-back">
-                                <span class="filter-back"><i class="ri-arrow-left-s-line"></i> back</span>
+                                <span class="filter-back"><i class="ri-arrow-left-s-line"></i> {!! __('back') !!}</span>
                             </div>
                             <div class="collection-collapse-block open">
                                 <div class="accordion collection-accordion" id="accordionPanelsStayOpenExample">
@@ -371,11 +371,14 @@
                                         <div class="product-wrapper-grid product-load-more">
                                             <div class="row g-3 g-sm-4">
                                                 @forelse($products as $key => $product)
+                                                    @php
+                                                        $url = route('web.shop.product', [$menuSlug->slug, $product->categories->pluck('slug')->first(), $product->slug])
+                                                    @endphp
                                                 <div class="col-xl-4 col-6 col-grid-box">
                                                     <div class="basic-product theme-product-1">
                                                         <div class="overflow-hidden">
                                                             <div class="img-wrapper">
-                                                                <a href="{{ route('web.shop.product', [$menuSlug->slug, $product->categories->pluck('slug')->first(), $product->slug]) }}">
+                                                                <a href="{!! $url !!}">
                                                                     <img src="{{ asset($product->merged_images->first()) }}" class="w-100 img-fluid blur-up lazyload" alt="">
                                                                 </a>
                                                                 {{--<div class="rating-label">
@@ -400,15 +403,16 @@
                                                             <div class="product-detail">
                                                                 <div>
                                                                     <div class="brand-w-color">
-                                                                        <a class="product-title" href="{{ route('web.shop.product', [$menuSlug->slug, $product->categories->pluck('slug')->first(), $product->slug]) }}">{{ $product->name }}</a>
+                                                                        <a class="product-title" href="{!! $url !!}">{!! $product->name !!}</a>
                                                                     </div>
 
                                                                     {{--<h6>Purple Mini Dress</h6>--}}
-                                                                    <p>{!! \Illuminate\Support\Str::limit($product->product_description, 225, '...') !!}</p>
+                                                                    <p>{!! Str::limit($product->product_description, 225, '...') !!}</p>
 
-                                                                    <h4 class="price">{{ $product->price }}
-                                                                        <del> $5.00 </del>
-                                                                        <span class="discounted-price"> 5% Off</span>
+                                                                    <h4 class="price">
+                                                                        {{ $product->price }}
+                                                                        {{--<del> $5.00 </del>--}}
+                                                                        {{--<span class="discounted-price"> 5% Off</span>--}}
                                                                     </h4>
                                                                 </div>
                                                                 <ul class="offer-panel">

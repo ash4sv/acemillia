@@ -146,4 +146,66 @@ class Product extends Model
 
         return $totalStock;
     }
+
+    /**
+     * Return the raw numeric value of 'price' (without "MYR" formatting).
+     * This helps with calculations internally.
+     *
+     * If you store the price as a decimal in the database, you can
+     * safely cast it to float here. Or just do (float) $this->attributes['price'].
+     */
+    public function getBasePriceNumericAttribute(): float
+    {
+        // "price" is stored in the DB, e.g. 100.00
+        // If you have Eloquent casts, you could do: return $this->price;
+        return (float) $this->getRawOriginal('price', 0);
+    }
+
+    /**
+     * Accessor to return an array with [minPrice, maxPrice] for display purposes.
+     *
+     * Example usage in Blade:
+     *   list($min, $max) = $product->min_max_price;
+     *   // or $product->min_max_price[0], $product->min_max_price[1]
+     */
+    public function getMinMaxPriceAttribute(): array
+    {
+        // Start from the product's base numeric price
+        $basePrice = $this->base_price_numeric;
+
+        // For each option, find the lowest and highest "additional_price"
+        // then keep adding them to a global min and max.
+        $totalMinAddPrice = 0.0;
+        $totalMaxAddPrice = 0.0;
+
+        // Loop each ProductOption
+        foreach ($this->options as $option) {
+            // We'll find the min and max additional price among all values for this option
+            $optionMin = null;
+            $optionMax = 0.0;
+
+            foreach ($option->values as $value) {
+                $addPrice = (float) $value->additional_price;
+                if (is_null($optionMin) || $addPrice < $optionMin) {
+                    $optionMin = $addPrice;
+                }
+                if ($addPrice > $optionMax) {
+                    $optionMax = $addPrice;
+                }
+            }
+
+            // If an option doesn't have any values or you want to skip empty sets,
+            // you can handle it (but presumably each option has at least one value).
+            $optionMin = $optionMin ?? 0.0;
+
+            $totalMinAddPrice += $optionMin;
+            $totalMaxAddPrice += $optionMax;
+        }
+
+        $min = $basePrice + $totalMinAddPrice;
+        $max = $basePrice + $totalMaxAddPrice;
+
+        return [$min, $max];
+    }
+
 }

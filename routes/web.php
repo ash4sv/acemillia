@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\Merchant\SpecialOfferMerchantController;
+use App\Http\Controllers\Services\AppsPaymentController;
 use App\Http\Controllers\User\AddressUserController;
 use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
@@ -87,9 +88,13 @@ Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
         Route::get('cart', [PurchaseUserController::class, 'viewCart'])->name('cart');
         Route::get('checkout', [PurchaseUserController::class, 'checkout'])->name('checkout');
         Route::post('checkoutPost', [PurchaseUserController::class, 'checkoutPost'])->name('checkout-post');
+
+        Route::get('payment-redirect', [AppsPaymentController::class, 'redirectUrl'])->name('payment.redirect.url');
     });
 });
-
+Route::prefix('purchase')->name('purchase.')->group(function () {
+    Route::post('payment-webhook', [AppsPaymentController::class, 'webhookUrl'])->name('payment.webhook.url');
+});
 
 // ======= //
 Route::get('merchant', [AuthMerchantController::class, 'redirect'])->name('merchant.redirect');

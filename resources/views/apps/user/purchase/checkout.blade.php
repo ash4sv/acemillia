@@ -42,6 +42,102 @@ $(document).ready(function(){
             console.log('Error fetching state data:', err);
         }
     });
+
+    // ========================================================
+
+    // Get the cart count from the server-side variable
+    var cartCount = {{ cart()->count() }};
+
+    // Disable the Place Order button if there are no items in the cart
+    if (cartCount === 0) {
+        $('.order-btn').prop('disabled', true);
+    }
+
+    // Bind click event to the Place Order button
+    $('.order-btn').on('click', function(e) {
+        e.preventDefault();
+
+        // Re-check the cart count in case it changed
+        if (cartCount === 0) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Cart is Empty',
+                text: 'Please add items to your cart before proceeding.'
+            });
+            return;
+        }
+
+        // Validate that a shipping address is selected
+        var shippingAddress = $('input[name="shippingAddress"]:checked').val();
+        if (!shippingAddress) {
+            Swal.fire({
+                icon: 'error',
+                title: 'No Shipping Address Selected',
+                text: 'Please select a shipping address.'
+            });
+            return;
+        }
+
+        // Validate that a billing address is selected
+        var billingAddress = $('input[name="billingAddress"]:checked').val();
+        if (!billingAddress) {
+            Swal.fire({
+                icon: 'error',
+                title: 'No Billing Address Selected',
+                text: 'Please select a billing address.'
+            });
+            return;
+        }
+
+        // Get the unique identifier from the hidden input
+        var uniq = $('input[name="uniq"]').val();
+
+        // Prepare the data to be sent
+        var data = {
+            shippingAddress: shippingAddress,
+            billingAddress: billingAddress,
+            uniq: uniq
+        };
+
+        // Save the original button content for later restoration
+        var $btn = $(this);
+        var originalText = $btn.html();
+
+        // Update button text to include a Bootstrap spinner and disable it
+        $btn.html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...').prop('disabled', true);
+
+        // Send AJAX POST request to the checkout route
+        $.ajax({
+            url: "{{ route('purchase.checkout-post') }}",
+            method: 'POST',
+            data: data,
+            success: function(response) {
+                if(response && response.success && response.redirectUrl && response.redirectUrl.trim().length > 0) {
+                    window.location.href = response.redirectUrl;
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Redirect URL Missing',
+                        text: 'Unable to retrieve redirect URL from server.'
+                    });
+                    $btn.html(originalText).prop('disabled', false);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Show SweetAlert2 error prompt
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Checkout Failed',
+                    text: 'An error occurred while processing your order. Please try again.'
+                });
+                // Re-enable the button and restore its original text
+                $btn.html(originalText).prop('disabled', false);
+            },
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
+            }
+        });
+    });
 });
 </script>
 @endpush
@@ -57,6 +153,11 @@ $(document).ready(function(){
                     <li class="breadcrumb-item">
                         <a href="{!! url('/') !!}">{!! __('Home') !!}</a>
                     </li>
+                    @if(auth()->guard('web')->check())
+                    <li class="breadcrumb-item">
+                        <a href="{!! route('dashboard') !!}">{!! __('Dashboard') !!}</a>
+                    </li>
+                    @endif
                     <li class="breadcrumb-item active">{!! __($title) !!}</li>
                 </ol>
             </nav>
@@ -69,7 +170,7 @@ $(document).ready(function(){
         <div class="container">
             <div class="checkout-page">
                 <div class="checkout-form">
-                    <div class="row g-sm-4 g-3">
+                    <div id="form-checkout" class="row g-sm-4 g-3">
                         <div class="col-lg-7">
                             <div class="left-sidebar-checkout">
                                 <div class="checkout-detail-box">
@@ -84,28 +185,49 @@ $(document).ready(function(){
                                                 <div class="checkout-detail">
                                                     <div class="row g-3">
                                                         @forelse(auth()->guard('web')->user()->addressBooks as $key => $address)
-                                                        <div class="col-xxl-12 col-lg-12 col-md-6">
-                                                            <div class="delivery-address-box">
-                                                                <input class="form-check-input" type="radio" name="shippingAddress" id="{!! 'shipping-' . $address->id . '-' . $key !!}">
-                                                                <label class="form-check-label" for="{!! 'shipping-' . $address->id . '-' . $key !!}">
-                                                                    <span class="name">{!! __($address->title) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Address :') !!}</span> {!! __($address->address) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Street :') !!}</span> {!! __($address->street_address) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Postcode :') !!}</span> {!! __($address->postcode) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('City :') !!}</span> {!! __($address->city) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('State :') !!}</span> <span class="state-name" data-state-code="{{ $address->state }}">{!! __($address->state) !!} </span> </span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Country :') !!}</span> {!! __($address->country) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Phone :') !!}</span> {!! __($address->phone) !!}</span>
-                                                                </label>
+                                                            <div class="col-xxl-12 col-lg-12 col-md-6">
+                                                                <div class="delivery-address-box">
+                                                                    <input class="form-check-input" type="radio" name="shippingAddress"
+                                                                           id="{{ 'shipping-' . $address->id . '-' . $key }}"
+                                                                           value="{{ $address->id }}"
+                                                                           {{ $loop->first ? 'checked' : '' }}>
+                                                                    <label class="form-check-label" for="{{ 'shipping-' . $address->id . '-' . $key }}">
+                                                                        <span class="name">{{ __($address->title) }}</span>
+                                                                        <span class="address text-content">
+                                                                            <span class="text-title">{{ __('Address :') }}</span> {{ __($address->address) }}
+                                                                        </span>
+                                                                        <span class="address text-content">
+                                                                            <span class="text-title">{{ __('Street :') }}</span> {{ __($address->street_address) }}
+                                                                        </span>
+                                                                        <span class="address text-content">
+                                                                            <span class="text-title">{{ __('Postcode :') }}</span> {{ __($address->postcode) }}
+                                                                        </span>
+                                                                        <span class="address text-content">
+                                                                            <span class="text-title">{{ __('City :') }}</span> {{ __($address->city) }}
+                                                                        </span>
+                                                                        <span class="address text-content">
+                                                                            <span class="text-title">{{ __('State :') }}</span>
+                                                                            <span class="state-name" data-state-code="{{ $address->state }}">
+                                                                                {{ __($address->state) }}
+                                                                            </span>
+                                                                        </span>
+                                                                        <span class="address text-content">
+                                                                            <span class="text-title">{{ __('Country :') }}</span> {{ __($address->country) }}
+                                                                        </span>
+                                                                        <span class="address text-content">
+                                                                            <span class="text-title">{{ __('Phone :') }}</span> {{ __($address->phone) }}
+                                                                        </span>
+                                                                    </label>
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                         @empty
-                                                        <div class="col-xxl-12 col-lg-12 col-md-12">
-                                                            <div class="delivery-address-box">
-                                                                <h4 class="mb-0">{!! __('have no registered address') !!}</h4>
+                                                            <div class="col-xxl-12 col-lg-12 col-md-12">
+                                                                <div class="delivery-address-box">
+                                                                    <h4 class="mb-0">{{ __('have no registered address') }}</h4>
+                                                                </div>
                                                             </div>
-                                                        </div>
                                                         @endforelse
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -123,16 +245,36 @@ $(document).ready(function(){
                                                         @forelse(auth()->guard('web')->user()->addressBooks as $key => $address)
                                                         <div class="col-xxl-12 col-lg-12 col-md-6">
                                                             <div class="delivery-address-box">
-                                                                <input class="form-check-input" type="radio" name="billingAddress" id="{!! 'billing-' . $address->id . '-' . $key !!}">
+                                                                <input class="form-check-input" type="radio" name="billingAddress"
+                                                                       id="{!! 'billing-' . $address->id . '-' . $key !!}"
+                                                                       value="{!! $address->id !!}"
+                                                                        {{ $loop->first ? 'checked' : '' }}>
                                                                 <label class="form-check-label" for="{!! 'billing-' . $address->id . '-' . $key !!}">
                                                                     <span class="name">{!! __($address->title) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Address :') !!}</span> {!! __($address->address) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Street :') !!}</span> {!! __($address->street_address) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Postcode :') !!}</span> {!! __($address->postcode) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('City :') !!}</span> {!! __($address->city) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('State :') !!}</span> <span class="state-name" data-state-code="{{ $address->state }}">{!! __($address->state) !!} </span> </span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Country :') !!}</span> {!! __($address->country) !!}</span>
-                                                                    <span class="address text-content"><span class="text-title">{!! __('Phone :') !!}</span> {!! __($address->phone) !!}</span>
+                                                                    <span class="address text-content">
+                                                                        <span class="text-title">{!! __('Address :') !!}</span> {!! __($address->address) !!}
+                                                                    </span>
+                                                                    <span class="address text-content">
+                                                                        <span class="text-title">{!! __('Street :') !!}</span> {!! __($address->street_address) !!}
+                                                                    </span>
+                                                                    <span class="address text-content">
+                                                                        <span class="text-title">{!! __('Postcode :') !!}</span> {!! __($address->postcode) !!}
+                                                                    </span>
+                                                                    <span class="address text-content">
+                                                                        <span class="text-title">{!! __('City :') !!}</span> {!! __($address->city) !!}
+                                                                    </span>
+                                                                    <span class="address text-content">
+                                                                        <span class="text-title">{!! __('State :') !!}</span>
+                                                                        <span class="state-name" data-state-code="{{ $address->state }}">
+                                                                            {!! __($address->state) !!}
+                                                                        </span>
+                                                                    </span>
+                                                                    <span class="address text-content">
+                                                                        <span class="text-title">{!! __('Country :') !!}</span> {!! __($address->country) !!}
+                                                                    </span>
+                                                                    <span class="address text-content">
+                                                                        <span class="text-title">{!! __('Phone :') !!}</span> {!! __($address->phone) !!}
+                                                                    </span>
                                                                 </label>
                                                             </div>
                                                         </div>
@@ -269,6 +411,7 @@ $(document).ready(function(){
                                         <div class="title-box">
                                             <h4>{!! __('Summary Order') !!}</h4>
                                             <p>{!! __('For a better experience, verify your goods and choose your shipping option.') !!}</p>
+                                            <input type="hidden" name="uniq" value="{!! $temporaryUniqid !!}">
                                         </div>
 
                                         <ul class="qty">
@@ -279,6 +422,7 @@ $(document).ready(function(){
                                                 </div>
                                                 <div class="cart-content">
                                                     <div>
+                                                        <h6 class="mb-1">{{ __($item->options->item_category) }}</h6>
                                                         <h4>{{ __($item->name) }}</h4>
                                                         <h5 class="mb-1">{{ __('MYR' . number_format($item->price, 2)) . ' x ' . __($item->quantity) }}</h5>
                                                         @if(isset($item->options->option_groups) && is_array($item->options->option_groups))

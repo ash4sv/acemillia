@@ -54,3 +54,9 @@
     font-size: calc(14px + (14 - 14) * ((100vw - 320px) / (1920 - 320)));
     border-radius: 0;
 }
+.dark .product-page-details .quantity-variant li {
+    border:1px solid transparent;
+}
+.dark .product-page-details .quantity-variant {
+    overflow-x: visible;
+}

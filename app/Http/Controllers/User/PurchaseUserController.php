@@ -7,9 +7,11 @@ use App\Models\Shop\Product;
 use App\Models\Shop\ProductOption;
 use App\Models\Shop\ProductOptionValue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use RealRashid\Cart\Facades\Cart;
 use RealRashid\SweetAlert\Facades\Alert;
+use Billplz\Client;
 
 class PurchaseUserController extends Controller
 {
@@ -17,124 +19,91 @@ class PurchaseUserController extends Controller
     {
         // 1. Validate incoming data
         $request->validate([
-            'product'  => 'required|integer',
-            'quantity' => 'required|integer|min:1',
-            'price'    => 'required',
-            'options'  => 'array'
+            'product'    => 'required|integer',
+            'quantity'   => 'required|integer|min:1',
+            'price'      => 'required', // final price provided from the form
+            'base-price' => 'required', // provided base price (if needed)
+            'options'    => 'required|array'
         ]);
 
         // 2. Retrieve product from DB
         $product = Product::findOrFail($request->product);
+        $finalPrice = (float) $request->input('price'); // final price from form
+        // $basePrice = (float) $request->input('base-price'); // available if needed
 
-        // 3. Clean up the price by removing all non-numeric characters (except the decimal point)
-        $rawPrice   = $request->input('price');
-        $cleanPrice = (float) preg_replace('/[^0-9.]/', '', $rawPrice);
+        // 3. Build the selected_options array from submitted options.
+        //    The request "options" is expected to be an associative array like:
+        //    {"1": {"option": "9", "value": "17"}, "0": {"option": "5", "value": "26"}}
+        $selectedOptions = [];
+        foreach ($request->options as $key => $opt) {
+            $optionModel = ProductOption::findOrFail($opt['option']);
+            $valueModel  = ProductOptionValue::findOrFail($opt['value']);
 
-        // 4. Build the new option group from the submitted options (flat array)
-        $newOptions = [];
-        if ($request->has('options')) {
-            foreach ($request->options as $opt) {
-                $optionModel = ProductOption::findOrFail($opt['option']);
-                $valueModel  = ProductOptionValue::findOrFail($opt['value']);
-
-                $newOptions[] = [
-                    'option_id'   => $optionModel->id,
-                    'option_name' => $optionModel->name,
-                    'value_id'    => $valueModel->id,
-                    'value_name'  => $valueModel->value,
-                ];
-            }
+            $selectedOptions[] = [
+                'option_id'        => (int) $optionModel->id,
+                'option_name'      => $optionModel->name,
+                'value_id'         => (int) $valueModel->id,
+                'value_name'       => $valueModel->value,
+                'additional_price' => (float) ($valueModel->additional_price ?? 0)
+            ];
         }
 
-        // Create the new group with its own quantity
-        $newGroup = [
-            'options'  => $newOptions,
-            'quantity' => (int) $request->input('quantity'),
-        ];
+        // 4. Compute the options hash and composite row id.
+        $hash = $this->getOptionsHash($selectedOptions);
+        $rowId = $product->id . '-' . $hash;
 
-        // 5. Prepare the attributes array (we use "option_groups" for grouping options)
-        $attributes = [
+        // 5. Prepare the options array for the cart item.
+        //    Adjust "item_menu" as needed (here we use a placeholder).
+        $cartOptions = [
+            'item_menu'     => 'Menu Name', // or derive from $product if applicable
             'item_category' => $product->categories->pluck('name')->implode(', ') ?? '',
             'item_img'      => $product->image,
-            'option_groups' => [], // to be set or merged later
+            'selected_options' => $selectedOptions,
         ];
 
-        // 6. Check if this product already exists in the cart
-        $existingItem = Cart::get($product->id);
+        // 6. Determine the quantity from the request.
+        $quantity = (int) $request->input('quantity');
+
+        // 7. Check if the cart already contains an item with this composite row id.
+        $existingItem = Cart::get($rowId);
         if ($existingItem) {
-            // In case Cart::get() returns an array, pick the first CartItem
-            if (is_array($existingItem)) {
-                $existingItem = reset($existingItem);
-            }
-
-            // Retrieve any existing option groups
-            $existingGroups = $existingItem->getOptions()['option_groups'] ?? [];
-
-            // Create a hash for the new options (for comparison)
-            $newGroupHash = $this->getOptionsHash($newOptions);
-            $found = false;
-
-            // Loop through the existing groups to see if one matches the new group
-            foreach ($existingGroups as &$group) {
-                $groupHash = $this->getOptionsHash($group['options']);
-                if ($groupHash === $newGroupHash) {
-                    // Matching option group found: update its quantity
-                    $group['quantity'] += (int) $request->input('quantity');
-                    $found = true;
-                    break;
-                }
-            }
-            unset($group);
-
-            // If no matching group is found, add the new group
-            if (!$found) {
-                $existingGroups[] = $newGroup;
-            }
-
-            // Calculate the overall quantity as the sum of all group quantities
-            $overallQuantity = 0;
-            foreach ($existingGroups as $group) {
-                $overallQuantity += $group['quantity'];
-            }
-
-            // Update the cart item details, overall quantity, and options with the merged groups
-            Cart::updateDetails($product->id, [
+            // Update the quantity: add new quantity to the existing one.
+            $newQuantity = $existingItem->getQuantity() + $quantity;
+            Cart::updateQuantity($rowId, $newQuantity);
+            Cart::updateDetails($rowId, [
                 'name'  => $product->name,
-                'price' => $cleanPrice,
+                'price' => $finalPrice
             ]);
-            Cart::updateQuantity($product->id, $overallQuantity);
-            Cart::updateOptions($product->id, [
-                'item_category' => $attributes['item_category'],
-                'item_img'      => $attributes['item_img'],
-                'option_groups' => $existingGroups,
-            ]);
+            Cart::updateOptions($rowId, $cartOptions);
         } else {
-            // Product is not yet in the cart. Add it with the new option group.
-            $attributes['option_groups'][] = $newGroup;
+            // Add a new cart item with the composite row id.
             Cart::add(
-                $product->id,
+                $rowId,
                 $product->name,
-                (int)$request->input('quantity'),
-                $cleanPrice,
-                $attributes
+                $quantity,
+                $finalPrice,
+                $cartOptions
             );
         }
 
-        Alert::success('Success add to cart!', 'Item added or updated in the cart.');
+        Alert::success('Success', 'Product added to cart.');
         return redirect()->back();
     }
 
+    /**
+     * Helper function to compute a canonical hash from an array of selected options.
+     */
     private function getOptionsHash(array $options)
     {
         // Sort the options by option_id then value_id to normalize order.
-        usort($options, function($a, $b) {
+        usort($options, function ($a, $b) {
             if ($a['option_id'] === $b['option_id']) {
                 return $a['value_id'] <=> $b['value_id'];
             }
             return $a['option_id'] <=> $b['option_id'];
         });
 
-        // Build a hash string (e.g., "5:13-9:17")
+        // Build a hash string (e.g., "5:26-9:17")
         $hashParts = [];
         foreach ($options as $opt) {
             $hashParts[] = $opt['option_id'] . ':' . $opt['value_id'];
@@ -223,14 +192,87 @@ class PurchaseUserController extends Controller
     public function checkout()
     {
         $temporaryUniqid = sprintf("%06d", mt_rand(1, 999999));
-        return response()->view('apps.user.purchase.checkout');
+        return response()->view('apps.user.purchase.checkout', [
+            'temporaryUniqid' => $temporaryUniqid
+        ]);
     }
 
     public function checkoutPost(Request $request)
     {
-        if (cart()->count() > 0)
-        {
+        $validated = $request->validate([
+            'shippingAddress' => 'required|string',
+            'billingAddress'  => 'required|string',
+            'uniq'            => 'required|string',
+        ]);
 
+        $user = auth()->guard('web')->user();
+
+        if (cart()->count() > 0 && $user)
+        {
+            $additionalFee   = 0;
+            $description     = 'User Purchase of Ticket';
+            $subTotal        = cart()->subtotal();
+            $total           = cart()->total();
+            $priceMyr        = env('APP_ENV') === 'production' ? (100 * $total) + $additionalFee : 100;
+            $mobileNumber    = preg_replace('/[^0-9]/', '', $user->phone);
+
+            $shippingAddress = $validated['shippingAddress'];
+            $billingAddress  = $validated['billingAddress'];
+            $uniq            = $validated['uniq'];
+            $cartData        = cart()->all();
+
+            $mergedData = [
+                'uniq'            => $uniq,
+                'billingAddress'  => $billingAddress,
+                'shippingAddress' => $shippingAddress,
+                'cart'            => $cartData,
+            ];
+
+            $billplz = Client::make(config('billplz.billplz_key'), config('billplz.billplz_signature'));
+            if(config('billplz.billplz_sandbox')) {
+                $billplz->useSandbox();
+            }
+            $bill = $billplz->bill();
+            $bill = $bill->create(
+                config('billplz.billplz_collection_id'),
+                $user->email,
+                $mobileNumber,
+                $user->name,
+                \Duit\MYR::given($priceMyr),
+                route('purchase.payment.webhook.url'),
+                $description,
+                ['redirect_url' => route('purchase.payment.redirect.url')],
+            );
+
+            DB::table('order_temps')->insert([
+                'user_id'          => $user->id,
+                'temporary_uniq'   => $uniq,
+                'transaction_data' => json_encode($bill->toArray()),
+                'created_at'       => now(),
+                'updated_at'       => now(),
+            ]);
+
+            DB::table('carts_temps')->insert([
+                'user_id'         => $user->id,
+                'temporary_uniq'  => $uniq,
+                'cart'            => json_encode($mergedData),
+                'discount_code'   => null,
+                'discount_amount' => null,
+                'sub_total'       => $subTotal,
+                'total'           => $total,
+                'created_at'      => now(),
+                'updated_at'      => now(),
+            ]);
+
+            cart()->removeCoupon();
+            cart()->clear();
+
+            Log::info('CHECKOUT SUBMIT ' . date('Y-m-d H:i:s') . ' - ' . $uniq);
+
+            return response()->json([
+                'success' => true,
+                'redirectUrl' => $bill->toArray()['url']
+            ]);
         }
     }
 }

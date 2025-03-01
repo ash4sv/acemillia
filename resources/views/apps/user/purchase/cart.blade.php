@@ -31,6 +31,11 @@
                     <li class="breadcrumb-item">
                         <a href="{!! url('/') !!}">Home</a>
                     </li>
+                    @if(auth()->guard('web')->check())
+                    <li class="breadcrumb-item">
+                        <a href="{!! route('dashboard') !!}">{!! __('Dashboard') !!}</a>
+                    </li>
+                    @endif
                     <li class="breadcrumb-item active">{!! __($title) !!}</li>
                 </ol>
             </nav>
@@ -68,6 +73,16 @@
                         </td>
                         <td class="">
                             <a href="">{{ __($item->name) }}</a>
+                            @if(isset($item->options->selected_options) && is_array($item->options->selected_options))
+                                <div class="d-flex">
+                                    <div class="flex-grow-1 option-group mb-2">
+                                        @foreach($item->options->selected_options as $option)
+                                            <p class="mb-1"><strong>{{ $option->option_name }}:</strong> {{ $option->value_name }}</p>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
                             @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
                                 <div class="row">
                                 @foreach($item->options->option_groups as $groupKey => $group)

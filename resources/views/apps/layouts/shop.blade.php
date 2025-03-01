@@ -679,7 +679,18 @@
                                 <h6 class="mb-1">{{ __($item->options->item_category) }}</h6>
                                 <h4 class="mb-1 fw-bolder">{{ __($item->name) }}</h4>
                                 <h5 class="mb-2">{{ __('MYR' . number_format($item->price, 2)) . ' x ' . __($item->quantity) }}</h5>
+                                @if(isset($item->options->selected_options) && is_array($item->options->selected_options))
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1 option-group mb-2">
+                                            @foreach($item->options->selected_options as $option)
+                                                <p class="mb-1"><strong>{{ $option->option_name }}:</strong> {{ $option->value_name }}</p>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+
                                 @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
+                                    {{--This is the option is grouping--}}
                                     @foreach($item->options->option_groups as $groupKey => $group)
                                         <div class="d-flex">
                                             <div class="flex-grow-1 option-group mb-2">
