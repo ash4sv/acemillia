@@ -86,6 +86,7 @@ Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
 
     Route::prefix('purchase')->name('purchase.')->group(function () {
         Route::get('cart', [PurchaseUserController::class, 'viewCart'])->name('cart');
+        Route::post('cart-qty-update', [PurchaseUserController::class, 'updateCartQuantity'])->name('cart.quantity.update');
         Route::get('checkout', [PurchaseUserController::class, 'checkout'])->name('checkout');
         Route::post('checkoutPost', [PurchaseUserController::class, 'checkoutPost'])->name('checkout-post');
 

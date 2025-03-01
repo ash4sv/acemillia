@@ -55,7 +55,7 @@ class PurchaseUserController extends Controller
         // 5. Prepare the options array for the cart item.
         //    Adjust "item_menu" as needed (here we use a placeholder).
         $cartOptions = [
-            'item_menu'     => 'Menu Name', // or derive from $product if applicable
+            'item_menu'     => $product->categories->first()->menus->pluck('name')->implode(', ') ?? '', // or derive from $product if applicable
             'item_category' => $product->categories->pluck('name')->implode(', ') ?? '',
             'item_img'      => $product->image,
             'selected_options' => $selectedOptions,
@@ -89,6 +89,34 @@ class PurchaseUserController extends Controller
         Alert::success('Success', 'Product added to cart.');
         return redirect()->back();
     }
+
+    public function updateCartQuantity(Request $request)
+    {
+        // Get the cart item ID and the new quantity from the request.
+        $id = $request->input('id');
+        $newQuantity = (int)$request->input('quantity');
+
+        // Update the quantity in the cart; using 'replace' sets it to the given quantity.
+        Cart::updateQuantity($id, $newQuantity);
+
+        // Retrieve the updated cart item.
+        $item = Cart::get($id);
+
+        // Calculate the new total for the item.
+        $itemTotal = $item->getQuantity() * $item->getPrice();
+
+        // Get the new cart subtotal.
+        // (Assuming Cart::subtotal() returns a numeric or numeric-like value.)
+        $cartSubtotal = Cart::subtotal();
+
+        return response()->json([
+            'success' => true,
+            'quantity' => $item->getQuantity(),
+            'item_total' => $itemTotal,
+            'cart_subtotal' => $cartSubtotal,
+        ]);
+    }
+
 
     /**
      * Helper function to compute a canonical hash from an array of selected options.
