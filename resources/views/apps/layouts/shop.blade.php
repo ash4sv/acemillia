@@ -933,6 +933,11 @@
             var bannerHeight = $('.banner-slider').height();
             $('.banner-slider').css('height', bannerHeight);
 
+            // Capture the height of the "col-md-7" element, divide by 2, and apply to each home-banner > .col-12.
+            /*var col7Height = $('.banner-slider .col-md-7').outerHeight();
+            var halfHeight = col7Height / 2;
+            $('.banner-slider .home-banner > .col-12').css('height', halfHeight + 'px');*/
+
             // Busy flag to avoid overlapping animations.
             var busy = false;
 
@@ -1089,7 +1094,7 @@
                 var chosen = transforms[Math.floor(Math.random() * transforms.length)];
                 chosen(function() {
                     // After transformation finishes, add a random delay of 2 to 3 seconds before unlocking.
-                    var delay = Math.floor(Math.random() * 1000) + 2000; // 2000-3000 ms
+                    var delay = Math.floor(Math.random() * 1000) + 2000; // 2000-3000 ms delay
                     setTimeout(function() {
                         busy = false;
                     }, delay);

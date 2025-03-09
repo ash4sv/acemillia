@@ -60,3 +60,14 @@
 .dark .product-page-details .quantity-variant {
     overflow-x: visible;
 }
+
+.banner-slider .home-banner > div:last-child img {
+    margin-top:0;
+}
+
+.banner-slider.acemillia .home-banner > div img,
+.collection-banner.acemillia .img-part img {
+  width: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}

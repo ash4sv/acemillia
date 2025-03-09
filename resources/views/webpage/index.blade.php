@@ -15,9 +15,9 @@
 
 @section('webpage')
 
-    @if(isset($carousels) && $carousels->count() > 0)
+    {{--@if(isset($carousels) && $carousels->count() > 0)
     <!-- Home slider -->
-    <section class="p-0 sm-responsive"> {{--height-100--}}
+    <section class="p-0 sm-responsive"> --}}{{--height-100--}}{{--
         <div class="slide-1 home-slider">
             @forelse($carousels as $key => $carousel)
             <div>
@@ -35,67 +35,51 @@
         </div>
     </section>
     <!-- Home slider end -->
-    @endif
+    @endif--}}
+
+    <!-- home banner start -->
+    <div class="container banner-slider acemillia" style="overflow: hidden !important;">
+        <div class="row gx-4">
+            <div class="col-md-7">
+                <a href="category-page.html">
+                    <img src="../assets/images/electronics-2/banner/1.png" class="img-fluid blur-up lazyload height-banner" alt="">
+                </a>
+            </div>
+            <div class="col-md-5">
+                <div class="row g-4 home-banner">
+                    <div class="col-12">
+                        <a href="category-page.html"><img src="../assets/images/electronics-2/banner/2.png" class="img-fluid blur-up lazyload" alt=""></a>
+                    </div>
+                    <div class="col-12">
+                        <a href="category-page.html"><img src="../assets/images/electronics-2/banner/3.png" class="img-fluid blur-up lazyload" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- home banner end  -->
 
     <!-- collection banner -->
-    <section class="banner-padding absolute-banner banner-style-2 pb-0 ratio2_1">
-        <div class="absolute-bg">
-            <div class="container">
-                <div class="row partition2 justify-content-center">
-                    <div class="col-md-4">
-                        <a href="">
-                            <div class="collection-banner p-right text-center">
-                                <div>
-                                    <img src="{{ asset('assets/images/dark-bg.jpg') }}" class="img-fluid blur-up lazyload bg-img" alt="">
-                                </div>
-                                <div class="absolute-img">
-                                    <img src="{{ asset('assets/images/furniture-3/category/1.png') }}" class="img-fluid" alt="">
-                                </div>
-                                <div class="contain-banner banner-3">
-                                    <div>
-                                        <h4>{!! __('save 30%') !!}</h4>
-                                        <h2>{!! __('accent') !!}</h2>
-                                    </div>
-                                </div>
+    <section class="banner-padding banner-goggles banner-section ratio2_1">
+        <div class="container">
+            <div class="row partition2 g-4">
+                <div class="col-md-6">
+                    <a href="category-page.html">
+                        <div class="collection-banner acemillia p-left text-start">
+                            <div class="img-part">
+                                <img src="../assets/images/game/banner/1.png" class="img-fluid blur-up lazyload" alt="">
                             </div>
-                        </a>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="">
-                            <div class="collection-banner p-right text-center">
-                                <div>
-                                    <img src="{{ asset('assets/images/dark-bg.jpg') }}" class="img-fluid blur-up lazyload bg-img" alt="">
-                                </div>
-                                <div class="absolute-img">
-                                    <img src="{{ asset('assets/images/furniture-3/category/2.png') }}" class="img-fluid" alt="">
-                                </div>
-                                <div class="contain-banner banner-3">
-                                    <div>
-                                        <h4>{!! __('save 60%') !!}</h4>
-                                        <h2>{!! __('toys') !!}</h2>
-                                    </div>
-                                </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a href="category-page.html">
+                        <div class="collection-banner acemillia p-right text-end">
+                            <div class="img-part">
+                                <img src="../assets/images/game/banner/2.png" class="img-fluid blur-up lazyload" alt="">
                             </div>
-                        </a>
-                    </div>
-                    {{--<div class="col-md-4">
-                        <a href="category-page.html">
-                            <div class="collection-banner p-right text-center">
-                                <div>
-                                    <img src="{{ asset('assets/images/dark-bg.jpg') }}" class="img-fluid blur-up lazyload bg-img" alt="">
-                                </div>
-                                <div class="absolute-img">
-                                    <img src="{{ asset('assets/images/furniture-3/category/3.png') }}" class="img-fluid" alt="">
-                                </div>
-                                <div class="contain-banner banner-3">
-                                    <div>
-                                        <h4>save 50%</h4>
-                                        <h2>Lounge</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>--}}
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
