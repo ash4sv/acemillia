@@ -33,6 +33,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/fancyapps/fancybox.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/select2/select2.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/sweetalert2/sweetalert2.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/overwrite-style.css') }}">
 
@@ -861,7 +862,7 @@
         }
 
         $(document).ready(function() {
-            if (window.location.pathname !== '/') {
+            /*if (window.location.pathname !== '/') {*/
                 function updateNewDiv() {
                     if ($(window).width() >= 768) {
                         // If new-div does not exist, create it
@@ -888,9 +889,215 @@
                 $(window).on('resize', function() {
                     updateNewDiv();
                 });
+            /*}*/
+
+            // Function to update active state in the theme switcher
+            function updateActiveMode(mode) {
+                $(".theme-switch-btn li").removeClass("active");
+                $(".theme-switch-btn li").filter(function() {
+                    return $(this).find("a").text().trim() === mode;
+                }).addClass("active");
             }
+
+            // On page load, check localStorage and apply the theme accordingly
+            if (localStorage.getItem("layout_version") === "dark") {
+                $("body").addClass("dark");
+                updateActiveMode("Dark Mode");
+            } else {
+                $("body").removeClass("dark");
+                updateActiveMode("Light Mode");
+            }
+
+            // Attach click event handler to the theme links
+            $(".theme-switch-btn li a").click(function(e) {
+                e.preventDefault(); // Prevent default anchor behavior
+
+                var mode = $(this).text().trim();
+                if (mode === "Dark Mode") {
+                    $("body").addClass("dark");
+                    localStorage.setItem("layout_version", "dark");
+                    updateActiveMode("Dark Mode");
+                } else if (mode === "Light Mode") {
+                    $("body").removeClass("dark");
+                    localStorage.removeItem("layout_version");
+                    updateActiveMode("Light Mode");
+                }
+            });
         });
 
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Fix the outer container's height so that the layout remains steady.
+            var bannerHeight = $('.banner-slider').height();
+            $('.banner-slider').css('height', bannerHeight);
+
+            // Busy flag to avoid overlapping animations.
+            var busy = false;
+
+            // Helper: choose a random direction.
+            function getRandomDirection() {
+                var directions = ['up', 'down', 'left', 'right'];
+                return directions[Math.floor(Math.random() * directions.length)];
+            }
+
+            // Slide out using CSS transform.
+            function slideOutElement($el, direction, callback) {
+                var duration = 500;
+                // Capture and store original height and width if not already stored.
+                var h = $el.data('origHeight');
+                if (!h) {
+                    h = $el.outerHeight();
+                    $el.data('origHeight', h);
+                }
+                var w = $el.data('origWidth');
+                if (!w) {
+                    w = $el.outerWidth();
+                    $el.data('origWidth', w);
+                }
+                $el.css('transition', 'transform ' + duration + 'ms ease');
+                if (direction === 'up') {
+                    $el.css('transform', 'translateY(-' + h + 'px)');
+                } else if (direction === 'down') {
+                    $el.css('transform', 'translateY(' + h + 'px)');
+                } else if (direction === 'left') {
+                    $el.css('transform', 'translateX(-' + w + 'px)');
+                } else if (direction === 'right') {
+                    $el.css('transform', 'translateX(' + w + 'px)');
+                } else {
+                    if (callback) callback();
+                    return;
+                }
+                setTimeout(function() {
+                    if (callback) callback();
+                }, duration);
+            }
+
+            // Slide in using CSS transform.
+            function slideInElement($el, direction, callback) {
+                var duration = 500;
+                var h = $el.data('origHeight');
+                if (!h) {
+                    h = $el.outerHeight();
+                    $el.data('origHeight', h);
+                }
+                var w = $el.data('origWidth');
+                if (!w) {
+                    w = $el.outerWidth();
+                    $el.data('origWidth', w);
+                }
+                // Remove any transition so we can set the starting transform.
+                $el.css('transition', 'none');
+                if (direction === 'up') {
+                    $el.css('transform', 'translateY(' + h + 'px)');
+                } else if (direction === 'down') {
+                    $el.css('transform', 'translateY(-' + h + 'px)');
+                } else if (direction === 'left') {
+                    $el.css('transform', 'translateX(' + w + 'px)');
+                } else if (direction === 'right') {
+                    $el.css('transform', 'translateX(-' + w + 'px)');
+                } else {
+                    $el.css('transform', 'none');
+                }
+                // Force reflow to apply the starting transform.
+                $el[0].offsetHeight;
+                // Animate to the neutral position.
+                $el.css('transition', 'transform ' + duration + 'ms ease');
+                $el.css('transform', 'none');
+                setTimeout(function() {
+                    $el.css('transition', '');
+                    // Reapply the original height so the full image is visible.
+                    $el.css('height', h + 'px');
+                    if (callback) callback();
+                }, duration);
+            }
+
+            // Transformation A: Swap the two columns (col-md-7 and col-md-5) sequentially.
+            function swapColumns(callback) {
+                var col7 = $('.banner-slider .col-md-7');
+                var col5 = $('.banner-slider .col-md-5');
+
+                // Animate col7 first.
+                var dir7 = getRandomDirection();
+                slideOutElement(col7, dir7, function() {
+                    // Toggle col7's order class.
+                    if (col7.hasClass('order-md-1')) {
+                        col7.removeClass('order-md-1').addClass('order-md-2');
+                    } else {
+                        col7.removeClass('order-md-2').addClass('order-md-1');
+                    }
+                    col7.css('transform', 'none');
+                    slideInElement(col7, getRandomDirection(), function() {
+                        // Then animate col5.
+                        var dir5 = getRandomDirection();
+                        slideOutElement(col5, dir5, function() {
+                            if (col5.hasClass('order-md-2')) {
+                                col5.removeClass('order-md-2').addClass('order-md-1');
+                            } else {
+                                col5.removeClass('order-md-1').addClass('order-md-2');
+                            }
+                            col5.css('transform','none');
+                            slideInElement(col5, getRandomDirection(), callback);
+                        });
+                    });
+                });
+            }
+
+            // Transformation B: Swap the two inner images in col-md-5 sequentially.
+            function swapCol5Images(callback) {
+                var items = $('.banner-slider .col-md-5 .home-banner > div');
+                if (items.length < 2) { if (callback) callback(); return; }
+                var first = $(items[0]);
+                var second = $(items[1]);
+
+                // Ensure default order classes.
+                if (!first.hasClass('order-1') && !first.hasClass('order-2')) {
+                    first.addClass('order-1');
+                    second.addClass('order-2');
+                }
+                // Animate the first image.
+                var dir1 = getRandomDirection();
+                slideOutElement(first, dir1, function() {
+                    if (first.hasClass('order-1')) {
+                        first.removeClass('order-1').addClass('order-2');
+                    } else {
+                        first.removeClass('order-2').addClass('order-1');
+                    }
+                    first.css('transform','none');
+                    slideInElement(first, getRandomDirection(), function() {
+                        // Then animate the second image.
+                        var dir2 = getRandomDirection();
+                        slideOutElement(second, dir2, function() {
+                            if (second.hasClass('order-2')) {
+                                second.removeClass('order-2').addClass('order-1');
+                            } else {
+                                second.removeClass('order-1').addClass('order-2');
+                            }
+                            second.css('transform','none');
+                            slideInElement(second, getRandomDirection(), callback);
+                        });
+                    });
+                });
+            }
+
+            // Randomly choose one transformation to execute every 10 seconds.
+            function randomizeLayout() {
+                if (busy) return;
+                busy = true;
+                var transforms = [swapColumns, swapCol5Images];
+                var chosen = transforms[Math.floor(Math.random() * transforms.length)];
+                chosen(function() {
+                    // After transformation finishes, add a random delay of 2 to 3 seconds before unlocking.
+                    var delay = Math.floor(Math.random() * 1000) + 2000; // 2000-3000 ms
+                    setTimeout(function() {
+                        busy = false;
+                    }, delay);
+                });
+            }
+
+            setInterval(randomizeLayout, 10000);
+        });
     </script>
 
 </body>

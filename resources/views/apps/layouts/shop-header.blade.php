@@ -140,6 +140,11 @@
                                                     <li><a href="#!">english</a> </li>
                                                     {{--<li><a href="#!">french</a> </li>--}}
                                                 </ul>
+                                                <h6>Switch Mode</h6>
+                                                <ul class="theme-switch-btn">
+                                                    <li><a href="#!">Light Mode</a></li>
+                                                    <li><a href="#!">Dark Mode</a></li>
+                                                </ul>
                                                 {{--<h6>currency</h6>
                                                 <ul class="list-inline">
                                                     <li><a href="#!">euro</a> </li>
