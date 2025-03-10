@@ -6,9 +6,9 @@
                 <div class="col-sm-12">
                     <div class="main-menu">
                         <div class="menu-left">
-                            <div class="brand-logo">
+                            <div class="brand-logo acemillia">
                                 <a href="{{ url('/') }}">
-                                    <img src="{{ asset('assets/images/logo-neuraloka_r0.png') }}" class="img-fluid blur-up lazyload" alt="">
+                                    <img src="{{ asset('assets/images/logo-neuraloka_r0.png') }}" data-logo-white-mode="{{ asset('assets/images/logo-neuraloka_black.png') }}" class="img-fluid blur-up lazyload" alt="">
                                 </a>
                             </div>
                         </div>

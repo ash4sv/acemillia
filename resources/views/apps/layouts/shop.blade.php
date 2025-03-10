@@ -891,7 +891,11 @@
                 });
             /*}*/
 
-            // Function to update active state in the theme switcher
+            // Store the default logo src on page load.
+            var $logo = $(".brand-logo.acemillia a img");
+            var defaultLogo = $logo.attr("src");
+
+            // Function to update active state for theme switcher.
             function updateActiveMode(mode) {
                 $(".theme-switch-btn li").removeClass("active");
                 $(".theme-switch-btn li").filter(function() {
@@ -899,28 +903,32 @@
                 }).addClass("active");
             }
 
-            // On page load, check localStorage and apply the theme accordingly
+            // On page load, check localStorage and apply the corresponding theme and logo.
             if (localStorage.getItem("layout_version") === "dark") {
                 $("body").addClass("dark");
                 updateActiveMode("Dark Mode");
+                $logo.attr("src", defaultLogo);
             } else {
                 $("body").removeClass("dark");
                 updateActiveMode("Light Mode");
+                $logo.attr("src", $logo.data("logo-white-mode"));
             }
 
-            // Attach click event handler to the theme links
+            // Click event handler for theme switch links.
             $(".theme-switch-btn li a").click(function(e) {
-                e.preventDefault(); // Prevent default anchor behavior
+                e.preventDefault();  // Prevent default link behavior
 
                 var mode = $(this).text().trim();
                 if (mode === "Dark Mode") {
                     $("body").addClass("dark");
                     localStorage.setItem("layout_version", "dark");
                     updateActiveMode("Dark Mode");
+                    $logo.attr("src", defaultLogo);
                 } else if (mode === "Light Mode") {
                     $("body").removeClass("dark");
                     localStorage.removeItem("layout_version");
                     updateActiveMode("Light Mode");
+                    $logo.attr("src", $logo.data("logo-white-mode"));
                 }
             });
         });
