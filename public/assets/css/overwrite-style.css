@@ -1,11 +1,11 @@
 .main-menu .brand-logo {
-    padding-block: calc(15px + (35 - 15) * ((100vw - 320px) / (1920 - 320)));
+    padding-block: calc(15px + (25 - 15) * ((100vw - 320px) / (1920 - 320)));
+}
+.main-menu .brand-logo img {
+    height: calc(50px + (45 - 10) * ((100vw - 320px) / (1920 - 320)));
 }
 .footer-theme .footer-logo img {
     height: calc(40px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
-}
-.main-menu .brand-logo img {
-    height: calc(35px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
 }
 .offset-scriptnew .close-circle .close_button {
     width: calc(24px + 6 * (100vw - 320px) / 1600);
