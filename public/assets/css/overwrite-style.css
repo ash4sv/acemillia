@@ -85,3 +85,7 @@
 .btn-outline {
     color:#d4b196;
 }
+
+.collection-collapse-block .collection-accordion .accordion-item .accordion-body .collection-listing li .form-check .form-check-label {
+    color:#222;
+}
