@@ -33,7 +33,6 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/fancyapps/fancybox.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/select2/select2.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/sweetalert2/sweetalert2.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/overwrite-style.css') }}">
 
@@ -41,7 +40,7 @@
 
 </head>
 
-<body class="theme-color-5 dark dark-demo">
+<body class="theme-color-5">
 
     @include('apps.layouts.shop-header')
 

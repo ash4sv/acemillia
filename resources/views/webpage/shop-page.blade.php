@@ -14,7 +14,92 @@
 @endpush
 
 @push('script')
+    <script>
+        $(document).ready(function() {
+            var menuSlug = "{{ $menuSlug->slug }}";
+            var categorySlug = "{{ isset($category) ? $category->slug : '' }}";
 
+            // Function to initialize the loadMore functionality
+            function initLoadMore() {
+                // Initially hide all grid items and show only the first 8.
+                $(".product-load-more .col-grid-box").hide();
+                $(".product-load-more .col-grid-box").slice(0, 8).show();
+
+                // Unbind any previous click events to prevent duplicate bindings.
+                $(".loadMore").off('click').on('click', function(e) {
+                    e.preventDefault();
+                    $(".product-load-more .col-grid-box:hidden").slice(0, 4).slideDown();
+                    if ($(".product-load-more .col-grid-box:hidden").length === 0) {
+                        $(this).text('no more products');
+                    }
+                });
+            }
+
+            // Call the loadMore initializer on page load
+            initLoadMore();
+
+            // Bind change event to the sort select.
+            $('.product-filter-content select.form-select').eq(0).on('change', function() {
+                // Get the selected value from the dropdown
+                var selectedValue = $(this).val();
+                var sortParam = '';
+
+                // Map the option value to the sort parameter
+                if (selectedValue === "" || selectedValue === null) {
+                    sortParam = "asc";
+                } else if (selectedValue == "1") {
+                    sortParam = "desc";
+                } else if (selectedValue == "2") {
+                    sortParam = "low-high";
+                } else if (selectedValue == "3") {
+                    sortParam = "high-low";
+                }
+
+                // Build the URL based on whether a category exists
+                var url = '';
+                if (categorySlug !== "") {
+                    // Use the shop category sort route
+                    url = "{{ route('web.shop.category.sort', ['menu' => 'MENU_PLACEHOLDER', 'category' => 'CATEGORY_PLACEHOLDER']) }}";
+                    url = url.replace('MENU_PLACEHOLDER', menuSlug).replace('CATEGORY_PLACEHOLDER', categorySlug);
+                } else {
+                    // Use the shop menu sort route
+                    url = "{{ route('web.shop.menu.sort', ['menu' => 'MENU_PLACEHOLDER']) }}";
+                    url = url.replace('MENU_PLACEHOLDER', menuSlug);
+                }
+                // Append the sort parameter as a query string
+                url += '?sort=' + sortParam;
+
+                // Display a loading overlay with a spinner in the middle of the screen.
+                if ($('#loadingOverlay').length === 0) {
+                    $('body').append(
+                        '<div id="loadingOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; z-index: 9999;">' +
+                        '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>' +
+                        '</div>'
+                    );
+                } else {
+                    $('#loadingOverlay').show();
+                }
+
+                // Make an AJAX GET request to fetch the sorted products.
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function(response) {
+                        // Replace the content of the products container with the response HTML.
+                        $('.product-wrapper-grid .acemillia-shop-product').html(response);
+                        // Hide the spinner overlay
+                        $('#loadingOverlay').fadeOut();
+                        // Reinitialize the loadMore functionality for the new content.
+                        initLoadMore();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching sorted products:', error);
+                        $('#loadingOverlay').fadeOut();
+                    }
+                });
+            });
+        });
+    </script>
 @endpush
 
 @section('webpage')
@@ -333,7 +418,7 @@
                                     <button class="filter-btn btn">
                                         <i class="ri-arrow-left-s-line"></i> Filter
                                     </button>
-                                    <div class="collection-product-wrapper">
+                                    <div class="collection-product-wrapper acemillia-shop">
                                         <div class="product-top-filter">
                                             <div class="product-filter-content w-100">
                                                 <div class="d-flex align-items-center gap-sm-3 gap-2">
@@ -369,79 +454,81 @@
                                             </div>
                                         </div>
                                         <div class="product-wrapper-grid product-load-more">
-                                            <div class="row g-3 g-sm-4">
-                                                @forelse($products as $key => $product)
-                                                    @php
-                                                        $url = route('web.shop.product', [$menuSlug->slug, $product->categories->pluck('slug')->first(), $product->slug])
-                                                    @endphp
-                                                <div class="col-xl-4 col-6 col-grid-box">
-                                                    <div class="basic-product theme-product-1">
-                                                        <div class="overflow-hidden">
-                                                            <div class="img-wrapper">
-                                                                <a href="{!! $url !!}">
-                                                                    <img src="{{ asset($product->merged_images->first()) }}" class="w-100 img-fluid blur-up lazyload" alt="">
-                                                                </a>
-                                                                {{--<div class="rating-label">
-                                                                    <i class="ri-star-fill"></i>
-                                                                    <span>4.5</span>
-                                                                </div>--}}
-                                                                <div class="cart-info">
-                                                                    <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                                                        <i class="ri-heart-line"></i>
-                                                                    </a>
-                                                                    {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
-                                                                        <i class="ri-shopping-cart-line"></i>
-                                                                    </button>--}}
-                                                                    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('web.shop.quickview', $product->slug) !!}" data-create-title="Quick View">
-                                                                        <i class="ri-eye-line"></i>
-                                                                    </a>
-                                                                    {{--<a href="compare.html" title="Compare">
-                                                                        <i class="ri-loop-left-line"></i>
-                                                                    </a>--}}
-                                                                </div>
-                                                            </div>
-                                                            <div class="product-detail">
-                                                                <div>
-                                                                    <div class="brand-w-color">
-                                                                        <a class="product-title" href="{!! $url !!}">{!! $product->name !!}</a>
+                                            <div class="acemillia-shop-product">
+                                                <div class="row g-3 g-sm-4">
+                                                    @forelse($products as $key => $product)
+                                                        @php
+                                                            $url = route('web.shop.product', [$menuSlug->slug, $product->categories->pluck('slug')->first(), $product->slug])
+                                                        @endphp
+                                                        <div class="col-xl-4 col-6 col-grid-box">
+                                                            <div class="basic-product theme-product-1">
+                                                                <div class="overflow-hidden">
+                                                                    <div class="img-wrapper">
+                                                                        <a href="{!! $url !!}">
+                                                                            <img src="{{ asset($product->merged_images->first()) }}" class="w-100 img-fluid blur-up lazyload" alt="">
+                                                                        </a>
+                                                                        {{--<div class="rating-label">
+                                                                            <i class="ri-star-fill"></i>
+                                                                            <span>4.5</span>
+                                                                        </div>--}}
+                                                                        <div class="cart-info">
+                                                                            <a href="#!" title="Add to Wishlist" class="wishlist-icon">
+                                                                                <i class="ri-heart-line"></i>
+                                                                            </a>
+                                                                            {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                                                                <i class="ri-shopping-cart-line"></i>
+                                                                            </button>--}}
+                                                                            <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('web.shop.quickview', $product->slug) !!}" data-create-title="Quick View">
+                                                                                <i class="ri-eye-line"></i>
+                                                                            </a>
+                                                                            {{--<a href="compare.html" title="Compare">
+                                                                                <i class="ri-loop-left-line"></i>
+                                                                            </a>--}}
+                                                                        </div>
                                                                     </div>
+                                                                    <div class="product-detail">
+                                                                        <div>
+                                                                            <div class="brand-w-color">
+                                                                                <a class="product-title" href="{!! $url !!}">{!! $product->name !!}</a>
+                                                                            </div>
 
-                                                                    {{--<h6>Purple Mini Dress</h6>--}}
-                                                                    <p>{!! Str::limit($product->product_description, 225, '...') !!}</p>
+                                                                            {{--<h6>Purple Mini Dress</h6>--}}
+                                                                            <p>{!! Str::limit($product->product_description, 225, '...') !!}</p>
 
-                                                                    <h4 class="price">
-                                                                        {{ $product->price }}
-                                                                        {{--<del> $5.00 </del>--}}
-                                                                        {{--<span class="discounted-price"> 5% Off</span>--}}
-                                                                    </h4>
+                                                                            <h4 class="price">
+                                                                                {{ $product->price }}
+                                                                                {{--<del> $5.00 </del>--}}
+                                                                                {{--<span class="discounted-price"> 5% Off</span>--}}
+                                                                            </h4>
+                                                                        </div>
+                                                                        <ul class="offer-panel">
+                                                                            <li>
+                                                                        <span class="offer-icon">
+                                                                            <i class="ri-discount-percent-fill"></i>
+                                                                        </span>
+                                                                                Limited Time Offer: 5% off
+                                                                            </li>
+                                                                            <li>
+                                                                        <span class="offer-icon">
+                                                                            <i class="ri-discount-percent-fill"></i>
+                                                                        </span>
+                                                                                Limited Time Offer: 5% off
+                                                                            </li>
+                                                                            <li>
+                                                                        <span class="offer-icon">
+                                                                            <i class="ri-discount-percent-fill"></i>
+                                                                        </span>
+                                                                                Limited Time Offer: 5% off
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
                                                                 </div>
-                                                                <ul class="offer-panel">
-                                                                    <li>
-                                                                        <span class="offer-icon">
-                                                                            <i class="ri-discount-percent-fill"></i>
-                                                                        </span>
-                                                                        Limited Time Offer: 5% off
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="offer-icon">
-                                                                            <i class="ri-discount-percent-fill"></i>
-                                                                        </span>
-                                                                        Limited Time Offer: 5% off
-                                                                    </li>
-                                                                    <li>
-                                                                        <span class="offer-icon">
-                                                                            <i class="ri-discount-percent-fill"></i>
-                                                                        </span>
-                                                                        Limited Time Offer: 5% off
-                                                                    </li>
-                                                                </ul>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                @empty
+                                                    @empty
 
-                                                @endforelse
+                                                    @endforelse
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="load-more-sec">

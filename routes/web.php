@@ -33,6 +33,8 @@ Route::name('web.')->group(function () {
     Route::get('shop/{menu}', [WebController::class, 'shopIndex'])->name('shop.index');
     Route::get('shop/{menu}/{category}', [WebController::class, 'shopCategory'])->name('shop.category');
     Route::get('shop/{menu}/{category}/{product}', [WebController::class, 'shopProduct'])->name('shop.product');
+    Route::get('sort/{menu}/sort', [WebController::class, 'shopIndexSort'])->name('shop.menu.sort');
+    Route::get('sort/{menu}/{category}/sort', [WebController::class, 'shopCategorySort'])->name('shop.category.sort');
     Route::get('quick-view/{product}', [WebController::class, 'quickview'])->name('shop.quickview');
 
     Route::prefix('blog')->name('blog.')->group(function () {

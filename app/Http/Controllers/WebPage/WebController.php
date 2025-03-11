@@ -148,6 +148,112 @@ class WebController extends Controller
         ]);
     }
 
+    public function shopIndexSort(Request $request, string $menu)
+    {
+        // Get the active menu setup
+        $menuSlug = MenuSetup::active()->where('slug', $menu)->firstOrFail();
+
+        // Retrieve active categories with their active products
+        $categories = $menuSlug->categories()
+            ->active()
+            ->orderBy('name', 'asc')
+            ->with(['products' => function ($query) {
+                $query->active();
+            }])
+            ->get();
+
+        // Merge products from each category, ensuring uniqueness by id
+        $products = $categories->flatMap(function ($category) {
+            return $category->products;
+        })->unique('id')->values();
+
+        // Get sort parameter (default is "asc")
+        $sort = $request->get('sort', 'asc');
+
+        // Apply sorting based on the sort parameter
+        switch ($sort) {
+            case 'desc':
+                $products = $products->sortByDesc('name');
+                break;
+            case 'low-high':
+                $products = $products->sortBy('price');
+                break;
+            case 'high-low':
+                $products = $products->sortByDesc('price');
+                break;
+            case 'asc':
+            default:
+                $products = $products->sortBy('name');
+                break;
+        }
+
+        // (Optional) Retrieve subcategories if needed in your view
+        $subCategories = $categories->flatMap(function ($category) {
+            return $category->sub_categories()
+                ->active()
+                ->orderBy('name', 'asc')
+                ->get();
+        })->unique('id')->sortBy('name')->values();
+
+        // Render and return only the partial view containing the products markup
+        return view('webpage.partials.shop-products', [
+            'menuSlug'      => $menuSlug,
+            'products'      => $products,
+            'subCategories' => $subCategories,
+        ])->render();
+    }
+
+    public function shopCategorySort(Request $request, string $menu, string $category)
+    {
+        // Retrieve the active menu setup
+        $menuSlug = MenuSetup::active()->where('slug', $menu)->firstOrFail();
+
+        // Verify that the provided category slug belongs to this menu
+        $categoryModel = $menuSlug->categories()
+            ->active()
+            ->where('slug', $category)
+            ->firstOrFail();
+
+        // Get sort parameter (default is "asc")
+        $sort = $request->get('sort', 'asc');
+
+        // Build the query for active products linked to this category
+        $query = $categoryModel->products()->active()->with('categories');
+
+        // Apply sorting using the query builder based on the sort parameter
+        switch ($sort) {
+            case 'desc':
+                $query->orderBy('name', 'desc');
+                break;
+            case 'low-high':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'high-low':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'asc':
+            default:
+                $query->orderBy('name', 'asc');
+                break;
+        }
+
+        $products = $query->get();
+
+        // Retrieve active subcategories for the current category
+        $subCategories = $categoryModel->sub_categories()
+            ->active()
+            ->orderBy('name', 'asc')
+            ->get();
+
+        // Render and return only the partial view containing the products markup
+        return view('webpage.partials.shop-products', [
+            'menuSlug'      => $menuSlug,
+            'category'      => $categoryModel,
+            'products'      => $products,
+            'subCategories' => $subCategories,
+        ])->render();
+    }
+
     public function quickview(string $slug)
     {
         $product  = Product::with(['images', 'options', 'options.values', 'categories', 'sub_categories', 'tags'])->active()->where('slug', $slug)->firstOrFail();

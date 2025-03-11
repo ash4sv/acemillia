@@ -1,5 +1,5 @@
     <!-- header start -->
-    <header class="header-5 text-light-header">
+    <header class="header-5">
         <div class="mobile-fix-option"></div>
         <div class="container">
             <div class="row">

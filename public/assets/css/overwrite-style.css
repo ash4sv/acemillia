@@ -1,8 +1,8 @@
 .main-menu .brand-logo {
-    padding-block: calc(15px + (25 - 15) * ((100vw - 320px) / (1920 - 320)));
+    padding-block: calc(45px + (25 - 45) * ((100vw - 320px) / (1920 - 320)));
 }
 .main-menu .brand-logo img {
-    height: calc(50px + (45 - 10) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(50px + (30 - 10) * ((100vw - 320px) / (1920 - 320)));
 }
 .footer-theme .footer-logo img {
     height: calc(40px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
@@ -70,4 +70,18 @@
   width: 100%;
   object-fit: cover;
   overflow: hidden;
+}
+
+.dark-box .theme-product-4 .product-detail .product-title,
+.dark-box .theme-product-4 .product-detail .price {
+    color:#222;
+}
+
+.dark .dark-box .theme-product-4 .product-detail .product-title,
+.dark .dark-box .theme-product-4 .product-detail .price {
+    color:#fff;
+}
+
+.btn-outline {
+    color:#d4b196;
 }
