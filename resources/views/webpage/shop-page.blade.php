@@ -19,15 +19,18 @@
             var menuSlug = "{{ $menuSlug->slug }}";
             var categorySlug = "{{ isset($category) ? $category->slug : '' }}";
 
-            // Function to initialize the loadMore functionality
-            function initLoadMore() {
-                // Initially hide all grid items and show only the first 8.
-                $(".product-load-more .col-grid-box").hide();
-                $(".product-load-more .col-grid-box").slice(0, 8).show();
+            // Helper function to parse the initial quantity from the select text.
+            function getInitialCount() {
+                var quantityOptionText = $('.product-filter-content select.form-select.quantity option:selected').text();
+                var count = parseInt(quantityOptionText, 10);
+                return count ? count : 10; // Default to 10 if parse fails.
+            }
 
-                // Unbind any previous click events to prevent duplicate bindings.
+            // Function to bind the loadMore click event.
+            function bindLoadMore() {
                 $(".loadMore").off('click').on('click', function(e) {
                     e.preventDefault();
+                    // Reveal next 4 hidden items.
                     $(".product-load-more .col-grid-box:hidden").slice(0, 4).slideDown();
                     if ($(".product-load-more .col-grid-box:hidden").length === 0) {
                         $(this).text('no more products');
@@ -35,16 +38,45 @@
                 });
             }
 
-            // Call the loadMore initializer on page load
+            // Initialize the loadMore behavior on page load or after AJAX sort update.
+            function initLoadMore() {
+                var initialCount = getInitialCount();
+                $(".product-load-more .col-grid-box").hide();
+                $(".product-load-more .col-grid-box").slice(0, initialCount).show();
+                // Reset the loadMore button text.
+                $(".loadMore").text('loadmore');
+                bindLoadMore();
+            }
+
+            // Update visible items when quantity select is changed.
+            function updateVisibleCount(newCount) {
+                var visibleCount = $(".product-load-more .col-grid-box:visible").length;
+                if (newCount > visibleCount) {
+                    // If more items should be visible, reveal the difference.
+                    $(".product-load-more .col-grid-box").slice(visibleCount, newCount).slideDown();
+                } else if (newCount < visibleCount) {
+                    // If fewer items are needed, hide the extras.
+                    $(".product-load-more .col-grid-box").slice(newCount).slideUp();
+                }
+                // Rebind the loadMore click event.
+                bindLoadMore();
+            }
+
+            // Initialize loadMore on page load.
             initLoadMore();
 
-            // Bind change event to the sort select.
+            // When the quantity select is changed, update the visible count.
+            $('.product-filter-content select.form-select.quantity').on('change', function() {
+                var newCount = getInitialCount();
+                updateVisibleCount(newCount);
+            });
+
+            // Bind change event to the sort order select (first select in .product-filter-content).
             $('.product-filter-content select.form-select').eq(0).on('change', function() {
-                // Get the selected value from the dropdown
                 var selectedValue = $(this).val();
                 var sortParam = '';
 
-                // Map the option value to the sort parameter
+                // Map the option value to the sort parameter.
                 if (selectedValue === "" || selectedValue === null) {
                     sortParam = "asc";
                 } else if (selectedValue == "1") {
@@ -55,24 +87,24 @@
                     sortParam = "high-low";
                 }
 
-                // Build the URL based on whether a category exists
+                // Build the URL based on whether a category exists.
                 var url = '';
                 if (categorySlug !== "") {
-                    // Use the shop category sort route
+                    // Use the shop category sort route.
                     url = "{{ route('web.shop.category.sort', ['menu' => 'MENU_PLACEHOLDER', 'category' => 'CATEGORY_PLACEHOLDER']) }}";
                     url = url.replace('MENU_PLACEHOLDER', menuSlug).replace('CATEGORY_PLACEHOLDER', categorySlug);
                 } else {
-                    // Use the shop menu sort route
+                    // Use the shop menu sort route.
                     url = "{{ route('web.shop.menu.sort', ['menu' => 'MENU_PLACEHOLDER']) }}";
                     url = url.replace('MENU_PLACEHOLDER', menuSlug);
                 }
-                // Append the sort parameter as a query string
+                // Append the sort parameter as a query string.
                 url += '?sort=' + sortParam;
 
                 // Display a loading overlay with a spinner in the middle of the screen.
                 if ($('#loadingOverlay').length === 0) {
                     $('body').append(
-                        '<div id="loadingOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; z-index: 9999;">' +
+                        '<div id="loadingOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 9999;">' +
                         '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>' +
                         '</div>'
                     );
@@ -87,9 +119,9 @@
                     success: function(response) {
                         // Replace the content of the products container with the response HTML.
                         $('.product-wrapper-grid .acemillia-shop-product').html(response);
-                        // Hide the spinner overlay
+                        // Hide the spinner overlay.
                         $('#loadingOverlay').fadeOut();
-                        // Reinitialize the loadMore functionality for the new content.
+                        // Reinitialize loadMore for the new content.
                         initLoadMore();
                     },
                     error: function(xhr, status, error) {
@@ -422,13 +454,13 @@
                                         <div class="product-top-filter">
                                             <div class="product-filter-content w-100">
                                                 <div class="d-flex align-items-center gap-sm-3 gap-2">
-                                                    <select class="form-select">
+                                                    <select class="form-select sort">
                                                         <option selected>Ascending Order</option>
                                                         <option value="1">Descending Order</option>
                                                         <option value="2">Low - High Price</option>
                                                         <option value="3">High - Low Price</option>
                                                     </select>
-                                                    <select class="form-select">
+                                                    <select class="form-select quantity">
                                                         <option selected>10 Products</option>
                                                         <option value="1">25 Products</option>
                                                         <option value="2">50 Products</option>
