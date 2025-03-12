@@ -54,6 +54,7 @@
     font-size: calc(14px + (14 - 14) * ((100vw - 320px) / (1920 - 320)));
     border-radius: 0;
 }
+.product-page-details .quantity-variant li,
 .dark .product-page-details .quantity-variant li {
     border:1px solid transparent;
 }
@@ -96,6 +97,14 @@
 }
 
 footer p, .sub-footer p, .footer-theme .sub-title li a, .footer-theme .sub-title .contact-list li, .load-more-sec a,
-.collection-collapse-block .collection-accordion .accordion-item .accordion-body .collection-listing li .form-check .form-check-label {
+.collection-collapse-block .collection-accordion .accordion-item .accordion-body .collection-listing li .form-check .form-check-label,
+.login-page .theme-card .form-box .form-label, .login-page .authentication-right h6, .login-page .authentication-right p, .login-page .form-box a,
+.start-selling h4, .start-selling p, .about-page h4, .about-page p, .service-block1 h4, .service-block1 p,
+.become-vendor .step-bg h4, .become-vendor .step-bg .step-box p,
+.breadcrumb-section h2, .breadcrumb-item.active {
+    color:#000000;
+}
+
+.btn-solid {
     color:#000000;
 }
