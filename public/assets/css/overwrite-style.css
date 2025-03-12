@@ -74,7 +74,7 @@
 
 .dark-box .theme-product-4 .product-detail .product-title,
 .dark-box .theme-product-4 .product-detail .price {
-    color:#222;
+    color:#000000;
 }
 
 .dark .dark-box .theme-product-4 .product-detail .product-title,
@@ -97,5 +97,5 @@
 
 footer p, .sub-footer p, .footer-theme .sub-title li a, .footer-theme .sub-title .contact-list li, .load-more-sec a,
 .collection-collapse-block .collection-accordion .accordion-item .accordion-body .collection-listing li .form-check .form-check-label {
-    color:#222;
+    color:#000000;
 }
