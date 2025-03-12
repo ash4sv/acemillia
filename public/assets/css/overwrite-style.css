@@ -79,7 +79,16 @@
 }
 
 .dark .dark-box .theme-product-4 .product-detail .product-title,
-.dark .dark-box .theme-product-4 .product-detail .price {
+.dark .dark-box .theme-product-4 .product-detail .price,
+.dark .breadcrumb-section h2,
+.dark .start-selling h4,
+.dark .start-selling p,
+.dark .about-page h4,
+.dark .about-page p,
+.dark .service-block1 h4,
+.dark .service-block1 p,
+.dark .become-vendor .step-bg h4,
+.dark .become-vendor .step-bg .step-box p {
     color:#fff;
 }
 
@@ -96,12 +105,27 @@
     color:#d4b196;
 }
 
-footer p, .sub-footer p, .footer-theme .sub-title li a, .footer-theme .sub-title .contact-list li, .load-more-sec a,
+footer p,
+.sub-footer p,
+.footer-theme
+.sub-title li a,
+.footer-theme .sub-title .contact-list li,
+.load-more-sec a,
 .collection-collapse-block .collection-accordion .accordion-item .accordion-body .collection-listing li .form-check .form-check-label,
-.login-page .theme-card .form-box .form-label, .login-page .authentication-right h6, .login-page .authentication-right p, .login-page .form-box a,
-.start-selling h4, .start-selling p, .about-page h4, .about-page p, .service-block1 h4, .service-block1 p,
-.become-vendor .step-bg h4, .become-vendor .step-bg .step-box p,
-.breadcrumb-section h2, .breadcrumb-item.active {
+.login-page .theme-card .form-box .form-label,
+.login-page .authentication-right h6,
+.login-page .authentication-right p,
+.login-page .form-box a,
+.start-selling h4,
+.start-selling p,
+.about-page h4,
+.about-page p,
+.service-block1 h4,
+.service-block1 p,
+.become-vendor .step-bg h4,
+.become-vendor .step-bg .step-box p,
+.breadcrumb-section h2,
+.breadcrumb-item.active {
     color:#000000;
 }
 
