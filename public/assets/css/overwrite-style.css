@@ -5,7 +5,7 @@
     height: calc(50px + (30 - 10) * ((100vw - 320px) / (1920 - 320)));
 }
 .footer-theme .footer-logo img {
-    height: calc(40px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(50px + (30 - 10) * ((100vw - 320px) / (1920 - 320)));
 }
 .offset-scriptnew .close-circle .close_button {
     width: calc(24px + 6 * (100vw - 320px) / 1600);
@@ -82,10 +82,15 @@
     color:#fff;
 }
 
+.dark .footer-theme .sub-title li {
+    color:#fff !important;
+}
+
 .btn-outline {
     color:#d4b196;
 }
 
+footer p, .footer-theme .sub-title li a, .footer-theme .sub-title .contact-list li,
 .collection-collapse-block .collection-accordion .accordion-item .accordion-body .collection-listing li .form-check .form-check-label {
     color:#222;
 }

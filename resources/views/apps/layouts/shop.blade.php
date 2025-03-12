@@ -890,11 +890,15 @@
                 });
             /*}*/
 
-            // Store the default logo src on page load.
-            var $logo = $(".brand-logo.acemillia a img");
-            var defaultLogo = $logo.attr("src");
+            // Select the main logo and the footer logo
+            var $brandLogo = $(".brand-logo.acemillia a img");
+            var $footerLogo = $(".footer-content.acemillia-neuraloka-footer a img");
 
-            // Function to update active state for theme switcher.
+            // Store the default logo src values (for Dark Mode)
+            var defaultBrandLogo = $brandLogo.attr("src");
+            var defaultFooterLogo = $footerLogo.attr("src");
+
+            // Function to update the active class on the theme switcher
             function updateActiveMode(mode) {
                 $(".theme-switch-btn li").removeClass("active");
                 $(".theme-switch-btn li").filter(function() {
@@ -902,32 +906,40 @@
                 }).addClass("active");
             }
 
-            // On page load, check localStorage and apply the corresponding theme and logo.
+            // On page load, apply the correct theme and logos based on localStorage
             if (localStorage.getItem("layout_version") === "dark") {
                 $("body").addClass("dark");
                 updateActiveMode("Dark Mode");
-                $logo.attr("src", defaultLogo);
+                // Use the default logos for Dark Mode
+                $brandLogo.attr("src", defaultBrandLogo);
+                $footerLogo.attr("src", defaultFooterLogo);
             } else {
                 $("body").removeClass("dark");
                 updateActiveMode("Light Mode");
-                $logo.attr("src", $logo.data("logo-white-mode"));
+                // In Light Mode, swap to the white mode logo using the data attribute
+                $brandLogo.attr("src", $brandLogo.data("logo-white-mode"));
+                $footerLogo.attr("src", $footerLogo.data("logo-white-mode"));
             }
 
-            // Click event handler for theme switch links.
+            // Handle click events on the theme switcher links
             $(".theme-switch-btn li a").click(function(e) {
-                e.preventDefault();  // Prevent default link behavior
+                e.preventDefault();  // Prevent the default anchor behavior
 
                 var mode = $(this).text().trim();
                 if (mode === "Dark Mode") {
                     $("body").addClass("dark");
                     localStorage.setItem("layout_version", "dark");
                     updateActiveMode("Dark Mode");
-                    $logo.attr("src", defaultLogo);
+                    // Set logos to default (dark)
+                    $brandLogo.attr("src", defaultBrandLogo);
+                    $footerLogo.attr("src", defaultFooterLogo);
                 } else if (mode === "Light Mode") {
                     $("body").removeClass("dark");
                     localStorage.removeItem("layout_version");
                     updateActiveMode("Light Mode");
-                    $logo.attr("src", $logo.data("logo-white-mode"));
+                    // Set logos to the white mode versions
+                    $brandLogo.attr("src", $brandLogo.data("logo-white-mode"));
+                    $footerLogo.attr("src", $footerLogo.data("logo-white-mode"));
                 }
             });
         });

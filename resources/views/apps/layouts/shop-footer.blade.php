@@ -7,8 +7,8 @@
                         <div class="col-lg-6">
                             <div class="subscribe">
                                 <div>
-                                    <h4>KNOW IT ALL FIRST!</h4>
-                                    <p>Never Miss Anything From Multikart By Signing Up To Our Newsletter.</p>
+                                    <h4>{!! __('KNOW IT ALL FIRST!') !!}</h4>
+                                    <p>{!! __('Never Miss Anything From Multikart By Signing Up To Our Newsletter.') !!}</p>
                                 </div>
                             </div>
                         </div>
@@ -21,7 +21,7 @@
                                     <input type="text" class="form-control" name="EMAIL" id="mce-EMAIL"
                                         placeholder="Enter your email" required="required">
                                 </div>
-                                <button type="submit" class="btn btn-solid" id="mc-submit">subscribe</button>
+                                <button type="submit" class="btn btn-solid" id="mc-submit">{!! __('subscribe') !!}</button>
                             </form>
                         </div>
                     </div>
@@ -33,15 +33,13 @@
                 <div class="row footer-theme partition-f">
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-title footer-mobile-title">
-                            <h4>about</h4>
+                            <h4>{!! __('about') !!}</h4>
                         </div>
-                        <div class="footer-content">
-                            <a href="{!! url('/') !!}" class="footer-logo d-block">
-                                <img src="{{ asset('assets/images/logo-acemillia-white.png') }}" alt="">
+                        <div class="footer-content acemillia-neuraloka-footer">
+                            <a href="{!! url('/') !!}" class="footer-logo d-block acemilian-link">
+                                <img src="{{ asset('assets/images/logo-neuraloka_r0.png') }}" data-logo-white-mode="{{ asset('assets/images/logo-neuraloka_black.png') }}" alt="{!! __('ACEMILLIA PHARMACEUTICALS & ACEMILLIA MARKETING') !!}">
                             </a>
-                            <p>Discover the latest fashion trends, explore unique styles, and enjoy seamless
-                                shopping with our carefully curated exclusive collections, designed to elevate your
-                                wardrobe.</p>
+                            <p>{!! __('Discover the latest fashion trends, explore unique styles, and enjoy seamless shopping with our carefully curated exclusive collections, designed to elevate your wardrobe.') !!}</p>
                             <div class="footer-social">
                                 <ul>
                                     <li>
@@ -76,15 +74,15 @@
                     <div class="col offset-xl-1">
                         <div class="sub-title">
                             <div class="footer-title">
-                                <h4>my account</h4>
+                                <h4>{!! __('my account') !!}</h4>
                             </div>
                             <div class="footer-content">
                                 <ul>
-                                    <li><a href="#!">mens</a></li>
-                                    <li><a href="#!">womans</a></li>
-                                    <li><a href="#!">clothing</a></li>
-                                    <li><a href="#!">accessories</a></li>
-                                    <li><a href="#!">featured</a></li>
+                                    <li><a href="#!">{!! __('mens') !!}</a></li>
+                                    <li><a href="#!">{!! __('womans') !!}</a></li>
+                                    <li><a href="#!">{!! __('clothing') !!}</a></li>
+                                    <li><a href="#!">{!! __('accessories') !!}</a></li>
+                                    <li><a href="#!">{!! __('featured') !!}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -96,12 +94,12 @@
                             </div>
                             <div class="footer-content">
                                 <ul>
-                                    <li><a href="#!">shipping & return</a></li>
-                                    <li><a href="#!">secure shopping</a></li>
-                                    <li><a href="#!">gallery</a></li>
-                                    <li><a href="#!">affiliates</a></li>
-                                    <li><a href="#!">contacts</a></li>
-                                    <li><a href="{!! route('merchant.redirect') !!}">Become a Merchant</a></li>
+                                    <li><a href="#!">{!! __('shipping & return') !!}</a></li>
+                                    <li><a href="#!">{!! __('secure shopping') !!}</a></li>
+                                    <li><a href="#!">{!! __('gallery') !!}</a></li>
+                                    <li><a href="#!">{!! __('affiliates') !!}</a></li>
+                                    <li><a href="#!">{!! __('contacts') !!}</a></li>
+                                    <li><a href="{!! route('merchant.redirect') !!}">{!! __('Become a Merchant') !!}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -109,7 +107,7 @@
                     <div class="col">
                         <div class="sub-title">
                             <div class="footer-title">
-                                <h4>store information</h4>
+                                <h4>{!! __('store information') !!}</h4>
                             </div>
                             <div class="footer-content">
                                 <ul class="contact-list">
@@ -126,14 +124,14 @@
         <div class="sub-footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="footer-end">
                             <p>
-                                <i class="ri-copyright-line"></i> {!! date('Y') !!} {!! __('Copyright ACEMILLIA MARKETING 2025 - All Rights Reserved') !!} {!! __('Powered and designed by Ardia Nexus') !!}
+                                <i class="ri-copyright-line"></i> {!! date('Y') !!} {!! __('Copyright ACEMILLIA PHARMACEUTICALS & ACEMILLIA MARKETING - All Rights Reserved') !!} {!! __('Powered and designed by Ardia Nexus') !!}
                             </p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="payment-card-bottom">
                             <ul>
                                 <li><a href="#!"><img src="{!! asset('assets/images/icon/visa.png') !!}" alt=""></a></li>
