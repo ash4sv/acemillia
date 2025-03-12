@@ -19,18 +19,18 @@
             var menuSlug = "{{ $menuSlug->slug }}";
             var categorySlug = "{{ isset($category) ? $category->slug : '' }}";
 
-            // Helper function to parse the initial quantity from the select text.
+            // -------------------------
+            // Load More and Quantity Logic
+            // -------------------------
             function getInitialCount() {
                 var quantityOptionText = $('.product-filter-content select.form-select.quantity option:selected').text();
                 var count = parseInt(quantityOptionText, 10);
-                return count ? count : 10; // Default to 10 if parse fails.
+                return count ? count : 10;
             }
 
-            // Function to bind the loadMore click event.
             function bindLoadMore() {
                 $(".loadMore").off('click').on('click', function(e) {
                     e.preventDefault();
-                    // Reveal next 4 hidden items.
                     $(".product-load-more .col-grid-box:hidden").slice(0, 4).slideDown();
                     if ($(".product-load-more .col-grid-box:hidden").length === 0) {
                         $(this).text('no more products');
@@ -38,45 +38,37 @@
                 });
             }
 
-            // Initialize the loadMore behavior on page load or after AJAX sort update.
             function initLoadMore() {
                 var initialCount = getInitialCount();
                 $(".product-load-more .col-grid-box").hide();
                 $(".product-load-more .col-grid-box").slice(0, initialCount).show();
-                // Reset the loadMore button text.
                 $(".loadMore").text('loadmore');
                 bindLoadMore();
             }
 
-            // Update visible items when quantity select is changed.
             function updateVisibleCount(newCount) {
                 var visibleCount = $(".product-load-more .col-grid-box:visible").length;
                 if (newCount > visibleCount) {
-                    // If more items should be visible, reveal the difference.
                     $(".product-load-more .col-grid-box").slice(visibleCount, newCount).slideDown();
                 } else if (newCount < visibleCount) {
-                    // If fewer items are needed, hide the extras.
                     $(".product-load-more .col-grid-box").slice(newCount).slideUp();
                 }
-                // Rebind the loadMore click event.
                 bindLoadMore();
             }
 
-            // Initialize loadMore on page load.
             initLoadMore();
 
-            // When the quantity select is changed, update the visible count.
             $('.product-filter-content select.form-select.quantity').on('change', function() {
                 var newCount = getInitialCount();
                 updateVisibleCount(newCount);
             });
 
-            // Bind change event to the sort order select (first select in .product-filter-content).
+            // -------------------------
+            // Sorting AJAX Logic
+            // -------------------------
             $('.product-filter-content select.form-select').eq(0).on('change', function() {
                 var selectedValue = $(this).val();
                 var sortParam = '';
-
-                // Map the option value to the sort parameter.
                 if (selectedValue === "" || selectedValue === null) {
                     sortParam = "asc";
                 } else if (selectedValue == "1") {
@@ -87,24 +79,19 @@
                     sortParam = "high-low";
                 }
 
-                // Build the URL based on whether a category exists.
                 var url = '';
                 if (categorySlug !== "") {
-                    // Use the shop category sort route.
                     url = "{{ route('web.shop.category.sort', ['menu' => 'MENU_PLACEHOLDER', 'category' => 'CATEGORY_PLACEHOLDER']) }}";
                     url = url.replace('MENU_PLACEHOLDER', menuSlug).replace('CATEGORY_PLACEHOLDER', categorySlug);
                 } else {
-                    // Use the shop menu sort route.
                     url = "{{ route('web.shop.menu.sort', ['menu' => 'MENU_PLACEHOLDER']) }}";
                     url = url.replace('MENU_PLACEHOLDER', menuSlug);
                 }
-                // Append the sort parameter as a query string.
                 url += '?sort=' + sortParam;
 
-                // Display a loading overlay with a spinner in the middle of the screen.
                 if ($('#loadingOverlay').length === 0) {
                     $('body').append(
-                        '<div id="loadingOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 9999;">' +
+                        '<div id="loadingOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; z-index: 9999;">' +
                         '<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>' +
                         '</div>'
                     );
@@ -112,16 +99,12 @@
                     $('#loadingOverlay').show();
                 }
 
-                // Make an AJAX GET request to fetch the sorted products.
                 $.ajax({
                     url: url,
                     type: 'GET',
                     success: function(response) {
-                        // Replace the content of the products container with the response HTML.
                         $('.product-wrapper-grid .acemillia-shop-product').html(response);
-                        // Hide the spinner overlay.
                         $('#loadingOverlay').fadeOut();
-                        // Reinitialize loadMore for the new content.
                         initLoadMore();
                     },
                     error: function(xhr, status, error) {
@@ -129,6 +112,69 @@
                         $('#loadingOverlay').fadeOut();
                     }
                 });
+            });
+            // -------------------------
+            // Grid Layout Toggle Code
+            // -------------------------
+            // Remove grid classes but preserve "col-grid-box"
+            function removeColClasses($elem) {
+                $elem.removeClass(function(index, className) {
+                    // This regex matches classes starting with "col-" except "col-grid-box"
+                    return (className.match(/\bcol-(?!grid-box)\S+/g) || []).join(' ');
+                });
+            }
+
+            // List layout view toggle
+            $('.list-layout-view').on('click', function(e) {
+                e.preventDefault();
+                $(".product-wrapper-grid").css("opacity", "0.2");
+                $('.shop-cart-ajax-loader').css("display", "block");
+                $('.product-wrapper-grid').addClass("list-view");
+                // Only remove grid system classes, preserving "col-grid-box"
+                removeColClasses($(".product-wrapper-grid .col-grid-box"));
+                $(".product-wrapper-grid .col-grid-box").addClass("col-sm-12 col-6");
+                $(".grid-icon").removeClass('active');
+                $(this).addClass('active');
+                setTimeout(function() {
+                    $(".product-wrapper-grid").css("opacity", "1");
+                    $('.shop-cart-ajax-loader').css("display", "none");
+                }, 500);
+            });
+
+            // Grid layout view toggles
+            $('.product-2-layout-view, .product-3-layout-view, .product-4-layout-view, .product-6-layout-view').on('click', function(e) {
+                e.preventDefault();
+                $('.product-wrapper-grid').removeClass("list-view");
+                removeColClasses($(".product-wrapper-grid .col-grid-box"));
+                $(".product-wrapper-grid .col-grid-box").addClass("col-lg-3");
+            });
+
+            $('.product-2-layout-view').on('click', function(e) {
+                e.preventDefault();
+                removeColClasses($(".product-wrapper-grid .col-grid-box"));
+                $(".product-wrapper-grid .col-grid-box").addClass("col-6");
+                $(this).addClass('active').siblings().removeClass('active');
+            });
+
+            $('.product-3-layout-view').on('click', function(e) {
+                e.preventDefault();
+                removeColClasses($(".product-wrapper-grid .col-grid-box"));
+                $(".product-wrapper-grid .col-grid-box").addClass("col-xl-4 col-6");
+                $(this).addClass('active').siblings().removeClass('active');
+            });
+
+            $('.product-4-layout-view').on('click', function(e) {
+                e.preventDefault();
+                removeColClasses($(".product-wrapper-grid .col-grid-box"));
+                $(".product-wrapper-grid .col-grid-box").addClass("col-xl-3 col-6");
+                $(this).addClass('active').siblings().removeClass('active');
+            });
+
+            $('.product-6-layout-view').on('click', function(e) {
+                e.preventDefault();
+                removeColClasses($(".product-wrapper-grid .col-grid-box"));
+                $(".product-wrapper-grid .col-grid-box").addClass("col-lg-2");
+                $(this).addClass('active').siblings().removeClass('active');
             });
         });
     </script>
