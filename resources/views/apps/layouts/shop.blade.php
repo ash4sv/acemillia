@@ -863,7 +863,7 @@
         $(document).ready(function() {
             /*if (window.location.pathname !== '/') {*/
                 function updateNewDiv() {
-                    if ($(window).width() >= 768) {
+                    /*if ($(window).width() >= 768) {*/
                         // If new-div does not exist, create it
                         if ($('header.header-5').next('.new-div').length === 0) {
                             $('<div>', {
@@ -875,10 +875,10 @@
                         }
                         // Update the height on resize
                         $('.new-div').height($('header.header-5').height());
-                    } else {
+                    /*} else {*/
                         // Remove the new-div when the window is less than 760px wide
-                        $('.new-div').remove();
-                    }
+                        /*$('.new-div').remove();*/
+                    /*}*/
                 }
 
                 // Initial check on document ready
