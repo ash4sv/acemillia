@@ -87,11 +87,15 @@
     color:#fff !important;
 }
 
+.dark .load-more-sec a {
+    color: var(--theme-color);
+}
+
 .btn-outline {
     color:#d4b196;
 }
 
-footer p, .sub-footer p, .footer-theme .sub-title li a, .footer-theme .sub-title .contact-list li,
+footer p, .sub-footer p, .footer-theme .sub-title li a, .footer-theme .sub-title .contact-list li, .load-more-sec a,
 .collection-collapse-block .collection-accordion .accordion-item .accordion-body .collection-listing li .form-check .form-check-label {
     color:#222;
 }
