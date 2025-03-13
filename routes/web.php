@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\Merchant\SpecialOfferMerchantController;
+use App\Http\Controllers\Services\AppsPaymentController;
 use App\Http\Controllers\User\AddressUserController;
 use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
@@ -32,6 +33,8 @@ Route::name('web.')->group(function () {
     Route::get('shop/{menu}', [WebController::class, 'shopIndex'])->name('shop.index');
     Route::get('shop/{menu}/{category}', [WebController::class, 'shopCategory'])->name('shop.category');
     Route::get('shop/{menu}/{category}/{product}', [WebController::class, 'shopProduct'])->name('shop.product');
+    Route::get('sort/{menu}/sort', [WebController::class, 'shopIndexSort'])->name('shop.menu.sort');
+    Route::get('sort/{menu}/{category}/sort', [WebController::class, 'shopCategorySort'])->name('shop.category.sort');
     Route::get('quick-view/{product}', [WebController::class, 'quickview'])->name('shop.quickview');
 
     Route::prefix('blog')->name('blog.')->group(function () {
@@ -74,17 +77,27 @@ Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
         Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
         Route::post('password-update', [ProfileUserController::class, 'passwordUpdate'])->name('password.update');
         Route::resource('saved-address', AddressUserController::class);
+
+        Route::get('/states', [AddressUserController::class, 'getStates']);
+        Route::get('/cities', [AddressUserController::class, 'getCities']);
+        Route::get('/streets', [AddressUserController::class, 'getStreets']);
+        Route::get('/postcodes', [AddressUserController::class, 'getPostcodes']);
     });
 
     Route::get('address', [ProfileUserController::class, 'addressBook'])->name('address');
 
     Route::prefix('purchase')->name('purchase.')->group(function () {
         Route::get('cart', [PurchaseUserController::class, 'viewCart'])->name('cart');
+        Route::post('cart-qty-update', [PurchaseUserController::class, 'updateCartQuantity'])->name('cart.quantity.update');
         Route::get('checkout', [PurchaseUserController::class, 'checkout'])->name('checkout');
         Route::post('checkoutPost', [PurchaseUserController::class, 'checkoutPost'])->name('checkout-post');
+
+        Route::get('payment-redirect', [AppsPaymentController::class, 'redirectUrl'])->name('payment.redirect.url');
     });
 });
-
+Route::prefix('purchase')->name('purchase.')->group(function () {
+    Route::post('payment-webhook', [AppsPaymentController::class, 'webhookUrl'])->name('payment.webhook.url');
+});
 
 // ======= //
 Route::get('merchant', [AuthMerchantController::class, 'redirect'])->name('merchant.redirect');
@@ -115,6 +128,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest'])->group(function (){
         Route::get('login', [AuthAdminController::class, 'login'])->name('login');
         Route::post('login', [AuthAdminController::class, 'loginAuth'])->name('auth.login');
+        Route::get('register', [AuthAdminController::class, 'register'])->name('register');
+        Route::post('register', [AuthAdminController::class, 'registerAuth'])->name('auth.register');
+        Route::get('forgot-password', [AuthAdminController::class, 'forgetPassword'])->name('password.request');
+        Route::post('forgot-password', [AuthAdminController::class, 'forgetPasswordAuth'])->name('auth.password.request');
+        Route::get('reset-password/{token}', [AuthAdminController::class, 'resetPassword'])->name('password.reset');
+        Route::post('reset-password', [AuthAdminController::class, 'resetPasswordAuth'])->name('auth.password.reset');
         Route::post('logout', [AuthAdminController::class, 'destroy'])->name('auth.destroy');
     });
     Route::middleware(['auth:admin'])->group(function () {

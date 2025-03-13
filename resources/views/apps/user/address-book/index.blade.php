@@ -8,37 +8,46 @@
             <div class="card mb-0 mt-0">
                 <div class="card-body">
                     <div class="top-sec">
-                        <h3>Address Book</h3>
-                        <button data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{{ route('user.saved-address.create') }}" data-create-title="Address" class="btn btn-sm btn-solid">+ Add New</button>
+                        <h3>{!! __('Address Book') !!}</h3>
+                        <button data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{{ route('user.saved-address.create') }}" data-create-title="Address" class="btn btn-sm btn-solid">{!! __('+ Add New') !!}</button>
                     </div>
                     <div class="address-book-section">
                         <div class="row g-4">
                             @forelse(auth()->guard('web')->user()->addressBooks as $key => $address)
-                                <div class="select-box active col-xl-4 col-md-6">
+                                <div class="select-box active col-xl-6 col-md-6">
                                     <div class="address-box">
-                                        <div class="top">
-                                            <h6>John Due {{--<span>New Home</span>--}}</h6>
+                                        <div class="top mb-2 position-relative">
+                                            <h6 class="py-2">{!! __($address->recipient_name) !!} @isset($address->title)<span>{!! __($address->title) !!}</span>@endisset</h6>
                                         </div>
                                         <div class="middle">
                                             <div class="address">
-                                                <p>{!! $address->address !!}</p>
-                                                <p>{!! $address->state !!}, {!! $address->country !!}</p>
-                                                <p>{!! $address->postcode !!}, {!! $address->city !!}</p>
+                                                <p>{!! __($address->address) !!}</p>
+                                                <p>{!! __($address->street_address) !!}</p>
+                                                <p>{!! __($address->postcode) !!}, {!! __($address->city) !!}</p>
+                                                <p>
+                                                    <span class="state-name" data-state-code="{{ $address->state }}">
+                                                        {!! __($address->state) !!}
+                                                    </span>, {!! __($address->country) !!}
+                                                </p>
                                             </div>
                                             <div class="number">
-                                                <p>Phone: <span>+1 5551855359</span></p>
+                                                <p>{!! __('Phone:') !!} <span>{!! __($address->phone) !!}</span></p>
                                             </div>
                                         </div>
                                         <div class="bottom">
-                                            <a href="#!" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{{ route('user.saved-address.edit', $address->id) }}" data-create-title="Edit Address" class="bottom_btn">Edit</a>
-                                            <a href="#!" class="bottom_btn">Remove</a>
+                                            <a href="#!" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{{ route('user.saved-address.edit', $address->id) }}" data-create-title="Edit Address" class="bottom_btn">{!! __('Edit') !!}</a>
+                                            <a href="#!" class="bottom_btn" onclick="Apps.deleteConfirm('remove-saved-address-{!! __($address->id) . '-' . __($key) !!}')">{!! __('Remove') !!}</a>
+                                            <form id="remove-saved-address-{!! __($address->id) . '-' . __($key) !!}" action="{!! route('user.saved-address.destroy', $address->id) !!}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             @empty
                                 <div class="select-box active col-xl-12 col-md-12">
                                     <div class="address-box">
-                                        <h4 class="mb-0 p-4">have no registered address</h4>
+                                        <h4 class="mb-0 p-4">{!! __('have no registered address') !!}</h4>
                                     </div>
                                 </div>
                             @endforelse
@@ -51,3 +60,33 @@
 </div>
 
 @endsection
+
+@push('script')
+<script>
+$(document).ready(function(){
+    // Fetch the state mappings once
+    $.ajax({
+        url: '/user/states',
+        method: 'GET',
+        success: function(states) {
+            // Create a mapping from state code to state name
+            var stateMapping = {};
+            $.each(states, function(index, state) {
+                stateMapping[state.value] = state.name;
+            });
+
+            // Iterate over all elements with the "state-name" class and update the text
+            $('.state-name').each(function(){
+                var stateCode = $(this).data('state-code');
+                if(stateMapping[stateCode]) {
+                    $(this).text(stateMapping[stateCode]);
+                }
+            });
+        },
+        error: function(err) {
+            console.log('Error fetching state data:', err);
+        }
+    });
+});
+</script>
+@endpush

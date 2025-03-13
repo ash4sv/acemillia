@@ -1,11 +1,11 @@
 .main-menu .brand-logo {
-    padding-block: calc(15px + (35 - 15) * ((100vw - 320px) / (1920 - 320)));
-}
-.footer-theme .footer-logo img {
-    height: calc(40px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
+    padding-block: calc(45px + (25 - 45) * ((100vw - 320px) / (1920 - 320)));
 }
 .main-menu .brand-logo img {
-    height: calc(35px + (34 - 25) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(50px + (30 - 10) * ((100vw - 320px) / (1920 - 320)));
+}
+.footer-theme .footer-logo img {
+    height: calc(50px + (30 - 10) * ((100vw - 320px) / (1920 - 320)));
 }
 .offset-scriptnew .close-circle .close_button {
     width: calc(24px + 6 * (100vw - 320px) / 1600);
@@ -41,4 +41,94 @@
 .cart-section tbody tr td:nth-child(2),
 .wishlist-section tbody tr td:nth-child(2) {
     text-align: left;
+}
+.collection-collapse-block .collection-accordion .accordion-item .accordion-body {
+    max-height:100%;
+}
+
+.theme-modal-2 .form .form-box .form-select {
+    height: auto;
+    padding: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))) calc(13px + (19 - 13) * ((100vw - 320px) / (1920 - 320)));
+    font-weight: 500;
+    /*border: 1px solid #eee;*/
+    font-size: calc(14px + (14 - 14) * ((100vw - 320px) / (1920 - 320)));
+    border-radius: 0;
+}
+.product-page-details .quantity-variant li,
+.dark .product-page-details .quantity-variant li {
+    border:1px solid transparent;
+}
+.dark .product-page-details .quantity-variant {
+    overflow-x: visible;
+}
+
+.banner-slider .home-banner > div:last-child img {
+    margin-top:0;
+}
+
+.banner-slider.acemillia .home-banner > div img,
+.collection-banner.acemillia .img-part img {
+  width: 100%;
+  object-fit: cover;
+  overflow: hidden;
+}
+
+.dark-box .theme-product-4 .product-detail .product-title,
+.dark-box .theme-product-4 .product-detail .price {
+    color:#000000;
+}
+
+.dark .dark-box .theme-product-4 .product-detail .product-title,
+.dark .dark-box .theme-product-4 .product-detail .price,
+.dark .breadcrumb-section h2,
+.dark .start-selling h4,
+.dark .start-selling p,
+.dark .about-page h4,
+.dark .about-page p,
+.dark .service-block1 h4,
+.dark .service-block1 p,
+.dark .become-vendor .step-bg h4,
+.dark .become-vendor .step-bg .step-box p {
+    color:#fff;
+}
+
+.dark .footer-theme .sub-title li,
+.dark .sub-footer p {
+    color:#fff !important;
+}
+
+.dark .load-more-sec a {
+    color: var(--theme-color);
+}
+
+.btn-outline {
+    color:#d4b196;
+}
+
+footer p,
+.sub-footer p,
+.footer-theme
+.sub-title li a,
+.footer-theme .sub-title .contact-list li,
+.load-more-sec a,
+.collection-collapse-block .collection-accordion .accordion-item .accordion-body .collection-listing li .form-check .form-check-label,
+.login-page .theme-card .form-box .form-label,
+.login-page .authentication-right h6,
+.login-page .authentication-right p,
+.login-page .form-box a,
+.start-selling h4,
+.start-selling p,
+.about-page h4,
+.about-page p,
+.service-block1 h4,
+.service-block1 p,
+.become-vendor .step-bg h4,
+.become-vendor .step-bg .step-box p,
+.breadcrumb-section h2,
+.breadcrumb-item.active {
+    color:#000000;
+}
+
+.btn-solid {
+    color:#000000;
 }

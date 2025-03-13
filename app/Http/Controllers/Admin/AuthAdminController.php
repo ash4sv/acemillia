@@ -40,6 +40,36 @@ class AuthAdminController extends Controller
         return redirect()->back();
     }
 
+    public function register()
+    {
+
+    }
+
+    public function registerAuth()
+    {
+
+    }
+
+    public function forgetPassword()
+    {
+
+    }
+
+    public function forgetPasswordAuth()
+    {
+
+    }
+
+    public function resetPassword()
+    {
+
+    }
+
+    public function resetPasswordAuth()
+    {
+
+    }
+
     public function destroy()
     {
         auth()->guard('admin')->logout();

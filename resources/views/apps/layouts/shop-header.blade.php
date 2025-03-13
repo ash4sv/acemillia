@@ -1,14 +1,14 @@
     <!-- header start -->
-    <header class="header-5 text-light-header">
+    <header class="header-5">
         <div class="mobile-fix-option"></div>
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="main-menu">
                         <div class="menu-left">
-                            <div class="brand-logo">
+                            <div class="brand-logo acemillia">
                                 <a href="{{ url('/') }}">
-                                    <img src="{{ asset('assets/images/logo-acemillia-white.png') }}" class="img-fluid blur-up lazyload" alt="">
+                                    <img src="{{ asset('assets/images/logo-neuraloka_r0.png') }}" data-logo-white-mode="{{ asset('assets/images/logo-neuraloka_black.png') }}" class="img-fluid blur-up lazyload" alt="">
                                 </a>
                             </div>
                         </div>
@@ -139,6 +139,11 @@
                                                 <ul>
                                                     <li><a href="#!">english</a> </li>
                                                     {{--<li><a href="#!">french</a> </li>--}}
+                                                </ul>
+                                                <h6>Switch Mode</h6>
+                                                <ul class="theme-switch-btn">
+                                                    <li><a href="#!">Light Mode</a></li>
+                                                    <li><a href="#!">Dark Mode</a></li>
                                                 </ul>
                                                 {{--<h6>currency</h6>
                                                 <ul class="list-inline">

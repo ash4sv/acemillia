@@ -36,9 +36,9 @@
                 <div class="mb-3 form-password-toggle">
                     <div class="d-flex justify-content-between">
                         <label class="form-label" for="password">{{ __('Password') }}</label>
-                        {{--<a href="{{ route( 'exhibitor.auth.password.request') }}">
+                        <a href="{{ route( 'admin.auth.password.request') }}">
                             <small>{{ __('Forgot Password?') }}</small>
-                        </a>--}}
+                        </a>
                     </div>
                     <div class="input-group input-group-merge">
                         <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
@@ -61,12 +61,12 @@
                 </div>
             </form>
 
-            {{--<p class="text-center">
+            <p class="text-center">
                 <span>{{ __('New on our platform?') }}</span>
                 <a href="{{ route('admin.register') }}">
                     <span>{{ __('Create an account') }}</span>
                 </a>
-            </p>--}}
+            </p>
 
             {{--<div class="divider my-4">
                 <div class="divider-text">or</div>

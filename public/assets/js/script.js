@@ -57,7 +57,7 @@
     });
 
 
-    /*=====================  
+    /*=====================
      02.Tap on Top
      ==========================*/
     $(window).on('scroll', function () {
@@ -1902,7 +1902,7 @@
     });
 
 
-    $('.list-layout-view').on('click', function (e) {
+    /*$('.list-layout-view').on('click', function (e) {
         $(".product-wrapper-grid").css("opacity", "0.2");
         $('.shop-cart-ajax-loader').css("display", "block");
         $('.product-wrapper-grid').addClass("list-view");
@@ -1941,7 +1941,7 @@
         $(".product-wrapper-grid").children().children().removeClass();
         $(".product-wrapper-grid").children().children().addClass("col-lg-2");
         $(this).addClass('active').siblings().removeClass('active');
-    });
+    });*/
 
     /*=====================
      18.filter sidebar js
@@ -2253,8 +2253,8 @@ var incrementMinus = buttonMinus.click(function () {
     }
 });
 
-/*===================== 
- compare-btn Js 
+/*=====================
+ compare-btn Js
 ==========================*/
 // Select all elements with the class 'compare'
 const compareButtons = document.querySelectorAll(".add-compare");

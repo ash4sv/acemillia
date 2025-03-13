@@ -10,56 +10,154 @@
 @endpush
 
 @push('script')
-
     <script>
         $(document).ready(function() {
-            // Set active to the first child in each variation box on page load
-            $('.quantity-variant.rectangle').each(function() {
-                var $firstLi = $(this).find('li:first');
-                if ($firstLi.length) {
-                    $firstLi.addClass('active');
-                    $firstLi.find('input[type="radio"]').prop('checked', true);
-                }
-            });
+            // ----------------------------------------
+            // 1) Remove / Comment Out Any Preselection
+            // ----------------------------------------
+            // $('.quantity-variant.rectangle').each(function() {
+            //     var $firstLi = $(this).find('li:first');
+            //     if ($firstLi.length) {
+            //         $firstLi.addClass('active');
+            //         $firstLi.find('input[type="radio"]').prop('checked', true);
+            //     }
+            // });
 
-            // Variation Option Selection: Update active class and check radio input on click
-            $('.quantity-variant.rectangle li button').on('click', function() {
-                var $li = $(this).closest('li');
+            // ----------------------------------------
+            // 2) Variation Option Selection
+            // ----------------------------------------
+            // $('.quantity-variant.rectangle li button').on('click', function() {
+            //     var $li = $(this).closest('li');
+            //
+            //     // Remove active class from siblings
+            //     $li.siblings().removeClass('active');
+            //     // Add active class to the clicked <li>
+            //     $li.addClass('active');
+            //
+            //     // Check the hidden radio input inside the clicked <li>
+            //     $li.find('input[type="radio"]').prop('checked', true);
+            // });
 
-                // Remove active class from siblings
-                $li.siblings().removeClass('active');
-                // Add active class to the clicked <li>
-                $li.addClass('active');
 
-                // Check the hidden radio input inside the clicked <li>
-                $li.find('input[type="radio"]').prop('checked', true);
-            });
+    // -----------------------------------------------------------------
+    // 1) QUANTITY INCREMENT/DECREMENT (unchanged)
+    // -----------------------------------------------------------------
+    $(document).on('click', '.quantity-right-plus', function () {
+        var $qtyInput = $(this).closest('.input-group').find('.input-number');
+        var currentVal = parseInt($qtyInput.val(), 10);
+        if (!isNaN(currentVal)) {
+            $qtyInput.val(currentVal + 1);
+        }
+    });
+    $(document).on('click', '.quantity-left-minus', function () {
+        var $qtyInput = $(this).closest('.input-group').find('.input-number');
+        var currentVal = parseInt($qtyInput.val(), 10);
+        if (!isNaN(currentVal) && currentVal > 1) {
+            $qtyInput.val(currentVal - 1);
+        }
+    });
 
-            // Quantity Increment Functionality
-            $('.quantity-right-plus').on('click', function () {
-                // Locate the input field within the same .input-group container
-                var $qtyInput = $(this).closest('.input-group').find('.input-number');
-                var currentVal = parseInt($qtyInput.val(), 10);
+    // -----------------------------------------------------------------
+    // 2) PRICE CALCULATION & ADD-TO-CART LOGIC
+    // -----------------------------------------------------------------
 
-                if (!isNaN(currentVal)) {
-                    $qtyInput.val(currentVal + 1);
-                }
-            });
+    // Grab original text (range or single) from .price-text-data h3
+    const $priceText = $('.price-text-data h3');
+    const originalPriceDisplay = $priceText.text().trim();
 
-            // Quantity Decrement Functionality
-            $('.quantity-left-minus').on('click', function () {
-                // Locate the input field within the same .input-group container
-                var $qtyInput = $(this).closest('.input-group').find('.input-number');
-                var currentVal = parseInt($qtyInput.val(), 10);
+    // The hint element
+    const $priceHint = $('.price-hint');
 
-                // Ensure that the quantity doesn't drop below 1
-                if (!isNaN(currentVal) && currentVal > 1) {
-                    $qtyInput.val(currentVal - 1);
-                }
-            });
+    // The Add to Cart button
+    const $addToCartBtn = $('#add-to-cart-btn');
+
+    // Numeric base price (no "MYR" prefix)
+    let basePrice = parseFloat($('#base-price').val()) || 0.0;
+
+    // Enhanced logging in allOptionsSelected: log group names and checked counts
+    function allOptionsSelected() {
+        let allSelected = true;
+        $('.variation-box.size-box.product-page').each(function(index) {
+            const $radios = $(this).find('input[type="radio"]');
+            const groupName = $radios.first().attr('name') || 'unknown';
+            const count = $(this).find('input[type="radio"]:checked').length;
+            console.log('Group', index, 'with name', groupName, 'has', count, 'checked.');
+            if (count === 0) {
+                allSelected = false;
+            }
+        });
+        return allSelected;
+    }
+
+    // Recalculate final price
+    function recalcPrice() {
+        console.log('--- recalcPrice() triggered ---');
+
+        if (!allOptionsSelected()) {
+            $priceText.text(originalPriceDisplay);
+            $priceHint.text('Select all options to see final price').show();
+            $addToCartBtn.prop('disabled', true);
+            return;
+        }
+
+        // Sum up base price + additional prices from all checked radios
+        let total = basePrice;
+        $('input.product-option-radio[type="radio"]:checked').each(function() {
+            let addPrice = parseFloat($(this).data('additional-price')) || 0.0;
+            total += addPrice;
+        });
+
+        $priceText.text('MYR' + total.toFixed(2));
+        $priceHint.hide();
+        $addToCartBtn.prop('disabled', false);
+        $('input[name="price"]').val(total);
+
+        console.log('All options selected! Computed price =', total);
+    }
+
+    // -----------------------------------------------------------------
+    // 3) RADIO "CHANGE" EVENT (delegated)
+    // -----------------------------------------------------------------
+    $(document).on('change', 'input.product-option-radio[type="radio"]', function() {
+        console.log('Radio changed! name=', $(this).attr('name'),
+                    '| value=', $(this).val(),
+                    '| now checked?', $(this).prop('checked'));
+        // Call recalcPrice; sometimes triggering change alone may be too fast.
+        setTimeout(recalcPrice, 10);
+    });
+
+    // -----------------------------------------------------------------
+    // 4) OPTION BUTTON CLICK (delegated)
+    // -----------------------------------------------------------------
+    // Using delegated binding in case the elements load dynamically.
+    $(document).on('click', '.variation-box ul li button', function() {
+        console.log('Option button clicked!');
+        let $li = $(this).closest('li');
+
+        // Toggle active class on the clicked li
+        $li.siblings().removeClass('active');
+        $li.addClass('active');
+
+        // Find the radio inside this li and force it checked and trigger change
+        let $radio = $li.find('input[type="radio"]');
+        if ($radio.length) {
+            console.log('Found radio for group', $radio.attr('name'),
+                        '=> setting checked and triggering change.');
+            $radio.prop('checked', true).trigger('change');
+            // Also explicitly call recalcPrice to ensure update.
+            recalcPrice();
+        } else {
+            console.log('No radio found in this li.');
+        }
+    });
+
+    // -----------------------------------------------------------------
+    // 5) INITIAL CALL
+    // -----------------------------------------------------------------
+    recalcPrice();
+    console.log('Script loaded, initial recalcPrice() called.');
         });
     </script>
-
 @endpush
 
 @section('webpage')
@@ -72,16 +170,16 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{!! url('/') !!}">Home</a></li>
                     @if(isset($menuSlug))
-                    <li class="breadcrumb-item"><a href="{!! route('web.shop.index', $menuSlug->slug) !!}">{!! $menuSlug->name !!}</a></li>
+                        <li class="breadcrumb-item"><a href="{!! route('web.shop.index', $menuSlug->slug) !!}">{!! $menuSlug->name !!}</a></li>
                     @endif
                     @if(isset($category))
-                    <li class="breadcrumb-item"><a href="{!! route('web.shop.category', [$menuSlug->slug, $category->slug]) !!}">{!! $category->name !!}</a></li>
+                        <li class="breadcrumb-item"><a href="{!! route('web.shop.category', [$menuSlug->slug, $category->slug]) !!}">{!! $category->name !!}</a></li>
                     @endif
                     @if(isset($product->sub_categories) && $product->sub_categories->isNotEmpty())
-                    <li class="breadcrumb-item"><a href="">{!! $product->sub_categories->pluck('name')->implode('/') !!}</a></li>
+                        <li class="breadcrumb-item"><a href="">{!! $product->sub_categories->pluck('name')->implode('/') !!}</a></li>
                     @endif
                     @if(isset($product))
-                    <li class="breadcrumb-item active">{!! strtoupper($product->name) !!}</li>
+                        <li class="breadcrumb-item active">{!! strtoupper($product->name) !!}</li>
                     @endif
                 </ol>
             </nav>
@@ -131,6 +229,8 @@
                                 <h2 class="main-title">{{ $product->name }}</h2>
                                 <input type="hidden" name="product" readonly value="{{ $product->id }}">
                                 <input type="hidden" name="price" readonly value="{{ $product->price }}">
+                                <input type="hidden" name="base-price" id="base-price" value="{{ (float) $product->getRawOriginal('price') }}">
+
                                 {{--<div class="product-rating">
                                     <div class="rating-list">
                                         <i class="ri-star-fill"></i>
@@ -142,13 +242,25 @@
                                     <span class="divider">|</span>
                                     <a href="#!">20 Reviews</a>
                                 </div>--}}
-                                <div class="price-text">
+                                @php
+                                    // Grab the [min, max] array
+                                    [$minPrice, $maxPrice] = $product->min_max_price;
+                                @endphp
+                                <div class="price-text price-text-data">
                                     <h3>
-                                        {{ $product->price }}
-                                        {{--<del> $ 18.00 </del><span class="discounted-price"> 7% Off </span>--}}
+                                        @if(abs($minPrice - $maxPrice) < 0.0001)
+                                            {{ 'MYR' . number_format($minPrice, 2) }}
+                                        @else
+                                            {{ 'MYR' . number_format($minPrice, 2) }} - {{ 'MYR' . number_format($maxPrice, 2) }}
+                                        @endif
+                                        {{--<del> $ 18.00 </del>--}}
+                                        {{--<span class="discounted-price"> 7% Off </span>--}}
                                     </h3>
                                     {{--<span>Inclusive all the text</span>--}}
                                 </div>
+                                <small class="price-hint text-white d-block">
+                                    Select all options to see final price
+                                </small>
 
                                 <div class="size-delivery-info">
                                     @isset($product->information)
@@ -162,21 +274,25 @@
                                     <div class="mt-3">
                                         <h4 class="sub-title mb-2">{{ $option->name }}</h4>
                                         <input type="hidden" name="options[{{ $p }}][option]" value="{{ $option->id }}">
-                                        <div class="variation-box size-box">
+                                        <div class="variation-box size-box product-page">
                                             <ul class="quantity-variant rectangle">
                                                 @forelse($option->values as $i => $value)
                                                     <li class="p-0">
                                                         <button type="button" class="px-3 py-2">{{ $value->value }}</button>
-                                                        <input type="radio" name="options[{{ $p }}][value]" id="" value="{!! $value->id !!}" class="d-none">
+                                                        <input
+                                                            type="radio"
+                                                            name="options[{{ $p }}][value]"
+                                                            class="d-none product-option-radio"
+                                                            value="{{ $value->id }}"
+                                                            data-additional-price="{{ $value->additional_price }}"
+                                                        >
                                                     </li>
                                                 @empty
-
                                                 @endforelse
                                             </ul>
                                         </div>
                                     </div>
                                 @empty
-
                                 @endforelse
 
                                 <div class="product-buttons">
@@ -199,7 +315,7 @@
                                     </div>
 
                                     <div class="d-flex align-items-center gap-3">
-                                        <button class="btn btn-animation btn-solid hover-solid scroll-button" type="submit">
+                                        <button class="btn btn-animation btn-solid hover-solid scroll-button" type="submit" id="add-to-cart-btn" disabled>
                                             <i class="ri-shopping-cart-line me-1"></i>Add To Cart
                                         </button>
                                         {{--<a href="#!" class="btn btn-solid buy-button">Buy Now</a>--}}
@@ -588,59 +704,59 @@
 
             <div class="product-5 product-m no-arrow">
                 @forelse($relatedProducts as $key => $relatedProduct)
-                <div class="basic-product theme-product-1">
-                    <div class="overflow-hidden">
-                        <div class="img-wrapper">
-                            <a href="{{ route('web.shop.product', [$menuSlug->slug, $relatedProduct->categories->pluck('slug')->first(), $relatedProduct->slug]) }}">
-                                <img src="{{ asset($relatedProduct->image) }}" class="img-fluid blur-up lazyload" alt="">
-                            </a>
-                            {{--<div class="rating-label">
-                                <i class="ri-star-fill"></i><span>4.5</span>
-                            </div>--}}
-                            <div class="cart-info">
-                                <ul class="hover-action">
-                                    <li>
-                                        <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
-                                            <i class="ri-shopping-cart-line"></i>
-                                        </button>
-                                    </li>
-                                    {{--<li>
-                                        <a href="#!" title="Add to Wishlist">
-                                            <i class="ri-heart-line"></i>
-                                        </a>
-                                    </li>--}}
-                                    <li>
-                                        <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                            <i class="ri-eye-line"></i>
-                                        </a>
-                                    </li>
-                                    {{--<li>
-                                        <a href="compare.html" title="Compare">
-                                            <i class="ri-loop-left-line"></i>
-                                        </a>
-                                    </li>--}}
+                    <div class="basic-product theme-product-1">
+                        <div class="overflow-hidden">
+                            <div class="img-wrapper">
+                                <a href="{{ route('web.shop.product', [$menuSlug->slug, $relatedProduct->categories->pluck('slug')->first(), $relatedProduct->slug]) }}">
+                                    <img src="{{ asset($relatedProduct->image) }}" class="img-fluid blur-up lazyload" alt="">
+                                </a>
+                                {{--<div class="rating-label">
+                                    <i class="ri-star-fill"></i><span>4.5</span>
+                                </div>--}}
+                                <div class="cart-info">
+                                    <ul class="hover-action">
+                                        <li>
+                                            <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                                <i class="ri-shopping-cart-line"></i>
+                                            </button>
+                                        </li>
+                                        {{--<li>
+                                            <a href="#!" title="Add to Wishlist">
+                                                <i class="ri-heart-line"></i>
+                                            </a>
+                                        </li>--}}
+                                        <li>
+                                            <a href="#quickView" data-bs-toggle="modal" title="Quick View">
+                                                <i class="ri-eye-line"></i>
+                                            </a>
+                                        </li>
+                                        {{--<li>
+                                            <a href="compare.html" title="Compare">
+                                                <i class="ri-loop-left-line"></i>
+                                            </a>
+                                        </li>--}}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="product-detail">
+                                <div>
+                                    <div class="brand-w-color">
+                                        <a class="product-title" href="{{ route('web.shop.product', [$menuSlug->slug, $relatedProduct->categories->pluck('slug')->first(), $relatedProduct->slug]) }}">{!! Str::limit($relatedProduct->name, 20, '...') !!}</a>
+                                    </div>
+                                    {{--<h6>Purple Mini Dress</h6>--}}
+                                    <h4 class="price">
+                                        {!! $relatedProduct->price !!} {{--<del> $5.00 </del>--}}
+                                        {{--<span class="discounted-price">5% Off</span>--}}
+                                    </h4>
+                                </div>
+                                <ul class="offer-panel">
+                                    <li><span class="offer-icon"><i class="ri-discount-percent-fill"></i></span> Limited Time Offer: 5% off</li>
+                                    <li><span class="offer-icon"><i class="ri-discount-percent-fill"></i></span> Limited Time Offer: 5% off</li>
+                                    <li><span class="offer-icon"><i class="ri-discount-percent-fill"></i></span> Limited Time Offer: 5% off</li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="product-detail">
-                            <div>
-                                <div class="brand-w-color">
-                                    <a class="product-title" href="{{ route('web.shop.product', [$menuSlug->slug, $relatedProduct->categories->pluck('slug')->first(), $relatedProduct->slug]) }}">{!! Str::limit($relatedProduct->name, 20, '...') !!}</a>
-                                </div>
-                                {{--<h6>Purple Mini Dress</h6>--}}
-                                <h4 class="price">
-                                    {!! $relatedProduct->price !!} {{--<del> $5.00 </del>--}}
-                                    {{--<span class="discounted-price">5% Off</span>--}}
-                                </h4>
-                            </div>
-                            <ul class="offer-panel">
-                                <li><span class="offer-icon"><i class="ri-discount-percent-fill"></i></span> Limited Time Offer: 5% off</li>
-                                <li><span class="offer-icon"><i class="ri-discount-percent-fill"></i></span> Limited Time Offer: 5% off</li>
-                                <li><span class="offer-icon"><i class="ri-discount-percent-fill"></i></span> Limited Time Offer: 5% off</li>
-                            </ul>
-                        </div>
                     </div>
-                </div>
                 @empty
 
                 @endforelse
