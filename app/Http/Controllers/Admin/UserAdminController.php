@@ -18,7 +18,7 @@ class UserAdminController extends Controller
      */
     public function index(UserAdminDataTable $dataTable)
     {
-        $title = 'Delete Category!';
+        $title = 'Delete User!';
         $text = "Are you sure you want to delete?";
         confirmDelete($title, $text);
         return $dataTable->render($this->view . 'index');
@@ -74,6 +74,8 @@ class UserAdminController extends Controller
      */
     public function destroy(string $id)
     {
+        $user = $this->findOrFailUser($id);
+        $user->delete();
         Alert::success('Successfully Deleted!', 'User has been deleted!');
         return redirect()->back();
     }
