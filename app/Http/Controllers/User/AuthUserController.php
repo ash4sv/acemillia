@@ -92,6 +92,7 @@ class AuthUserController extends Controller
         $user = User::create([
             'name'                 => $registerName,
             'gender'               => $data['gender'],
+            'phone'                => $data['phone_number'],
             'date_of_birth'        => $data['date_of_birth'],
             'nationality'          => $data['nationality'],
             'identification_number' => $data['identification_number'],
@@ -107,7 +108,7 @@ class AuthUserController extends Controller
         $user->addressBooks()->create([
             'recipient_name' => $data['name'],
             'title'          => 'Default Address',
-            'phone'          => $registerName,
+            'phone'          => $data['phone_number'],
             'address'        => $data['address'],
             'country'        => 'MY',
             'state'          => $data['state'],

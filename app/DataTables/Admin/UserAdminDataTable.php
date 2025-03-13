@@ -31,8 +31,8 @@ class UserAdminDataTable extends DataTable
             ->addColumn('action', function ($data) {
                 return EloquentDataTableBtnElement::button([
                     'show-btn'   => [ $this->permission . 'read', true, $data->name, route($this->route . 'show', $data->id) ],
-                    'edit-btn'   => [ $this->permission . 'update', true, 'Edit Category', route($this->route . 'edit', $data->id) ],
-                    'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $data->id) ]
+                    'edit-btn'   => [ $this->permission . 'update', true, $data->name, route($this->route . 'edit', $data->id) ],
+                    'delete-btn' => [ $this->permission . 'delete', true, $data->name, route($this->route . 'destroy', $data->id) ]
                 ]);
             })
             ->addColumn('submission', function ($data) {
