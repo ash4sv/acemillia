@@ -1,7 +1,7 @@
 @extends('apps.layouts.shop')
 
 @php
-    $title = 'Verify your email';
+    $title = 'Account is under review';
     $description = '';
     $keywords = '';
     $author = '';
@@ -43,14 +43,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 mx-auto right-login text-center">
-                    <h3>{!! __($title) !!}</h3>
+                    <h3>{!! $title !!}</h3>
                     <div class="theme-card authentication-right">
-                        <p class="mb-4">{!! __('Account activation link sent to your email address:') !!} <span class="text-primary">{{ __($email) }}</span> {!! __('Please follow the link inside to continue.') !!}</p>
-                        <a href="javascript:void(0);" onclick="$('#verificationResend').submit()" class="btn btn-solid">{!! __('Resend') !!}</a>
+                        <p class="mb-0">{!! __('Your account is under review. Purchase features are not available until approved.') !!}</p>
                     </div>
-                    <form id="verificationResend" class="d-none" method="POST" action="{{ route('verification.resend') }}">
-                        @csrf
-                    </form>
                 </div>
             </div>
         </div>

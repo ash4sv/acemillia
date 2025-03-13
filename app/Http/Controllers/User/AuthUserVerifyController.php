@@ -66,4 +66,9 @@ class AuthUserVerifyController extends Controller
         Alert::success('Successfully sent! A fresh verification link has been sent to your email address.', 'success');
         return back()->with('resent', true);
     }
+
+    public function underReview()
+    {
+        return view('apps.user.auth.under-review');
+    }
 }

@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\CustomEnsureEmailIsVerified;
+use App\Http\Middleware\EnsureUserIsApproved;
+use App\Http\Middleware\RedirectIfApproved;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,6 +23,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->alias([
             'apps-verified' => CustomEnsureEmailIsVerified::class,
+            'approved'     => EnsureUserIsApproved::class,
+            'its_approved' => RedirectIfApproved::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

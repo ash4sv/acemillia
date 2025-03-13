@@ -179,6 +179,19 @@ class AddressUserController extends Controller
         });
     }
 
+    public function getCountries()
+    {
+        $countries = \Illuminate\Support\Facades\Cache::remember('countries_data', now()->addHours(1), function () {
+            $path = public_path('assets/data/countries.json');
+            if (file_exists($path)) {
+                $json = file_get_contents($path);
+                return json_decode($json, true);
+            }
+            return [];
+        });
+        return response()->json($countries);
+    }
+
     /**
      * Endpoint: GET /api/states
      * Returns a list of states.

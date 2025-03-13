@@ -28,17 +28,23 @@ class UserAdminDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('action', function ($category) {
+            ->addColumn('action', function ($data) {
                 return EloquentDataTableBtnElement::button([
-                    'show-btn'   => [ $this->permission . 'read', true, $category->name, route($this->route . 'show', $category->id) ],
-                    'edit-btn'   => [ $this->permission . 'update', true, 'Edit Category', route($this->route . 'edit', $category->id) ],
-                    'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $category->id) ]
+                    'show-btn'   => [ $this->permission . 'read', true, $data->name, route($this->route . 'show', $data->id) ],
+                    'edit-btn'   => [ $this->permission . 'update', true, 'Edit Category', route($this->route . 'edit', $data->id) ],
+                    'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $data->id) ]
                 ]);
             })
-            ->addColumn('updated_at', function ($admin) {
-                return $admin->updated_at->format('d-m-y, h:i A');
+            ->addColumn('submission', function ($data) {
+                return ucfirst($data->status_submission);
             })
-            ->rawColumns(['updated_at', 'action'])
+            ->addColumn('email_verified_at', function ($data) {
+                return $data->email_verified_at;
+            })
+            ->addColumn('updated_at', function ($data) {
+                return $data->updated_at->format('d-m-y, h:i A');
+            })
+            ->rawColumns(['email_verified_at', 'submission', 'updated_at', 'action'])
             ->setRowId('id');
     }
 
@@ -84,6 +90,9 @@ class UserAdminDataTable extends DataTable
         return [
             Column::computed('DT_RowIndex')->title('No')->className('text-start w-px-50'),
             Column::make('name'),
+            Column::computed('email'),
+            Column::computed('email_verified_at'),
+            Column::computed('submission'),
             Column::computed('updated_at')->className('w-px-200'),
             Column::computed('action')->title('Action')->className('w-px-150'),
         ];

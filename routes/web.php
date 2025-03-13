@@ -54,10 +54,19 @@ Route::get('reset-password/{token}', [AuthUserController::class, 'resetPassword'
 Route::post('reset-password', [AuthUserController::class, 'resetPasswordAuth'])->name('auth.password.reset');
 Route::post('logout', [AuthUserController::class, 'destroy'])->name('auth.destroy');
 
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('/countries', [AddressUserController::class, 'getCountries']);
+    Route::get('/states', [AddressUserController::class, 'getStates']);
+    Route::get('/cities', [AddressUserController::class, 'getCities']);
+    Route::get('/streets', [AddressUserController::class, 'getStreets']);
+    Route::get('/postcodes', [AddressUserController::class, 'getPostcodes']);
+});
+
 Route::middleware(['auth:web'])->group(function () {
     Route::get('email/verify', [AuthUserVerifyController::class, 'notice'])->name('verification.notice');
     Route::get('email/verify/{id}/{hash}', [AuthUserVerifyController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
     Route::post('email/resend', [AuthUserVerifyController::class, 'resend'])->middleware(['throttle:6,1'])->name('verification.resend');
+    Route::get('/under-review', [AuthUserVerifyController::class, 'underReview'])->name('under.review')->middleware('its_approved');
 });
 
 Route::prefix('purchase')->name('purchase.')->group(function () {
@@ -69,7 +78,7 @@ Route::prefix('purchase')->name('purchase.')->group(function () {
 });
 
 Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
-    Route::get('dashboard', [DashboardRedirectController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardRedirectController::class, 'index'])->name('dashboard')->middleware('approved');
 
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('profile-edit', [ProfileUserController::class, 'profileEdit'])->name('profile.edit');
@@ -77,16 +86,11 @@ Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
         Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
         Route::post('password-update', [ProfileUserController::class, 'passwordUpdate'])->name('password.update');
         Route::resource('saved-address', AddressUserController::class);
-
-        Route::get('/states', [AddressUserController::class, 'getStates']);
-        Route::get('/cities', [AddressUserController::class, 'getCities']);
-        Route::get('/streets', [AddressUserController::class, 'getStreets']);
-        Route::get('/postcodes', [AddressUserController::class, 'getPostcodes']);
     });
 
     Route::get('address', [ProfileUserController::class, 'addressBook'])->name('address');
 
-    Route::prefix('purchase')->name('purchase.')->group(function () {
+    Route::prefix('purchase')->name('purchase.')->middleware('approved')->group(function () {
         Route::get('cart', [PurchaseUserController::class, 'viewCart'])->name('cart');
         Route::post('cart-qty-update', [PurchaseUserController::class, 'updateCartQuantity'])->name('cart.quantity.update');
         Route::get('checkout', [PurchaseUserController::class, 'checkout'])->name('checkout');
