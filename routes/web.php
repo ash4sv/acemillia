@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\SubCategoryAdminController;
 use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
+use App\Http\Controllers\Merchant\AuthMerchantVerifyController;
+use App\Http\Controllers\Merchant\DashboardMerchantRedirectController;
 use App\Http\Controllers\Merchant\SpecialOfferMerchantController;
 use App\Http\Controllers\Services\AppsPaymentController;
 use App\Http\Controllers\User\AddressUserController;
@@ -66,7 +68,7 @@ Route::middleware(['auth:web'])->group(function () {
     Route::get('email/verify', [AuthUserVerifyController::class, 'notice'])->name('verification.notice');
     Route::get('email/verify/{id}/{hash}', [AuthUserVerifyController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
     Route::post('email/resend', [AuthUserVerifyController::class, 'resend'])->middleware(['throttle:6,1'])->name('verification.resend');
-    Route::get('/under-review', [AuthUserVerifyController::class, 'underReview'])->name('under.review')->middleware('its_approved');
+    Route::get('under-review', [AuthUserVerifyController::class, 'underReview'])->name('under.review')->middleware('its_approved');
 });
 
 Route::prefix('purchase')->name('purchase.')->group(function () {
@@ -118,10 +120,15 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
         Route::post('logout', [AuthMerchantController::class, 'destroy'])->name('auth.destroy');
     });
     Route::middleware(['auth:merchant'])->group(function () {
-
+        Route::get('email/verify', [AuthMerchantVerifyController::class, 'notice'])->name('verification.notice');
+        Route::get('email/verify/{id}/{hash}', [AuthMerchantVerifyController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
+        Route::post('email/resend', [AuthMerchantVerifyController::class, 'resend'])->middleware(['throttle:6,1'])->name('verification.resend');
+        Route::get('under-review', [AuthMerchantVerifyController::class, 'underReview'])->name('under.review')->middleware('its_approved');
     });
     Route::middleware(['auth:merchant', 'apps-verified:merchant'])->group(function (){
-
+        Route::middleware('approved')->group(function () {
+            Route::get('dashboard', [DashboardMerchantRedirectController::class, 'index'])->name('dashboard');
+        });
     });
 });
 

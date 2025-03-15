@@ -1,7 +1,7 @@
 @extends('apps.layouts.shop')
 
 @php
-    $title = 'Forgot password';
+    $title = 'Account is under review';
     $description = '';
     $keywords = '';
     $author = '';
@@ -29,9 +29,9 @@
             <nav class="theme-breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{!! url('/') !!}">Home</a>
+                        <a href="{!! url('/') !!}">{!! __('Home') !!}</a>
                     </li>
-                    <li class="breadcrumb-item active">{!! strtoupper($title) !!}</li>
+                    <li class="breadcrumb-item active">{!! strtoupper(__($title)) !!}</li>
                 </ol>
             </nav>
         </div>
@@ -42,17 +42,10 @@
     <section class="login-page section-b-space">
         <div class="container">
             <div class="row">
-                <div class="col-lg-6 m-auto">
-                    <h3 class="text-center">{!! __($title) !!}</h3>
+                <div class="col-lg-6 mx-auto right-login text-center">
+                    <h3>{!! $title !!}</h3>
                     <div class="theme-card authentication-right">
-                        <form class="theme-form" action="{{ route('merchant.auth.password.request') }}" method="POST">
-                            @csrf
-                            <div class="form-box">
-                                <label for="" class="form-label">{!! __('Email') !!}</label>
-                                <input type="email" class="form-control" name="email" placeholder="Enter Your Email" required="">
-                            </div>
-                            <button type="submit" class="btn btn-solid w-auto">{!! __('Submit') !!}</button>
-                        </form>
+                        <p class="mb-0">{!! __('Your account is under review. Purchase features are not available until approved.') !!}</p>
                     </div>
                 </div>
             </div>

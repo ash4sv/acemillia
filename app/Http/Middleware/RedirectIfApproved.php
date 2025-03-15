@@ -20,8 +20,23 @@ class RedirectIfApproved
 
         // If the user is approved and tries to access the pending approval page (e.g. the verification notice route),
         // redirect them to the dashboard with a success message.
-        if ($user && $user->status_submission === 'approved' && $request->routeIs('under.review')) {
+        if (
+            $user &&
+            $user->status_submission === 'approved' &&
+            (
+                $request->routeIs('under.review') ||
+                $request->routeIs('user.under.review') ||
+                $request->routeIs('merchant.under.review')
+            )
+        ) {
             Alert::success('Your account is approved!', 'Your account is now active and you can make purchases.');
+
+            if ($user->hasRole('merchant')) {
+                return redirect()->route('merchant.dashboard');
+            } elseif ($user->hasRole('user')) {
+                return redirect()->route('dashboard');
+            }
+            // Fallback in case no matching role is found.
             return redirect()->route('dashboard');
         }
 

@@ -23,6 +23,13 @@ class EnsureUserIsApproved
         // redirect them to the profile edit page with a warning.
         if ($user && $user->status_submission === 'pending') {
             Alert::warning('Your account is under review!', 'Purchase features are not available until approved.');
+
+            if ($user->hasRole('merchant')) {
+                return redirect()->route('merchant.under.review');
+            } elseif ($user->hasRole('user')) {
+                return redirect()->route('under.review');
+            }
+            // Fallback in case no matching role is found.
             return redirect()->route('under.review');
         }
 

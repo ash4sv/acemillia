@@ -33,6 +33,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/fancyapps/fancybox.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/select2/select2.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/sweetalert2/sweetalert2.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/jquery-ui/jquery-ui.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/overwrite-style.css') }}">
 
@@ -835,6 +836,7 @@
     <script src="{{ asset('assets/js/jquery.vide.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
     <script src="{{ asset('apps/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('apps/vendor/libs/jquery-ui/jquery-ui.js') }}"></script>
     <script src="{{ asset('assets/js/theme-setting.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/custom-slick-animated.js') }}"></script>

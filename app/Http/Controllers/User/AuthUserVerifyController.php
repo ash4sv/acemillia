@@ -5,8 +5,8 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthUserVerifyController extends Controller
@@ -47,7 +47,7 @@ class AuthUserVerifyController extends Controller
             event(new Verified($request->user()));
         }
 
-        Alert::success('Email successfully verified! You are logged in', 'success');
+        Alert::success('Email successfully verified!', 'You are logged in');
         return redirect($this->redirectPath())->with('verified', true);
     }
 
@@ -63,7 +63,7 @@ class AuthUserVerifyController extends Controller
 
         $request->user()->sendUserEmailVerificationNotification();
 
-        Alert::success('Successfully sent! A fresh verification link has been sent to your email address.', 'success');
+        Alert::success('Successfully sent!', 'A fresh verification link has been sent to your email address.');
         return back()->with('resent', true);
     }
 

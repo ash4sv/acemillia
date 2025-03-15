@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\Admin\MerchantAdminDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Merchant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class MerchantAdminController extends Controller
 {
@@ -23,7 +26,9 @@ class MerchantAdminController extends Controller
      */
     public function create()
     {
-        //
+        return response()->view($this->view . 'form', [
+
+        ]);
     }
 
     /**
@@ -31,7 +36,8 @@ class MerchantAdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Alert::success('Successfully Create!', 'Merchant has been created!');
+        return redirect()->back();
     }
 
     /**
@@ -47,7 +53,9 @@ class MerchantAdminController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return response()->view($this->view . 'form', [
+            'merchant' => $this->findOrFailMerchant($id)
+        ]);
     }
 
     /**
@@ -55,7 +63,9 @@ class MerchantAdminController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $this->updateOrCreateMerchant($request, $id);
+        Alert::success('Successfully Update!', 'Merchant has been updated!');
+        return redirect()->back();
     }
 
     /**
@@ -63,6 +73,43 @@ class MerchantAdminController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $merchant = $this->findOrFailMerchant($id);
+        $merchant->delete();
+        Alert::success('Successfully Deleted!', 'Merchant has been deleted!');
+        return redirect()->back();
+    }
+
+    /**
+     * Fetch Merchant by ID or fail.
+     */
+    private function findOrFailMerchant(string $id): Merchant
+    {
+        return Merchant::findOrFail($id);
+    }
+
+    /**
+     * Save or update a Merchant.
+     */
+    private function updateOrCreateMerchant(Request $request, string $id = null): Merchant
+    {
+        DB::beginTransaction();
+        try {
+            $data = $request->only([
+                'submission'
+            ]);
+
+            $merchant = Merchant::updateOrCreate(
+                ['id' => $id],
+                array_merge($data, [
+                    'status_submission' => $data['submission'],
+                ])
+            );
+
+            DB::commit();
+            return $merchant;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

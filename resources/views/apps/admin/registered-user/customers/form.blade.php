@@ -58,6 +58,42 @@
             <a href="{!! asset($user->upload_documents) !!}" class="btn btn-outline-secondary" target="_blank">View Document</a>
         </div>
     </div>
+    @if($user->addressBooks && $user->addressBooks->isNotEmpty())
+        @foreach($user->addressBooks as $address)
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mb-3">
+                        <label for="" class="form-label">{!! __('Address') !!}</label>
+                        <input type="text" name="" id="" disabled class="form-control" value="{!! $address->address !!}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="" class="form-label">{!! __('State') !!}</label>
+                        <input type="text" name="" id="" disabled class="form-control" value="{!! $address->state !!}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="" class="form-label">{!! __('City') !!}</label>
+                        <input type="text" name="" id="" disabled class="form-control" value="{!! $address->city !!}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="" class="form-label">{!! __('Street') !!}</label>
+                        <input type="text" name="" id="" disabled class="form-control" value="{!! $address->street_address !!}">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="" class="form-label">{!! __('Postcode') !!}</label>
+                        <input type="text" name="" id="" disabled class="form-control" value="{!! $address->postcode !!}">
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    @endif
     <div class="mb-3">
         {!! \App\Services\Publish::submissionBtn($user->status_submission ?? 'Pending') !!}
     </div>

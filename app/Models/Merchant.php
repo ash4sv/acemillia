@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Shop\SpecialOffer;
+use App\Notifications\User\MerchantEmailVerificationNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,6 +25,15 @@ class Merchant extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'remember_token',
+        'phone',
+        'company_name',
+        'company_registration_number',
+        'tax_id',
+        'business_license_document',
+        'bank_name_account',
+        'bank_account_details',
+        'status_submission',
     ];
 
     /**
@@ -47,6 +57,11 @@ class Merchant extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function sendMerchantEmailVerificationNotification()
+    {
+        $this->notify(new MerchantEmailVerificationNotification());
     }
 
     public function specialOffers()

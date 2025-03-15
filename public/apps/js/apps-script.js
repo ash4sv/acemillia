@@ -6,6 +6,7 @@ var Apps = {
         Apps.socialMedia();
         Apps.flatpickrDate('.flatpickr-start');
         Apps.flatpickrDate('.flatpickr-end');
+        Apps.jqueryuiDate('.jqueryui-date');
         Apps.flatpickrTime('.flatpickr-time-start');
         Apps.flatpickrTime('.flatpickr-time-end');
         Apps.getBoothType();
@@ -313,6 +314,13 @@ var Apps = {
             element.flatpickr({
                 monthSelectorType: "static"
             });
+        }
+    },
+
+    jqueryuiDate: function (e) {
+        var element = document.querySelector(e);
+        if (element) {
+            e.datepicker();
         }
     },
 

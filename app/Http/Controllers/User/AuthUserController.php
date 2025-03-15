@@ -120,11 +120,8 @@ class AuthUserController extends Controller
         $user->assignRole('user');
 
         $user->sendUserEmailVerificationNotification();
-
         Auth::guard('web')->login($user);
-
         Alert::success('User registration successful!', 'Please check your email to verify your account.');
-
         return redirect()->route('verification.notice');
     }
 

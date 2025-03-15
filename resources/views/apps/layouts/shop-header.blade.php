@@ -105,18 +105,28 @@
                                         <i class="ri-user-6-line"></i>
                                         <ul class="onhover-show-div">
                                             @if(auth()->guard('web')->check())
-                                            <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                                            <li><a href="{{ route('dashboard') }}">{!! __('Dashboard') !!}</a></li>
                                             <li>
                                                 <a href="javascript:;" onclick="Apps.logoutConfirm('user_log_outnavbar')">
-                                                    Logout
+                                                    {!! __('Logout') !!}
                                                 </a>
                                                 <form id="user_log_outnavbar" action="{{ route('auth.destroy') }}" method="POST" class="d-none">
                                                     @csrf
                                                 </form>
                                             </li>
+                                            @elseif(auth()->guard('merchant')->check())
+                                            <li><a href="{{ route('merchant.dashboard') }}">{!! __('Dashboard') !!}</a></li>
+                                            <li>
+                                                <a href="javascript:;" onclick="Apps.logoutConfirm('merchant_log_outnavbar')">
+                                                    {!! __('Logout') !!}
+                                                </a>
+                                                <form id="merchant_log_outnavbar" action="{{ route('merchant.auth.destroy') }}" method="POST" class="d-none">
+                                                    @csrf
+                                                </form>
+                                            </li>
                                             @else
-                                            <li><a href="{{ route('login') }}">Login</a></li>
-                                            <li><a href="{{ route('register') }}">Register</a></li>
+                                            <li><a href="{{ route('login') }}">{!! __('Login') !!}</a></li>
+                                            <li><a href="{{ route('register') }}">{!! __('Register') !!}</a></li>
                                             @endif
                                         </ul>
                                     </li>
@@ -135,15 +145,15 @@
                                                 <i class="ri-equalizer-2-line"></i>
                                             </div>
                                             <div class="show-div setting">
-                                                <h6>language</h6>
+                                                <h6>{!! __('language') !!}</h6>
                                                 <ul>
-                                                    <li><a href="#!">english</a> </li>
+                                                    <li><a href="#!">{!! __('english') !!}</a></li>
                                                     {{--<li><a href="#!">french</a> </li>--}}
                                                 </ul>
-                                                <h6>Switch Mode</h6>
+                                                <h6>{!! __('Switch Mode') !!}</h6>
                                                 <ul class="theme-switch-btn">
-                                                    <li><a href="#!">Light Mode</a></li>
-                                                    <li><a href="#!">Dark Mode</a></li>
+                                                    <li><a href="#!">{!! __('Light Mode') !!}</a></li>
+                                                    <li><a href="#!">{!! __('Dark Mode') !!}</a></li>
                                                 </ul>
                                                 {{--<h6>currency</h6>
                                                 <ul class="list-inline">
