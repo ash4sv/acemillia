@@ -93,6 +93,7 @@ class AuthMerchantController extends Controller
         ]));
 
         $merchant->assignRole('merchant');
+        $merchant->sendMerchantEmailVerificationNotification();
         auth()->guard('merchant')->login($merchant);
         Alert::success('Merchant registration successful!', 'Please check your email to verify your account.');
         return redirect()->route('merchant.verification.notice');

@@ -9,6 +9,8 @@ class DashboardMerchantRedirectController extends Controller
 {
     public function index()
     {
-
+        return view('apps.merchant.dashboard.index', [
+            'authUser' => auth()->user()
+        ]);
     }
 }

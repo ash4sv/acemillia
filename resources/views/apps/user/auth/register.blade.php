@@ -12,7 +12,8 @@
 @push('script')
 <script>
     $(document).ready(function(){
-        $( ".jqueryuidate" ).datepicker({
+        // Initialize jQuery UI DatePicker
+        $(".jqueryuidate").datepicker({
             dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true,
@@ -24,117 +25,162 @@
             ]
         });
 
-        window.selectedState = '{{ $addressBook->state ?? '' }}';
-        window.selectedCity = '{{ $addressBook->city ?? '' }}';
-        window.selectedStreet = '{{ $addressBook->street_address ?? '' }}';
+        // Pre-initialize static selectize elements.
+        // (These calls convert the <select> into selectize instances)
+        $('#gender, #nationalityDropdown, #stateDropdown, #cityDropdown, #streetDropdown, #postcodeDropdown').selectize({
+            create: true,
+            sortField: 'text',
+        });
+
+        // Retrieve any pre-selected values (if in edit mode)
+        window.selectedState    = '{{ $addressBook->state ?? '' }}';
+        window.selectedCity     = '{{ $addressBook->city ?? '' }}';
+        window.selectedStreet   = '{{ $addressBook->street_address ?? '' }}';
         window.selectedPostcode = '{{ $addressBook->postcode ?? '' }}';
 
-        // Assume these variables are provided in edit mode (or set to null for new entries)
-        var selectedState = window.selectedState || null;
-        var selectedCity = window.selectedCity || null;
-        var selectedStreet = window.selectedStreet || null;
+        var selectedState    = window.selectedState || null;
+        var selectedCity     = window.selectedCity || null;
+        var selectedStreet   = window.selectedStreet || null;
         var selectedPostcode = window.selectedPostcode || null;
 
-        // Populate states dropdown
+        // Utility functions to load dependent data using selectize API
+
+        function loadCities(state) {
+            var cityInstance = $('#cityDropdown')[0].selectize;
+            cityInstance.clearOptions();
+            $.ajax({
+                url: '/user/cities',
+                method: 'GET',
+                data: { state: state },
+                success: function(cities) {
+                    // Add a default option
+                    cityInstance.addOption({value:"", text:"Select City"});
+                    $.each(cities, function(index, city) {
+                        cityInstance.addOption({value: city.value, text: city.name});
+                    });
+                    cityInstance.refreshOptions(false);
+                    if(selectedCity) {
+                        cityInstance.setValue(selectedCity);
+                    }
+                },
+                error: function(err) {
+                    console.log('Error fetching cities:', err);
+                }
+            });
+        }
+
+        function loadStreets(state, city) {
+            var streetInstance = $('#streetDropdown')[0].selectize;
+            streetInstance.clearOptions();
+            $.ajax({
+                url: '/user/streets',
+                method: 'GET',
+                data: { state: state, city: city },
+                success: function(streets) {
+                    streetInstance.addOption({value:"", text:"Select Street"});
+                    $.each(streets, function(index, street) {
+                        streetInstance.addOption({value: street.value, text: street.name});
+                    });
+                    streetInstance.refreshOptions(false);
+                    if(selectedStreet) {
+                        streetInstance.setValue(selectedStreet);
+                    }
+                },
+                error: function(err) {
+                    console.log('Error fetching streets:', err);
+                }
+            });
+        }
+
+        function loadPostcodes(state, city, street) {
+            var postcodeInstance = $('#postcodeDropdown')[0].selectize;
+            postcodeInstance.clearOptions();
+            $.ajax({
+                url: '/user/postcodes',
+                method: 'GET',
+                data: { state: state, city: city, street: street },
+                success: function(postcodes) {
+                    postcodeInstance.addOption({value:"", text:"Select Postcode"});
+                    $.each(postcodes, function(index, postcode) {
+                        postcodeInstance.addOption({value: postcode.value, text: postcode.name});
+                    });
+                    postcodeInstance.refreshOptions(false);
+                    if(selectedPostcode) {
+                        postcodeInstance.setValue(selectedPostcode);
+                    }
+                },
+                error: function(err) {
+                    console.log('Error fetching postcodes:', err);
+                }
+            });
+        }
+
+        // Populate the nationality dropdown via AJAX
         $.ajax({
             url: '/user/countries',
             method: 'GET',
             success: function(countries) {
-                var $nationalitySelect = $('#nationalityDropdown');
-                $nationalitySelect.empty().append('<option value="">Please select</option>');
+                var nationalityInstance = $('#nationalityDropdown')[0].selectize;
+                nationalityInstance.clearOptions();
+                nationalityInstance.addOption({value:"", text:"Please select"});
                 $.each(countries, function(index, country) {
-                    // Use alpha_2_code as the option value, and en_short_name as the display text.
-                    $nationalitySelect.append('<option value="'+ country.alpha_2_code +'">'+ country.en_short_name +'</option>');
+                    nationalityInstance.addOption({value: country.alpha_2_code, text: country.en_short_name});
                 });
+                nationalityInstance.refreshOptions(false);
             },
             error: function(err) {
                 console.log('Error fetching countries:', err);
             }
         });
 
-        // Populate states dropdown
+        // Populate the state dropdown via AJAX
         $.ajax({
             url: '/user/states',
             method: 'GET',
             success: function(states) {
-                $('#stateDropdown').empty().append('<option value="">Select State</option>');
+                var stateInstance = $('#stateDropdown')[0].selectize;
+                stateInstance.clearOptions();
+                stateInstance.addOption({value:"", text:"Select State"});
                 $.each(states, function(index, state) {
-                    var selected = (selectedState && selectedState === state.value) ? ' selected' : '';
-                    $('#stateDropdown').append('<option value="'+ state.value +'"'+ selected+'>'+ state.name +'</option>');
+                    stateInstance.addOption({value: state.value, text: state.name});
                 });
-                // Trigger change if edit mode
+                stateInstance.refreshOptions(false);
                 if(selectedState) {
-                    $('#stateDropdown').trigger('change');
+                    stateInstance.setValue(selectedState);
                 }
+            },
+            error: function(err) {
+                console.log('Error fetching states:', err);
             }
         });
 
-        // When state is selected, populate cities dropdown
-        $('#stateDropdown').on('change', function(){
-            var state = $(this).val();
-            $('#cityDropdown, #streetDropdown, #postcodeDropdown').empty();
-            if(state) {
-                $.ajax({
-                    url: '/user/cities',
-                    method: 'GET',
-                    data: { state: state },
-                    success: function(cities) {
-                        $('#cityDropdown').append('<option value="">Select City</option>');
-                        $.each(cities, function(index, city) {
-                            var selected = (selectedCity && selectedCity === city.value) ? ' selected' : '';
-                            $('#cityDropdown').append('<option value="'+ city.value +'"'+ selected+'>'+ city.name +'</option>');
-                        });
-                        if(selectedCity) {
-                            $('#cityDropdown').trigger('change');
-                        }
-                    }
-                });
+        // Attach onChange event to state selectize to load cities
+        var stateSelectize = $('#stateDropdown')[0].selectize;
+        stateSelectize.on('change', function(value) {
+            console.log("State changed: " + value);
+            if(value) {
+                loadCities(value);
             }
         });
 
-        // When city is selected, populate streets dropdown
-        $('#cityDropdown').on('change', function(){
-            var state = $('#stateDropdown').val();
-            var city = $(this).val();
-            $('#streetDropdown, #postcodeDropdown').empty();
-            if(state && city) {
-                $.ajax({
-                    url: '/user/streets',
-                    method: 'GET',
-                    data: { state: state, city: city },
-                    success: function(streets) {
-                        $('#streetDropdown').append('<option value="">Select Street</option>');
-                        $.each(streets, function(index, street) {
-                            var selected = (selectedStreet && selectedStreet === street.value) ? ' selected' : '';
-                            $('#streetDropdown').append('<option value="'+ street.value +'"'+ selected+'>'+ street.name +'</option>');
-                        });
-                        if(selectedStreet) {
-                            $('#streetDropdown').trigger('change');
-                        }
-                    }
-                });
+        // Attach onChange event to city selectize to load streets
+        var citySelectize = $('#cityDropdown')[0].selectize;
+        citySelectize.on('change', function(value) {
+            console.log("City changed: " + value);
+            var stateVal = $('#stateDropdown')[0].selectize.getValue();
+            if(stateVal && value) {
+                loadStreets(stateVal, value);
             }
         });
 
-        // When street is selected, populate postcodes dropdown
-        $('#streetDropdown').on('change', function(){
-            var state = $('#stateDropdown').val();
-            var city = $('#cityDropdown').val();
-            var street = $(this).val();
-            $('#postcodeDropdown').empty();
-            if(state && city && street) {
-                $.ajax({
-                    url: '/user/postcodes',
-                    method: 'GET',
-                    data: { state: state, city: city, street: street },
-                    success: function(postcodes) {
-                        $('#postcodeDropdown').append('<option value="">Select Postcode</option>');
-                        $.each(postcodes, function(index, postcode) {
-                            var selected = (selectedPostcode && selectedPostcode === postcode.value) ? ' selected' : '';
-                            $('#postcodeDropdown').append('<option value="'+ postcode.value +'"'+ selected+'>'+ postcode.name +'</option>');
-                        });
-                    }
-                });
+        // Attach onChange event to street selectize to load postcodes
+        var streetSelectize = $('#streetDropdown')[0].selectize;
+        streetSelectize.on('change', function(value) {
+            console.log("Street changed: " + value);
+            var stateVal = $('#stateDropdown')[0].selectize.getValue();
+            var cityVal = $('#cityDropdown')[0].selectize.getValue();
+            if(stateVal && cityVal && value) {
+                loadPostcodes(stateVal, cityVal, value);
             }
         });
     });
@@ -181,7 +227,7 @@
                                 <label for="gender" class="form-label">{!! __('Gender') !!}</label>
                                 <select
                                     {!! old('gender') !!}
-                                    name="gender" id="" class="form-select @error('gender') is-invalid @enderror">
+                                    name="gender" id="gender" class="@error('gender') is-invalid @enderror">
                                     <option value="">Please select</option>
                                     @foreach($genders as $key => $gender)
                                     <option value="{!! $gender['name'] !!}">{!! ucfirst($gender['name']) !!}</option>
@@ -206,7 +252,7 @@
                                 <label for="nationality" class="form-label">{!! __('Nationality') !!}</label>
                                 <select
                                     {!! old('nationality') !!}
-                                    name="nationality" id="nationalityDropdown" class="form-select @error('nationality') is-invalid @enderror">
+                                    name="nationality" id="nationalityDropdown" class="@error('nationality') is-invalid @enderror">
                                     <option value="">Please select</option>
                                 </select>
                                 @error('nationality')
@@ -241,7 +287,7 @@
                         <div class="col-md-12">
                             <div class="form-box">
                                 <label for="address" class="form-label">{!! __('Address') !!}</label>
-                                <input type="text" name="address" id="" class="form-control mb-0 @error('address') is-invalid @enderror" value="{!! old('address') !!}">
+                                <input type="text" name="address" id="" class="form-control mb-0 @error('address') is-invalid @enderror" placeholder="Address" value="{!! old('address') !!}">
                                 @error('address')
                                 <div class="invalid-feedback">{!! $message !!}</div>
                                 @enderror
@@ -250,7 +296,9 @@
                         <div class="col-md-6">
                             <div class="form-box">
                                 <label class="form-label">{!! __('State') !!}</label>
-                                <select name="state" id="stateDropdown" class="form-select @error('state') is-invalid @enderror"></select>
+                                <select name="state" id="stateDropdown" class="@error('state') is-invalid @enderror">
+                                    <option value="">Please select</option>
+                                </select>
                                 @error('state')
                                 <div class="invalid-feedback">{!! $message !!}</div>
                                 @enderror
@@ -259,7 +307,9 @@
                         <div class="col-md-6">
                             <div class="form-box">
                                 <label for="city" class="form-label">{!! __('City') !!}</label>
-                                <select name="city" id="cityDropdown" class="form-select @error('city') is-invalid @enderror"></select>
+                                <select name="city" id="cityDropdown" class="@error('city') is-invalid @enderror">
+                                    <option value="">Please select</option>
+                                </select>
                                 @error('city')
                                 <div class="invalid-feedback">{!! $message !!}</div>
                                 @enderror
@@ -268,7 +318,9 @@
                         <div class="col-md-6">
                             <div class="form-box">
                                 <label for="street_address" class="form-label">{!! __('Street') !!}</label>
-                                <select name="street_address" id="streetDropdown" class="form-select @error('street_address') is-invalid @enderror"></select>
+                                <select name="street_address" id="streetDropdown" class="@error('street_address') is-invalid @enderror">
+                                    <option value="">Please select</option>
+                                </select>
                                 @error('street_address')
                                 <div class="invalid-feedback">{!! $message !!}</div>
                                 @enderror
@@ -277,7 +329,9 @@
                         <div class="col-md-6">
                             <div class="form-box">
                                 <label for="postcode" class="form-label">{!! __('Postcode') !!}</label>
-                                <select name="postcode" id="postcodeDropdown" class="form-select @error('postcode') is-invalid @enderror"></select>
+                                <select name="postcode" id="postcodeDropdown" class="@error('postcode') is-invalid @enderror">
+                                    <option value="">Please select</option>
+                                </select>
                                 @error('postcode')
                                 <div class="invalid-feedback">{!! $message !!}</div>
                                 @enderror

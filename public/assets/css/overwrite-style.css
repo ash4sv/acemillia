@@ -133,3 +133,12 @@ footer p,
 .btn-solid {
     color:#000000;
 }
+
+.form-control::placeholder {
+    opacity:.3;
+}
+
+.selectize-input. {
+    padding-top:11px;
+    padding-bottom:11px;
+}
