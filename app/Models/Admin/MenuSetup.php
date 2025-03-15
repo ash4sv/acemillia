@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Merchant;
 use App\Models\Shop\Category;
 use App\Services\QueryScopes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,5 +45,10 @@ class MenuSetup extends Model
     public function categories()
     {
         return $this->morphToMany(Category::class, 'model', 'category_relations');
+    }
+
+    public function merchants()
+    {
+        return $this->hasMany(Merchant::class, 'menu_setup_id', 'id');
     }
 }

@@ -87,6 +87,7 @@ class AuthMerchantController extends Controller
         $merchant = Merchant::create(array_merge($data, [
             'name'                      => $data['contact_person_name'],
             'password'                  => Hash::make($data['password']),
+            'menu_setup_id'             => $data['product_categories'],
             'remember_token'            => Str::random(10),
             'business_license_document' => $documentFilePath,
             'status_submission'         => 'pending'

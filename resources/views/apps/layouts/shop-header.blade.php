@@ -104,30 +104,25 @@
                                     <li class="onhover-dropdown mobile-account">
                                         <i class="ri-user-6-line"></i>
                                         <ul class="onhover-show-div">
-                                            @if(auth()->guard('web')->check())
-                                            <li><a href="{{ route('dashboard') }}">{!! __('Dashboard') !!}</a></li>
-                                            <li>
-                                                <a href="javascript:;" onclick="Apps.logoutConfirm('user_log_outnavbar')">
-                                                    {!! __('Logout') !!}
-                                                </a>
-                                                <form id="user_log_outnavbar" action="{{ route('auth.destroy') }}" method="POST" class="d-none">
-                                                    @csrf
-                                                </form>
-                                            </li>
-                                            @elseif(auth()->guard('merchant')->check())
-                                            <li><a href="{{ route('merchant.dashboard') }}">{!! __('Dashboard') !!}</a></li>
-                                            <li>
-                                                <a href="javascript:;" onclick="Apps.logoutConfirm('merchant_log_outnavbar')">
-                                                    {!! __('Logout') !!}
-                                                </a>
-                                                <form id="merchant_log_outnavbar" action="{{ route('merchant.auth.destroy') }}" method="POST" class="d-none">
-                                                    @csrf
-                                                </form>
-                                            </li>
-                                            @else
+                                            @forelse(\App\Support\LogOut::LogOut() as $key => $logout)
+                                                @hasanyrole($logout['role'])
+                                                <li><a href="{!! $logout['dropdown-index']['url'] !!}">{!! __('Dashboard') !!}</a></li>
+                                                <li>
+                                                    <a href="javascript:;" onclick="Apps.logoutConfirm('{!! $logout['dropdown-item']['formId'] !!}')">
+                                                        {!! __('Logout') !!}
+                                                    </a>
+                                                    <form id="{!! $logout['dropdown-item']['formId'] !!}" action="{!! $logout['dropdown-item']['formUrl'] !!}" method="POST" class="d-none">
+                                                        @csrf
+                                                    </form>
+                                                </li>
+                                                @endhasanyrole
+                                            @empty
+
+                                            @endforelse
+                                            @guest
                                             <li><a href="{{ route('login') }}">{!! __('Login') !!}</a></li>
                                             <li><a href="{{ route('register') }}">{!! __('Register') !!}</a></li>
-                                            @endif
+                                            @endguest
                                         </ul>
                                     </li>
                                 </ul>

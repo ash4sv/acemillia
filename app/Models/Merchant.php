@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Admin\MenuSetup;
 use App\Models\Shop\SpecialOffer;
 use App\Notifications\User\MerchantEmailVerificationNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -33,6 +34,7 @@ class Merchant extends Authenticatable implements MustVerifyEmail
         'business_license_document',
         'bank_name_account',
         'bank_account_details',
+        'menu_setup_id',
         'status_submission',
     ];
 
@@ -67,5 +69,10 @@ class Merchant extends Authenticatable implements MustVerifyEmail
     public function specialOffers()
     {
         return $this->hasMany(SpecialOffer::class, 'product_id', 'id');
+    }
+
+    public function menuSetup()
+    {
+        return $this->belongsTo(MenuSetup::class, 'menu_setup_id', 'id');
     }
 }

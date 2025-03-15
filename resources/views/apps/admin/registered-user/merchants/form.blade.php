@@ -42,7 +42,7 @@
     </div>
     <div class="mb-3">
         <label for="" class="form-label">{!! __('Product Categories') !!}</label>
-        <input type="text" name="" id="" class="form-control" disabled value="">
+        <input type="text" name="" id="" class="form-control" disabled value="{!! old('', $merchant->menuSetup->name ?? '') !!}">
     </div>
     <div class="mb-3">
         <label for="" class="form-label">{!! __('Email') !!}</label>
