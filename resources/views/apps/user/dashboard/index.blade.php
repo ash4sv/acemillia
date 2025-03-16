@@ -55,6 +55,26 @@
                                         <h6>{{ 'Phone: ' . $authUser->phone }}</h6>
                                     </li>
                                 @endisset
+                                @isset($authUser->gender)
+                                    <li class="w-100">
+                                        <h6>{{ 'Gender: ' . ucfirst($authUser->gender) }}</h6>
+                                    </li>
+                                @endisset
+                                @isset($authUser->date_of_birth)
+                                    <li class="w-100">
+                                        <h6>{{ 'Date of Birth: ' . $authUser->date_of_birth }}</h6>
+                                    </li>
+                                @endisset
+                                @isset($authUser->nationality)
+                                    <li class="w-100">
+                                        <h6>{{ 'Nationality: ' . $authUser->nationality }}</h6>
+                                    </li>
+                                @endisset
+                                @isset($authUser->identification_number)
+                                    <li class="w-100">
+                                        <h6>{{ 'Identification Number: ' . $authUser->identification_number }}</h6>
+                                    </li>
+                                @endisset
                             </ul>
                         </div>
                     </div>

@@ -268,7 +268,7 @@
                             </div>
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <div class="form-box">
                                 <label class="form-label">{!! __('State') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select name="state" id="stateDropdown" class="@error('state') is-invalid @enderror" required>
@@ -279,7 +279,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <div class="form-box">
                                 <label for="city" class="form-label">{!! __('City') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select name="city" id="cityDropdown" class="@error('city') is-invalid @enderror" required>
@@ -290,7 +290,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <div class="form-box">
                                 <label for="street_address" class="form-label">{!! __('Street') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select name="street_address" id="streetDropdown" class="@error('street_address') is-invalid @enderror" required>
@@ -301,7 +301,7 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-md-6">
                             <div class="form-box">
                                 <label for="postcode" class="form-label">{!! __('Postcode') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select name="postcode" id="postcodeDropdown" class="@error('postcode') is-invalid @enderror" required>
