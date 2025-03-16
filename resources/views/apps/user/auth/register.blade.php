@@ -300,7 +300,7 @@
                     <div class="row g-4">
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="name" class="form-label">{!! __('Full Name') !!} <span class="text-danger">*</span></label>
+                                <label for="name" class="form-label">{!! __('Full Name') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <input type="text" class="form-control mb-0 @error('name') is-invalid @enderror" id="" name="name" placeholder="Full Name" value="{!! old('name') !!}" required>
                                 @error('name')
                                 <div class="invalid-feedback">{!! $message !!}</div>
@@ -309,7 +309,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="gender" class="form-label">{!! __('Gender') !!} <span class="text-danger">*</span></label>
+                                <label for="gender" class="form-label">{!! __('Gender') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select
                                     {!! old('gender') !!}
                                     name="gender" id="gender" class="@error('gender') is-invalid @enderror" required>
@@ -325,7 +325,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="email" class="form-label">{!! __('Date of Birth') !!} <span class="text-danger">*</span></label>
+                                <label for="email" class="form-label">{!! __('Date of Birth') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <input type="text" class="form-control mb-0 @error('date_of_birth') is-invalid @enderror jqueryuidate" id="" name="date_of_birth" placeholder="Date of Birth" value="{!! old('date_of_birth') !!}" required>
                                 @error('date_of_birth')
                                 <div class="invalid-feedback">{!! $message !!}</div>
@@ -334,7 +334,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="nationality" class="form-label">{!! __('Nationality') !!} <span class="text-danger">*</span></label>
+                                <label for="nationality" class="form-label">{!! __('Nationality') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select
                                     {!! old('nationality') !!}
                                     name="nationality" id="nationalityDropdown" class="@error('nationality') is-invalid @enderror" required>
@@ -347,7 +347,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="identification_number" class="form-label">{!! __('Identification Number') !!} <span class="text-danger">*</span></label>
+                                <label for="identification_number" class="form-label">{!! __('Identification Number') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <input type="text" class="form-control mb-0 @error('identification_number') is-invalid @enderror" id="" name="identification_number" placeholder="Identification Number" value="{!! old('identification_number') !!}" required>
                                 <div class="form-text pt-1 text-secondary">
                                     {!! __('(Identification Card / Passport / Driving License)') !!}
@@ -359,7 +359,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="upload_documents" class="form-label">{!! __('Upload Documents') !!} <span class="text-danger">*</span></label>
+                                <label for="upload_documents" class="form-label">{!! __('Upload Documents') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <input type="file" class="form-control mb-0 @error('upload_documents') is-invalid @enderror" id="" name="upload_documents" placeholder="Upload Documents" value="{!! old('upload_documents') !!}" required>
                                 <div class="form-text pt-1 text-secondary">
                                     {!! __('(Identification Card / Passport / Driving License for verification). File support pdf, jpg, jpeg, and png') !!}
@@ -371,7 +371,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-box">
-                                <label for="address" class="form-label">{!! __('Address') !!} <span class="text-danger">*</span></label>
+                                <label for="address" class="form-label">{!! __('Address') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <input type="text" name="address" id="" class="form-control mb-0 @error('address') is-invalid @enderror" placeholder="Address" value="{!! old('address') !!}" required>
                                 @error('address')
                                 <div class="invalid-feedback">{!! $message !!}</div>
@@ -380,7 +380,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label class="form-label">{!! __('State') !!} <span class="text-danger">*</span></label>
+                                <label class="form-label">{!! __('State') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select name="state" id="stateDropdown" class="@error('state') is-invalid @enderror" required>
                                     <option value="">{!! __('Please select') !!}</option>
                                 </select>
@@ -391,7 +391,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="city" class="form-label">{!! __('City') !!} <span class="text-danger">*</span></label>
+                                <label for="city" class="form-label">{!! __('City') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select name="city" id="cityDropdown" class="@error('city') is-invalid @enderror" required>
                                     <option value="">{!! __('Please select') !!}</option>
                                 </select>
@@ -402,7 +402,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="street_address" class="form-label">{!! __('Street') !!} <span class="text-danger">*</span></label>
+                                <label for="street_address" class="form-label">{!! __('Street') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select name="street_address" id="streetDropdown" class="@error('street_address') is-invalid @enderror" required>
                                     <option value="">{!! __('Please select') !!}</option>
                                 </select>
@@ -413,7 +413,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="postcode" class="form-label">{!! __('Postcode') !!} <span class="text-danger">*</span></label>
+                                <label for="postcode" class="form-label">{!! __('Postcode') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <select name="postcode" id="postcodeDropdown" class="@error('postcode') is-invalid @enderror" required>
                                     <option value="">{!! __('Please select') !!}</option>
                                 </select>
@@ -424,7 +424,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="email" class="form-label">{!! __('Email') !!} <span class="text-danger">*</span></label>
+                                <label for="email" class="form-label">{!! __('Email') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <input type="email" class="form-control mb-0 @error('email') is-invalid @enderror" id="" name="email" placeholder="Email" value="{!! old('email') !!}" required>
                                 @error('email')
                                 <div class="invalid-feedback">{!! $message !!}</div>
@@ -433,7 +433,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="phone_number" class="form-label">{!! __('Phone Number') !!} <span class="text-danger">*</span></label>
+                                <label for="phone_number" class="form-label">{!! __('Phone Number') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <input type="text" class="form-control mb-0 @error('phone_number') is-invalid @enderror" id="" name="phone_number" placeholder="Phone Number" value="{!! old('phone_number') !!}" required>
                                 @error('phone_number')
                                 <div class="invalid-feedback">{!! $message !!}</div>
@@ -442,7 +442,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="password" class="form-label">{!! __('Password') !!} <span class="text-danger">*</span></label>
+                                <label for="password" class="form-label">{!! __('Password') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <input type="password" class="form-control mb-0 @error('password') is-invalid @enderror" id="" name="password" placeholder="Enter your password" value="{!! old('password') !!}" required>
                                 @error('password')
                                 <div class="invalid-feedback">{!! $message !!}</div>
@@ -451,7 +451,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-box">
-                                <label for="password_confirmation" class="form-label">{!! __('Confirmation Password') !!} <span class="text-danger">*</span></label>
+                                <label for="password_confirmation" class="form-label">{!! __('Confirmation Password') !!} <span class="text-danger">{!! __('*') !!}</span></label>
                                 <input type="password" class="form-control mb-0 @error('password_confirmation') is-invalid @enderror" id="" name="password_confirmation" placeholder="Re-enter your password" value="{!! old('password_confirmation') !!}" required>
                                 @error('password_confirmation')
                                 <div class="invalid-feedback">{!! $message !!}</div>
