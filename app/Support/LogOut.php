@@ -14,8 +14,7 @@ class LogOut
                     'formId'  => 'admin-logout-form',
                 ],
                 'dropdown-index' => [
-                    'formUrl' => route('merchant.auth.destroy'),
-                    'formId'  => 'merchant-logout-form',
+                    'url'  => 'admin-logout-form',
                 ],
             ],
 

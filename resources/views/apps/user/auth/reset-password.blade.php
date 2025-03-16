@@ -45,7 +45,7 @@
                 <div class="col-lg-6 mx-auto right-login">
                     <h3 class="text-center">{!! __($title) !!}</h3>
                     <div class="theme-card authentication-right">
-                        <form class="theme-form" action="{{ route('merchant.auth.password.reset') }}" method="POST">
+                        <form class="theme-form" action="{{ route('auth.password.reset') }}" method="POST">
                             @csrf
                             <input type="hidden" name="token" value="{{ $request->token }}">
                             <div class="form-box">

@@ -4,7 +4,8 @@ namespace App\Models;
 
 use App\Models\Admin\MenuSetup;
 use App\Models\Shop\SpecialOffer;
-use App\Notifications\User\MerchantEmailVerificationNotification;
+use App\Notifications\Merchant\MerchantEmailVerificationNotification;
+use App\Notifications\Merchant\MerchantResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -64,6 +65,16 @@ class Merchant extends Authenticatable implements MustVerifyEmail
     public function sendMerchantEmailVerificationNotification()
     {
         $this->notify(new MerchantEmailVerificationNotification());
+    }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MerchantResetPasswordNotification($token));
     }
 
     public function specialOffers()

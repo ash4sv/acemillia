@@ -128,7 +128,7 @@ class AuthMerchantController extends Controller
 
     public function resetPassword(Request $request)
     {
-        if (auth()->guard('merchants')->check()) {
+        if (auth()->guard('merchant')->check()) {
             return redirect()->route('merchant.dashboard');
         }
         return response()->view($this->view . 'reset-password', [

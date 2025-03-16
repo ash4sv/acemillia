@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User\AddressBook;
 use App\Notifications\User\UserEmailVerificationNotification;
+use App\Notifications\User\UserResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -63,6 +64,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendUserEmailVerificationNotification()
     {
         $this->notify(new UserEmailVerificationNotification());
+    }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new UserResetPasswordNotification($token));
     }
 
     public function addressBooks()

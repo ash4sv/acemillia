@@ -44,6 +44,7 @@
                         <button class="btn back-btn">
                             <i class="ri-close-line"></i><span>Close</span>
                         </button>
+                        @hasanyrole(['user'])
                         <div class="profile-top">
                             <div class="profile-top-box">
                                 <div class="profile-image">
@@ -68,8 +69,26 @@
                                 <h6>{{ $authUser->email }}</h6>
                             </div>
                         </div>
+                        @endhasanyrole
+                        @hasanyrole(['merchant'])
+                        <div class="profile-top">
+                            <div class="profile-image vendor-image">
+                                <img src="{!! asset('assets/images/logos/17.png') !!}" alt="" class="img-fluid">
+                            </div>
+                            <div class="profile-detail">
+                                <h5>{!! Str::limit($authUser->company_name, 17, '...') !!}</h5>
+                                {{--<h6>750 followers | 10 review</h6>--}}
+                                <h6>{!! $authUser->email !!}</h6>
+                            </div>
+                        </div>
+                        @endhasanyrole
                         <div class="faq-tab">
+                            @hasanyrole(['user'])
                             @include(__('apps.layouts.shop-user-aside'))
+                            @endhasanyrole
+                            @hasanyrole(['merchant'])
+                            @include(__('apps.layouts.shop-merchant-aside'))
+                            @endhasanyrole
                         </div>
                     </div>
                 </div>
