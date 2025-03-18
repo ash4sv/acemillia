@@ -98,6 +98,29 @@
     color:#fff !important;
 }
 
+.dark .selectize-control.single .selectize-input {
+    color: #ffffff;
+    background-color: #2b2b2b;
+    border-color: #404040;
+    background-image: none;
+    /*box-shadow: 0 1px 0 rgba(0,0,0,.05), inset 0 1px 0 rgba(64,64,64,.8);*/
+    box-shadow: none;
+}
+
+.dark .selectize-input > input[placeholder] {
+    color: #757575;
+    /*opacity:.3;*/
+}
+
+.dark .selectize-input {
+    border: 1px solid #404040;
+}
+
+.dark .selectize-dropdown .selected {
+    background-color: rgba(43, 43, 43, 0.5);
+    color: #fff;
+}
+
 .dark .load-more-sec a {
     color: var(--theme-color);
 }
