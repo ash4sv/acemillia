@@ -86,4 +86,9 @@ class Merchant extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(MenuSetup::class, 'menu_setup_id', 'id');
     }
+
+    public function scopeApproved($query)
+    {
+        return $query->where('status_submission', '=', 'approved');
+    }
 }

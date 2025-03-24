@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\Merchant\AuthMerchantVerifyController;
+use App\Http\Controllers\Merchant\DashboardMerchantController;
 use App\Http\Controllers\Merchant\DashboardMerchantRedirectController;
 use App\Http\Controllers\Merchant\SpecialOfferMerchantController;
 use App\Http\Controllers\Services\AppsPaymentController;
@@ -128,6 +129,8 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
     Route::middleware(['auth:merchant', 'apps-verified:merchant'])->group(function (){
         Route::middleware('approved')->group(function () {
             Route::get('dashboard', [DashboardMerchantRedirectController::class, 'index'])->name('dashboard');
+            Route::put('profile-update', [DashboardMerchantController::class, 'profileUpdate'])->name('profile.update');
+            Route::put('password-update', [DashboardMerchantController::class, 'passwordUpdate'])->name('password.update');
         });
     });
 });

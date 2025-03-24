@@ -81,7 +81,7 @@ class AuthMerchantController extends Controller
 
         $companyNameClear = preg_replace('/\s+/', '-', $data['company_name']);
         $documentFilePath = $request->file('business_license_document')
-            ? ImageUploader::uploadSingleImage($request->file('business_license_document'), 'assets/upload/', $companyNameClear . '_license')
+            ? ImageUploader::uploadSingleImage($request->file('business_license_document'), 'assets/upload/', strtolower($companyNameClear) . '_license')
             : (null);
 
         $merchant = Merchant::create(array_merge($data, [

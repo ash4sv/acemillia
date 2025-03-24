@@ -104,25 +104,35 @@
                                     <li class="onhover-dropdown mobile-account">
                                         <i class="ri-user-6-line"></i>
                                         <ul class="onhover-show-div">
-                                            @forelse(\App\Support\LogOut::LogOut() as $key => $logout)
-                                                @hasanyrole($logout['role'])
-                                                <li><a href="{!! $logout['dropdown-index']['url'] !!}">{!! __('Dashboard') !!}</a></li>
-                                                <li>
-                                                    <a href="javascript:;" onclick="Apps.logoutConfirm('{!! $logout['dropdown-item']['formId'] !!}')">
-                                                        {!! __('Logout') !!}
-                                                    </a>
-                                                    <form id="{!! $logout['dropdown-item']['formId'] !!}" action="{!! $logout['dropdown-item']['formUrl'] !!}" method="POST" class="d-none">
-                                                        @csrf
-                                                    </form>
-                                                </li>
-                                                @endhasanyrole
-                                            @empty
+                                            @php
+                                                // Check for a user from either the 'web' guard or the 'merchant' guard
+                                                $user = auth()->guard('web')->user() ?: auth()->guard('merchant')->user();
+                                            @endphp
 
-                                            @endforelse
-                                            @guest
-                                            <li><a href="{{ route('login') }}">{!! __('Login') !!}</a></li>
-                                            <li><a href="{{ route('register') }}">{!! __('Register') !!}</a></li>
-                                            @endguest
+                                            @if($user)
+                                                @forelse(\App\Support\LogOut::LogOut() as $logout)
+                                                    {{-- Use a manual role check so that the correct dashboard/logout pair appears based on the user --}}
+                                                    @if($user->hasAnyRole($logout['role']))
+                                                        <li>
+                                                            <a href="{{ $logout['dropdown-index']['url'] }}">
+                                                                {{ __('Dashboard') }}
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:;" onclick="Apps.logoutConfirm('{{ $logout['dropdown-item']['formId'] }}')">
+                                                                {{ __('Logout') }}
+                                                            </a>
+                                                            <form id="{{ $logout['dropdown-item']['formId'] }}" action="{{ $logout['dropdown-item']['formUrl'] }}" method="POST" class="d-none">
+                                                                @csrf
+                                                            </form>
+                                                        </li>
+                                                    @endif
+                                                @empty
+                                                @endforelse
+                                            @else
+                                                <li><a href="{{ route('login') }}">{{ __('Login') }}</a></li>
+                                                <li><a href="{{ route('register') }}">{{ __('Register') }}</a></li>
+                                            @endif
                                         </ul>
                                     </li>
                                 </ul>

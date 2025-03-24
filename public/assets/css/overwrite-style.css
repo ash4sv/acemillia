@@ -162,6 +162,9 @@ footer p,
 }
 
 .selectize-input. {
-    padding-top:11px;
-    padding-bottom:11px;
+    padding: 11px 8px;
+}
+
+.dashboard-section .dashboard-box .dashboard-detail ul li.details h5 span {
+    width:300px;
 }

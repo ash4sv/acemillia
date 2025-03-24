@@ -2,6 +2,163 @@
 
 @section('user-apps-content')
 
+    <div class="counter-section">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="counter-box">
+                    <img src="{!! asset('assets/images/icon/dashboard/order.png') !!}" alt="" class="img-fluid">
+                    <div>
+                        <h3>25</h3>
+                        <h5>total products</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="counter-box">
+                    <img src="{!! asset('assets/images/icon/dashboard/sale.png') !!}" alt="" class="img-fluid">
+                    <div>
+                        <h3>12500</h3>
+                        <h5>total sales</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="counter-box">
+                    <img src="{!! asset('assets/images/icon/dashboard/homework.png') !!}" alt="" class="img-fluid">
+                    <div>
+                        <h3>50</h3>
+                        <h5>order pending</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <div id="chart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="card-body">
+                    <div id="chart-order"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-sm-4 g-3">
+        <div class="col-12">
+            <div class="dashboard-table">
+                <div class="wallet-table">
+                    <div class="top-sec mb-3">
+                        <h3>trending products</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table cart-table order-table">
+                            <thead>
+                            <tr>
+                                <th>image</th>
+                                <th>product name</th>
+                                <th>price</th>
+                                <th>sales</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="image-box">
+                                    <img src="{!! asset('assets/images/fashion-1/product/5.jpg') !!}" alt="" class="blur-up lazyloaded">
+                                </td>
+                                <td>neck velvet dress</td>
+                                <td>$205</td>
+                                <td>1000</td>
+                            </tr>
+                            <tr>
+                                <td class="image-box">
+                                    <img src="{!! asset('assets/images/fashion-1/product/13.jpg') !!}" alt="" class="blur-up lazyloaded">
+                                </td>
+                                <td>belted trench coat</td>
+                                <td>$350</td>
+                                <td>800</td>
+                            </tr>
+                            <tr>
+                                <td class="image-box">
+                                    <img src="{!! asset('assets/images/fashion-1/product/9.jpg') !!}" alt="" class="blur-up lazyloaded">
+                                </td>
+                                <td>man print tee</td>
+                                <td>$150</td>
+                                <td>750</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="dashboard-table">
+                <div class="wallet-table">
+                    <div class="top-sec mb-3">
+                        <h3>recent orders</h3>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table cart-table order-table">
+                            <thead>
+                            <tr>
+                                <th>order id</th>
+                                <th>product details</th>
+                                <th>status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>#21515</td>
+                                <td>neck velvet dress</td>
+                                <td>
+                                    <span class="badge bg-pending custom-badge rounded-0">pending</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#78153</td>
+                                <td>belted trench coat</td>
+
+                                <td>
+                                    <span class="badge bg-debit custom-badge rounded-0">cancelled</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#51512</td>
+                                <td>man print tee</td>
+
+                                <td>
+                                    <span class="badge bg-credit custom-badge rounded-0">shipped</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#78153</td>
+                                <td>belted trench coat</td>
+                                <td>
+                                    <span class="badge bg-pending custom-badge rounded-0">pending</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#51512</td>
+                                <td>man print tee</td>
+                                <td>
+                                    <span class="badge bg-credit custom-badge rounded-0">shipped</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 @endsection

@@ -1,26 +1,26 @@
 <ul class="nav nav-tabs" id="top-tab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" href="{!! route('merchant.dashboard') !!}">
+        <a class="nav-link {{ request('section') == null ? 'active' : '' }}" href="{!! route('merchant.dashboard') !!}">
             <i class="ri-home-line"></i> {!! __('Dashboard') !!}
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="">
-            <i class="ri-product-hunt-line"></i> {!! __('Products') !!}
+        <a class="nav-link {{ in_array(request('section'), ['products', 'product-create', 'product-edit', 'product-show']) ? 'active' : '' }}" href="{{ route('merchant.dashboard', ['section' => 'products']) }}">
+            <i class="ri-product-hunt-line"></i> {{ __('Products') }}
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link {!! request('section') == 'orders' ? 'active' : '' !!}" href="{!! route('merchant.dashboard', ['section' => 'orders']) !!}">
             <i class="ri-file-text-line"></i> {!! __('Orders') !!}
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link {!! in_array(request('section'), ['profile', 'profile-edit', 'password-edit']) ? 'active' : '' !!}" href="{!! route('merchant.dashboard', ['section' => 'profile']) !!}">
             <i class="ri-user-3-line"></i> {!! __('Profile') !!}
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="">
+        <a class="nav-link {!! request('section') == 'settings' ? 'active' : '' !!}" href="{!! route('merchant.dashboard', ['section' => 'settings']) !!}">
             <i class="ri-settings-line"></i> {!! __('Settings') !!}
         </a>
     </li>

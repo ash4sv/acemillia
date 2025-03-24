@@ -31,7 +31,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/themify-icons.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/fancyapps/fancybox.css') }}">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.default.min.css" integrity="sha512-pTaEn+6gF1IeWv3W1+7X7eM60TFu/agjgoHmYhAfLEU8Phuf6JKiiE8YmsNC0aCgQv4192s4Vai8YZ6VNM6vyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/selectize/css/selectize.default.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/sweetalert2/sweetalert2.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/jquery-ui/jquery-ui.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
@@ -41,7 +41,7 @@
 
 </head>
 
-<body class="theme-color-5">
+<body class="theme-color-22">
 
     @include('apps.layouts.shop-header')
 
@@ -835,7 +835,7 @@
     <script src="{{ asset('apps/vendor/libs/fancyapps/fancybox.umd.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.vide.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/js/selectize.min.js" integrity="sha512-IOebNkvA/HZjMM7MxL0NYeLYEalloZ8ckak+NDtOViP7oiYzG5vn6WVXyrJDiJPhl4yRdmNAG49iuLmhkUdVsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('apps/vendor/libs/selectize/js/selectize.min.js') }}"></script>
     <script src="{{ asset('apps/vendor/libs/jquery-ui/jquery-ui.js') }}"></script>
     <script src="{{ asset('assets/js/theme-setting.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
