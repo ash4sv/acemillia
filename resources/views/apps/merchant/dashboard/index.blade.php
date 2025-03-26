@@ -8,7 +8,7 @@
                 <div class="counter-box">
                     <img src="{!! asset('assets/images/icon/dashboard/order.png') !!}" alt="" class="img-fluid">
                     <div>
-                        <h3>25</h3>
+                        <h3>{!! $products->count() !!}</h3>
                         <h5>total products</h5>
                     </div>
                 </div>

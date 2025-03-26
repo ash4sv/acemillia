@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Merchant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop\Product;
 use App\Services\ImageUploader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -19,24 +20,19 @@ class DashboardMerchantController extends Controller
         $this->auth = auth()->guard('merchant')->user();
     }
 
+    /**
+     * Override to inject the merchant's ID.
+     */
+    protected function getMerchantId()
+    {
+        return $this->auth->id;
+    }
+
     public function index()
     {
         return view($this->view . 'dashboard.index', [
-            'authUser' => $this->auth
-        ]);
-    }
-
-    public function products()
-    {
-        return view($this->view . 'products.index', [
-            'authUser' => $this->auth
-        ]);
-    }
-
-    public function productCreate()
-    {
-        return view($this->view . 'products.form', [
-            'authUser' => $this->auth
+            'authUser' => $this->auth,
+            'products' => Product::where('merchant_id', $this->getMerchantId())->get()
         ]);
     }
 

@@ -31,6 +31,9 @@
                 <div class="col-md-3">{!! __('Contact person name') !!}</div>
                 <div class="col-md-9">{!! $authUser->name !!}</div>
 
+                <div class="col-md-3">{!! __('Product category') !!}</div>
+                <div class="col-md-9">{!! $authUser->menuSetup?->name !!}</div>
+
                 <div class="col-md-3">{!! __('Email address') !!}</div>
                 <div class="col-md-9">{!! $authUser->email !!}</div>
 

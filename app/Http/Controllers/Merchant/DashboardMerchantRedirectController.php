@@ -13,9 +13,9 @@ class DashboardMerchantRedirectController extends Controller
 
         switch ($section) {
             case 'products':
-                return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@products');
+                return app()->call('App\Http\Controllers\Merchant\ProductMerchantController@index');
             case 'product-create':
-                return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@productCreate');
+                return app()->call('App\Http\Controllers\Merchant\ProductMerchantController@create');
             case 'orders':
                 return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@orders');
             case 'profile':

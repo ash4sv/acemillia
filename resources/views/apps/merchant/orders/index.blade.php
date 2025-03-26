@@ -6,7 +6,7 @@
         <div class="wallet-table">
             <div class="top-sec">
                 <h3>orders</h3>
-                <a href="#!" class="btn btn-sm btn-solid">add product</a>
+                {{--<a href="#!" class="btn btn-sm btn-solid">add product</a>--}}
             </div>
             <div class="table-responsive">
                 <table class="table cart-table order-table">

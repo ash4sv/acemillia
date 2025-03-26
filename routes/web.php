@@ -19,6 +19,7 @@ use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\Merchant\AuthMerchantVerifyController;
 use App\Http\Controllers\Merchant\DashboardMerchantController;
 use App\Http\Controllers\Merchant\DashboardMerchantRedirectController;
+use App\Http\Controllers\Merchant\ProductMerchantController;
 use App\Http\Controllers\Merchant\SpecialOfferMerchantController;
 use App\Http\Controllers\Services\AppsPaymentController;
 use App\Http\Controllers\User\AddressUserController;
@@ -131,6 +132,8 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
             Route::get('dashboard', [DashboardMerchantRedirectController::class, 'index'])->name('dashboard');
             Route::put('profile-update', [DashboardMerchantController::class, 'profileUpdate'])->name('profile.update');
             Route::put('password-update', [DashboardMerchantController::class, 'passwordUpdate'])->name('password.update');
+            Route::get('categories/{category}/subcategories', [ShopAdminController::class, 'getSubcategories'])->name('categories.subcategories');
+            Route::resource('products', ProductMerchantController::class);
         });
     });
 });

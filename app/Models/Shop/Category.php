@@ -49,7 +49,7 @@ class Category extends Model
         return QueryScopes::scopeInactive($query);
     }
 
-public function menus()
+    public function menus()
     {
         return $this->morphedByMany(MenuSetup::class, 'model', 'category_relations');
     }
