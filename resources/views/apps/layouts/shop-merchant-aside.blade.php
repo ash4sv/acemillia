@@ -5,7 +5,12 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {{ in_array(request('section'), ['products', 'product-create', 'product-edit', 'product-show']) ? 'active' : '' }}" href="{{ route('merchant.dashboard', ['section' => 'products']) }}">
+        <a class="nav-link {{ in_array(request('section'), ['news-feed']) ? 'active' : '' }}" href="{{ route('merchant.dashboard', ['section' => 'news-feed']) }}">
+            <i class="ri-news-line"></i> {!! __('News Feed') !!}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ in_array(request('section'), ['products', 'product-create']) ? 'active' : '' }}" href="{{ route('merchant.dashboard', ['section' => 'products']) }}">
             <i class="ri-product-hunt-line"></i> {{ __('Products') }}
         </a>
     </li>

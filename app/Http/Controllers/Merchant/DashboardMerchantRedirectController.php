@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Merchant;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class DashboardMerchantRedirectController extends Controller
 {
@@ -12,6 +13,8 @@ class DashboardMerchantRedirectController extends Controller
         $section = $request->query('section');
 
         switch ($section) {
+            case 'news-feed':
+                return app()->call('App\Http\Controllers\Merchant\NewsFeedMerchantController@index');
             case 'products':
                 return app()->call('App\Http\Controllers\Merchant\ProductMerchantController@index');
             case 'product-create':

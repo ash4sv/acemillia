@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Models\Admin\MenuSetup;
 use App\Models\Shop\SpecialOffer;
+use App\Models\Social\NewsFeed;
+use App\Models\Social\NewsFeedComment;
+use App\Models\Social\NewsFeedLike;
 use App\Notifications\Merchant\MerchantEmailVerificationNotification;
 use App\Notifications\Merchant\MerchantResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -90,5 +93,20 @@ class Merchant extends Authenticatable implements MustVerifyEmail
     public function scopeApproved($query)
     {
         return $query->where('status_submission', '=', 'approved');
+    }
+
+    public function newsfeeds()
+    {
+        return $this->morphMany(NewsFeed::class, 'newsfeedable', 'model_type', 'model_id');
+    }
+
+    public function newsfeedLikes()
+    {
+        return $this->morphMany(NewsFeedLike::class, 'actor', 'model_type', 'model_id');
+    }
+
+    public function newsfeedComments()
+    {
+        return $this->morphMany(NewsFeedComment::class, 'actor', 'model_type', 'model_id');
     }
 }

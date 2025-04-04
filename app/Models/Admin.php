@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Models\Admin\Blog\Post;
+use App\Models\Social\NewsFeed;
+use App\Models\Social\NewsFeedComment;
+use App\Models\Social\NewsFeedLike;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -53,5 +56,20 @@ class Admin extends Authenticatable implements MustVerifyEmail
     public function posts()
     {
         return $this->hasMany(Post::class, 'admin_id', 'id');
+    }
+
+    public function newsfeeds()
+    {
+        return $this->morphMany(NewsFeed::class, 'newsfeedable', 'model_type', 'model_id');
+    }
+
+    public function newsfeedLikes()
+    {
+        return $this->morphMany(NewsFeedLike::class, 'actor', 'model_type', 'model_id');
+    }
+
+    public function newsfeedComments()
+    {
+        return $this->morphMany(NewsFeedComment::class, 'actor', 'model_type', 'model_id');
     }
 }

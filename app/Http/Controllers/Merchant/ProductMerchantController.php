@@ -78,6 +78,7 @@ class ProductMerchantController extends ProductBaseController
     public function show(string $id)
     {
         return view($this->view . 'show', [
+            'authUser' => $this->auth,
             'product' => $this->findOrFailProduct($id)
         ]);
     }

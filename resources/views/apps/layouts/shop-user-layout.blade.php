@@ -14,7 +14,7 @@
 @endpush
 
 @push('script')
-
+    <script src="{!! asset('assets/js/aces-news-feed.js') !!}"></script>
 @endpush
 
 @section('webpage')
