@@ -30,17 +30,17 @@
         </a>
     </li>
     @forelse(\App\Support\LogOut::LogOut() as $key => $logout)
-        @hasanyrole($logout['role'])
-        <li class="nav-item logout-cls">
-            <a href="javascript:;" onclick="Apps.logoutConfirm('{!! $logout['dropdown-item']['formId'] !!}')" class="btn loagout-btn">
-                <i class="ri-logout-box-r-line"></i> {!! __('Logout') !!}
-            </a>
-            <form id="{!! $logout['dropdown-item']['formId'] !!}" action="{!! $logout['dropdown-item']['formUrl'] !!}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </li>
-        @endhasanyrole
+        @if(Auth::guard('merchant')->check() && Auth::guard('merchant')->user()->hasAnyRole($logout['role']))
+            <li class="nav-item logout-cls">
+                <a href="javascript:;" onclick="Apps.logoutConfirm('{{ $logout['dropdown-item']['formId'] }}')" class="btn loagout-btn">
+                    <i class="ri-logout-box-r-line"></i> {{ __('Logout') }}
+                </a>
+                <form id="{{ $logout['dropdown-item']['formId'] }}" action="{{ $logout['dropdown-item']['formUrl'] }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </li>
+        @endif
     @empty
-
     @endforelse
+
 </ul>

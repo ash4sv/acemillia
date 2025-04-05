@@ -44,7 +44,7 @@
                         <button class="btn back-btn">
                             <i class="ri-close-line"></i><span>Close</span>
                         </button>
-                        @hasanyrole(['user'])
+                        @userrole
                         <div class="profile-top">
                             <div class="profile-top-box">
                                 <div class="profile-image">
@@ -69,8 +69,8 @@
                                 <h6>{{ $authUser->email }}</h6>
                             </div>
                         </div>
-                        @endhasanyrole
-                        @hasanyrole(['merchant'])
+                        @enduserrole
+                        @merchantrole
                         <div class="profile-top">
                             <div class="profile-image vendor-image">
                                 <img src="{!! asset('assets/images/logos/17.png') !!}" alt="" class="img-fluid">
@@ -81,14 +81,14 @@
                                 <h6>{!! $authUser->email !!}</h6>
                             </div>
                         </div>
-                        @endhasanyrole
+                        @endmerchantrole
                         <div class="faq-tab">
-                            @hasanyrole(['user'])
+                            @userrole
                             @include(__('apps.layouts.shop-user-aside'))
-                            @endhasanyrole
-                            @hasanyrole(['merchant'])
+                            @enduserrole
+                            @merchantrole
                             @include(__('apps.layouts.shop-merchant-aside'))
-                            @endhasanyrole
+                            @endmerchantrole
                         </div>
                     </div>
                 </div>

@@ -368,23 +368,23 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             @foreach(\App\Support\Navbar::getNavUser() as $navbar)
-                                @hasanyrole($navbar['role'])
-                                <li>
-                                    <a class="dropdown-item" href="{{ $navbar['url'] }}">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0 me-3">
-                                                <div class="avatar avatar-online">
-                                                    <img src="{{ asset('apps/img/avatars/1.png') }}" alt class="h-auto rounded-circle">
+                                @if(Auth::guard('admin')->check() && Auth::guard('admin')->user()->hasAnyRole($navbar['role']))
+                                    <li>
+                                        <a class="dropdown-item" href="{{ $navbar['url'] }}">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="{{ $navbar['image'] }}" alt class="h-auto rounded-circle">
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-medium d-block">{{ $navbar['name'] }}</span>
+                                                    <small class="text-muted text-capitalize">{{ $navbar['rolesNames'] }}</small>
                                                 </div>
                                             </div>
-                                            <div class="flex-grow-1">
-                                                <span class="fw-medium d-block">{{ $navbar['name'] }}</span>
-                                                <small class="text-muted text-capitalize">{{ $navbar['rolesNames'] }}</small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                @endhasanyrole
+                                        </a>
+                                    </li>
+                                @endif
                             @endforeach
                             {{--<li>
                                 <a class="dropdown-item" href="{{ route('organizer.apps.profile') }}">
@@ -444,17 +444,17 @@
                                 <div class="dropdown-divider"></div>
                             </li>
                             @foreach(\App\Support\LogOut::LogOut() as $logout)
-                                @hasanyrole($logout['role'])
-                                    <li>
-                                        <a class="dropdown-item" href="javascript:;" onclick="Apps.logoutConfirm('{{ $logout['dropdown-item']['formId'] }}')">
-                                            <i class="ti ti-logout me-2 ti-sm"></i>
-                                            <span class="align-middle">Log Out</span>
-                                        </a>
-                                        <form id="{{ $logout['dropdown-item']['formId'] }}" action="{{ $logout['dropdown-item']['formUrl'] }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
-                                    </li>
-                                @endhasanyrole
+                                @logoutAllowed($logout['role'])
+                                <li>
+                                    <a class="dropdown-item" href="javascript:;" onclick="Apps.logoutConfirm('{{ $logout['dropdown-item']['formId'] }}')">
+                                        <i class="ti ti-logout me-2 ti-sm"></i>
+                                        <span class="align-middle">Log Out</span>
+                                    </a>
+                                    <form id="{{ $logout['dropdown-item']['formId'] }}" action="{{ $logout['dropdown-item']['formUrl'] }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
+                                @endlogoutAllowed
                             @endforeach
                         </ul>
                     </li>

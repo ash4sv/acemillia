@@ -23,12 +23,12 @@
 
     <ul class="menu-inner py-1">
         @foreach(\App\Support\Menu::getMenuItems() as $menuItem)
-            @hasanyrole($menuItem['role'])
+            @logoutAllowed($menuItem['role'])
                 <li class="menu-header small text-uppercase">
                     <span class="menu-header-text" data-i18n="{{ $menuItem['header'] }}">{{ $menuItem['header'] }}</span>
                 </li>
                 @foreach($menuItem['menus'] as $menu)
-                    @can($menu['permission'])
+                    @customCan($menu['permission'])
                         @if(isset($menu['sub']))
                             <li class="menu-item {{ (request()->is($menu['active_on'])) ? 'active open':'' }}">
                                 <a @isset($menu['target']) target="{{ $menu['target'] }}" @endisset href="javascript:void(0);" class="menu-link menu-toggle">
@@ -37,7 +37,7 @@
                                 </a>
                                 <ul class="menu-sub">
                                     @foreach($menu['sub'] as $menuSub)
-                                        @can($menuSub['permission'])
+                                        @customCan($menuSub['permission'])
                                             @if(isset($menuSub['sub2']))
                                                 <li class="menu-item {{ (request()->is($menuSub['active_on'])) ? 'active open':'' }}">
                                                     <a @isset($menu['target']) target="{{ $menu['target'] }}" @endisset href="javascript:void(0);" class="menu-link menu-toggle">
@@ -45,7 +45,7 @@
                                                     </a>
                                                     <ul class="menu-sub">
                                                         @foreach($menuSub['sub2'] as $menuSubSub)
-                                                            @can($menuSubSub['permission'])
+                                                            @customCan($menuSubSub['permission'])
                                                                 @if(isset($menuSubSub['sub3']))
                                                                     <li class="menu-item {{ (request()->is($menuSubSub['active_on'])) ? 'active open':'' }}">
                                                                         <a @isset($menu['target']) target="{{ $menu['target'] }}" @endisset href="javascript:void(0);" class="menu-link menu-toggle">
@@ -53,13 +53,13 @@
                                                                         </a>
                                                                         <ul class="menu-sub">
                                                                             @foreach($menuSubSub['sub3'] as $menuSubSubSub)
-                                                                                @can($menuSubSubSub['permission'])
+                                                                                @customCan($menuSubSubSub['permission'])
                                                                                     <li class="menu-item {{ (request()->is($menuSubSubSub['active_on'])) ? 'active':'' }}">
                                                                                         <a @isset($menu['target']) target="{{ $menu['target'] }}" @endisset href="{{ $menuSubSubSub['url'] }}" class="menu-link">
                                                                                             <div data-i18n="{{ $menuSubSubSub['text'] }}">{{ $menuSubSubSub['text'] }}</div>
                                                                                         </a>
                                                                                     </li>
-                                                                                @endcan
+                                                                                @endcustomCan
                                                                             @endforeach
                                                                         </ul>
                                                                     </li>
@@ -70,7 +70,7 @@
                                                                         </a>
                                                                     </li>
                                                                 @endif
-                                                            @endcan
+                                                            @endcustomCan
                                                         @endforeach
                                                     </ul>
                                                 </li>
@@ -81,7 +81,7 @@
                                                     </a>
                                                 </li>
                                             @endif
-                                        @endcan
+                                        @endcustomCan
                                     @endforeach
                                 </ul>
                             </li>
@@ -93,9 +93,9 @@
                                 </a>
                             </li>
                         @endif
-                    @endcan
+                    @endcustomCan
                 @endforeach
-            @endhasanyrole
+            @endlogoutAllowed
         @endforeach
     </ul>
 </aside>

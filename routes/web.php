@@ -83,7 +83,7 @@ Route::prefix('purchase')->name('purchase.')->group(function () {
     Route::get('options/{option}', [PurchaseUserController::class, 'options'])->name('options');
 });
 
-Route::middleware(['auth:web', 'apps-verified:web'])->group(function (){
+Route::middleware(['custom.auth:web', 'apps-verified:web'])->group(function (){
     Route::get('dashboard', [DashboardRedirectController::class, 'index'])->name('dashboard')->middleware('approved');
 
     Route::prefix('user')->name('user.')->group(function () {
@@ -129,7 +129,7 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
         Route::post('email/resend', [AuthMerchantVerifyController::class, 'resend'])->middleware(['throttle:6,1'])->name('verification.resend');
         Route::get('under-review', [AuthMerchantVerifyController::class, 'underReview'])->name('under.review')->middleware('its_approved');
     });
-    Route::middleware(['auth:merchant', 'apps-verified:merchant'])->group(function (){
+    Route::middleware(['custom.auth:merchant', 'apps-verified:merchant'])->group(function (){
         Route::middleware('approved')->group(function () {
             Route::get('dashboard', [DashboardMerchantRedirectController::class, 'index'])->name('dashboard');
             Route::put('profile-update', [DashboardMerchantController::class, 'profileUpdate'])->name('profile.update');
@@ -163,7 +163,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('email/verify/{id}/{hash}', [AuthAdminVerifyController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
         Route::post('email/resend', [AuthAdminVerifyController::class, 'resend'])->middleware(['throttle:6,1'])->name('verification.resend');
     });
-    Route::middleware(['auth:admin', 'apps-verified:admin'])->group(function (){
+    Route::middleware(['custom.auth:admin', 'apps-verified:admin'])->group(function (){
         Route::get('dashboard', [DashboardAdminController::class, 'dashboard'])->name('dashboard');
         Route::prefix('registered-user')->name('registered-user.')->group(function () {
             Route::resources([

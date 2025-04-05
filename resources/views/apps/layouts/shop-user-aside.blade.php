@@ -39,12 +39,18 @@
             <i class="ri-map-pin-line"></i> Saved Address
         </a>
     </li>
-    <li class="nav-item logout-cls">
-        <a href="javascript:;" class="btn loagout-btn" onclick="Apps.logoutConfirm('user_log_out')">
-            <i class="ri-logout-box-r-line"></i> Logout
-        </a>
-        <form id="user_log_out" action="{{ route('auth.destroy') }}" method="POST" class="d-none">
-            @csrf
-        </form>
-    </li>
+    @forelse(\App\Support\LogOut::LogOut() as $key => $logout)
+        @if(Auth::guard('web')->check() && Auth::guard('web')->user()->hasAnyRole($logout['role']))
+            <li class="nav-item logout-cls">
+                <a href="javascript:;" onclick="Apps.logoutConfirm('{{ $logout['dropdown-item']['formId'] }}')" class="btn loagout-btn">
+                    <i class="ri-logout-box-r-line"></i> {{ __('Logout') }}
+                </a>
+                <form id="{{ $logout['dropdown-item']['formId'] }}" action="{{ $logout['dropdown-item']['formUrl'] }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </li>
+        @endif
+    @empty
+        <!-- Optionally handle if no logout items are returned -->
+    @endforelse
 </ul>

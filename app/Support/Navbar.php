@@ -8,7 +8,15 @@ class Navbar
 {
     public static function getNavUser()
     {
-        $user = Auth::user();
+        if (Auth::guard('admin')->check()) {
+            $user = Auth::guard('admin')->user();
+        } elseif (Auth::guard('merchant')->check()) {
+            $user = Auth::guard('merchant')->user();
+        } elseif (Auth::guard('web')->check()) {
+            $user = Auth::guard('web')->user();
+        } else {
+            return [];
+        }
 
         return [
             [

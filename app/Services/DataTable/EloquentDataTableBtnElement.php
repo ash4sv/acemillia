@@ -2,6 +2,8 @@
 
 namespace App\Services\DataTable;
 
+use Illuminate\Support\Facades\Auth;
+
 class EloquentDataTableBtnElement
 {
     /**
@@ -58,8 +60,28 @@ class EloquentDataTableBtnElement
         $permission = $config[$key][0] ?? null;
 
         return isset($config[$key]) &&
-               $config[$key][1] === true && // Button enabled
-               ($permission === null || auth()->user()->can($permission)); // Permission check if provided
+            $config[$key][1] === true && // Button enabled
+            ($permission === null || self::hasPermission($permission)); // Use custom permission check
+    }
+
+    /**
+     * Check permission across all guards.
+     *
+     * @param string $permission
+     * @return bool
+     */
+    private static function hasPermission(string $permission): bool
+    {
+        if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->can($permission)) {
+            return true;
+        }
+        if (Auth::guard('merchant')->check() && Auth::guard('merchant')->user()->can($permission)) {
+            return true;
+        }
+        if (Auth::guard('web')->check() && Auth::guard('web')->user()->can($permission)) {
+            return true;
+        }
+        return false;
     }
 
     /**
