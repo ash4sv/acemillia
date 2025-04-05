@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Merchant;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Shared\NewsFeedCommentBaseController;
-use App\Models\Social\NewsFeedComment;
 use Illuminate\Http\Request;
 
-class NewsFeedCommentMerchantController extends NewsFeedCommentBaseController
+class NewsFeedCommentUserController extends NewsFeedCommentBaseController
 {
     /**
      * Display a listing of the resource.
@@ -30,11 +29,7 @@ class NewsFeedCommentMerchantController extends NewsFeedCommentBaseController
      */
     public function store(Request $request)
     {
-        $comment = $this->updateOrCreateNewsFeedComment($request);
-        return response()->json([
-            'success' => true,
-            'comment' => $comment
-        ]);
+        //
     }
 
     /**

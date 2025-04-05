@@ -5,6 +5,11 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link {{ request('section') == 'news-feed' ? 'active' : '' }}" id="notification-tab" href="{{ route('dashboard', ['section' => 'news-feed']) }}">
+            <i class="ri-news-line"></i> News Feed
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link {{ request('section') == 'notifications' ? 'active' : '' }}" id="notification-tab" href="{{ route('dashboard', ['section' => 'notifications']) }}">
             <i class="ri-notification-line"></i> Notifications
         </a>

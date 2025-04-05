@@ -23,45 +23,6 @@ $(document).ready(function() {
         this.style.height = (this.scrollHeight) + 'px';
     });
 
-    // Example: Toggle "Like" state on post's Like button
-    $('.aces-like-btn').on('click', function(e) {
-        e.preventDefault();
-
-        var btn = $(this);
-        var likesStore = btn.data('likes-store');         // URL for like action
-        var newsFeedId = btn.data('news-feed-id');          // ID of the newsfeed item
-        var csrfToken  = btn.data('like-csrf');          // ID of the newsfeed item
-
-        $.ajax({
-            url: likesStore,
-            type: 'POST',
-            data: { newsfeed_id: newsFeedId },
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            },
-            success: function(response) {
-                /*var btnSelector = '.aces-like-btn[data-news-feed-id="' + newsFeedId + '"]';
-                $(btnSelector).load(window.location.href + ' ' + btnSelector, function(){
-                    console.log("Like button refreshed.");
-                });*/
-            },
-            error: function(xhr, status, error) {
-                console.error('Error updating like:', error);
-            }
-        });
-    });
-
-    // Example: Toggle "Liked(x)" on a comment
-    $('.aces-comment-action').on('click', function() {
-        // If the text is "Liked(2)", you could change it to "Unlike(2)" etc.
-        // This is purely an example; customize as needed.
-        if ($(this).text().includes('Liked')) {
-            $(this).text($(this).text().replace('Liked', 'Unlike'));
-        } else if ($(this).text().includes('Unlike')) {
-            $(this).text($(this).text().replace('Unlike', 'Liked'));
-        }
-    });
-
     // When the textarea receives focus (or is clicked)
     $('.aces-textarea').on('focus click', function(){
         // Open the modal with id "postModal"
@@ -86,16 +47,45 @@ $(document).ready(function() {
         $(this).closest('.aces-dropdown2').find('.dropdown-toggle span.pe-1').text(selectedText);
     });
 
-    // When the submit button (type="submit") is clicked inside .aces-content
+    // Like toggle functionality
+    $('.aces-like-btn').on('click', function(e) {
+        e.preventDefault();
+
+        var btn = $(this);
+        var likesStore = btn.data('likes-store');      // URL for like action
+        var newsFeedId = btn.data('news-feed-id');       // NewsFeed ID
+        var csrfToken  = btn.data('like-csrf');          // CSRF token
+
+        $.ajax({
+            url: likesStore,
+            type: 'POST',
+            data: { newsfeed_id: newsFeedId },
+            headers: { 'X-CSRF-TOKEN': csrfToken },
+            success: function(response) {
+                if (response.success) {
+                    // Update button text based on toggle state
+                    if (response.liked) {
+                        btn.find('span').text('Unlike (' + response.likes_count + ')');
+                    } else {
+                        btn.find('span').text('Like (' + response.likes_count + ')');
+                    }
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating like:', error);
+            }
+        });
+    });
+
+    // Post a new NewsFeed
     $('.aces-content button[type="submit"]').on('click', function(e){
         e.preventDefault();
 
         var $container = $(this).closest('.aces-content');
-        var postUrl = $container.data('news-feed-store');
-        var postCsrf = $container.data('csrf');
-
+        var postUrl    = $container.data('news-feed-store'); // e.g., route('merchant.news-feed.store')
+        var postCsrf   = $container.data('csrf');
         var newsfeedText = $container.find('textarea[name="newsfeed_text"]').val();
-        var privacy = $container.find('input[name="privacy"]').val();
+        var privacy      = $container.find('input[name="privacy"]').val();
 
         var postData = {
             newsfeed_text: newsfeedText,
@@ -106,13 +96,12 @@ $(document).ready(function() {
             url: postUrl,
             type: 'POST',
             data: postData,
-            headers: {
-                'X-CSRF-TOKEN': postCsrf
-            },
+            headers: { 'X-CSRF-TOKEN': postCsrf },
             success: function(response) {
                 $('#postModal').modal('hide');
                 $container.find('textarea[name="newsfeed_text"]').val('');
-                /*$('.aces-feed-list').load(window.location.href + ' .aces-feed-list > *');*/
+                console.log('NewsFeed posted:', response.newsfeed);
+                // Optionally, refresh the feed or append the new post.
             },
             error: function(xhr, status, error) {
                 console.error('Error posting newsfeed:', error);
@@ -121,45 +110,95 @@ $(document).ready(function() {
         });
     });
 
-    $('.aces-add-comment-btn').on('click', function(e){
+    // Post a comment or reply
+    $(document).on('click', '.aces-add-comment-btn', function(e){
         e.preventDefault();
 
-        // Find the input wrapper that contains data attributes
         var $wrapper = $(this).closest('.aces-add-comment-input-wrapper');
-        var newsFeedId = $wrapper.data('news-feed-id');
+        var newsFeedId  = $wrapper.data('news-feed-id');
         var actionStore = $wrapper.data('action-store');
-        var actionMethod = $wrapper.data('action-method');  // e.g., "POST"
-        var csrfToken = $wrapper.data('csrf');
+        var actionMethod= $wrapper.data('action-method');
+        var csrfToken   = $wrapper.data('csrf');
         var commentText = $wrapper.find('.aces-add-comment-input').val().trim();
+        var parentId    = $wrapper.data('news-feed-comment');
 
         if(commentText === ''){
-            return; // do nothing if input is empty
+            return;
+        }
+
+        var postData = {
+            newsfeed_id: newsFeedId,
+            comment: commentText
+        };
+
+        if (parentId) {
+            postData.parent_id = parentId;
         }
 
         $.ajax({
             url: actionStore,
             type: actionMethod,
-            data: {
-                newsfeed_id: newsFeedId,
-                comment: commentText
-            },
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            },
+            data: postData,
+            headers: { 'X-CSRF-TOKEN': csrfToken },
             success: function(response) {
-                /*$wrapper.find('.aces-add-comment-input').val('');
-                var btnSelector = '.aces-comment-btn[data-news-feed-id="' + newsFeedId + '"]';
-                $(btnSelector).load(window.location.href + ' ' + btnSelector, function(){
-                    /!*console.log("Like button refreshed.");*!/
-                });
-                $('.aces-feed-comments').load(window.location.href + ' .aces-feed-comments > *', function(){
+                if(response.success) {
                     $wrapper.find('.aces-add-comment-input').val('');
-                });*/
+                    console.log('Comment submitted:', response.comment);
+                    // Optionally update the UI to display the new comment.
+                }
             },
             error: function(xhr, status, error) {
                 console.error('Error submitting comment:', error);
                 alert('Error submitting comment. Please try again.');
             }
         });
+    });
+
+    $(document).on('click', '.aces-comment-actions .aces-comment-reply', function(e) {
+        e.preventDefault();
+
+        // Get the clicked comment container and determine its depth
+        var $currentComment = $(this).closest('.aces-comment');
+        var depth = $currentComment.parents('.aces-comment').length + 1;
+
+        // Determine the target container for appending the reply input.
+        // If the current comment is at depth 4 (reply3), then append the reply input to the parent's container,
+        // so the new reply will be a sibling (another reply3) under reply2.
+        var $targetContainer;
+        if (depth === 4) {
+            // $currentComment is reply3; find its parent's replies container.
+            $targetContainer = $currentComment.parent().closest('.aces-comment').children('.aces-replies').first();
+        } else {
+            // Otherwise, append directly to the current comment's replies container.
+            $targetContainer = $currentComment.children('.aces-replies').first();
+        }
+
+        // Retrieve dynamic data: newsfeed ID, comment ID, action URL, and CSRF token.
+        var newsfeedId = $(this).closest('.aces-feed-item').data('news-feed-id');
+        var commentId = $currentComment.data('comment-id');
+        // Get these values from the main "Add comment" bar, assuming they are consistent across the feed.
+        var $mainWrapper = $(this).closest('.aces-feed-comments').find('.aces-add-comment-input-wrapper').first();
+        var storeRoute = $mainWrapper.data('action-store');
+        var csrfToken  = $mainWrapper.data('csrf');
+
+        // Build the reply input markup.
+        var replyMarkup =
+            '<div class="aces-add-comment pt-0 appended-reply">' +
+            '<img class="aces-add-comment-avatar" src="/assets/images/2.jpg" alt="User Avatar"/>' +
+            '<div class="aces-add-comment-input-wrapper" ' +
+            'data-news-feed-id="' + newsfeedId + '" ' +
+            'data-news-feed-comment="' + commentId + '" ' +
+            'data-action-store="' + storeRoute + '" ' +
+            'data-action-method="POST" ' +
+            'data-csrf="' + csrfToken + '">' +
+            '<input type="text" class="aces-add-comment-input" placeholder="Add a comment..."/>' +
+            '<button class="aces-add-comment-btn">' +
+            '<i class="fa fa-paper-plane" aria-hidden="true"></i>' +
+            '</button>' +
+            '</div>' +
+            '</div>';
+
+        // Append the reply markup to the target container.
+        $targetContainer.append(replyMarkup);
     });
 });

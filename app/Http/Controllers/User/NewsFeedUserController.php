@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Merchant;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Shared\NewsFeedBaseController;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class NewsFeedMerchantController extends NewsFeedBaseController
+class NewsFeedUserController extends NewsFeedBaseController
 {
-    protected string $view = 'apps.merchant.news-feed.';
-    protected string $route = 'merchant.news-feed.';
+    protected string $view = 'apps.user.news-feed.';
+    protected string $route = 'user.news-feed.';
 
     private $auth;
 
     public function __construct()
     {
         parent::__construct();
-        $this->auth = auth()->guard('merchant')->user();
+        $this->auth = auth()->guard('web')->user();
     }
 
     /**
@@ -46,10 +46,9 @@ class NewsFeedMerchantController extends NewsFeedBaseController
      */
     public function store(Request $request)
     {
-        $newsfeed = $this->updateOrCreateNewsFeed($request);
+        $this->updateOrCreateNewsFeed($request);
         return response()->json([
-            'success'  => true,
-            'newsfeed' => $newsfeed
+            'success' => true,
         ]);
     }
 
@@ -83,7 +82,6 @@ class NewsFeedMerchantController extends NewsFeedBaseController
     public function destroy(string $id)
     {
         $newsFeed = $this->findOrFailNewsFeed($id);
-        $newsFeed->comments()->delete();
         $newsFeed->delete();
         Alert::success('Successfully Deleted!', 'News feed has been deleted!');
         return redirect()->back();

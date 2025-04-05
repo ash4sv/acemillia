@@ -20,6 +20,15 @@ class NewsFeedComment extends Model
         'parent_id'
     ];
 
+    public function getShortCreatedAtAttribute()
+    {
+        $hours = round($this->created_at->diffInRealHours());
+        if ($hours > 0) {
+            return $hours . 'hr';
+        }
+        return round($this->created_at->diffInRealMinutes()) . 'min';
+    }
+
     public function actor()
     {
         return $this->morphTo(null, 'model_type', 'model_id');

@@ -12,6 +12,8 @@ class DashboardRedirectController extends Controller
         $section = $request->query('section');
 
         switch ($section) {
+            case 'news-feed':
+                return app()->call('App\Http\Controllers\User\NewsFeedUserController@index');
             case 'notifications':
                 return app()->call('App\Http\Controllers\User\DashboardUserController@notifications');
             case 'my-order':

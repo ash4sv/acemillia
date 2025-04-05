@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\CategoryAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MenuAdminController;
 use App\Http\Controllers\Admin\MerchantAdminController;
+use App\Http\Controllers\Admin\NewsFeedCommentAdminController;
+use App\Http\Controllers\Admin\NewsFeedLikeAdminController;
 use App\Http\Controllers\Admin\PostAdminController;
 use App\Http\Controllers\Admin\PostCategoryAdminController;
 use App\Http\Controllers\Admin\PostTagAdminController;
@@ -29,6 +31,9 @@ use App\Http\Controllers\User\AddressUserController;
 use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
 use App\Http\Controllers\User\DashboardRedirectController;
+use App\Http\Controllers\User\NewsFeedCommentUserController;
+use App\Http\Controllers\User\NewsFeedLikeUserController;
+use App\Http\Controllers\User\NewsFeedUserController;
 use App\Http\Controllers\User\ProfileUserController;
 use App\Http\Controllers\User\PurchaseUserController;
 use App\Http\Controllers\WebPage\WebController;
@@ -85,13 +90,15 @@ Route::prefix('purchase')->name('purchase.')->group(function () {
 
 Route::middleware(['custom.auth:web', 'apps-verified:web'])->group(function (){
     Route::get('dashboard', [DashboardRedirectController::class, 'index'])->name('dashboard')->middleware('approved');
-
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('profile-edit', [ProfileUserController::class, 'profileEdit'])->name('profile.edit');
         Route::post('profile-update', [ProfileUserController::class, 'profileUpdate'])->name('profile.update');
         Route::get('password-edit', [ProfileUserController::class, 'passwordEdit'])->name('password.edit');
         Route::post('password-update', [ProfileUserController::class, 'passwordUpdate'])->name('password.update');
         Route::resource('saved-address', AddressUserController::class);
+        Route::resource('news-feed', NewsFeedUserController::class)->except(['index', 'create', 'show']);
+        Route::resource('news-feed-like', NewsFeedLikeUserController::class)->except(['index', 'create', 'show', 'edit', 'update', 'destroy']);
+        Route::resource('news-feed-comment', NewsFeedCommentUserController::class)->except(['index', 'create', 'show', 'edit']);
     });
 
     Route::get('address', [ProfileUserController::class, 'addressBook'])->name('address');
@@ -101,7 +108,6 @@ Route::middleware(['custom.auth:web', 'apps-verified:web'])->group(function (){
         Route::post('cart-qty-update', [PurchaseUserController::class, 'updateCartQuantity'])->name('cart.quantity.update');
         Route::get('checkout', [PurchaseUserController::class, 'checkout'])->name('checkout');
         Route::post('checkoutPost', [PurchaseUserController::class, 'checkoutPost'])->name('checkout-post');
-
         Route::get('payment-redirect', [AppsPaymentController::class, 'redirectUrl'])->name('payment.redirect.url');
     });
 });
@@ -190,5 +196,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
         Route::resource('menus', MenuAdminController::class);
         Route::resource('carousel-slider', CarouselSliderAdminController::class);
+        Route::resource('news-feed', NewsFeedUserController::class)->except(['index', 'create', 'show']);
+        Route::resource('news-feed-like', NewsFeedLikeAdminController::class)->except(['index', 'create', 'show', 'edit', 'update', 'destroy']);
+        Route::resource('news-feed-comment', NewsFeedCommentAdminController::class)->except(['index', 'create', 'show', 'edit']);
     });
 });

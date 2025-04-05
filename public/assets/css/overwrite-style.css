@@ -498,6 +498,7 @@ footer p,
 }
 
 .aces-comment-content-highlight {
+    min-width: 320px;
     padding: .8rem .8rem;
     background-color:rgba(238, 240, 242, 1);
     border-radius: .4rem;
@@ -547,11 +548,13 @@ footer p,
 }
 
 .aces-comment-like,
+.aces-comment-reply,
 .aces-comment-view-replies {
     cursor: pointer;
 }
 
 .aces-comment-like:hover,
+.aces-comment-reply:hover,
 .aces-comment-view-replies:hover {
     text-decoration: underline;
     color: #333;
