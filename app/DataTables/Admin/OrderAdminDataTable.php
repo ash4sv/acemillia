@@ -41,7 +41,7 @@ class OrderAdminDataTable extends DataTable
             ->addColumn('payment_status', function ($item){
                 $status = $item->payment_status;
                 $statusClass = [
-                    'pending' => 'bg-label-secondary',
+                    'pending' => 'bg-label-warning',
                     'paid'    => 'bg-label-success',
                     'failed'  => 'bg-label-danger',
                 ][$status] ?? 'bg-label-primary';
@@ -51,7 +51,7 @@ class OrderAdminDataTable extends DataTable
             ->addColumn('status', function ($item){
                 $status = $item->status;
                 $statusClass = [
-                    'processing' => 'bg-label-secondary',
+                    'processing' => 'bg-label-warning',
                     'completed'  => 'bg-label-success',
                     'cancelled'  => 'bg-label-danger',
                 ][$status] ?? 'bg-label-primary';
