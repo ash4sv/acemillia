@@ -58,6 +58,7 @@ class PurchaseUserController extends Controller
             'item_menu'        => $product->categories->first()->menus->pluck('name')->implode(', ') ?? '', // or derive from $product if applicable
             'item_category'    => $product->categories->pluck('name')->implode(', ') ?? '',
             'item_img'         => $product->image,
+            'item_product_id'  => $product->id,
             'merchant_id'      => $product->merchant_id,
             'selected_options' => $selectedOptions,
         ];
