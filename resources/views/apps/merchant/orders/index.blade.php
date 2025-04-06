@@ -12,17 +12,17 @@
                 <table class="table cart-table order-table">
                     <thead>
                     <tr>
-                        <th>order id</th>
-                        <th>product details</th>
-                        <th>status</th>
-                        <th>price</th>
+                        <th>{!! ucfirst('Order Id') !!}</th>
+                        <th>{!! ucfirst('Product Details') !!}</th>
+                        <th>{!! ucfirst('Status') !!}</th>
+                        <th>{!! ucfirst('Price') !!}</th>
                     </tr>
                     </thead>
                     <tbody>
                     @forelse($subOrders as $i => $subOrder)
                         <tr>
                             <td>#125021</td>
-                            <td>neck velvet dress</td>
+                            <td>{!! $subOrder->items->join(', ') !!}</td>
                             <td>
                                 @php
                                     $shippingStatus = $subOrder->shipping_status;
@@ -53,9 +53,9 @@
                         <ul class="pagination">
                             <li class="page-item">
                                 <a class="page-link" href="#!" aria-label="Previous">
-                                                <span>
-                                                    <i class="ri-arrow-left-s-line"></i>
-                                                </span>
+                                    <span>
+                                        <i class="ri-arrow-left-s-line"></i>
+                                    </span>
                                     <span class="sr-only">Previous</span>
                                 </a>
                             </li>
@@ -70,9 +70,9 @@
                             </li>
                             <li class="page-item">
                                 <a class="page-link" href="#!" aria-label="Next">
-                                                <span>
-                                                    <i class="ri-arrow-right-s-line"></i>
-                                                </span>
+                                    <span>
+                                        <i class="ri-arrow-right-s-line"></i>
+                                    </span>
                                     <span class="sr-only">Next</span>
                                 </a>
                             </li>
