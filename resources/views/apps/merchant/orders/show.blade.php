@@ -3,16 +3,6 @@
 @section('user-apps-content')
 
     <div class="dashboard-table">
-
-        <!-- Optional Top Navigation -->
-        <div class="aces-order-navbar">
-            <h1>Transactions</h1>
-            <div class="aces-order-search-bar">
-                <input type="text" placeholder="Search for your invoice...">
-                <i>🔍</i>
-            </div>
-        </div>
-
         <div class="aces-order-container">
             <!-- Order Header -->
             <div class="aces-order-order-header">
@@ -102,40 +92,6 @@
                             <div class="aces-order-summary-row">
                                 <span>Paid Status</span>
                                 <span>Rp 876.50</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Timeline (Right Column) -->
-                <div class="aces-order-right-column">
-                    <h3>Tracking Progress</h3>
-                    <div class="aces-order-timeline">
-                        <div class="aces-order-timeline-step">
-                            <div class="aces-order-timeline-icon">📦</div>
-                            <div class="aces-order-timeline-content">
-                                <h4>Ordered</h4>
-                                <p>Order created by buyer</p>
-                            </div>
-                        </div>
-                        <div class="aces-order-timeline-step">
-                            <div class="aces-order-timeline-icon">📦</div>
-                            <div class="aces-order-timeline-content">
-                                <h4>Packed</h4>
-                                <p>Items packed by seller</p>
-                            </div>
-                        </div>
-                        <div class="aces-order-timeline-step aces-order-timeline-current">
-                            <div class="aces-order-timeline-icon">🚚</div>
-                            <div class="aces-order-timeline-content">
-                                <h4>Shipped</h4>
-                                <p>In transit</p>
-                            </div>
-                        </div>
-                        <div class="aces-order-timeline-step">
-                            <div class="aces-order-timeline-icon">✅</div>
-                            <div class="aces-order-timeline-content">
-                                <h4>Delivered</h4>
-                                <p>Order completed</p>
                             </div>
                         </div>
                     </div>
