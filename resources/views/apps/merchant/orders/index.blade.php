@@ -48,7 +48,7 @@
                 </table>
             </div>
 
-            @if ($orders->lastPage() > 1)
+            @if ($subOrders->lastPage() > 1)
                 <div class="product-pagination">
                     <div class="theme-pagination-block">
                         <nav>
