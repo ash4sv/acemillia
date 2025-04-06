@@ -617,133 +617,76 @@ footer p,
     color: #333;
 }
 
-/***********************************************
-  Global container & styles
-***********************************************/
-.aces-order-container {
-    /* Removed max-width to allow full-width layout.
-       Font-family is inherited from global styles (e.g. Bootstrap) */
-    margin: 2rem auto;
-    padding: 0 1rem;
+/* ---------------------------------------
+   MAIN CONTAINER
+--------------------------------------- */
+.aces-order-main-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 1rem auto;
+    gap: 1rem;
 }
 
-.aces-order-title {
-    font-size: 24px;
-    text-transform: uppercase;
-    font-weight: bold;
+/* ---------------------------------------
+   CONTENT
+--------------------------------------- */
+.aces-order-content {
+    flex: 1;
+}
+
+/* Boxes for order info */
+.aces-order-order-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
     margin-bottom: 1rem;
+    padding: 1rem;
 }
 
-/***********************************************
-  Order Header
-***********************************************/
-.aces-order-header {
-    margin-bottom: 1.5rem;
-}
-
-.aces-order-number {
-    font-weight: bold;
+.aces-order-box-title {
     margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
 }
 
-/***********************************************
-  Delivery Info Box
-***********************************************/
-.aces-order-delivery-info {
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+.aces-order-order-box p {
+    margin: 0.3rem 0;
 }
 
-.aces-order-delivery-status {
-    margin: 0 0 0.5rem;
-    font-size: 0.95rem;
+.aces-order-order-box hr {
+    margin: 0.7rem 0;
+    border: 0;
+    border-top: 1px solid #ddd;
 }
 
-.aces-order-reschedule-link {
-    color: #007bff;
-    text-decoration: none;
-    font-size: 0.95rem;
+/* Action buttons at the bottom */
+.aces-order-order-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
 }
 
-.aces-order-reschedule-link:hover {
-    text-decoration: underline;
-}
-
-/***********************************************
-  Items List
-***********************************************/
-.aces-order-items {
+.aces-order-order-actions button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+    background-color: #eee;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
 }
 
-.aces-order-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
+.aces-order-order-actions button:hover {
+    background-color: #ddd;
 }
 
-.aces-order-item:last-child {
-    margin-bottom: 0;
+.aces-order-btn-cancel {
+    color: #d9534f;
 }
 
-.aces-order-item-details p {
-    margin: 0.25rem 0;
+.aces-order-btn-print {
+    color: #5bc0de;
 }
 
-.aces-order-item-name {
-    font-weight: bold;
-    font-size: 1rem;
-}
-
-.aces-order-item-code {
-    color: #555;
-    font-size: 0.9rem;
-}
-
-/***********************************************
-  Billing & Payment
-***********************************************/
-.aces-order-billing-section {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-bottom: 1.5rem;
-}
-
-.aces-order-billing-section h3 {
-    margin: 0 0 0.5rem;
-    font-size: 1rem;
-    font-weight: bold;
-}
-
-.aces-order-billing-address,
-.aces-order-payment-method {
-    flex: 1 1 45%;
-    margin-bottom: 1rem;
-}
-
-/***********************************************
-  Order Summary
-***********************************************/
-.aces-order-summary p {
-    display: flex;
-    justify-content: space-between;
-    margin: 0.5rem 0;
-}
-
-.aces-order-summary span {
-    display: inline-block;
-}
-
-.aces-order-total {
-    font-weight: bold;
-    border-top: 1px solid #ccc;
-    padding-top: 0.5rem;
-    margin-top: 0.5rem;
+.aces-order-btn-send {
+    color: #5cb85c;
 }
