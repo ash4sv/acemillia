@@ -58,7 +58,7 @@ class OrderAdminDataTable extends DataTable
                 $statusLabel = ucfirst($status);
                 return '<div class="badge ' . $statusClass . ' custom-badge rounded-0"><span>' . $statusLabel . '</span></div>';
             })
-            ->rawColumns(['updated_at', 'action'])
+            ->rawColumns(['payment_status', 'status', 'updated_at', 'action'])
             ->setRowId('id');
     }
 
