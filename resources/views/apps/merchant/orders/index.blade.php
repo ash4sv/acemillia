@@ -25,14 +25,14 @@
                             <td>neck velvet dress</td>
                             <td>
                                 @php
-                                    $status = $subOrder->status;
+                                    $shippingStatus = $subOrder->shipping_status;
                                     $statusClass = [
                                         'pending'   => 'bg-pending',
                                         'shipped'   => 'bg-credit',
                                         'delivered' => 'bg-completed',
                                         'cancelled' => 'bg-debit',
-                                    ][$status] ?? 'bg-default';
-                                    $statusLabel = ucfirst($status);
+                                    ][$shippingStatus] ?? 'bg-default';
+                                    $statusLabel = ucfirst($shippingStatus);
                                 @endphp
 
                                 <span class="badge {!! $statusClass !!} custom-badge rounded-0">{!! $statusLabel !!}</span>
