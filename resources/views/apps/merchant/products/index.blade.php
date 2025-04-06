@@ -47,6 +47,8 @@
                     </tbody>
                 </table>
             </div>
+
+            {!! $products->links('apps.layouts.pagination-custom-user') !!}
         </div>
     </div>
 
