@@ -59,7 +59,7 @@
                                             </div>
                                         </td>
                                         <td>{!! $order->created_at->format('d M Y h:i:A') !!}</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
+                                        <td><a href="{!! route('section', ['section' => 'my-order-show', 'id' => $order->id]) !!}"><i class="ri-eye-line"></i></a></td>
                                     </tr>
                                     @empty
                                     <tr>

@@ -30,7 +30,7 @@
         </button>
     </li>--}}
     <li class="nav-item">
-        <a class="nav-link {{ request('section') == 'my-order' ? 'active' : '' }}" id="order-tab" href="{{ route('dashboard', ['section' => 'my-order']) }}">
+        <a class="nav-link {{ in_array(request('section'), ['my-order', 'my-order-show']) ? 'active' : '' }}" id="order-tab" href="{{ route('dashboard', ['section' => 'my-order']) }}">
             <i class="ri-file-text-line"></i>My Orders
         </a>
     </li>
