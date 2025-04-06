@@ -90,7 +90,7 @@ class AppsPaymentController extends Controller
         try {
             // ====== //
             if ($response['paid'] == 'true') {
-                // ✅ STEP 2: Convert temp data into real order
+                // STEP 2: Convert temp data into real order
                 if ($orderTemp->user == 'user') {
                     DB::transaction(function () use ($orderTemp, $response) {
                         $cartTemp = DB::table('carts_temps')->where('temporary_uniq', $orderTemp->temporary_uniq)->first();

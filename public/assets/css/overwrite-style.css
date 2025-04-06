@@ -616,3 +616,135 @@ footer p,
     text-decoration: underline;
     color: #333;
 }
+
+/***********************************************
+  Global container & font styles
+***********************************************/
+.aces-order-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.aces-order-title {
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/***********************************************
+  Order Header
+***********************************************/
+.aces-order-header {
+    margin-bottom: 1.5rem;
+}
+
+.aces-order-number {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+/***********************************************
+  Delivery Info Box
+***********************************************/
+.aces-order-delivery-info {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.aces-order-delivery-status {
+    margin: 0 0 0.5rem;
+    font-size: 0.95rem;
+}
+
+.aces-order-reschedule-link {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.aces-order-reschedule-link:hover {
+    text-decoration: underline;
+}
+
+/***********************************************
+  Items List
+***********************************************/
+.aces-order-items {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.aces-order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.aces-order-item:last-child {
+    margin-bottom: 0;
+}
+
+.aces-order-item-details p {
+    margin: 0.25rem 0;
+}
+
+.aces-order-item-name {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.aces-order-item-code {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+/***********************************************
+  Billing & Payment
+***********************************************/
+.aces-order-billing-section {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.aces-order-billing-section h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.aces-order-billing-address,
+.aces-order-payment-method {
+    flex: 1 1 45%;
+    margin-bottom: 1rem;
+}
+
+/***********************************************
+  Order Summary
+***********************************************/
+.aces-order-summary p {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+}
+
+.aces-order-summary span {
+    display: inline-block;
+}
+
+.aces-order-total {
+    font-weight: bold;
+    border-top: 1px solid #ccc;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
