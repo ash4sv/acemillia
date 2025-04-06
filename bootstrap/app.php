@@ -16,8 +16,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
-            'payment-redirect',
-            'payment-webhook',
+            'purchase/payment-redirect',
+            'purchase/payment-webhook',
         ]);
         $middleware->web(append: [
             \RealRashid\SweetAlert\ToSweetAlert::class,
