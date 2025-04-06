@@ -31,9 +31,16 @@ class DashboardUserController extends Controller
 
     public function myOrders(Request $request)
     {
+        $orders = Order::with([
+            'subOrders.merchant',
+            'subOrders.items',
+            'payment',
+            'billingAddress',
+            'shippingAddress',
+        ])->auth()->get();
         return response()->view('apps.user.my-orders.index', [
             'authUser' => $this->authUser,
-            'orders'   => Order::auth()->get()
+            'orders'   => $orders,
         ]);
     }
 }
