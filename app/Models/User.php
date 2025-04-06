@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Order\Order;
 use App\Models\Social\NewsFeed;
 use App\Models\Social\NewsFeedComment;
 use App\Models\Social\NewsFeedLike;
@@ -97,5 +98,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function newsfeedComments()
     {
         return $this->morphMany(NewsFeedComment::class, 'actor', 'model_type', 'model_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
     }
 }

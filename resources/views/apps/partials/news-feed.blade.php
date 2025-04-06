@@ -87,7 +87,13 @@
         <div class="aces-feed-item shadow-sm" data-news-feed-id="{{ __($newsfeed->id) }}">
             <!-- Post Header -->
             <div class="aces-feed-header">
-                <img class="aces-avatar" src="{{ asset('assets/images/2.jpg') }}" alt="User Avatar"/>
+                @if(isset($newsfeed->newsfeedable?->img_avatar))
+                    <img class="aces-avatar" src="{{ asset($newsfeed->newsfeedable?->img_avatar) }}" alt="{!! $newsfeed->newsfeedable?->name !!}"/>
+                @else
+                    <div class="aces-avatar icon">
+                        {{ __($newsfeed->newsfeedable?->icon_avatar) }}
+                    </div>
+                @endif
                 <div class="aces-feed-userinfo">
                     <h6 class="aces-feed-username">
                         {{ __($newsfeed->newsfeedable?->name) }} •

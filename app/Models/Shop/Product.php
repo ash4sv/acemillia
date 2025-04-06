@@ -2,6 +2,7 @@
 
 namespace App\Models\Shop;
 
+use App\Models\Order\OrderItem;
 use App\Services\QueryScopes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -70,6 +71,11 @@ class Product extends Model
     public function specialOffers()
     {
         return $this->hasMany(SpecialOffer::class, 'product_id', 'id');
+    }
+
+    public function orderItem()
+    {
+    return $this->hasMany(OrderItem::class, 'product_id', 'id');
     }
 
     /**

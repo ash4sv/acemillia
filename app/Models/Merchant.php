@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Models\Admin\MenuSetup;
+use App\Models\Order\ShippingStatusLog;
+use App\Models\Order\SubOrder;
+use App\Models\Shop\Product;
 use App\Models\Shop\SpecialOffer;
 use App\Models\Social\NewsFeed;
 use App\Models\Social\NewsFeedComment;
@@ -108,5 +111,20 @@ class Merchant extends Authenticatable implements MustVerifyEmail
     public function newsfeedComments()
     {
         return $this->morphMany(NewsFeedComment::class, 'actor', 'model_type', 'model_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'product_id', 'id');
+    }
+
+    public function subOrders()
+    {
+        return $this->hasMany(SubOrder::class, 'merchant_id', 'id');
+    }
+
+    public function shippingLogs()
+    {
+        return $this->hasMany(ShippingStatusLog::class, 'created_by', 'id');
     }
 }

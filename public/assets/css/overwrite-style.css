@@ -199,6 +199,13 @@ footer p,
     margin-right: 10px;
 }
 
+.aces-avatar.icon {
+    text-align: center;
+    font-weight: 600;
+    font-size:1.2rem;
+    line-height:34.5px;
+}
+
 /* Textarea for sharing thoughts */
 .aces-textarea {
     flex: 1;
