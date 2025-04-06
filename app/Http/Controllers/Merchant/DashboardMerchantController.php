@@ -42,6 +42,7 @@ class DashboardMerchantController extends Controller
         $subOrders = SubOrder::with([
             'order.user',
             'items',
+            'items.product',
             'shippingLogs',
         ])->where('merchant_id', $this->getMerchantId())->get();
         return view($this->view . 'orders.index', [
