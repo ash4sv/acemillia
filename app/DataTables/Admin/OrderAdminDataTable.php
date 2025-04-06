@@ -28,15 +28,35 @@ class OrderAdminDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addIndexColumn()
-            ->addColumn('action', function ($category) {
+            ->addColumn('action', function ($item) {
                 return EloquentDataTableBtnElement::button([
-                    'show-btn'   => [ $this->permission . 'read', true, $category->name, route($this->route . 'show', $category->id) ],
-                    'edit-btn'   => [ $this->permission . 'update', true, 'Edit Post Tag', route($this->route . 'edit', $category->id) ],
-                    'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $category->id) ]
+                    'show-btn'   => [ $this->permission . 'read', true, $item->name, route($this->route . 'show', $item->id) ],
+                    'edit-btn'   => [ $this->permission . 'update', true, $item->name, route($this->route . 'edit', $item->id) ],
+                    'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $item->id) ]
                 ]);
             })
-            ->addColumn('updated_at', function ($admin) {
-                return $admin->updated_at->format('d-m-y, h:i A');
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->format('d-m-y, h:i A');
+            })
+            ->addColumn('payment_status', function ($item){
+                $status = $item->payment_status;
+                $statusClass = [
+                    'pending' => 'bg-pending',
+                    'paid'    => 'bg-completed',
+                    'failed'  => 'bg-cancelled',
+                ][$status] ?? 'bg-default';
+                $statusLabel = ucfirst($status);
+                return '<div class="badge ' . $statusClass . ' custom-badge rounded-0"><span>' . $statusLabel . '</span></div>';
+            })
+            ->addColumn('status', function ($item){
+                $status = $item->status;
+                $statusClass = [
+                    'processing' => 'bg-pending',
+                    'completed'  => 'bg-completed',
+                    'cancelled'  => 'bg-cancelled',
+                ][$status] ?? 'bg-default';
+                $statusLabel = ucfirst($status);
+                return '<div class="badge ' . $statusClass . ' custom-badge rounded-0"><span>' . $statusLabel . '</span></div>';
             })
             ->rawColumns(['updated_at', 'action'])
             ->setRowId('id');
@@ -83,7 +103,10 @@ class OrderAdminDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')->title('No')->className('text-start w-px-50'),
-            Column::make('title'),
+            Column::computed('uniq'),
+            Column::computed('total_amount'),
+            Column::computed('payment_status'),
+            Column::computed('status'),
             Column::computed('updated_at')->className('w-px-200'),
             Column::computed('action')->title('Action')->className('w-px-150'),
         ];
