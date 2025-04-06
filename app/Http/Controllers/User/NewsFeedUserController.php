@@ -48,7 +48,8 @@ class NewsFeedUserController extends NewsFeedBaseController
     {
         $this->updateOrCreateNewsFeed($request);
         return response()->json([
-            'success' => true,
+            'success'  => true,
+            'newsfeed' => $newsfeed
         ]);
     }
 
@@ -82,6 +83,7 @@ class NewsFeedUserController extends NewsFeedBaseController
     public function destroy(string $id)
     {
         $newsFeed = $this->findOrFailNewsFeed($id);
+        $newsFeed->comments()->delete();
         $newsFeed->delete();
         Alert::success('Successfully Deleted!', 'News feed has been deleted!');
         return redirect()->back();

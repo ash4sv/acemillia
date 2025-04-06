@@ -2,6 +2,6 @@
 
 @section('user-apps-content')
 
-
+    @include('apps.partials.news-feed')
 
 @endsection

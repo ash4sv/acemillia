@@ -29,7 +29,11 @@ class NewsFeedCommentUserController extends NewsFeedCommentBaseController
      */
     public function store(Request $request)
     {
-        //
+        $comment = $this->updateOrCreateNewsFeedComment($request);
+        return response()->json([
+            'success' => true,
+            'comment' => $comment
+        ]);
     }
 
     /**
