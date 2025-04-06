@@ -124,6 +124,7 @@ $(document).ready(function(){
                 }
             },
             error: function(xhr, status, error) {
+                console.log(xhr);
                 // Show SweetAlert2 error prompt
                 Swal.fire({
                     icon: 'error',
@@ -132,7 +133,6 @@ $(document).ready(function(){
                 });
                 // Re-enable the button and restore its original text
                 $btn.html(originalText).prop('disabled', false);
-                console.log(error);
             },
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
