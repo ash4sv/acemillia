@@ -24,24 +24,24 @@
                         </div>
                         <hr class="py-0">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <h5 class="fw-bold">Delivery address</h5>
                                 John Newman
                                 USA
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <h5 class="fw-bold">Billing address</h5>
                                 John Newman
                                 USA
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <h5 class="fw-bold">Payment</h5>
 
 
                                 <h5 class="fw-bold">Shipping</h5>
                                 Standard shipping
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <h5 class="fw-bold">Order summary</h5>
                                 Subtotal $5.99 <br>
                                 Delivery $4.95 <br>
