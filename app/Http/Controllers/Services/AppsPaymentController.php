@@ -147,12 +147,12 @@ class AppsPaymentController extends Controller
                             'response_data' => json_encode($response),
                         ]);
 
-                        $cartTemp->update([
+                        DB::table('carts_temps')->where('id', $cartTemp->id)->update([
                             'payment_status' => true,
                             'updated_at'     => now(),
                         ]);
 
-                        $orderTemp->update([
+                        DB::table('order_temps')->where('id', $orderTemp->id)->update([
                             'return_url_2'   => json_encode($response),
                             'payment_status' => true,
                             'created_at'     => now(),
@@ -163,11 +163,11 @@ class AppsPaymentController extends Controller
                 DB::transaction(function () use ($orderTemp, $response) {
                     $cartTemp = DB::table('carts_temps')->where('temporary_uniq', $orderTemp->temporary_uniq)->first();
 
-                    $cartTemp->update([
+                    DB::table('carts_temps')->where('id', $cartTemp->id)->update([
                         'updated_at'     => now(),
                     ]);
 
-                    $orderTemp->update([
+                    DB::table('order_temps')->where('id', $orderTemp->id)->update([
                         'return_url_2'   => json_encode($response),
                         'created_at'     => now(),
                     ]);
