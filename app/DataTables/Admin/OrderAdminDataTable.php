@@ -58,6 +58,9 @@ class OrderAdminDataTable extends DataTable
                 $statusLabel = ucfirst($status);
                 return '<div class="badge ' . $statusClass . ' "><span>' . $statusLabel . '</span></div>';
             })
+            ->addColumn('merchant', function ($item){
+                return $item->subOrders->merchant->company_name;
+            })
             ->rawColumns(['payment_status', 'status', 'updated_at', 'action'])
             ->setRowId('id');
     }
@@ -67,7 +70,14 @@ class OrderAdminDataTable extends DataTable
      */
     public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->with([
+                    'user',
+                    'subOrders.merchant',
+                    'subOrders.items',
+                    'payment',
+                    'billingAddress',
+                    'shippingAddress',
+                ])->newQuery();
     }
 
     /**
@@ -104,6 +114,7 @@ class OrderAdminDataTable extends DataTable
         return [
             Column::computed('DT_RowIndex')->title('No')->className('text-start w-px-50'),
             Column::computed('uniq'),
+            Column::computed('merchant'),
             Column::computed('total_amount'),
             Column::computed('payment_status'),
             Column::computed('status'),
