@@ -55,9 +55,10 @@ class PurchaseUserController extends Controller
         // 5. Prepare the options array for the cart item.
         //    Adjust "item_menu" as needed (here we use a placeholder).
         $cartOptions = [
-            'item_menu'     => $product->categories->first()->menus->pluck('name')->implode(', ') ?? '', // or derive from $product if applicable
-            'item_category' => $product->categories->pluck('name')->implode(', ') ?? '',
-            'item_img'      => $product->image,
+            'item_menu'        => $product->categories->first()->menus->pluck('name')->implode(', ') ?? '', // or derive from $product if applicable
+            'item_category'    => $product->categories->pluck('name')->implode(', ') ?? '',
+            'item_img'         => $product->image,
+            'merchant_id'      => $product->merchant_id,
             'selected_options' => $selectedOptions,
         ];
 

@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order\Order;
+use App\Models\Order\OrderItem;
+use App\Models\Order\Payment;
+use App\Models\Order\SubOrder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -77,26 +82,105 @@ class AppsPaymentController extends Controller
         $response = $request->all();
         Log::info('PAYMENT WEBHOOK FUNCTION START ' . date('Ymd/m/y H:i'));
 
-        $id = $response['id'];
-        $whatUser = DB::table('order_temps')->whereJsonContains('transaction_data->id', $id)->first();
+        $billplzId = $response['id'];
+        $orderTemp = DB::table('order_temps')->whereJsonContains('transaction_data->id', $billplzId)->first();
 
+        DB::beginTransaction();
         try {
             // ====== //
             if ($response['paid'] == 'true') {
-                if ($whatUser->user == 'user') {
+                // ✅ STEP 2: Convert temp data into real order
+                if ($orderTemp->user == 'user') {
+                    DB::transaction(function () use ($orderTemp, $response) {
+                        $cartTemp = DB::table('carts_temps')->where('temporary_uniq', $orderTemp->temporary_uniq)->first();
 
-                } elseif ($whatUser->user == 'merchant') {
+                        // 2. Create final order
+                        $order = Order::create([
+                            'user_id'        => $orderTemp->user_id,
+                            'total_amount'   => $cartTemp->total,
+                            'payment_status' => 'paid',
+                            'status'         => 'processing',
+                        ]);
 
-                }
+                        $cartItems = json_decode($cartTemp->cart, true)['cart'];
+
+                        // 3. Group items by merchant
+                        $grouped = collect($cartItems)->groupBy(function ($item) {
+                            return $item['options']['merchant_id']; // Make sure you pass this in cart
+                        });
+
+                        foreach ($grouped as $merchantId => $items) {
+                            $subOrder = SubOrder::create([
+                                'order_id' => $order->id,
+                                'merchant_id' => $merchantId,
+                                'subtotal' => collect($items)->sum(function ($i) {
+                                    $base = $i['price'];
+                                    $additional = collect($i['options']['selected_options'] ?? [])
+                                        ->sum('additional_price');
+                                    return ($base + $additional) * $i['quantity'];
+                                }),
+                            ]);
+
+                            foreach ($items as $item) {
+                                $itemPrice = $item['price'] + collect($item['options']['selected_options'] ?? [])
+                                        ->sum('additional_price');
+
+                                OrderItem::create([
+                                    'sub_order_id' => $subOrder->id,
+                                    'product_id' => $item['product_id'],
+                                    'product_name' => $item['name'],
+                                    'price' => $itemPrice,
+                                    'quantity' => $item['quantity'],
+                                    'options' => json_encode($item['options']),
+                                ]);
+                            }
+                        }
+
+                        // 4. Store payment info
+                        Payment::create([
+                            'order_id' => $order->id,
+                            'gateway' => 'billplz',
+                            'reference_id' => $response['id'],
+                            'paid_at' => Carbon::parse($response['paid_at']),
+                            'amount' => $cartTemp->total,
+                            'status' => 'paid',
+                            'response_data' => json_encode($response),
+                        ]);
+
+                        $cartTemp->update([
+                            'payment_status' => true,
+                            'updated_at'     => now(),
+                        ]);
+
+                        $orderTemp->update([
+                            'return_url_2'   => json_encode($response),
+                            'payment_status' => true,
+                            'created_at'     => now(),
+                        ]);
+                    });
+                } elseif ($orderTemp->user == 'merchant') {}
             } elseif ($response['paid'] == 'false') {
+                DB::transaction(function () use ($orderTemp, $response) {
+                    $cartTemp = DB::table('carts_temps')->where('temporary_uniq', $orderTemp->temporary_uniq)->first();
 
+                    $cartTemp->update([
+                        'updated_at'     => now(),
+                    ]);
+
+                    $orderTemp->update([
+                        'return_url_2'   => json_encode($response),
+                        'created_at'     => now(),
+                    ]);
+                });
                 Log::info('PAYMENT UNSUCCESSFULLY WEBHOOK ' . date('Ymd/m/y H:i'));
-            } else (
+            } else {
                 Log::info('PAYMENT UNSUCCESSFULLY WEBHOOK ' . date('Ymd/m/y H:i'));
-            )
+            }
             // ====== //
+            DB::commit();
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
+            DB::rollBack();
             Log::info('PAYMENT UNSUCCESSFULLY WEBHOOK ' . date('Ymd/m/y H:i'));
         }
 
