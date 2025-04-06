@@ -37,7 +37,7 @@ class DashboardUserController extends Controller
             'payment',
             'billingAddress',
             'shippingAddress',
-        ])->auth()->paginate(1);;
+        ])->auth()->paginate(1);
         return response()->view('apps.user.my-orders.index', [
             'authUser' => $this->authUser,
             'orders'   => $orders,
