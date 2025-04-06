@@ -14,8 +14,9 @@
                     <tr>
                         <th>{!! __('Order Id') !!}</th>
                         <th>{!! __('Customer Name') !!}</th>
-                        <th>{!! __('Status') !!}</th>
+                        <th>{!! __('Shipping Status') !!}</th>
                         <th>{!! __('Price') !!}</th>
+                        <th>{!! __('Action') !!}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -38,10 +39,11 @@
                                 <span class="badge {!! $statusClass !!} custom-badge rounded-0">{!! $statusLabel !!}</span>
                             </td>
                             <td>{!! $subOrder->subtotal !!}</td>
+                            <td><a href="#!"><i class="ri-eye-line"></i></a></td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4"></td>
+                            <td colspan="5"></td>
                         </tr>
                     @endforelse
                     </tbody>
