@@ -617,76 +617,98 @@ footer p,
     color: #333;
 }
 
-/* ---------------------------------------
-   MAIN CONTAINER
---------------------------------------- */
-.aces-order-main-container {
-    display: flex;
-    max-width: 1200px;
-    margin: 1rem auto;
-    gap: 1rem;
+/* Main container */
+.aces-order-main {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-/* ---------------------------------------
-   CONTENT
---------------------------------------- */
-.aces-order-content {
-    flex: 1;
-}
-
-/* Boxes for order info */
-.aces-order-order-box {
+/* Box styles */
+.aces-order-box {
     background-color: #fff;
     border: 1px solid #ddd;
-    margin-bottom: 1rem;
-    padding: 1rem;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 4px;
 }
 
 .aces-order-box-title {
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
+    font-size: 1.2em;
+    margin-bottom: 10px;
     border-bottom: 1px solid #ddd;
-    padding-bottom: 0.5rem;
+    padding-bottom: 5px;
 }
 
-.aces-order-order-box p {
-    margin: 0.3rem 0;
-}
-
-.aces-order-order-box hr {
-    margin: 0.7rem 0;
-    border: 0;
-    border-top: 1px solid #ddd;
-}
-
-/* Action buttons at the bottom */
-.aces-order-order-actions {
+/* Row layout for label/value pairs */
+.aces-order-row {
     display: flex;
-    gap: 0.5rem;
-    margin: 1rem 0;
+    justify-content: space-between;
+    margin-bottom: 8px;
 }
 
-.aces-order-order-actions button {
-    padding: 0.5rem 1rem;
+.aces-order-label {
+    font-weight: bold;
+    text-align: left;
+    flex: 0 0 45%;
+}
+
+.aces-order-value {
+    text-align: right;
+    flex: 0 0 55%;
+}
+
+/* Divider */
+.aces-order-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+/* Price details – can add extra spacing or indent if needed */
+.aces-order-price-detail {
+    padding-left: 10px;
+}
+
+/* Grand total styling */
+.aces-order-grand-total .aces-order-label,
+.aces-order-grand-total .aces-order-value {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Action Buttons */
+.aces-order-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.aces-order-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
-    border: 1px solid #ccc;
-    background-color: #eee;
-    font-size: 0.95rem;
+    font-size: 1em;
     transition: background-color 0.2s ease;
 }
 
-.aces-order-order-actions button:hover {
-    background-color: #ddd;
-}
-
+/* Specific button styles */
 .aces-order-btn-cancel {
-    color: #d9534f;
+    background-color: #f8d7da;
+    color: #721c24;
 }
 
 .aces-order-btn-print {
-    color: #5bc0de;
+    background-color: #d1ecf1;
+    color: #0c5460;
 }
 
 .aces-order-btn-send {
-    color: #5cb85c;
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.aces-order-btn:hover {
+    opacity: 0.9;
 }
