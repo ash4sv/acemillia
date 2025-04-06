@@ -16,10 +16,10 @@
                                     <thead>
                                     <tr class="table-head">
                                         <th>{!! __('Order Number') !!}</th>
-                                        <th>{!! __('Date') !!}</th>
                                         <th>{!! __('Amount') !!}</th>
                                         <th>{!! __('Payment Status') !!}</th>
                                         <th>{!! __('Status') !!}</th>
+                                        <th>{!! __('Date') !!}</th>
                                         <th>{!! __('Option') !!}</th>
                                     </tr>
                                     </thead>
@@ -27,7 +27,6 @@
                                     @forelse($orders as $n => $order)
                                     <tr>
                                         <td><span class="fw-bolder">#1020</span></td>
-                                        <td>{!! $order->created_at->format('d M Y h:i:A') !!}</td>
                                         <td>{!! $order->total_amount !!}</td>
                                         <td>
                                             @php
@@ -59,6 +58,7 @@
                                                 <span>{{ $statusLabel }}</span>
                                             </div>
                                         </td>
+                                        <td>{!! $order->created_at->format('d M Y h:i:A') !!}</td>
                                         <td><a href="#!"><i class="ri-eye-line"></i></a></td>
                                     </tr>
                                     @empty
