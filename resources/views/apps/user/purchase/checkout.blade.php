@@ -132,6 +132,7 @@ $(document).ready(function(){
                 });
                 // Re-enable the button and restore its original text
                 $btn.html(originalText).prop('disabled', false);
+                console.log(error);
             },
             beforeSend: function(xhr) {
                 xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
