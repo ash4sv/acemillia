@@ -23,7 +23,7 @@
                     <tbody>
                     @forelse($subOrders as $i => $subOrder)
                         <tr>
-                            <td>#125021</td>
+                            <td><span class="fw-bolder">#125021</span></td>
                             <td>{!! $subOrder->order->user?->name !!}</td>
                             <td class="text-theme">{!! $subOrder->subtotal !!}</td>
                             <td>
@@ -37,7 +37,7 @@
                                     ][$shippingStatus] ?? 'bg-default';
                                     $statusLabel = ucfirst($shippingStatus);
                                 @endphp
-
+                                
                                 <span class="badge {!! $statusClass !!} custom-badge rounded-0">{!! $statusLabel !!}</span>
                             </td>
                             <td>{!! $subOrder->created_at->format('d M Y h:i:A') !!}</td>
