@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Merchant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order\SubOrder;
 use App\Models\Shop\Product;
 use App\Services\ImageUploader;
 use Illuminate\Http\Request;
@@ -38,8 +39,14 @@ class DashboardMerchantController extends Controller
 
     public function orders()
     {
+        $subOrders = SubOrder::with([
+            'order.user',
+            'items',
+            'shippingLogs',
+        ])->where('merchant_id', $this->getMerchantId())->get();
         return view($this->view . 'orders.index', [
-            'authUser' => $this->auth
+            'authUser'  => $this->auth,
+            'subOrders' => $subOrders
         ]);
     }
 

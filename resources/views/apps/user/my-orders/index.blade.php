@@ -37,7 +37,6 @@
                                                     'completed'  => 'bg-completed',
                                                     'cancelled'  => 'bg-cancelled',
                                                 ][$status] ?? 'bg-default';
-
                                                 $statusLabel = ucfirst($status);
                                             @endphp
 

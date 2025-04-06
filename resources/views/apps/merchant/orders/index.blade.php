@@ -19,6 +19,31 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @forelse($subOrders as $i => $subOrder)
+                        <tr>
+                            <td>#125021</td>
+                            <td>neck velvet dress</td>
+                            <td>
+                                @php
+                                    $status = $subOrder->status;
+                                    $statusClass = [
+                                        'pending'   => 'bg-pending',
+                                        'shipped'   => 'bg-credit',
+                                        'delivered' => 'bg-completed',
+                                        'cancelled' => 'bg-debit',
+                                    ][$status] ?? 'bg-default';
+                                    $statusLabel = ucfirst($status);
+                                @endphp
+
+                                <span class="badge {!! $statusClass !!} custom-badge rounded-0">{!! $statusLabel !!}</span>
+                            </td>
+                            <td>{!! $subOrder->subtotal !!}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4"></td>
+                        </tr>
+                    @endforelse
                     <tr>
                         <td>#125021</td>
                         <td>neck velvet dress</td>
