@@ -25,6 +25,7 @@
                         <tr>
                             <td>#125021</td>
                             <td>{!! $subOrder->order->user?->name !!}</td>
+                            <td class="text-theme">{!! $subOrder->subtotal !!}</td>
                             <td>
                                 @php
                                     $shippingStatus = $subOrder->shipping_status;
@@ -39,7 +40,6 @@
 
                                 <span class="badge {!! $statusClass !!} custom-badge rounded-0">{!! $statusLabel !!}</span>
                             </td>
-                            <td>{!! $subOrder->subtotal !!}</td>
                             <td>{!! $subOrder->created_at->format('d M Y h:i:A') !!}</td>
                             <td><a href="#!"><i class="ri-eye-line"></i></a></td>
                         </tr>

@@ -27,7 +27,7 @@
                                     @forelse($orders as $n => $order)
                                     <tr>
                                         <td><span class="fw-bolder">#1020</span></td>
-                                        <td>{!! $order->total_amount !!}</td>
+                                        <td class="text-theme">{!! $order->total_amount !!}</td>
                                         <td>
                                             @php
                                                 $status = $order->payment_status;
