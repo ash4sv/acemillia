@@ -98,6 +98,7 @@ class AppsPaymentController extends Controller
                         $order = Order::create([
                             'user_id'        => $orderTemp->user_id,
                             'total_amount'   => $cartTemp->total,
+                            'cart_temp_id'   => $cartTemp->id,
                             'payment_status' => 'paid',
                             'status'         => 'processing',
                         ]);
@@ -159,6 +160,8 @@ class AppsPaymentController extends Controller
                         ]);
                     });
                 } elseif ($orderTemp->user == 'merchant') {}
+
+                Log::info('PAYMENT WEBHOOK FUNCTION END ' . date('Ymd/m/y H:i'));
             } elseif ($response['paid'] == 'false') {
                 DB::transaction(function () use ($orderTemp, $response) {
                     $cartTemp = DB::table('carts_temps')->where('temporary_uniq', $orderTemp->temporary_uniq)->first();
