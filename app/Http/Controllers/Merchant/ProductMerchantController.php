@@ -45,7 +45,7 @@ class ProductMerchantController extends ProductBaseController
         confirmDelete($title, $text);
         return view($this->view . 'index', [
             'authUser' => $this->auth,
-            'products' => Product::where('merchant_id', $this->getMerchantId())->paginate(5)->appends(['section' => 'products'])
+            'products' => Product::where('merchant_id', $this->getMerchantId())->paginate(12)->appends(['section' => 'products'])
         ]);
     }
 
