@@ -619,8 +619,8 @@ footer p,
 
 
 /* ---------------------------------------
-   TOP NAVIGATION
----------------------------------------- */
+   TOP NAVIGATION (Optional)
+--------------------------------------- */
 .aces-order-navbar {
     display: flex;
     align-items: center;
@@ -628,237 +628,225 @@ footer p,
     background-color: #fff;
     padding: 1rem 2rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
 }
-.aces-order-navbar-left {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-.aces-order-navbar-left h1 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-right: 1rem;
+.aces-order-navbar h1 {
+    font-size: 1.5rem;
 }
 .aces-order-search-bar {
     position: relative;
-    width: 300px;
 }
 .aces-order-search-bar input {
-    width: 100%;
-    padding: 0.5rem 2.5rem 0.5rem 1rem;
-    border: 1px solid #ddd;
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 0.9rem;
 }
 .aces-order-search-bar i {
     position: absolute;
-    right: 1rem;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     color: #999;
 }
-.aces-order-navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-.aces-order-user-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 0.85rem;
-    margin-right: 0.5rem;
-}
-.aces-order-user-info .name {
-    font-weight: bold;
-}
-.aces-order-user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-}
 
 /* ---------------------------------------
-   MAIN CONTAINER
----------------------------------------- */
+   CONTAINER
+--------------------------------------- */
 .aces-order-container {
     max-width: 1200px;
-    margin: 1.5rem auto;
-    padding: 0 1rem;
+    margin: 0 auto;
 }
 
 /* ---------------------------------------
    ORDER HEADER
----------------------------------------- */
+--------------------------------------- */
 .aces-order-order-header {
     background-color: #fff;
     border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
-.aces-order-order-header-top {
+.aces-order-order-core {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
 }
-.aces-order-order-header-top h2 {
-    font-size: 1.25rem;
-    font-weight: 600;
+.aces-order-order-info h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
-.aces-order-order-header-top p {
+.aces-order-order-info p {
     font-size: 0.95rem;
-    color: #666;
-    margin-top: 0.25rem;
+    margin-bottom: 5px;
 }
 .aces-order-order-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 10px;
+    flex-wrap: wrap;
 }
-.aces-order-order-actions button {
-    background-color: #fff;
-    border: 1px solid #ddd;
+.aces-order-btn {
+    padding: 10px 15px;
+    font-size: 0.95rem;
     border-radius: 4px;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    transition: background-color 0.2s;
+    transition: background-color 0.3s;
 }
-.aces-order-order-actions button:hover {
-    background-color: #f2f2f2;
+.aces-order-btn-primary {
+    background-color: #f57c00;
+    color: #fff;
 }
-
-/* ---------------------------------------
-   ORDER STATUS ROW
----------------------------------------- */
-.aces-order-order-status-row {
+.aces-order-btn-primary:hover {
+    background-color: #e65100;
+}
+.aces-order-btn-secondary {
+    background-color: #fff;
+    color: #f57c00;
+    border: 1px solid #f57c00;
+}
+.aces-order-btn-secondary:hover {
+    background-color: #fff3e0;
+}
+/* Status Cards */
+.aces-order-status-cards {
     display: flex;
-    gap: 1rem;
+    gap: 10px;
     flex-wrap: wrap;
 }
 .aces-order-status-card {
     flex: 1;
-    min-width: 150px;
-    background-color: #f9f9f9;
+    background-color: #f0f0f0;
     border-radius: 6px;
-    border: 1px solid #eee;
-    padding: 0.75rem;
+    padding: 10px;
     text-align: center;
 }
 .aces-order-status-card h3 {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    margin-bottom: 5px;
 }
 .aces-order-status-card span {
-    font-size: 0.8rem;
-    color: #999;
+    font-size: 0.85rem;
+    color: #555;
 }
-.aces-order-status-card.highlight {
+.aces-order-current-status {
     background-color: #ffe9d6;
-    border-color: #ffc177;
+    border: 1px solid #ffc177;
 }
 
 /* ---------------------------------------
-   MAIN CONTENT
----------------------------------------- */
+   MAIN CONTENT LAYOUT
+--------------------------------------- */
 .aces-order-main-content {
     display: flex;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.aces-order-left-column {
+    flex: 2;
+    min-width: 300px;
+}
+.aces-order-right-column {
+    flex: 1;
+    min-width: 250px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* ---------------------------------------
-   LEFT COLUMN (Addresses & Items)
----------------------------------------- */
-.aces-order-left-column {
-    flex: 2;
+   ADDRESSES
+--------------------------------------- */
+.aces-order-addresses {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
 }
-.aces-order-info-box {
+.aces-order-address {
     background-color: #fff;
-    border-radius: 8px;
+    flex: 1;
     border: 1px solid #ddd;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
-.aces-order-info-box h3 {
+.aces-order-address h3 {
     font-size: 1rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
-.aces-order-address-item {
+.aces-order-address p {
     font-size: 0.9rem;
+    margin-bottom: 5px;
     color: #555;
-    line-height: 1.4;
-    margin-bottom: 0.5rem;
+}
+
+/* ---------------------------------------
+   ORDER ITEMS & SUMMARY
+--------------------------------------- */
+.aces-order-order-items-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.aces-order-order-items-box h3 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 .aces-order-order-items {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 15px;
+    margin-bottom: 20px;
 }
 .aces-order-item-row {
     display: flex;
+    gap: 15px;
     align-items: center;
-    gap: 1rem;
 }
 .aces-order-item-image {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 4px;
     overflow: hidden;
     flex-shrink: 0;
 }
 .aces-order-item-details {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
     font-size: 0.9rem;
+    color: #555;
 }
 .aces-order-item-name {
     font-weight: bold;
+    margin-bottom: 5px;
 }
 .aces-order-order-summary {
-    margin-top: 1rem;
-    padding-top: 1rem;
     border-top: 1px solid #ddd;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    font-size: 0.9rem;
+    padding-top: 15px;
 }
-.aces-order-order-summary-row {
+.aces-order-summary-row {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
 }
-.aces-order-order-summary-row strong {
-    font-weight: 600;
+.aces-order-summary-total {
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 
 /* ---------------------------------------
-   RIGHT COLUMN (Timeline)
----------------------------------------- */
-.aces-order-right-column {
-    flex: 1;
-    background-color: #fff;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
+   TIMELINE (Right Column)
+--------------------------------------- */
 .aces-order-timeline {
-    display: flex;
-    flex-direction: column;
     position: relative;
-    margin: 1rem 0;
-    padding-left: 1rem;
+    padding-left: 20px;
+    margin-top: 20px;
 }
 .aces-order-timeline::before {
     content: "";
@@ -871,36 +859,37 @@ footer p,
 }
 .aces-order-timeline-step {
     position: relative;
+    margin-bottom: 30px;
+    padding-left: 20px;
     display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
-    padding-left: 1.5rem;
+    align-items: center;
 }
 .aces-order-timeline-step:last-child {
     margin-bottom: 0;
 }
-.aces-order-timeline-step::before {
-    content: "";
+.aces-order-timeline-icon {
     position: absolute;
-    left: -0.58rem;
-    top: 0;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
+    left: -2px;
     background-color: #fff;
-    border: 2px solid #f90;
+    border: 2px solid #f57c00;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
 }
 .aces-order-timeline-step h4 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 3px;
 }
 .aces-order-timeline-step p {
     font-size: 0.85rem;
     color: #777;
 }
-.aces-order-right-column h3 {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
+.aces-order-timeline-current .aces-order-timeline-icon {
+    background-color: #ffe9d6;
+    border-color: #ffc177;
 }
