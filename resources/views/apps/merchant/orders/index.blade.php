@@ -41,11 +41,15 @@
                                 <span class="badge {!! $statusClass !!} custom-badge rounded-0">{!! $statusLabel !!}</span>
                             </td>
                             <td>{!! $subOrder->created_at->format('d M Y h:i:A') !!}</td>
-                            <td><a href="#!"><i class="ri-eye-line"></i></a></td>
+                            <td>
+                                <a href="{!! route('merchant.dashboard', ['section' => 'order-show', 'id' => $subOrder->id]) !!}"><i class="ri-eye-line"></i></a>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5"></td>
+                            <td colspan="5">
+
+                            </td>
                         </tr>
                     @endforelse
                     </tbody>

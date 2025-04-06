@@ -53,6 +53,25 @@ class DashboardMerchantController extends Controller
         ]);
     }
 
+    public function orderShow(Request $request)
+    {
+        $orderId = $request->query('id');
+
+        $order = Order::with([
+            'user',
+            'subOrders.merchant',
+            'subOrders.items.product',
+            'payment',
+            'billingAddress',
+            'shippingAddress'
+        ])->findOrFail($orderId);
+
+        return view($this->view . 'orders.show', [
+            'authUser' => $this->auth,
+            'order'    => $order,
+        ]);
+    }
+
     public function profile()
     {
         return view($this->view . 'profile.index', [

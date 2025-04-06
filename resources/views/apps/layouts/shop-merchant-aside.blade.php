@@ -15,7 +15,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {!! request('section') == 'orders' ? 'active' : '' !!}" href="{!! route('merchant.dashboard', ['section' => 'orders']) !!}">
+        <a class="nav-link {!! in_array(request('section'), ['orders', 'order-show']) ? 'active' : '' !!}" href="{!! route('merchant.dashboard', ['section' => 'orders']) !!}">
             <i class="ri-file-text-line"></i> {!! __('Orders') !!}
         </a>
     </li>
