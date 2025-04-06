@@ -55,10 +55,10 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            {!! $orders->links('apps.layouts.pagination-custom-user') !!}
+
                         </div>
-
-                        {!! $orders->links('apps.layouts.pagination-custom-user') !!}
-
                     </div>
                 </div>
             </div>
