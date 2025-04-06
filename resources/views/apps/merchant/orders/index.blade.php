@@ -48,40 +48,7 @@
                 </table>
             </div>
 
-            @if ($subOrders->lastPage() > 1)
-                <div class="product-pagination">
-                    <div class="theme-pagination-block">
-                        <nav>
-                            <ul class="pagination">
-
-                                {{-- Previous Button --}}
-                                <li class="page-item {{ $orders->onFirstPage() ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ $orders->previousPageUrl() }}" aria-label="Previous">
-                                        <span><i class="ri-arrow-left-s-line"></i></span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-
-                                {{-- Page Numbers --}}
-                                @for ($i = 1; $i <= $orders->lastPage(); $i++)
-                                    <li class="page-item {{ $orders->currentPage() == $i ? 'active' : '' }}">
-                                        <a class="page-link" href="{{ $orders->url($i) }}">{{ $i }}</a>
-                                    </li>
-                                @endfor
-
-                                {{-- Next Button --}}
-                                <li class="page-item {{ !$orders->hasMorePages() ? 'disabled' : '' }}">
-                                    <a class="page-link" href="{{ $orders->nextPageUrl() }}" aria-label="Next">
-                                        <span><i class="ri-arrow-right-s-line"></i></span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            @endif
+            {!! $subOrders->links('apps.layouts.pagination-custom-user') !!}
 
         </div>
     </div>

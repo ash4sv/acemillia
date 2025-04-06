@@ -56,39 +56,9 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="product-pagination">
-                            <div class="theme-pagination-block">
-                                <nav>
-                                    <ul class="pagination">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#!" aria-label="Previous">
-                                                <span>
-                                                    <i class="ri-arrow-left-s-line"></i>
-                                                </span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a class="page-link" href="#!">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#!">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#!">3</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#!" aria-label="Next">
-                                                <span>
-                                                    <i class="ri-arrow-right-s-line"></i>
-                                                </span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
+
+                        {!! $orders->links('apps.layouts.pagination-custom-user') !!}
+
                     </div>
                 </div>
             </div>
