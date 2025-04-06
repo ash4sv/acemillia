@@ -30,8 +30,8 @@ class OrderAdminDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function ($item) {
                 return EloquentDataTableBtnElement::button([
-                    'show-btn'   => [ $this->permission . 'read', true, $item->name, route($this->route . 'show', $item->id) ],
-                    'edit-btn'   => [ $this->permission . 'update', true, $item->name, route($this->route . 'edit', $item->id) ],
+                    'show-btn'   => [ $this->permission . 'read', true, $item->uniq, route($this->route . 'show', $item->id) ],
+                    'edit-btn'   => [ $this->permission . 'update', true, $item->uniq, route($this->route . 'edit', $item->id) ],
                     'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $item->id) ]
                 ]);
             })
