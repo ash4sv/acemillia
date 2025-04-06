@@ -13,7 +13,7 @@
                     <thead>
                     <tr>
                         <th>{!! ucfirst('Order Id') !!}</th>
-                        <th>{!! ucfirst('Product Details') !!}</th>
+                        <th>{!! ucfirst('Customer Name') !!}</th>
                         <th>{!! ucfirst('Status') !!}</th>
                         <th>{!! ucfirst('Price') !!}</th>
                     </tr>
@@ -47,39 +47,42 @@
                     </tbody>
                 </table>
             </div>
-            <div class="product-pagination">
-                <div class="theme-pagination-block">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#!" aria-label="Previous">
-                                    <span>
-                                        <i class="ri-arrow-left-s-line"></i>
-                                    </span>
-                                    <span class="sr-only">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#!">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#!">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#!">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#!" aria-label="Next">
-                                    <span>
-                                        <i class="ri-arrow-right-s-line"></i>
-                                    </span>
-                                    <span class="sr-only">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+
+            @if ($orders->lastPage() > 1)
+                <div class="product-pagination">
+                    <div class="theme-pagination-block">
+                        <nav>
+                            <ul class="pagination">
+
+                                {{-- Previous Button --}}
+                                <li class="page-item {{ $orders->onFirstPage() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $orders->previousPageUrl() }}" aria-label="Previous">
+                                        <span><i class="ri-arrow-left-s-line"></i></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+
+                                {{-- Page Numbers --}}
+                                @for ($i = 1; $i <= $orders->lastPage(); $i++)
+                                    <li class="page-item {{ $orders->currentPage() == $i ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $orders->url($i) }}">{{ $i }}</a>
+                                    </li>
+                                @endfor
+
+                                {{-- Next Button --}}
+                                <li class="page-item {{ !$orders->hasMorePages() ? 'disabled' : '' }}">
+                                    <a class="page-link" href="{{ $orders->nextPageUrl() }}" aria-label="Next">
+                                        <span><i class="ri-arrow-right-s-line"></i></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-            </div>
+            @endif
+
         </div>
     </div>
 
