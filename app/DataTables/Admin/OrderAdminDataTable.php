@@ -41,22 +41,22 @@ class OrderAdminDataTable extends DataTable
             ->addColumn('payment_status', function ($item){
                 $status = $item->payment_status;
                 $statusClass = [
-                    'pending' => 'bg-pending',
-                    'paid'    => 'bg-completed',
-                    'failed'  => 'bg-cancelled',
-                ][$status] ?? 'bg-default';
+                    'pending' => 'bg-label-secondary',
+                    'paid'    => 'bg-label-success',
+                    'failed'  => 'bg-label-danger',
+                ][$status] ?? 'bg-label-primary';
                 $statusLabel = ucfirst($status);
-                return '<div class="badge ' . $statusClass . ' custom-badge rounded-0"><span>' . $statusLabel . '</span></div>';
+                return '<div class="badge ' . $statusClass . ' "><span>' . $statusLabel . '</span></div>';
             })
             ->addColumn('status', function ($item){
                 $status = $item->status;
                 $statusClass = [
-                    'processing' => 'bg-pending',
-                    'completed'  => 'bg-completed',
-                    'cancelled'  => 'bg-cancelled',
-                ][$status] ?? 'bg-default';
+                    'processing' => 'bg-label-secondary',
+                    'completed'  => 'bg-label-success',
+                    'cancelled'  => 'bg-label-danger',
+                ][$status] ?? 'bg-label-primary';
                 $statusLabel = ucfirst($status);
-                return '<div class="badge ' . $statusClass . ' custom-badge rounded-0"><span>' . $statusLabel . '</span></div>';
+                return '<div class="badge ' . $statusClass . ' "><span>' . $statusLabel . '</span></div>';
             })
             ->rawColumns(['payment_status', 'status', 'updated_at', 'action'])
             ->setRowId('id');
