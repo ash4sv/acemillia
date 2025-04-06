@@ -27,12 +27,22 @@
                                     @forelse($orders as $n => $order)
                                     <tr>
                                         <td><span class="fw-bolder">#1020</span></td>
-                                        <td>{{ $order->created_at->format('d M Y h:i:A') }}</td>
-                                        <td>$61.73</td>
+                                        <td>{!! $order->created_at->format('d M Y h:i:A') !!}</td>
+                                        <td>{!! $order->total_amount !!}</td>
                                         <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
+                                            @php
+                                                $status = $order->status;
+                                                $statusClass = [
+                                                    'processing' => 'bg-pending',
+                                                    'completed'  => 'bg-completed',
+                                                    'cancelled'  => 'bg-cancelled',
+                                                ][$status] ?? 'bg-default';
+
+                                                $statusLabel = ucfirst($status);
+                                            @endphp
+
+                                            <div class="badge {{ $statusClass }} custom-badge rounded-0">
+                                                <span>{{ $statusLabel }}</span>
                                             </div>
                                         </td>
                                         <td>COD</td>
