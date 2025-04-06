@@ -22,7 +22,7 @@
                     @forelse($subOrders as $i => $subOrder)
                         <tr>
                             <td>#125021</td>
-                            <td>{!! $subOrder->items->join(', ') !!}</td>
+                            <td>{!! $subOrder->items->pluck('name')->join(', ') !!}</td>
                             <td>
                                 @php
                                     $shippingStatus = $subOrder->shipping_status;
