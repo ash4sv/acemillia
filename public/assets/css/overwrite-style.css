@@ -618,14 +618,13 @@ footer p,
 }
 
 /***********************************************
-  Global container & font styles
+  Global container & styles
 ***********************************************/
 .aces-order-container {
-    max-width: 600px;
+    /* Removed max-width to allow full-width layout.
+       Font-family is inherited from global styles (e.g. Bootstrap) */
     margin: 2rem auto;
     padding: 0 1rem;
-    font-family: Arial, sans-serif;
-    color: #333;
 }
 
 .aces-order-title {
