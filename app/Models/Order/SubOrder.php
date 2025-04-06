@@ -22,6 +22,11 @@ class SubOrder extends Model
         'notes',
     ];
 
+    public function getSubTotalAttribute($value)
+    {
+        return 'RM' . number_format($value, 2);
+    }
+
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
