@@ -3,6 +3,7 @@
 namespace App\Models\Order;
 
 use App\Models\User;
+use App\Models\User\AddressBook;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -34,5 +35,15 @@ class Order extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class, 'order_id', 'id');
+    }
+
+    public function billingAddress()
+    {
+        return $this->belongsTo(AddressBook::class, 'billing_address_id', 'id');
+    }
+
+    public function shippingAddress()
+    {
+        return $this->belongsTo(AddressBook::class, 'shipping_address_id', 'id');
     }
 }

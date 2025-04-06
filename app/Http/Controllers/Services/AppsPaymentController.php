@@ -7,6 +7,7 @@ use App\Models\Order\Order;
 use App\Models\Order\OrderItem;
 use App\Models\Order\Payment;
 use App\Models\Order\SubOrder;
+use App\Models\User\AddressBook;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -94,6 +95,13 @@ class AppsPaymentController extends Controller
                     DB::transaction(function () use ($orderTemp, $response) {
                         $cartTemp = DB::table('carts_temps')->where('temporary_uniq', $orderTemp->temporary_uniq)->first();
 
+                        $cart = json_decode($cartTemp->cart, true);
+                        $cartItems = $cart['cart'] ?? [];
+
+                        // Fetch the billing and shipping address from the address_books table
+                        $billingAddress = AddressBook::find($cart['billingAddress']);
+                        $shippingAddress = AddressBook::find($cart['shippingAddress']);
+
                         // 2. Create final order
                         $order = Order::create([
                             'user_id'        => $orderTemp->user_id,
@@ -101,36 +109,37 @@ class AppsPaymentController extends Controller
                             'cart_temp_id'   => $cartTemp->id,
                             'payment_status' => 'paid',
                             'status'         => 'processing',
+                            'billing_address_id' => $billingAddress ? $billingAddress->id : null,
+                            'shipping_address_id' => $shippingAddress ? $shippingAddress->id : null,
                         ]);
 
-                        $cartItems = json_decode($cartTemp->cart, true)['cart'];
-
                         // 3. Group items by merchant
-                        $grouped = collect($cartItems)->groupBy(function ($item) {
-                            return $item['options']['merchant_id']; // Make sure you pass this in cart
-                        });
+                        $grouped = collect($cartItems)->groupBy(fn($item) => $item['options']['merchant_id']);
 
                         foreach ($grouped as $merchantId => $items) {
+                            $subtotal = collect($items)->sum(function ($i) {
+                                $base = $i['price'];
+                                $additional = collect($i['options']['selected_options'] ?? [])
+                                    ->sum('additional_price');
+                                return ($base + $additional) * $i['quantity'];
+                            });
+
                             $subOrder = SubOrder::create([
                                 'order_id' => $order->id,
                                 'merchant_id' => $merchantId,
-                                'subtotal' => collect($items)->sum(function ($i) {
-                                    $base = $i['price'];
-                                    $additional = collect($i['options']['selected_options'] ?? [])
-                                        ->sum('additional_price');
-                                    return ($base + $additional) * $i['quantity'];
-                                }),
+                                'subtotal' => $subtotal,
+                                'shipping_status' => 'pending',
                             ]);
 
                             foreach ($items as $item) {
-                                $itemPrice = $item['price'] + collect($item['options']['selected_options'] ?? [])
+                                $finalPrice = $item['price'] + collect($item['options']['selected_options'] ?? [])
                                         ->sum('additional_price');
 
                                 OrderItem::create([
                                     'sub_order_id' => $subOrder->id,
-                                    'product_id' => $item['options']['item_product_id'],
+                                    'product_id' => $item['product_id'] ?? null,
                                     'product_name' => $item['name'],
-                                    'price' => $itemPrice,
+                                    'price' => $finalPrice,
                                     'quantity' => $item['quantity'],
                                     'options' => json_encode($item['options']),
                                 ]);
