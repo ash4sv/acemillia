@@ -5,17 +5,17 @@
     <div class="dashboard-table">
         <div class="wallet-table">
             <div class="top-sec">
-                <h3>orders</h3>
+                <h3>{!! __('Orders') !!}</h3>
                 {{--<a href="#!" class="btn btn-sm btn-solid">add product</a>--}}
             </div>
             <div class="table-responsive">
                 <table class="table cart-table order-table">
                     <thead>
                     <tr>
-                        <th>{!! ucfirst('Order Id') !!}</th>
-                        <th>{!! ucfirst('Customer Name') !!}</th>
-                        <th>{!! ucfirst('Status') !!}</th>
-                        <th>{!! ucfirst('Price') !!}</th>
+                        <th>{!! __('Order Id') !!}</th>
+                        <th>{!! __('Customer Name') !!}</th>
+                        <th>{!! __('Status') !!}</th>
+                        <th>{!! __('Price') !!}</th>
                     </tr>
                     </thead>
                     <tbody>
