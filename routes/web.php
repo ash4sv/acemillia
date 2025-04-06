@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\MenuAdminController;
 use App\Http\Controllers\Admin\MerchantAdminController;
 use App\Http\Controllers\Admin\NewsFeedCommentAdminController;
 use App\Http\Controllers\Admin\NewsFeedLikeAdminController;
+use App\Http\Controllers\Admin\OrderAdminController;
 use App\Http\Controllers\Admin\PostAdminController;
 use App\Http\Controllers\Admin\PostCategoryAdminController;
 use App\Http\Controllers\Admin\PostTagAdminController;
@@ -192,6 +193,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'special-offer' => SpecialOfferMerchantController::class
             ]);
         });
+        Route::resource('order', OrderAdminController::class);
         Route::resource('menus', MenuAdminController::class);
         Route::resource('carousel-slider', CarouselSliderAdminController::class);
         Route::resource('news-feed', NewsFeedUserController::class)->except(['index', 'create', 'show']);

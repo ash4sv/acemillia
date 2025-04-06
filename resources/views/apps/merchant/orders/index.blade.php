@@ -37,7 +37,7 @@
                                     ][$shippingStatus] ?? 'bg-default';
                                     $statusLabel = ucfirst($shippingStatus);
                                 @endphp
-                                
+
                                 <span class="badge {!! $statusClass !!} custom-badge rounded-0">{!! $statusLabel !!}</span>
                             </td>
                             <td>{!! $subOrder->created_at->format('d M Y h:i:A') !!}</td>

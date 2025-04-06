@@ -22,6 +22,14 @@ class Menu
                     ],
                     [
                         'permission' => 'admin-systems-management-access',
+                        'url'        => route('admin.order.index'),
+                        'active_on'  => 'admin/order*',
+                        'icon'       => 'tf-icons ti ti-layout-sidebar',
+                        'text'       => __('Order'),
+                        'target'     => '',
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
                         'url'        => '#',
                         'active_on'  => 'admin/registered-user*',
                         'icon'       => 'tf-icons ti ti-users',
