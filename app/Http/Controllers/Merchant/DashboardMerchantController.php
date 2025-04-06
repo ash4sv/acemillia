@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Merchant;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order\Order;
 use App\Models\Order\SubOrder;
 use App\Models\Shop\Product;
 use App\Services\ImageUploader;
