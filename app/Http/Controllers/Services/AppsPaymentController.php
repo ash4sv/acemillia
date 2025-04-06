@@ -75,7 +75,30 @@ class AppsPaymentController extends Controller
         Log::info('Queueing Payment Webhook for processing start.' . date('Ymd/m/y H:i'));
 
         $response = $request->all();
+        Log::info('PAYMENT WEBHOOK FUNCTION START ' . date('Ymd/m/y H:i'));
 
+        $id = $response['id'];
+        $whatUser = DB::table('order_temps')->whereJsonContains('transaction_data->id', $id)->first();
+
+        try {
+            // ====== //
+            if ($response['paid'] == 'true') {
+                if ($whatUser->user == 'user') {
+
+                } elseif ($whatUser->user == 'merchant') {
+
+                }
+            } elseif ($response['paid'] == 'false') {
+
+                Log::info('PAYMENT UNSUCCESSFULLY WEBHOOK ' . date('Ymd/m/y H:i'));
+            } else (
+                Log::info('PAYMENT UNSUCCESSFULLY WEBHOOK ' . date('Ymd/m/y H:i'));
+            )
+            // ====== //
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            Log::info('PAYMENT UNSUCCESSFULLY WEBHOOK ' . date('Ymd/m/y H:i'));
+        }
 
         Log::info('Queueing Payment Webhook for processing end.' . date('Ymd/m/y H:i'));
     }

@@ -27,7 +27,7 @@ class ShippingStatusLog extends Model
         return $this->belongsTo(SubOrder::class, 'sub_order_id', 'id');
     }
 
-    public function merchant()
+    public function createdBy()
     {
         return $this->belongsTo(Merchant::class, 'created_by', 'id');
     }
