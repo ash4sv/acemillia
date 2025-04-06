@@ -20,6 +20,8 @@ class Order extends Model
         'total_amount',
         'payment_status',
         'status',
+        'billing_address_id',
+        'shipping_address_id',
     ];
 
     public function user()
