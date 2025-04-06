@@ -25,6 +25,11 @@ class Order extends Model
         'shipping_address_id',
     ];
 
+    public function getTotalAmountAttribute($value)
+    {
+        return 'RM' . number_format($value, 2);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

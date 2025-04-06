@@ -25,7 +25,7 @@ class Product extends Model
 
     public function getPriceAttribute($price): string
     {
-        return 'MYR' . number_format($price, 2);
+        return 'RM' . number_format($price, 2);
     }
 
     public function scopeDraft($query)
