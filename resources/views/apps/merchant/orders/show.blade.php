@@ -4,121 +4,166 @@
 
     <div class="dashboard-table">
 
-        <main class="aces-order-main">
-
-            <!-- Order Details -->
-            <div class="aces-order-box aces-order-order-details">
-                <h2 class="aces-order-box-title">Order Details</h2>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Order Number:</div>
-                    <div class="aces-order-value">100041</div>
+        <!--
+          STEP 1: TOP NAVIGATION
+        -->
+        <div class="navbar">
+            <div class="navbar-left">
+                <h1>Transactions</h1>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for your invoice..." />
+                    <i>🔍</i>
                 </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Order Date:</div>
-                    <div class="aces-order-value">February 17, 2015</div>
+            </div>
+            <div class="navbar-right">
+                <div class="user-info">
+                    <span class="name">Ctrl xyz</span>
+                    <span class="email">[email protected]</span>
+                </div>
+                <div class="user-avatar">
+                    <!-- Random user avatar from Unsplash -->
+                    <img src="https://source.unsplash.com/random/40x40?face" alt="User Avatar">
+                </div>
+            </div>
+        </div>
+
+        <!--
+          STEP 2: MAIN CONTAINER
+        -->
+        <div class="container">
+
+            <!-- ORDER HEADER -->
+            <div class="order-header">
+                <div class="order-header-top">
+                    <div>
+                        <h2>Order ID : TXIND953621</h2>
+                        <p>No Resi : 34u455y566y</p>
+                    </div>
+                    <div class="order-actions">
+                        <button>Send Invoice</button>
+                        <button>Contact Buyer</button>
+                    </div>
+                </div>
+
+                <!-- ORDER STATUS (Example of 3 status cards) -->
+                <div class="order-status-row">
+                    <div class="status-card">
+                        <h3>With courier in route</h3>
+                        <span>Order status</span>
+                    </div>
+                    <div class="status-card">
+                        <h3>Order paid</h3>
+                        <span>Customer payment</span>
+                    </div>
+                    <div class="status-card highlight">
+                        <h3>Shipped</h3>
+                        <span>On delivery</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Shipping Information -->
-            <div class="aces-order-box aces-order-shipping-info">
-                <h2 class="aces-order-box-title">Shipping Information</h2>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Shipping Address:</div>
-                    <div class="aces-order-value">1234 Elm Street, Anytown, USA</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Shipping Method:</div>
-                    <div class="aces-order-value">Standard Shipping</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Ship as completed:</div>
-                    <div class="aces-order-value">Yes</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Shipping Cost:</div>
-                    <div class="aces-order-value">$5.00</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Status:</div>
-                    <div class="aces-order-value">Processing</div>
-                </div>
-            </div>
+            <!-- MAIN CONTENT: LEFT (Addresses & Items) + RIGHT (Timeline) -->
+            <div class="main-content">
 
-            <!-- Product -->
-            <div class="aces-order-box aces-order-product">
-                <h2 class="aces-order-box-title">Product</h2>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Product Name:</div>
-                    <div class="aces-order-value">Reading Tablet</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">SKU:</div>
-                    <div class="aces-order-value">CN3203</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Memory:</div>
-                    <div class="aces-order-value">32GB</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Battery Life:</div>
-                    <div class="aces-order-value">72 hours</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Order Status:</div>
-                    <div class="aces-order-value">Processing</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Date Shipped:</div>
-                    <div class="aces-order-value">-</div>
-                </div>
-                <hr class="aces-order-divider">
-                <div class="aces-order-row aces-order-price-detail">
-                    <div class="aces-order-label">Cost:</div>
-                    <div class="aces-order-value">$75.00</div>
-                </div>
-                <div class="aces-order-row aces-order-price-detail">
-                    <div class="aces-order-label">Qty:</div>
-                    <div class="aces-order-value">1</div>
-                </div>
-                <div class="aces-order-row aces-order-price-detail">
-                    <div class="aces-order-label">Subtotal:</div>
-                    <div class="aces-order-value">$75.00</div>
-                </div>
-                <div class="aces-order-row aces-order-price-detail">
-                    <div class="aces-order-label">Shipping:</div>
-                    <div class="aces-order-value">$5.00</div>
-                </div>
-                <div class="aces-order-row aces-order-price-detail">
-                    <div class="aces-order-label">Tax:</div>
-                    <div class="aces-order-value">$0.00</div>
-                </div>
-                <div class="aces-order-row aces-order-price-detail aces-order-grand-total">
-                    <div class="aces-order-label">Grand Total:</div>
-                    <div class="aces-order-value">$80.00</div>
-                </div>
-            </div>
+                <!-- LEFT COLUMN -->
+                <div class="left-column">
 
-            <!-- Billing Information -->
-            <div class="aces-order-box aces-order-billing-info">
-                <h2 class="aces-order-box-title">Billing Information</h2>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Billing Address:</div>
-                    <div class="aces-order-value">1234 Elm Street, Anytown, USA</div>
-                </div>
-                <div class="aces-order-row">
-                    <div class="aces-order-label">Billing Method:</div>
-                    <div class="aces-order-value">Cash on Delivery</div>
-                </div>
-            </div>
+                    <!-- Shipping Addresses -->
+                    <div class="info-box">
+                        <h3>Shipping Address (Seller)</h3>
+                        <div class="address-item">John Seller</div>
+                        <div class="address-item">123 Seller Street</div>
+                        <div class="address-item">PSA 1532, Indonesia</div>
+                    </div>
 
-            <!-- Action Buttons -->
-            <div class="aces-order-actions">
-                <button class="aces-order-btn aces-order-btn-cancel" type="button">Cancel</button>
-                <button class="aces-order-btn aces-order-btn-print" type="button">Print</button>
-                <button class="aces-order-btn aces-order-btn-send" type="button">Send Message</button>
-            </div>
+                    <div class="info-box">
+                        <h3>Shipping Address (Buyer)</h3>
+                        <div class="address-item">Alex Buyer</div>
+                        <div class="address-item">99 Buyer Avenue</div>
+                        <div class="address-item">PSA 1532, Indonesia</div>
+                    </div>
 
-                {!! $order !!}
+                    <!-- Order Items & Summary -->
+                    <div class="info-box">
+                        <h3>Order Items</h3>
+                        <div class="order-items">
+                            <!-- Item 1 -->
+                            <div class="item-row">
+                                <div class="item-image">
+                                    <!-- Random sneaker image -->
+                                    <img src="https://source.unsplash.com/random/80x80?shoes" alt="Sneaker">
+                                </div>
+                                <div class="item-details">
+                                    <span class="item-name">Sneaker</span>
+                                    <span>Qty: 1</span>
+                                    <span>Size: 42</span>
+                                </div>
+                            </div>
+                            <!-- Item 2 -->
+                            <div class="item-row">
+                                <div class="item-image">
+                                    <!-- Random jacket image -->
+                                    <img src="https://source.unsplash.com/random/80x80?jacket" alt="Jacket">
+                                </div>
+                                <div class="item-details">
+                                    <span class="item-name">Jacket</span>
+                                    <span>Qty: 1</span>
+                                    <span>Size: XL</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div class="order-summary">
+                            <div class="order-summary-row">
+                                <span>Product Price</span>
+                                <span>Rp 888.00</span>
+                            </div>
+                            <div class="order-summary-row">
+                                <span>Shipping</span>
+                                <span>Rp 74.00</span>
+                            </div>
+                            <div class="order-summary-row">
+                                <span>Total Payment</span>
+                                <span>Rp 140.00</span>
+                            </div>
+                            <div class="order-summary-row">
+                                <strong>Paid Status</strong>
+                                <strong>Rp 876.50</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN: TIMELINE -->
+                <div class="right-column">
+                    <h3>Tracking Progress</h3>
+                    <div class="timeline">
+                        <div class="timeline-step">
+                            <h4>Ordered</h4>
+                            <p>Order created by buyer</p>
+                        </div>
+                        <div class="timeline-step">
+                            <h4>Packed</h4>
+                            <p>Items packed by seller</p>
+                        </div>
+                        <div class="timeline-step">
+                            <h4>Shipped</h4>
+                            <p>On delivery</p>
+                        </div>
+                        <div class="timeline-step">
+                            <h4>Delivered</h4>
+                            <p>Order completed</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.main-content -->
+
+        </div><!-- /.container -->
+
+        {!! $order !!}
 
     </div>
 
