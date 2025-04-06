@@ -40,7 +40,7 @@
                                 <span class="badge {!! $statusClass !!} custom-badge rounded-0">{!! $statusLabel !!}</span>
                             </td>
                             <td>{!! $subOrder->subtotal !!}</td>
-                            <td>{!! $order->created_at->format('d M Y h:i:A') !!}</td>
+                            <td>{!! $subOrder->created_at->format('d M Y h:i:A') !!}</td>
                             <td><a href="#!"><i class="ri-eye-line"></i></a></td>
                         </tr>
                     @empty
