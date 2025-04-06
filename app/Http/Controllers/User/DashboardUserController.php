@@ -29,7 +29,7 @@ class DashboardUserController extends Controller
         ]);
     }
 
-    public function myOrders(Request $request)
+    public function myOrders()
     {
         $orders = Order::with([
             'subOrders.merchant',
@@ -43,6 +43,24 @@ class DashboardUserController extends Controller
         return response()->view('apps.user.my-orders.index', [
             'authUser' => $this->authUser,
             'orders'   => $orders,
+        ]);
+    }
+
+    public function myOrderShow(Request $request)
+    {
+        $orderId = $request->query('id');
+
+        $order = Order::with([
+            'subOrders.merchant',
+            'subOrders.items',
+            'payment',
+            'billingAddress',
+            'shippingAddress',
+        ])->auth()->findOrFail($orderId);
+
+        return response()->view('apps.user.my-orders.show', [
+            'authUser' => $this->authUser,
+            'order'    => $order,
         ]);
     }
 }
