@@ -59,7 +59,7 @@ class OrderAdminDataTable extends DataTable
                 return '<div class="badge ' . $statusClass . ' "><span>' . $statusLabel . '</span></div>';
             })
             ->addColumn('merchant', function ($item){
-                return $item->subOrders->merchant->company_name;
+                return $item->subOrders->pluck('merchant.company_name')->unique()->implode(', ') ?: '-';
             })
             ->rawColumns(['payment_status', 'status', 'updated_at', 'action'])
             ->setRowId('id');
