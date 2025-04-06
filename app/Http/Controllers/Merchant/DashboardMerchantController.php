@@ -33,7 +33,7 @@ class DashboardMerchantController extends Controller
     {
         return view($this->view . 'dashboard.index', [
             'authUser' => $this->auth,
-            'products' => Product::where('merchant_id', $this->getMerchantId())->get()->appends(['section' => 'products']),
+            'products' => Product::where('merchant_id', $this->getMerchantId())->paginate(5)->appends(['section' => 'products']),
         ]);
     }
 
