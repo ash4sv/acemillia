@@ -45,7 +45,7 @@ class DashboardMerchantController extends Controller
             'items.product',
             'shippingLogs',
         ])->where('merchant_id', $this->getMerchantId())
-            ->paginate(1)
+            ->paginate(12)
             ->appends(['section' => 'orders']);
         return view($this->view . 'orders.index', [
             'authUser'  => $this->auth,

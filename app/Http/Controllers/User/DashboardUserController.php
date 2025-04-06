@@ -38,7 +38,7 @@ class DashboardUserController extends Controller
             'billingAddress',
             'shippingAddress',
         ])->auth()
-            ->paginate(1)
+            ->paginate(12)
             ->appends(['section' => 'my-order']);
         return response()->view('apps.user.my-orders.index', [
             'authUser' => $this->authUser,
