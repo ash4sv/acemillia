@@ -178,6 +178,7 @@ class AppsPaymentController extends Controller
             }
             // ====== //
             DB::commit();
+            return response('OK', 200);
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             DB::rollBack();
