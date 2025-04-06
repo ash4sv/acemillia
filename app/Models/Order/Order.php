@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\User\AddressBook;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Order extends Model
 {
@@ -47,5 +48,17 @@ class Order extends Model
     public function shippingAddress()
     {
         return $this->belongsTo(AddressBook::class, 'shipping_address_id', 'id');
+    }
+
+    public function scopeAuth($query)
+    {
+        if (Auth::guard('admin')->check()) {
+            $user = Auth::guard('admin')->user();
+        } elseif (Auth::guard('merchant')->check()) {
+            $user = Auth::guard('merchant')->user();
+        } elseif (Auth::guard('web')->check()) {
+            $user = Auth::guard('web')->user();
+        }
+        return $query->where('user_id', $user->id);
     }
 }

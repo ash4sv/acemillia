@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order\Order;
 use Illuminate\Http\Request;
 
 class DashboardUserController extends Controller
@@ -31,7 +32,8 @@ class DashboardUserController extends Controller
     public function myOrders(Request $request)
     {
         return response()->view('apps.user.my-orders.index', [
-            'authUser' => $this->authUser
+            'authUser' => $this->authUser,
+            'orders'   => Order::auth()->get()
         ]);
     }
 }

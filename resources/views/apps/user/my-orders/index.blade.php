@@ -24,9 +24,10 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @forelse($orders as $n => $order)
                                     <tr>
                                         <td><span class="fw-bolder">#1020</span></td>
-                                        <td>06 Jul 2024 03:51:PM
+                                        <td>{{ $order->created_at->format('d M Y h:i:A') }}
                                         </td>
                                         <td>$61.73</td>
                                         <td>
@@ -38,132 +39,7 @@
                                         <td>COD</td>
                                         <td><a href="#!"><i class="ri-eye-line"></i></a></td>
                                     </tr>
-                                    <tr>
-                                        <td><span class="fw-bolder">#1017</span></td>
-                                        <td>06 Jul 2024 03:15:PM
-                                        </td>
-                                        <td>$1.97</td>
-                                        <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
-                                            </div>
-                                        </td>
-                                        <td>COD</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="fw-bolder">#1016</span></td>
-                                        <td>26 Jun 2024 10:23:AM
-                                        </td>
-                                        <td>$46.14</td>
-                                        <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
-                                            </div>
-                                        </td>
-                                        <td>COD</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="fw-bolder">#1015</span></td>
-                                        <td>25 Jun 2024 06:34:PM
-                                        </td>
-                                        <td>$18.75</td>
-                                        <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
-                                            </div>
-                                        </td>
-                                        <td>COD</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="fw-bolder">#1013</span></td>
-                                        <td>24 Jun 2024 02:29:PM
-                                        </td>
-                                        <td>$1.72</td>
-                                        <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
-                                            </div>
-                                        </td>
-                                        <td>COD</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="fw-bolder">#1012</span></td>
-                                        <td>21 Jun 2024 05:18:PM
-                                        </td>
-                                        <td>$6.23</td>
-                                        <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
-                                            </div>
-                                        </td>
-                                        <td>COD</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="fw-bolder">#1011</span></td>
-                                        <td>21 Jun 2024 05:18:PM
-                                        </td>
-                                        <td>$39.72</td>
-                                        <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
-                                            </div>
-                                        </td>
-                                        <td>COD</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="fw-bolder">#1010</span></td>
-                                        <td>21 Jun 2024 04:29:PM
-                                        </td>
-                                        <td>$3.76</td>
-                                        <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
-                                            </div>
-                                        </td>
-                                        <td>COD</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="fw-bolder">#1009</span></td>
-                                        <td>21 Jun 2024 03:57:PM
-                                        </td>
-                                        <td>$1.52</td>
-                                        <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
-                                            </div>
-                                        </td>
-                                        <td>COD</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span class="fw-bolder">#1006</span></td>
-                                        <td>21 Jun 2024 03:48:PM
-                                        </td>
-                                        <td>$5.49</td>
-                                        <td>
-                                            <div
-                                                class="badge bg-pending custom-badge rounded-0">
-                                                <span>Pending</span>
-                                            </div>
-                                        </td>
-                                        <td>COD</td>
-                                        <td><a href="#!"><i class="ri-eye-line"></i></a></td>
-                                    </tr>
+                                    @endforelse
                                     </tbody>
                                 </table>
                             </div>
