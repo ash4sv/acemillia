@@ -51,7 +51,7 @@
 
                         <!-- Price / qty column -->
                         <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0 fw-semibold">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
+                            <p class="mb-0">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
                         </div>
                     </div>
 
@@ -71,7 +71,7 @@
 
                         <!-- Price / qty column -->
                         <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0 fw-semibold">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
+                            <p class="mb-0">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
                         </div>
                     </div>
 
@@ -91,7 +91,7 @@
 
                         <!-- Price / qty column -->
                         <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0 fw-semibold">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
+                            <p class="mb-0">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
                         </div>
                     </div>
                 </div>
