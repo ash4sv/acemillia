@@ -64,6 +64,7 @@ class DashboardMerchantController extends Controller
             'order.billingAddress',
             'order.shippingAddress',
             'items',
+            'items.product',
             'shippingLogs',
         ])->where('merchant_id', $this->getMerchantId())
             ->findOrFail($orderId);
