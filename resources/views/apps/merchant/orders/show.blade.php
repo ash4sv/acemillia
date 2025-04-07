@@ -17,40 +17,24 @@
                 <div class="row">
                     <div class="col-md-6 order-detail">
                         @isset($subOrder->order->billingAddress)
-                            @php($b = $subOrder->order->billingAddress)
-                            <h3 class="h6 fw-bold mb-2">{!! __('Billing Address') !!}</h3>
-                            <p class="mb-1 fw-semibold">{!! $b->recipient_name !!}</p>
-                            <p class="mb-1">
-                                {!! $b->street_address !!}, {!! $b->address !!}
-                            </p>
-                            <p class="mb-1">
-                                {!! $b->postcode !!}, {!! $b->city !!}
-                            </p>
-                            <p class="mb-1">
-                                {!! $b->state !!}, {!! $b->country !!}
-                            </p>
-                            <p class="mb-0">
-                                <span class="text-muted">☎</span> {!! $b->phone !!}
-                            </p>
+                            @php($b = $subOrder->order?->billingAddress)
+                            <h3 class="h6 fw-bold">{!! __('Billing Address') !!}</h3>
+                            <p class="fw-semibold">{!! $b->recipient_name !!}</p>
+                            <p>{!! $b->street_address !!}, {!! $b->address !!}</p>
+                            <p>{!! $b->postcode !!}, {!! $b->city !!}</p>
+                            <p>{!! $b->state !!}, {!! $b->country !!}</p>
+                            <p>{!! $b->phone !!}</p>
                         @endisset
                     </div>
                     <div class="col-md-6 order-detail">
                         @isset($subOrder->order->shippingAddress)
-                            @php($s = $subOrder->order->shippingAddress)
-                            <h3 class="h6 fw-bold mb-2">{!! __('Shipping Address') !!}</h3>
-                            <p class="mb-1 fw-semibold">{!! $s->recipient_name !!}</p>
-                            <p class="mb-1">
-                                {!! $s->street_address !!}, {!! $s->address !!}
-                            </p>
-                            <p class="mb-1">
-                                {!! $s->postcode !!}, {!! $s->city !!}
-                            </p>
-                            <p class="mb-1">
-                                {!! $s->state !!}, {!! $s->country !!}
-                            </p>
-                            <p class="mb-0">
-                                <span class="text-muted">☎</span> {!! $s->phone !!}
-                            </p>
+                            @php($s = $subOrder->order?->shippingAddress)
+                            <h3 class="h6 fw-bold">{!! __('Shipping Address') !!}</h3>
+                            <p class="fw-semibold">{!! $s->recipient_name !!}</p>
+                            <p>{!! $s->street_address !!}, {!! $s->address !!}</p>
+                            <p>{!! $s->postcode !!}, {!! $s->city !!}</p>
+                            <p>{!! $s->state !!}, {!! $s->country !!}</p>
+                            <p>{!! $s->phone !!}</p>
                         @endisset
                     </div>
                 </div>
