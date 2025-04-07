@@ -652,3 +652,7 @@ footer p,
 .order-detail-item .order-item-price {
     justify-content: flex-start; /* vertically center text inside the row */
 }
+
+.order-detail-item .order-itemize {
+    margin-bottom: 1rem;
+}

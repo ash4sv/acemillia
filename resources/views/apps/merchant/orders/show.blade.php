@@ -36,7 +36,7 @@
                 <!-- Order‑detail card -->
                 <div class="order-detail-item p-3 mb-3">
                     <!-- Flex wrapper keeps all three parts in one row & equal height -->
-                    <div class="d-flex align-items-stretch w-100">
+                    <div class="order-itemize d-flex align-items-stretch w-100">
                         <!-- Image column -->
                         <div class="order-item-img flex-shrink-0 me-3">
                             <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
@@ -56,7 +56,7 @@
                     </div>
 
                     <!-- Flex wrapper keeps all three parts in one row & equal height -->
-                    <div class="d-flex align-items-stretch w-100">
+                    <div class="order-itemize d-flex align-items-stretch w-100">
                         <!-- Image column -->
                         <div class="order-item-img flex-shrink-0 me-3">
                             <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
@@ -76,7 +76,7 @@
                     </div>
 
                     <!-- Flex wrapper keeps all three parts in one row & equal height -->
-                    <div class="d-flex align-items-stretch w-100">
+                    <div class="order-itemize d-flex align-items-stretch w-100">
                         <!-- Image column -->
                         <div class="order-item-img flex-shrink-0 me-3">
                             <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
