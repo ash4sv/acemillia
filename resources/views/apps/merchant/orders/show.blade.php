@@ -96,7 +96,7 @@
                     </div>
                 </div>
 
-                <hr class="py-0">
+                <hr class="py-0 mt-0">
 
             </div>
 
