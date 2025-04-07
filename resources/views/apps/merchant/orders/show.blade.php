@@ -6,7 +6,7 @@
         <div class="border border-solid p-5">
             <div class="row">
                 <div class="col-md-7">
-                    <h2>Order ID : TXIND953621</h2>
+                    <h3>Order ID : TXIND953621</h3>
                 </div>
                 <div class="col-md-5">
 
@@ -44,14 +44,14 @@
 
                         <!-- Description column -->
                         <div class="order-item-description flex-grow-1">
-                            <p class="mb-1 small text-muted">Jacket</p>
+                            <p class="mb-1 text-muted">Jacket</p>
                             <h3 class="h5 mb-1">Jacket</h3>
-                            <p class="mb-0 small text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
+                            <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
                         </div>
 
                         <!-- Price / qty column -->
                         <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0 fw-semibold">RM 344.00&nbsp;<span class="text-muted">× 1</span></p>
+                            <p class="mb-0 fw-semibold">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
                         </div>
                     </div>
                 </div>
