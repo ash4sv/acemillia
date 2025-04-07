@@ -617,3 +617,6 @@ footer p,
     color: #333;
 }
 
+.dashboard-table.order-detail p {
+    margin-bottom: 0;
+}

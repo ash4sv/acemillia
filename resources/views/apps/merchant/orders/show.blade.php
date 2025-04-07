@@ -2,8 +2,8 @@
 
 @section('user-apps-content')
 
-    <div class="dashboard-table">
-        <div class="p-2">
+    <div class="dashboard-table order-detail">
+        <div class="border border-solid p-4">
             <div class="row">
                 <div class="col-md-7">
                     <h2>Order ID : TXIND953621</h2>
@@ -13,7 +13,7 @@
                 </div>
             </div>
 
-            <div class="border border-solid p-2">
+            <div class="border border-solid p-4">
                 <div class="row">
                     <div class="col-md-6">
                         <h3>Shipping Address</h3>
