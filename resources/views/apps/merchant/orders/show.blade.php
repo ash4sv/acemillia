@@ -100,7 +100,7 @@
 
             </div>
 
-            {!! $order !!}
+            {!! $subOrder !!}
         </div>
     </div>
 
