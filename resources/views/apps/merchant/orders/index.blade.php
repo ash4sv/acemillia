@@ -47,8 +47,12 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">
-
+                            <td colspan="6">
+                                <div class="d-flex align-items-center justify-content-center" style="min-height:10rem;">
+                                    <h3 class="m-0 text-center">
+                                        No orders on the board right now — share your store link to start selling!
+                                    </h3>
+                                </div>
                             </td>
                         </tr>
                     @endforelse

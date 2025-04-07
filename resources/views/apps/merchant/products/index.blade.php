@@ -21,7 +21,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($products as $key => $product)
+                    @forelse($products as $key => $product)
                     <tr>
                         <td class="image-box py-2">
                             <img src="{!! asset($product->image) !!}" alt="" class="blur-up lazyloaded">
@@ -43,7 +43,17 @@
                             </div>
                         </td>
                     </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="6">
+                            <div class="d-flex align-items-center justify-content-center" style="min-height:10rem;">
+                                <h3 class="m-0 text-center">
+                                    Your shelves are empty - let’s stock them! Add your first product to start selling.
+                                </h3>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse
                     </tbody>
                 </table>
             </div>
