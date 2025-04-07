@@ -17,25 +17,44 @@
                 <div class="row">
                     <div class="col-md-6 order-detail">
                         @isset($subOrder->order->billing_address)
-                        <h3>{!! __('Billing Address') !!}</h3>
-                        <p>recipient_name</p>
-                        <p>address,</p>
-                        <p>street_address,</p>
-                        <p>postcode, city,</p>
-                        <p>country</p>
+                            @php($b = $subOrder->order->billing_address)
+                            <h3 class="h6 fw-bold mb-2">{!! __('Billing Address') !!}</h3>
+                            <p class="mb-1 fw-semibold">{!! $b->recipient_name !!}</p>
+                            <p class="mb-1">
+                                {!! $b->street_address !!}, {!! $b->address !!}
+                            </p>
+                            <p class="mb-1">
+                                {!! $b->postcode !!}, {!! $b->city !!}
+                            </p>
+                            <p class="mb-1">
+                                {!! $b->state !!}, {!! $b->country !!}
+                            </p>
+                            <p class="mb-0">
+                                <span class="text-muted">☎</span> {!! $b->phone !!}
+                            </p>
                         @endisset
                     </div>
                     <div class="col-md-6 order-detail">
                         @isset($subOrder->order->shipping_address)
-                        <h3>{!! __('Shipping Address') !!}</h3>
-                        <p>recipient_name</p>
-                        <p>address,</p>
-                        <p>street_address,</p>
-                        <p>postcode, city,</p>
-                        <p>country</p>
+                            @php($s = $subOrder->order->shipping_address)
+                            <h3 class="h6 fw-bold mb-2">{!! __('Shipping Address') !!}</h3>
+                            <p class="mb-1 fw-semibold">{!! $s->recipient_name !!}</p>
+                            <p class="mb-1">
+                                {!! $s->street_address !!}, {!! $s->address !!}
+                            </p>
+                            <p class="mb-1">
+                                {!! $s->postcode !!}, {!! $s->city !!}
+                            </p>
+                            <p class="mb-1">
+                                {!! $s->state !!}, {!! $s->country !!}
+                            </p>
+                            <p class="mb-0">
+                                <span class="text-muted">☎</span> {!! $s->phone !!}
+                            </p>
                         @endisset
                     </div>
                 </div>
+
 
                 <hr class="py-0">
 
@@ -59,7 +78,11 @@
                     </div>
                     @empty
                     <div class="order-itemize d-flex align-items-stretch w-100">
-
+                        <div class="flex-grow-1 text-center py-5">
+                            <h3 class="m-0 text-center">
+                                No valid items found for this order — they may have been removed or never existed.
+                            </h3>
+                        </div>
                     </div>
                     @endforelse
                 </div>
