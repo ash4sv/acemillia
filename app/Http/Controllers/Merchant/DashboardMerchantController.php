@@ -58,18 +58,18 @@ class DashboardMerchantController extends Controller
     {
         $orderId = $request->query('id');
 
-        $order = Order::with([
-            'user',
-            'subOrders.merchant',
-            'subOrders.items.product',
-            'payment',
-            'billingAddress',
-            'shippingAddress'
-        ])->findOrFail($orderId);
-
+        $subOrder = SubOrder::with([
+            'order',
+            'order.payment',
+            'order.billingAddress',
+            'order.shippingAddress',
+            'items',
+            'shippingLogs',
+        ])->where('merchant_id', $this->getMerchantId())
+            ->findOrFail($orderId);
         return view($this->view . 'orders.show', [
             'authUser' => $this->auth,
-            'order'    => $order,
+            'subOrder' => $subOrder,
         ]);
     }
 
