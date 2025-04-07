@@ -617,6 +617,16 @@ footer p,
     color: #333;
 }
 
-.order-detail > p {
+.order-detail p,
+.order-detail h3,
+.order-detail-item p,
+.order-detail-item h3 {
+    font-weight: 400;
     margin-bottom: 0;
 }
+
+.order-detail-item .order-item-img {}
+
+.order-detail-item .order-item-description {}
+
+.order-detail-item .order-item-price {}

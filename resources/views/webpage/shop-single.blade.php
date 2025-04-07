@@ -71,7 +71,7 @@
     // The Add to Cart button
     const $addToCartBtn = $('#add-to-cart-btn');
 
-    // Numeric base price (no "MYR" prefix)
+    // Numeric base price (no "RM" prefix)
     let basePrice = parseFloat($('#base-price').val()) || 0.0;
 
     // Enhanced logging in allOptionsSelected: log group names and checked counts
@@ -107,7 +107,7 @@
             total += addPrice;
         });
 
-        $priceText.text('MYR' + total.toFixed(2));
+        $priceText.text('RM' + total.toFixed(2));
         $priceHint.hide();
         $addToCartBtn.prop('disabled', false);
         $('input[name="price"]').val(total);
@@ -249,9 +249,9 @@
                                 <div class="price-text price-text-data">
                                     <h3>
                                         @if(abs($minPrice - $maxPrice) < 0.0001)
-                                            {{ 'MYR' . number_format($minPrice, 2) }}
+                                            {{ 'RM' . number_format($minPrice, 2) }}
                                         @else
-                                            {{ 'MYR' . number_format($minPrice, 2) }} - {{ 'MYR' . number_format($maxPrice, 2) }}
+                                            {{ 'RM' . number_format($minPrice, 2) }} - {{ 'RM' . number_format($maxPrice, 2) }}
                                         @endif
                                         {{--<del> $ 18.00 </del>--}}
                                         {{--<span class="discounted-price"> 7% Off </span>--}}
