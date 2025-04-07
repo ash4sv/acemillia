@@ -12,6 +12,8 @@
 
                 </div>
             </div>
+            
+            {!! dd($subOrder->toArray()) !!}
 
             <div class="border border-solid p-4">
                 <div class="row">
