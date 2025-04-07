@@ -34,12 +34,12 @@
                 <hr class="py-0">
 
                 <!-- Order‑detail card -->
-                <div class="order-detail-item card p-3 mb-3">
+                <div class="order-detail-item p-3 mb-3">
                     <!-- Flex wrapper keeps all three parts in one row & equal height -->
                     <div class="d-flex align-items-stretch w-100">
                         <!-- Image column -->
                         <div class="order-item-img flex-shrink-0 me-3">
-                            <img src="https://via.placeholder.com/150" alt="Jacket" class="img-fluid">
+                            <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
                         </div>
 
                         <!-- Description column -->
