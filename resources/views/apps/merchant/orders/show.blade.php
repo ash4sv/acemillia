@@ -16,18 +16,24 @@
             <div class="border border-solid p-4">
                 <div class="row">
                     <div class="col-md-6 order-detail">
-                        <h3>Shipping Address</h3>
-                        <p>Double crrl al</p>
-                        <p>123 market street</p>
-                        <p>PA 15632,|</p>
-                        <p>USA</p>
+                        @isset($subOrder->order->billing_address)
+                        <h3>{!! __('Billing Address') !!}</h3>
+                        <p>recipient_name</p>
+                        <p>address,</p>
+                        <p>street_address,</p>
+                        <p>postcode, city,</p>
+                        <p>country</p>
+                        @endisset
                     </div>
                     <div class="col-md-6 order-detail">
-                        <h3>Shipping Address</h3>
-                        <p>Double crrl al</p>
-                        <p>123 market street</p>
-                        <p>PA 15632,|</p>
-                        <p>USA</p>
+                        @isset($subOrder->order->shipping_address)
+                        <h3>{!! __('Shipping Address') !!}</h3>
+                        <p>recipient_name</p>
+                        <p>address,</p>
+                        <p>street_address,</p>
+                        <p>postcode, city,</p>
+                        <p>country</p>
+                        @endisset
                     </div>
                 </div>
 
