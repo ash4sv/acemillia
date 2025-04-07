@@ -45,7 +45,7 @@
                         <!-- Description column -->
                         <div class="order-item-description flex-grow-1">
                             <p class="mb-1 text-muted">Jacket</p>
-                            <h3 class="h5 mb-1">Jacket</h3>
+                            <h3 class="h5 fw-bold mb-1">Jacket</h3>
                             <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
                         </div>
 
@@ -65,7 +65,7 @@
                         <!-- Description column -->
                         <div class="order-item-description flex-grow-1">
                             <p class="mb-1 text-muted">Jacket</p>
-                            <h3 class="h5 mb-1">Jacket</h3>
+                            <h3 class="h5 fw-bold mb-1">Jacket</h3>
                             <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
                         </div>
 
@@ -85,7 +85,7 @@
                         <!-- Description column -->
                         <div class="order-item-description flex-grow-1">
                             <p class="mb-1 text-muted">Jacket</p>
-                            <h3 class="h5 mb-1">Jacket</h3>
+                            <h3 class="h5 fw-bold mb-1">Jacket</h3>
                             <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
                         </div>
 
