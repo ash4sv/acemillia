@@ -12,14 +12,12 @@
 
                 </div>
             </div>
-            
-            {!! dd($subOrder->toArray()) !!}
 
             <div class="border border-solid p-4">
                 <div class="row">
                     <div class="col-md-6 order-detail">
-                        @isset($subOrder->order->billing_address)
-                            @php($b = $subOrder->order->billing_address)
+                        @isset($subOrder->order->billingAddress)
+                            @php($b = $subOrder->order->billingAddress)
                             <h3 class="h6 fw-bold mb-2">{!! __('Billing Address') !!}</h3>
                             <p class="mb-1 fw-semibold">{!! $b->recipient_name !!}</p>
                             <p class="mb-1">
@@ -37,8 +35,8 @@
                         @endisset
                     </div>
                     <div class="col-md-6 order-detail">
-                        @isset($subOrder->order->shipping_address)
-                            @php($s = $subOrder->order->shipping_address)
+                        @isset($subOrder->order->shippingAddress)
+                            @php($s = $subOrder->order->shippingAddress)
                             <h3 class="h6 fw-bold mb-2">{!! __('Shipping Address') !!}</h3>
                             <p class="mb-1 fw-semibold">{!! $s->recipient_name !!}</p>
                             <p class="mb-1">
