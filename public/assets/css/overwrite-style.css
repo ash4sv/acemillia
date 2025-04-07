@@ -656,3 +656,7 @@ footer p,
 .order-detail-item .order-itemize {
     margin-bottom: 1.25rem;
 }
+
+.order-detail-item .order-itemize:last-child {
+    margin-bottom: 0;
+}
