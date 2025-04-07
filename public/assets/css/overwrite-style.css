@@ -631,7 +631,7 @@ footer p,
 .order-detail-item .order-item-img {
     width: 80px;
     height: 80px;
-    overflow: hidden;           /* crop anything that exceeds the box */
+    overflow: hidden;            /* crop anything that exceeds the box */
     border-radius: .25rem;      /* optional: slight rounding to match BS cards */
 }
 
@@ -643,7 +643,11 @@ footer p,
 
 .order-detail-item .order-item-description,
 .order-detail-item .order-item-price {
-    display: flex;                  /* ensures equal height with image */
+    display: flex;               /* ensures equal height with image */
     flex-direction: column;
-    justify-content: flex-start;    /* vertically center text inside the row */
+    justify-content: center;    /* vertically center text inside the row */
+}
+
+.order-detail-item .order-item-price {
+    justify-content: flex-start; /* vertically center text inside the row */
 }
