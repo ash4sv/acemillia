@@ -620,13 +620,30 @@ footer p,
 .order-detail p,
 .order-detail h3,
 .order-detail-item p,
-.order-detail-item h3 {
+.order-detail-item h3,
+.order-detail-item .order-item-description p,
+.order-detail-item .order-item-description h3 {
     font-weight: 400;
     margin-bottom: 0;
 }
 
-.order-detail-item .order-item-img {}
+/* --- order‑detail custom styles --- */
+.order-item-img {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;           /* crop anything that exceeds the box */
+    border-radius: .25rem;      /* optional: slight rounding to match BS cards */
+}
 
-.order-detail-item .order-item-description {}
+.order-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* fills the square even with oversize images */
+}
 
-.order-detail-item .order-item-price {}
+.order-item-description,
+.order-item-price {
+    display: flex;              /* ensures equal height with image */
+    flex-direction: column;
+    justify-content: center;    /* vertically center text inside the row */
+}

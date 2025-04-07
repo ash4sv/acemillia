@@ -33,22 +33,25 @@
 
                 <hr class="py-0">
 
-                <div class="order-detail-item">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="order-item-img">
-                                <div class="">
-                                    <img src="" alt="" class="img-fluid">
-                                </div>
-                            </div>
-                            <div class="order-item-description">
-                                <p>Jacket</p>
-                                <h3>Jacket</h3>
-                                <p>Color: Black | Size: XL</p>
-                            </div>
-                            <div class="order-item-price">
-                                <p>RM344.00 x 1</p>
-                            </div>
+                <!-- Order‑detail card -->
+                <div class="order-detail-item card p-3 mb-3">
+                    <!-- Flex wrapper keeps all three parts in one row & equal height -->
+                    <div class="d-flex align-items-stretch w-100">
+                        <!-- Image column -->
+                        <div class="order-item-img flex-shrink-0 me-3">
+                            <img src="https://via.placeholder.com/150" alt="Jacket" class="img-fluid">
+                        </div>
+
+                        <!-- Description column -->
+                        <div class="order-item-description flex-grow-1">
+                            <p class="mb-1 small text-muted">Jacket</p>
+                            <h3 class="h5 mb-1">Jacket</h3>
+                            <p class="mb-0 small text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
+                        </div>
+
+                        <!-- Price / qty column -->
+                        <div class="order-item-price flex-shrink-0 text-end ms-auto">
+                            <p class="mb-0 fw-semibold">RM 344.00&nbsp;<span class="text-muted">× 1</span></p>
                         </div>
                     </div>
                 </div>
