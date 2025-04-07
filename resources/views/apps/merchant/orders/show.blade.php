@@ -2,7 +2,7 @@
 
 @section('user-apps-content')
 
-    <div class="dashboard-table order-detail">
+    <div class="dashboard-table">
         <div class="border border-solid p-4">
             <div class="row">
                 <div class="col-md-7">
@@ -15,14 +15,14 @@
 
             <div class="border border-solid p-4">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-6 order-detail">
                         <h3>Shipping Address</h3>
                         <p>Double crrl al</p>
                         <p>123 market street</p>
                         <p>PA 15632,|</p>
                         <p>USA</p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 order-detail">
                         <h3>Shipping Address</h3>
                         <p>Double crrl al</p>
                         <p>123 market street</p>
