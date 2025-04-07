@@ -137,7 +137,7 @@ class AppsPaymentController extends Controller
 
                                 OrderItem::create([
                                     'sub_order_id' => $subOrder->id,
-                                    'product_id' => $item['product_id'] ?? null,
+                                    'product_id' => $item['options']['item_product_id'] ?? null,
                                     'product_name' => $item['name'],
                                     'price' => $finalPrice,
                                     'quantity' => $item['quantity'],

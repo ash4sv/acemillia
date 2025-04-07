@@ -35,65 +35,23 @@
 
                 <!-- Order‑detail card -->
                 <div class="order-detail-item p-3 mb-3">
-                    <!-- Flex wrapper keeps all three parts in one row & equal height -->
+                    @forelse($subOrder->items as $i => $item)
                     <div class="order-itemize d-flex align-items-stretch w-100">
-                        <!-- Image column -->
                         <div class="order-item-img flex-shrink-0 me-3">
                             <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
                         </div>
 
-                        <!-- Description column -->
                         <div class="order-item-description flex-grow-1">
                             <p class="mb-1 text-muted">Jacket</p>
-                            <h3 class="h5 fw-medium mb-1">Jacket</h3>
+                            <h3 class="h5 fw-medium mb-1">{!! $item->product_name !!}</h3>
                             <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
                         </div>
 
-                        <!-- Price / qty column -->
                         <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
+                            <p class="mb-0">RM344.00 &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
                         </div>
                     </div>
-
-                    <!-- Flex wrapper keeps all three parts in one row & equal height -->
-                    <div class="order-itemize d-flex align-items-stretch w-100">
-                        <!-- Image column -->
-                        <div class="order-item-img flex-shrink-0 me-3">
-                            <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
-                        </div>
-
-                        <!-- Description column -->
-                        <div class="order-item-description flex-grow-1">
-                            <p class="mb-1 text-muted">Jacket</p>
-                            <h3 class="h5 fw-medium mb-1">Jacket</h3>
-                            <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
-                        </div>
-
-                        <!-- Price / qty column -->
-                        <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
-                        </div>
-                    </div>
-
-                    <!-- Flex wrapper keeps all three parts in one row & equal height -->
-                    <div class="order-itemize d-flex align-items-stretch w-100">
-                        <!-- Image column -->
-                        <div class="order-item-img flex-shrink-0 me-3">
-                            <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
-                        </div>
-
-                        <!-- Description column -->
-                        <div class="order-item-description flex-grow-1">
-                            <p class="mb-1 text-muted">Jacket</p>
-                            <h3 class="h5 fw-medium mb-1">Jacket</h3>
-                            <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
-                        </div>
-
-                        <!-- Price / qty column -->
-                        <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0">RM344.00 &nbsp;<span class="text-muted"> × 1</span></p>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
 
                 <hr class="py-0 mt-0">
