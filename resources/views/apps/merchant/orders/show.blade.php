@@ -48,12 +48,12 @@
                         </div>
 
                         <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0">RM344.00 &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
+                            <p class="mb-0">{!! 'RM' . number_format($item->price, 2) !!} &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
                         </div>
                     </div>
                     @empty
                     <div class="order-itemize d-flex align-items-stretch w-100">
-                        
+
                     </div>
                     @endforelse
                 </div>
