@@ -51,6 +51,10 @@
                             <p class="mb-0">RM344.00 &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
                         </div>
                     </div>
+                    @empty
+                    <div class="order-itemize d-flex align-items-stretch w-100">
+                        
+                    </div>
                     @endforelse
                 </div>
 
