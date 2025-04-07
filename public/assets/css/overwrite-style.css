@@ -643,6 +643,7 @@ footer p,
 
 .order-detail-item .order-item-description,
 .order-detail-item .order-item-price {
+    padding: .25rem 0;
     display: flex;               /* ensures equal height with image */
     flex-direction: column;
     justify-content: center;    /* vertically center text inside the row */
