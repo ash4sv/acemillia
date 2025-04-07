@@ -628,21 +628,21 @@ footer p,
 }
 
 /* --- order‑detail custom styles --- */
-.order-item-img {
+.order-detail-item .order-item-img {
     width: 80px;
     height: 80px;
     overflow: hidden;           /* crop anything that exceeds the box */
     border-radius: .25rem;      /* optional: slight rounding to match BS cards */
 }
 
-.order-item-img img {
+.order-detail-item .order-item-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;          /* fills the square even with oversize images */
 }
 
-.order-item-description,
-.order-item-price {
+.order-detail-item .order-item-description,
+.order-detail-item .order-item-price {
     display: flex;              /* ensures equal height with image */
     flex-direction: column;
     justify-content: center;    /* vertically center text inside the row */
