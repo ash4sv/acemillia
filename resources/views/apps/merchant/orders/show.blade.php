@@ -100,7 +100,7 @@
                                 'delivered' => 'Delivered Successfully',
                                 'cancelled' => 'Shipment Cancelled',
                             ];
-                            $paymentBorderColors = [
+                            $shippingBorderColors = [
                                 'pending'   => 'border-light',
                                 'shipped'   => 'border-primary',
                                 'delivered' => 'border-success',
@@ -114,7 +114,7 @@
                             ];
 
                             $shippingStatusSubLabel = $shippingStatusSubLabels[$shippingStatus] ?? 'Test';
-                            $paymentBorderColor     = $paymentBorderColors[$paymentStatus] ?? 'border-light';
+                            $shippingBorderColor    = $shippingBorderColors[$paymentStatus] ?? 'border-light';
                             $shippingIconLabel      = $shippingIconLabels[$shippingStatus] ?? 'Test';
                         @endphp
                         <div class="card-body p-2 border {{ $paymentBorderColor }}">
@@ -148,19 +148,19 @@
                                  'Complete'    => 'ri-check-double-line',  // e.g., icon for complete order
                                  'In Progress' => 'ri-progress-5-line',       // e.g., icon for in-progress order  < i class=""></i>
                             ];
-                            $orderIconLabel = $cardIconLabels[$cardStatus] ?? 'Test';
 
-
-                            $paymentBorderColors = [
+                            $orderBorderColors = [
                                 'Complete'    => 'border-success',
                                 'In Progress' => 'border-primary',
                             ];
-                            $paymentBorderColor = $paymentBorderColors[$paymentStatus] ?? 'border-light';
 
                             $cardIconClassMapping = [
                                  'Complete'    => 'bg-completed',  // your complete order icon style
                                  'In Progress' => 'bg-pending',    // your in progress order icon style
                             ];
+
+                            $orderIconLabel = $cardIconLabels[$cardStatus] ?? 'Test';
+                            $orderBorderColor = $orderBorderColors[$cardStatus] ?? 'border-light';
                             $cardIconClass = $cardIconClassMapping[$cardStatus] ?? 'bg-default';
                         @endphp
                         <div class="card-body p-2 border {{ $paymentBorderColor }}">
