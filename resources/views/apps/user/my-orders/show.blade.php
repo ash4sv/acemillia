@@ -258,7 +258,7 @@
                 <p>No suborders found.</p>
             @endforelse
 
-            <div class="border border-solid p-4">
+            <div class="border border-solid p-4 mt-2">
                 <h4 class="mb-4">Order Summary</h4>
                 <div class="single-cart-item d-flex align-items-stretch">
                     <div class="box flex-shrink-0">
