@@ -11,6 +11,24 @@
 
 @push('script')
     <script src="{!! asset('assets/js/compare-class.js') !!}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.shortcut-add-to-cart').each(function(){
+                var $form = $(this);
+                var basePrice = parseFloat($form.find('input[name="base-price"]').val());
+                var additionalTotal = 0;
+
+                $form.find('input[type="radio"]:checked').each(function(){
+                    var addPrice = parseFloat($(this).data('additional-price')) || 0;
+                    additionalTotal += addPrice;
+                });
+
+                var finalPrice = basePrice + additionalTotal;
+
+                $form.find('input[name="price"]').val(finalPrice.toFixed(2));
+            });
+        });
+    </script>
 @endpush
 
 @section('webpage')
@@ -110,6 +128,7 @@
                 @forelse($specialOffers as $key => $specialOffer)
                     @php
                         $specialOfferUrl = route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]);
+                        [$minPrice, $maxPrice] = $specialOffer?->product?->min_max_price;
                     @endphp
                 <div class="col">
                     <div class="basic-product theme-product-4">
@@ -125,9 +144,32 @@
                                 <a href="#!" title="Add to Wishlist" class="wishlist-icon">
                                     <i class="ri-heart-line"></i>
                                 </a>
-                                {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                <a href="javascript:void(0);" onclick="event.preventDefault(); $('#add-to-cart-{{ __($specialOffer?->product?->slug . '-' . $specialOffer?->product?->id) }}').trigger('submit');">
                                     <i class="ri-shopping-cart-line"></i>
-                                </button>--}}
+                                </a>
+                                <form class="shortcut-add-to-cart" id="add-to-cart-{{ __($specialOffer?->product?->slug . '-' . $specialOffer?->product?->id) }}" action="{{ route('purchase.add-to-cart') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product" readonly value="{{ $specialOffer?->product?->id }}">
+                                    <input type="hidden" name="price" readonly value="{{ $specialOffer?->product?->price }}">
+                                    <input type="hidden" name="base-price" class="base-price" value="{{ (float) $specialOffer?->product?->getRawOriginal('price') }}">
+                                    <input type="hidden" name="quantity" value="1" />
+                                    @php
+                                        $sortedOptions = $specialOffer?->product->options->sortBy('name');
+                                    @endphp
+                                    @foreach($sortedOptions as $p => $option)
+                                        <input type="hidden" name="options[{{ $p }}][option]" value="{{ $option->id }}">
+                                        @forelse($option->values as $i => $value)
+                                            <input type="radio"
+                                                   id="option{{ $p }}-{{ $i }}"
+                                                   name="options[{{ $p }}][value]"
+                                                   value="{{ $value->id }}"
+                                                   data-additional-price="{{ $value->additional_price }}"
+                                                {{ $loop->first ? 'checked' : '' }} hidden>
+                                        @empty
+                                            {{-- No values for this option --}}
+                                        @endforelse
+                                    @endforeach
+                                </form>
                                 <a href="#quickView" data-bs-toggle="modal" title="Quick View">
                                     <i class="ri-eye-line"></i>
                                 </a>
@@ -156,7 +198,13 @@
                                 <span>(10)</span>--}}
                             </div>
                             <h4 class="price">
-                                {!! __($specialOffer?->product?->price) !!}
+                                @if(abs($minPrice - $maxPrice) < 0.0001)
+                                    {{ 'RM' . number_format($minPrice, 2) }}
+                                @else
+                                    {{ 'RM' . number_format($minPrice, 2) }}
+                                    -
+                                    {{ 'RM' . number_format($maxPrice, 2) }}
+                                @endif
                                 {{--<del class="ms-auto"> $20.00 </del>--}}
                                 {{--<span class="discounted-price">8% Off </span>--}}
                             </h4>
@@ -244,7 +292,8 @@
                                 <div class="four-product row dark-box">
                                     @forelse($products as $key => $product)
                                         @php
-                                            $urlProduct = route('web.shop.product', [$product?->categories?->first()->menus?->first()->slug, $product?->categories?->pluck('slug')->first(), $product?->slug])
+                                            $urlProduct = route('web.shop.product', [$product?->categories?->first()->menus?->first()->slug, $product?->categories?->pluck('slug')->first(), $product?->slug]);
+                                            [$minPrice, $maxPrice] = $product->min_max_price;
                                         @endphp
                                         <div class="col">
                                             <div class="basic-product theme-product-4">
@@ -256,9 +305,33 @@
                                                         <a href="#!" title="Add to Wishlist" class="wishlist-icon">
                                                             <i class="ri-heart-line"></i>
                                                         </a>
-                                                        {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                                        <a href="javascript:void(0);" onclick="event.preventDefault(); $('#add-to-cart-{{ __($product->slug . '-' . $product->id) }}').trigger('submit');">
                                                             <i class="ri-shopping-cart-line"></i>
-                                                        </button>--}}
+                                                        </a>
+                                                        <form class="shortcut-add-to-cart" id="add-to-cart-{{ __($product->slug . '-' . $product->id) }}" action="{{ route('purchase.add-to-cart') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="product" readonly value="{{ $product->id }}">
+                                                            <input type="hidden" name="price" readonly value="{{ $product->price }}">
+                                                            <input type="hidden" name="base-price" class="base-price" value="{{ (float) $product->getRawOriginal('price') }}">
+                                                            <input type="hidden" name="quantity" value="1" />
+                                                            @php
+                                                                $sortedOptions = $product->options->sortBy('name');
+                                                            @endphp
+                                                            @foreach($sortedOptions as $p => $option)
+                                                                <input type="hidden" name="options[{{ $p }}][option]" value="{{ $option->id }}">
+
+                                                                @forelse($option->values as $i => $value)
+                                                                    <input type="radio"
+                                                                           id="option{{ $p }}-{{ $i }}"
+                                                                           name="options[{{ $p }}][value]"
+                                                                           value="{{ $value->id }}"
+                                                                           data-additional-price="{{ $value->additional_price }}"
+                                                                        {{ $loop->first ? 'checked' : '' }} hidden>
+                                                                @empty
+                                                                    {{-- No values for this option --}}
+                                                                @endforelse
+                                                            @endforeach
+                                                        </form>
                                                         <a href="#quickView" data-bs-toggle="modal" title="Quick View">
                                                             <i class="ri-eye-line"></i>
                                                         </a>
@@ -287,7 +360,13 @@
                                                         <span>(10)</span>--}}
                                                     </div>
                                                     <h4 class="price">
-                                                        {!! $product->price !!}
+                                                        @if(abs($minPrice - $maxPrice) < 0.0001)
+                                                            {{ 'RM' . number_format($minPrice, 2) }}
+                                                        @else
+                                                            {{ 'RM' . number_format($minPrice, 2) }}
+                                                            -
+                                                            {{ 'RM' . number_format($maxPrice, 2) }}
+                                                        @endif
                                                         {{--<del class="ms-auto"> $20.00 </del>--}}
                                                         {{--<span class="discounted-price">8% Off </span>--}}
                                                     </h4>
