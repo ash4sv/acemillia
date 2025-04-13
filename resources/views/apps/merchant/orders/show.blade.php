@@ -95,10 +95,10 @@
                                 'cancelled' => 'Shipment Cancelled',
                             ];
                             $shippingIconLabels = [
-                                'pending'   => 'clock',
-                                'shipped'   => 'truck',
-                                'delivered' => 'check',
-                                'cancelled' => 'ban',
+                                'pending'   => 'ri-list-check-3',
+                                'shipped'   => 'ri-truck-line',
+                                'delivered' => 'ri-check-line',
+                                'cancelled' => 'ri-close-large-line',
                             ];
 
                             $shippingStatusSubLabel = $shippingStatusSubLabels[$shippingStatus] ?? 'Test';
