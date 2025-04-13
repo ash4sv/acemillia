@@ -12,80 +12,179 @@
 
                 </div>
             </div>
-            <div class="row g-sm-1 g-2 mb-sm-0 mb-2">
-                <div class="col-md-3 col-12">
-                    <div class="card my-sm-3 my-0">
-                        <div class="card-body p-2 border border-light">
-                            <div class="d-flex flex-column flex-md-row align-items-stretch">
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line bg-pending"></i>
-                                </div>
-                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <p class="fw-bold mb-1">Order made</p>
-                                    <p class="small fw-light mb-0">Create order</p>
-                                </div>
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
 
+            @forelse($order->subOrders as $i => $subOrder)
+                <div class="row g-sm-1 g-2 mb-sm-0 mb-2">
+                    <div class="col-md-3 col-12">
+                        <div class="card my-sm-3 my-0">
+                            <div class="card-body p-2 border border-light">
+                                <div class="d-flex flex-column flex-md-row align-items-stretch">
+                                    <div class="box-custom-container flex-shrink-0 align-content-center">
+                                        <i class="ri-home-line bg-pending"></i>
+                                    </div>
+                                    <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                        <p class="fw-bold mb-1">Order made</p>
+                                        <p class="small fw-light mb-0">Create order</p>
+                                    </div>
+                                    <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <div class="card my-sm-3 my-0">
+                            @php
+                                $paymentStatus = $order->payment_status;
+
+                                $paymentStatusClassMap = [
+                                    'pending' => 'bg-pending',
+                                    'paid'    => 'bg-credit',
+                                    'failed'  => 'bg-debit',
+                                ];
+                                $paymentStatusClass = $paymentStatusClassMap[$paymentStatus] ?? 'bg-default';
+                                $paymentStatusLabel = ucfirst($paymentStatus);
+
+                                $paymentStatusSubLabels = [
+                                    'pending' => 'Awaiting Payment Confirmation',
+                                    'paid'    => 'Payment Completed',
+                                    'failed'  => 'Payment Failed',
+                                ];
+                                $paymentBorderColors = [
+                                    'pending' => 'border-light',
+                                    'paid'    => 'border-success',
+                                    'failed'  => 'border-danger',
+                                ];
+                                $paymentIconLabels = [
+                                    'pending' => 'ri-loader-3-line',
+                                    'paid'    => 'ri-check-line',
+                                    'failed'  => 'ri-close-large-line',
+                                ];
+
+                                $paymentStatusSubLabel = $paymentStatusSubLabels[$paymentStatus] ?? 'Test';
+                                $paymentBorderColor    = $paymentBorderColors[$paymentStatus] ?? 'border-light';
+                                $paymentIconLabel      = $paymentIconLabels[$paymentStatus] ?? 'Test';
+                            @endphp
+                            <div class="card-body p-2 border {{ $paymentBorderColor }}">
+                                <div class="d-flex flex-column flex-md-row align-items-stretch">
+                                    <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start">
+                                        <i class="{{ $paymentIconLabel }} {{ $paymentStatusClass }}"></i>
+                                    </div>
+                                    <div class="box-custom-container flex-grow-1 align-content-center mx-2 text-sm-start">
+                                        <p class="fw-bold mb-1">{{ $paymentStatusLabel }}</p>
+                                        <p class="small fw-light mb-0">{{ $paymentStatusLabel }}s</p>
+                                    </div>
+                                    <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <div class="card my-sm-3 my-0">
+                            @php
+                                $shippingStatus = $subOrder->shipping_status;
+
+                                $shippingStatusClassMap = [
+                                    'pending'   => 'bg-pending',
+                                    'shipped'   => 'bg-credit',
+                                    'delivered' => 'bg-completed',
+                                    'cancelled' => 'bg-debit',
+                                ];
+                                $shippingStatusClass = $shippingStatusClassMap[$shippingStatus] ?? 'bg-default';
+                                $shippingStatusLabel = ucfirst($shippingStatus);
+
+                                $shippingStatusSubLabels = [
+                                    'pending'   => 'Awaiting Shipment',
+                                    'shipped'   => 'On the Way',
+                                    'delivered' => 'Delivered Successfully',
+                                    'cancelled' => 'Shipment Cancelled',
+                                ];
+                                $shippingBorderColors = [
+                                    'pending'   => 'border-light',
+                                    'shipped'   => 'border-primary',
+                                    'delivered' => 'border-success',
+                                    'cancelled' => 'border-danger',
+                                ];
+                                $shippingIconLabels = [
+                                    'pending'   => 'ri-list-check-3',
+                                    'shipped'   => 'ri-truck-line',
+                                    'delivered' => 'ri-check-line',
+                                    'cancelled' => 'ri-close-large-line',
+                                ];
+
+                                $shippingStatusSubLabel = $shippingStatusSubLabels[$shippingStatus] ?? 'Test';
+                                $shippingBorderColor    = $shippingBorderColors[$shippingStatus] ?? 'border-light';
+                                $shippingIconLabel      = $shippingIconLabels[$shippingStatus] ?? 'Test';
+                            @endphp
+                            <div class="card-body p-2 border {{ $shippingBorderColor }}">
+                                <div class="d-flex flex-column flex-md-row align-items-stretch">
+                                    <div class="box-custom-container flex-shrink-0 align-content-center">
+                                        <i class="{{ $shippingIconLabel }} {{ $shippingStatusClass }}"></i>
+                                    </div>
+                                    <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                        <p class="fw-bold mb-1">{{ $shippingStatusLabel }}</p>
+                                        <p class="small fw-light mb-0">{{ $shippingStatusSubLabel }}</p>
+                                    </div>
+                                    <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <div class="card my-sm-3 my-0">
+                            @php
+                                $paymentStatus = $order->payment_status;
+                                $shippingStatus = $subOrder->shipping_status;
+
+                                $orderComplete = ($paymentStatus === 'paid' && $shippingStatus === 'delivered');
+
+                                $cardStatus  = $orderComplete ? 'Complete' : 'In Progress';
+                                $cardMessage = $orderComplete ? 'Order completed' : 'Order in progress';
+
+                                $cardIconLabels = [
+                                     'Complete'    => 'ri-check-double-line',  // e.g., icon for complete order
+                                     'In Progress' => 'ri-progress-5-line',       // e.g., icon for in-progress order  < i class=""></i>
+                                ];
+
+                                $orderBorderColors = [
+                                    'Complete'    => 'border-success',
+                                    'In Progress' => 'border-light',
+                                ];
+
+                                $cardIconClassMapping = [
+                                     'Complete'    => 'bg-completed',  // your complete order icon style
+                                     'In Progress' => 'bg-pending',    // your in progress order icon style
+                                ];
+
+                                $orderIconLabel = $cardIconLabels[$cardStatus] ?? 'Test';
+                                $orderBorderColor = $orderBorderColors[$cardStatus] ?? 'border-light';
+                                $cardIconClass = $cardIconClassMapping[$cardStatus] ?? 'bg-default';
+                            @endphp
+                            <div class="card-body p-2 border {{ $orderBorderColor }}">
+                                <div class="d-flex flex-column flex-md-row align-items-stretch">
+                                    <div class="box-custom-container flex-shrink-0 align-content-center">
+                                        <i class="{{ $orderIconLabel }} {{ $cardIconClass }}"></i>
+                                    </div>
+                                    <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                        <p class="fw-bold mb-1">{{ $cardStatus }}</p>
+                                        <p class="small fw-light mb-0">{{ $cardMessage }}</p>
+                                    </div>
+                                    <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 col-12">
-                    <div class="card my-sm-3 my-0">
-                        <div class="card-body p-2 border border-light">
-                            <div class="d-flex flex-column flex-md-row align-items-stretch">
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line bg-pending"></i>
-                                </div>
-                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <p class="fw-bold mb-1">Order made</p>
-                                    <p class="small fw-light mb-0">Create order</p>
-                                </div>
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
+            @empty
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-12">
-                    <div class="card my-sm-3 my-0">
-                        <div class="card-body p-2 border border-light">
-                            <div class="d-flex flex-column flex-md-row align-items-stretch">
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line bg-pending"></i>
-                                </div>
-                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <p class="fw-bold mb-1">Order made</p>
-                                    <p class="small fw-light mb-0">Create order</p>
-                                </div>
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-12">
-                    <div class="card my-sm-3 my-0">
-                        <div class="card-body p-2 border border-light">
-                            <div class="d-flex flex-column flex-md-row align-items-stretch">
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line bg-pending"></i>
-                                </div>
-                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <p class="fw-bold mb-1">Order made</p>
-                                    <p class="small fw-light mb-0">Create order</p>
-                                </div>
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforelse
 
             <div class="border border-solid p-4">
                 <div class="row">
