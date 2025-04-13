@@ -25,6 +25,8 @@
                             <p>{{ $b->postcode }}, {{ $b->city }}</p>
                             <p>{{ $b->state }}, {{ $b->country }}</p>
                             <p>{{ $b->phone }}</p>
+                        @else
+
                         @endif
                     </div>
                     <!-- Shipping Address -->
@@ -37,6 +39,8 @@
                             <p>{{ $s->postcode }}, {{ $s->city }}</p>
                             <p>{{ $s->state }}, {{ $s->country }}</p>
                             <p>{{ $s->phone }}</p>
+                        @else
+
                         @endif
                     </div>
                 </div>
