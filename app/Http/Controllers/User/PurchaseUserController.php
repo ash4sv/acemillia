@@ -89,7 +89,7 @@ class PurchaseUserController extends Controller
         }
 
         Alert::success('Success', 'Product added to cart.');
-        return redirect()->back();
+        return back();
     }
 
     public function updateCartQuantity(Request $request)
@@ -153,7 +153,7 @@ class PurchaseUserController extends Controller
     {
         Cart::remove($id);
         Alert::success('Success', 'Booths removed from cart successfully.');
-        return redirect()->back();
+        return back();
     }
 
     public function removeOptionGroup($productId, $groupKey)
@@ -162,7 +162,7 @@ class PurchaseUserController extends Controller
         $existingItem = Cart::get($productId);
         if (!$existingItem) {
             Alert::error('Error', 'Product not found in cart.');
-            return redirect()->back();
+            return back();
         }
 
         // If Cart::get returns an array, use the first CartItem.
@@ -177,7 +177,7 @@ class PurchaseUserController extends Controller
         // Validate that the provided group key exists.
         if (!isset($optionGroups[$groupKey])) {
             Alert::error('Error', 'Option group not found.');
-            return redirect()->back();
+            return back();
         }
 
         // Remove the option group at the specified key.
@@ -203,7 +203,7 @@ class PurchaseUserController extends Controller
             Alert::success('Success', 'Option group removed from cart.');
         }
 
-        return redirect()->back();
+        return back();
     }
 
     public function clearCart(Request $request)
@@ -211,7 +211,7 @@ class PurchaseUserController extends Controller
         Cart::removeCoupon();
         Cart::clear();
         Alert::success('Success', 'Your cart cleared successfully.');
-        return redirect()->back();
+        return back();
     }
 
     public function viewCart()
