@@ -12,8 +12,8 @@
 
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
+            <div class="row g-1">
+                <div class="col-md-4 col-12">
                     <div class="card my-3">
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-md-4 col-12">
                     <div class="card my-3">
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
@@ -48,7 +48,8 @@
                             </div>
                         </div>
                     </div>
-                </div><div class="col">
+                </div>
+                <div class="col-md-4 col-12">
                     <div class="card my-3">
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
@@ -65,7 +66,8 @@
                             </div>
                         </div>
                     </div>
-                </div><div class="col">
+                </div>
+                <div class="col-md-4 col-12">
                     <div class="card my-3">
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
