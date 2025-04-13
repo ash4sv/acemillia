@@ -3,13 +3,12 @@
 @section('user-apps-content')
 
     <div class="dashboard-table">
-        <div class="wallet-table">
-            <div class="top-sec">
-                <h3>{!! __('My Order') !!}</h3>
-                {{--<a href="#!" class="btn btn-sm btn-solid">add product</a>--}}
+        <div class="row">
+            <div class="col-md-7">
+                <h3>Order ID : TXIND953621</h3>
             </div>
-            <div>
-                {!! $order !!}
+            <div class="col-md-5">
+
             </div>
         </div>
     </div>
