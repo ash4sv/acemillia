@@ -244,13 +244,13 @@
                 <h4>Order Summary</h4>
                 <div class="single-cart-item d-flex align-items-stretch">
                     <div class="box flex-shrink-0">
-                        <h4 class="fw-bold">Total Sales</h4>
+                        <h4 class="fw-medium">Total Sales</h4>
                     </div>
                     <div class="box flex-grow-1">
 
                     </div>
                     <div class="box flex-shrink-0 text-end">
-                        <h4 class="fw-bold">{!! 'RM' . $subOrder->subtotal !!}</h4>
+                        <h4 class="fw-medium">{!! $subOrder->subtotal !!}</h4>
                     </div>
                 </div>
             </div>
