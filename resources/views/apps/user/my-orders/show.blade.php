@@ -44,7 +44,7 @@
 
             {{-- Loop through each suborder and display order tracking information --}}
             @foreach($order->subOrders as $subOrder)
-                <div class="row g-sm-1 g-2 mb-sm-0 mb-2">
+                {{--<div class="row g-sm-1 g-2 mb-sm-0 mb-2">
                     <!-- Order Made Card -->
                     <div class="col-md-3 col-12">
                         <div class="card my-sm-3 my-0">
@@ -208,11 +208,11 @@
                     </div>
                 </div>
 
-                {{-- Display items for this suborder --}}
+                --}}{{-- Display items for this suborder --}}{{--
                 <div class="border border-solid p-4">
                     <hr class="py-0">
                     <div class="order-detail-item p-3 mb-3">
-                        {{--@foreach($subOrder->items as $item)
+                        --}}{{--@foreach($subOrder->items as $item)
                             <div class="order-itemize d-flex align-items-stretch w-100">
                                 <div class="order-item-img flex-shrink-0 me-3">
                                     <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
@@ -226,7 +226,7 @@
                                     <p class="mb-0">RM{{ number_format($item->price, 2) }} &nbsp;<span class="text-muted">× {{ $item->quantity }}</span></p>
                                 </div>
                             </div>
-                        @endforeach--}}
+                        @endforeach--}}{{--
                     </div>
                     <hr class="py-0 mt-0">
                     <h4 class="mb-4">Order Summary</h4>
@@ -241,7 +241,7 @@
                             <h4 class="fw-medium">{{ $order->total_amount }}</h4>
                         </div>
                     </div>
-                </div>
+                </div>--}}
             @endforeach
         </div>
     </div>
