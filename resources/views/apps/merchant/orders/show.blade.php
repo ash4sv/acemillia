@@ -250,7 +250,7 @@
 
                     </div>
                     <div class="box flex-shrink-0">
-                        {{ 'RM' . number_format($subOrder->subtotal, 2) }}
+                        {{--{{ 'RM' . number_format($subOrder->subtotal, 2) }}--}}
                     </div>
                 </div>
             </div>
