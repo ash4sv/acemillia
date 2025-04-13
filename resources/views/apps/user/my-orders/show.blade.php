@@ -17,31 +17,31 @@
                 <div class="row">
                     <!-- Billing Address -->
                     <div class="col-md-6 order-detail">
-                        @if(isset($order->billingAddress))
-                            @php($b = $order->billingAddress)
+                        @isset($order->billingAddress)
+                            @php
+                                $b = $order->billingAddress
+                            @endphp
                             <h3 class="fw-bold">{{ __('Billing Address') }}</h3>
                             <p class="fw-semibold">{{ $b->recipient_name }}</p>
                             <p>{{ $b->street_address }}, {{ $b->address }}</p>
                             <p>{{ $b->postcode }}, {{ $b->city }}</p>
                             <p>{{ $b->state }}, {{ $b->country }}</p>
                             <p>{{ $b->phone }}</p>
-                        @else
-
-                        @endif
+                        @endisset
                     </div>
                     <!-- Shipping Address -->
                     <div class="col-md-6 order-detail">
-                        @if(isset($order->shippingAddress))
-                            @php($s = $order->shippingAddress)
+                        @isset($order->shippingAddress)
+                            @php
+                                $s = $order->shippingAddress
+                            @endphp
                             <h3 class="fw-bold">{{ __('Shipping Address') }}</h3>
                             <p class="fw-semibold">{{ $s->recipient_name }}</p>
                             <p>{{ $s->street_address }}, {{ $s->address }}</p>
                             <p>{{ $s->postcode }}, {{ $s->city }}</p>
                             <p>{{ $s->state }}, {{ $s->country }}</p>
                             <p>{{ $s->phone }}</p>
-                        @else
-
-                        @endif
+                        @endisset
                     </div>
                 </div>
             </div>
