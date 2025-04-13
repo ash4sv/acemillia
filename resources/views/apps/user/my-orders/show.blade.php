@@ -116,7 +116,8 @@
                 <hr class="py-0">
 
                 <div class="order-detail-item p-3 mb-3">
-                    @forelse($order->subOrders as $i => $item)
+                    @forelse($order->subOrders as $i => $subOrder)
+                        @forelse($subOrder->items as $j => $item)
                         <div class="order-itemize d-flex align-items-stretch w-100">
                             <div class="order-item-img flex-shrink-0 me-3">
                                 <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
@@ -132,6 +133,9 @@
                                 <p class="mb-0">{!! 'RM' . number_format($item->price, 2) !!} &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
                             </div>
                         </div>
+                        @empty
+
+                        @endforelse
                     @empty
                         <div class="order-itemize d-flex align-items-stretch w-100">
                             <div class="flex-grow-1 text-center py-5">
