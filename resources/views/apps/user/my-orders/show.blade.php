@@ -43,7 +43,7 @@
             </div>
 
             {{-- Loop through each suborder and display order tracking information --}}
-            @forelse($order->subOrders as $subOrder)
+            @foreach($order->subOrders as $subOrder)
                 <div class="row g-sm-1 g-2 mb-sm-0 mb-2">
                     <!-- Order Made Card -->
                     <div class="col-md-3 col-12">
@@ -212,7 +212,7 @@
                 <div class="border border-solid p-4">
                     <hr class="py-0">
                     <div class="order-detail-item p-3 mb-3">
-                        @forelse($subOrder->items as $item)
+                        @foreach($subOrder->items as $item)
                             <div class="order-itemize d-flex align-items-stretch w-100">
                                 <div class="order-item-img flex-shrink-0 me-3">
                                     <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
@@ -226,15 +226,7 @@
                                     <p class="mb-0">RM{{ number_format($item->price, 2) }} &nbsp;<span class="text-muted">× {{ $item->quantity }}</span></p>
                                 </div>
                             </div>
-                        @empty
-                            <div class="order-itemize d-flex align-items-stretch w-100">
-                                <div class="flex-grow-1 text-center py-5">
-                                    <h3 class="m-0 text-center">
-                                        No valid items found for this order — they may have been removed or never existed.
-                                    </h3>
-                                </div>
-                            </div>
-                        @endforelse
+                        @endforeach
                     </div>
                     <hr class="py-0 mt-0">
                     <h4 class="mb-4">Order Summary</h4>
@@ -250,9 +242,7 @@
                         </div>
                     </div>
                 </div>
-            @empty
-                <p>No suborders found.</p>
-            @endforelse
+            @endforeach
         </div>
     </div>
 
