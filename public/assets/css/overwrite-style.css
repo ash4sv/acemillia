@@ -682,6 +682,6 @@ footer p,
 }
 @media (max-width: 991px) {
     .box-custom-container i {
-        background-color: inherit;
+        /*background-color: inherit;*/
     }
 }
