@@ -100,6 +100,12 @@
                                 'delivered' => 'Delivered Successfully',
                                 'cancelled' => 'Shipment Cancelled',
                             ];
+                            $paymentBorderColors = [
+                                'pending'   => 'border-light',
+                                'shipped'   => 'border-primary',
+                                'delivered' => 'border-success',
+                                'cancelled' => 'border-danger',
+                            ];
                             $shippingIconLabels = [
                                 'pending'   => 'ri-list-check-3',
                                 'shipped'   => 'ri-truck-line',
@@ -108,9 +114,10 @@
                             ];
 
                             $shippingStatusSubLabel = $shippingStatusSubLabels[$shippingStatus] ?? 'Test';
-                            $shippingIconLabel = $shippingIconLabels[$shippingStatus] ?? 'Test';
+                            $paymentBorderColor     = $paymentBorderColors[$paymentStatus] ?? 'border-light';
+                            $shippingIconLabel      = $shippingIconLabels[$shippingStatus] ?? 'Test';
                         @endphp
-                        <div class="card-body p-2 border border-light">
+                        <div class="card-body p-2 border {{ $paymentBorderColor }}">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
                                     <i class="{{ $shippingIconLabel }} {{ $shippingStatusClass }}"></i>
