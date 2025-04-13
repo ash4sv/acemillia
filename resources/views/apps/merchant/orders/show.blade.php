@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-12">
-                    <div class="card my-3">
+                    <div class="card my-sm-3 my-0">
                         @php
                             $paymentStatus = $subOrder->order->payment_status;
 
@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-12">
-                    <div class="card my-3">
+                    <div class="card my-sm-3 my-0">
                         @php
                             $shippingStatus = $subOrder->shipping_status;
 
@@ -134,7 +134,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-12">
-                    <div class="card my-3">
+                    <div class="card my-sm-3 my-0">
                         @php
                             $paymentStatus = $subOrder->order->payment_status;
                             $shippingStatus = $subOrder->shipping_status;
