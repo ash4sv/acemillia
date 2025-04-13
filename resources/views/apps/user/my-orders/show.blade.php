@@ -45,7 +45,7 @@
                 <hr class="py-0">
 
                 <div class="order-detail-item p-3 mb-3">
-                    @forelse($order->subOrders->items as $i => $item)
+                    @forelse($order->subOrders as $i => $item)
                         <div class="order-itemize d-flex align-items-stretch w-100">
                             <div class="order-item-img flex-shrink-0 me-3">
                                 <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
@@ -74,7 +74,7 @@
 
                 <hr class="py-0 mt-0">
 
-                
+
             </div>
         </div>
     </div>
