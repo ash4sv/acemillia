@@ -3,7 +3,7 @@
 @section('user-apps-content')
 
     <div class="dashboard-table">
-        <div class="border border-solid p-5">
+        <div class="border border-solid p-sm-2 p-5">
             <div class="row">
                 <div class="col-md-7">
                     <h3>Order ID : TXIND953621</h3>
