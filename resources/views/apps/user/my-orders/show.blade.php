@@ -212,7 +212,7 @@
                     </div>
                 </div>
 
-                 Display items for this suborder
+                 {{-- Display items for this suborder --}}
                 <div class="border border-solid p-4">
                     <hr class="py-0">
                     <div class="order-detail-item p-3 mb-3">
@@ -231,7 +231,13 @@
                                 </div>
                             </div>
                         @empty
-
+                            <div class="order-itemize d-flex align-items-stretch w-100">
+                                <div class="flex-grow-1 text-center py-5">
+                                    <h3 class="m-0 text-center">
+                                        No valid items found for this order — they may have been removed or never existed.
+                                    </h3>
+                                </div>
+                            </div>
                         @endforelse
                     </div>
                     <hr class="py-0 mt-0">
@@ -249,7 +255,7 @@
                     </div>
                 </div>
             @empty
-
+                <p>No suborders found.</p>
             @endforelse
         </div>
     </div>
