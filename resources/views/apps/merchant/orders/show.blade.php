@@ -151,7 +151,7 @@
 
                             $orderBorderColors = [
                                 'Complete'    => 'border-success',
-                                'In Progress' => 'border-primary',
+                                'In Progress' => 'border-light',
                             ];
 
                             $cardIconClassMapping = [
