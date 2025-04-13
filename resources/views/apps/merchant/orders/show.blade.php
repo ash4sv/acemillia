@@ -21,8 +21,8 @@
 
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <h5 class="fw-bold">Order made</h5>
-                                    <p class="small fw-light">Create order</p>
+                                    <p class="fw-bold mb-1">Order made</p>
+                                    <p class="small fw-light mb-0">Create order</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -39,8 +39,8 @@
 
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <h5 class="fw-bold">Order paid</h5>
-                                    <p class="small fw-light">Customer payment</p>
+                                    <p class="fw-bold mb-1">Order paid</p>
+                                    <p class="small fw-light mb-0">Customer payment</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -56,8 +56,8 @@
 
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <h5 class="fw-bold">Shipped Complete</h5>
-                                    <p class="small fw-light">On delivery</p>
+                                    <p class="fw-bold mb-1">Shipped Complete</p>
+                                    <p class="small fw-light mb-0">On delivery</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -73,8 +73,8 @@
 
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <h5 class="fw-bold">Complete</h5>
-                                    <p class="small fw-light">Order completed</p>
+                                    <p class="fw-bold mb-1">Complete</p>
+                                    <p class="small fw-light mb-0">Order completed</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
