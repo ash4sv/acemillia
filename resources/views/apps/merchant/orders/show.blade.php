@@ -3,7 +3,7 @@
 @section('user-apps-content')
 
     <div class="dashboard-table">
-        <div class="border border-solid p-sm-2 p-5">
+        <div class="border border-solid p-sm-5 p-2">
             <div class="row">
                 <div class="col-md-7">
                     <h3>Order ID : TXIND953621</h3>
@@ -17,14 +17,14 @@
                     <div class="card my-3">
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start text-center">
                                     <i class="ri-home-line bg-pending"></i>
                                 </div>
-                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2 text-sm-start text-center">
                                     <p class="fw-bold mb-1">Order made</p>
                                     <p class="small fw-light mb-0">Create order</p>
                                 </div>
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start text-center">
 
                                 </div>
                             </div>
@@ -66,14 +66,14 @@
                         @endphp
                         <div class="card-body p-2 border {{ $paymentBorderColor }}">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start text-center">
                                     <i class="{{ $paymentIconLabel }} {{ $paymentStatusClass }}"></i>
                                 </div>
-                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2 text-sm-start text-center">
                                     <p class="fw-bold mb-1">{{ $paymentStatusLabel }}</p>
                                     <p class="small fw-light mb-0">{{ $paymentStatusLabel }}s</p>
                                 </div>
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start text-center">
 
                                 </div>
                             </div>
@@ -119,14 +119,14 @@
                         @endphp
                         <div class="card-body p-2 border {{ $shippingBorderColor }}">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start text-center">
                                     <i class="{{ $shippingIconLabel }} {{ $shippingStatusClass }}"></i>
                                 </div>
-                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2 text-sm-start text-center">
                                     <p class="fw-bold mb-1">{{ $shippingStatusLabel }}</p>
                                     <p class="small fw-light mb-0">{{ $shippingStatusSubLabel }}</p>
                                 </div>
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start text-center">
 
                                 </div>
                             </div>
@@ -165,14 +165,14 @@
                         @endphp
                         <div class="card-body p-2 border {{ $orderBorderColor }}">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start text-center">
                                     <i class="{{ $orderIconLabel }} {{ $cardIconClass }}"></i>
                                 </div>
-                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2 text-sm-start text-center">
                                     <p class="fw-bold mb-1">{{ $cardStatus }}</p>
                                     <p class="small fw-light mb-0">{{ $cardMessage }}</p>
                                 </div>
-                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start text-center">
 
                                 </div>
                             </div>
