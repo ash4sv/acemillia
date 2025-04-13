@@ -31,6 +31,7 @@ use App\Http\Controllers\Services\AppsPaymentController;
 use App\Http\Controllers\User\AddressUserController;
 use App\Http\Controllers\User\AuthUserController;
 use App\Http\Controllers\User\AuthUserVerifyController;
+use App\Http\Controllers\User\CompareUserController;
 use App\Http\Controllers\User\DashboardRedirectController;
 use App\Http\Controllers\User\NewsFeedCommentUserController;
 use App\Http\Controllers\User\NewsFeedLikeUserController;
@@ -65,6 +66,7 @@ Route::post('forgot-password', [AuthUserController::class, 'forgetPasswordAuth']
 Route::get('reset-password/{token}', [AuthUserController::class, 'resetPassword'])->name('password.reset');
 Route::post('reset-password', [AuthUserController::class, 'resetPasswordAuth'])->name('auth.password.reset');
 Route::post('logout', [AuthUserController::class, 'destroy'])->name('auth.destroy');
+Route::resource('compare', CompareUserController::class)->except(['create', 'show', 'edit', 'update']);
 
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/countries', [AddressUserController::class, 'getCountries']);

@@ -14,6 +14,7 @@
 @endpush
 
 @push('script')
+    <script src="{!! asset('assets/js/compare-class.js') !!}"></script>
     <script>
         $(document).ready(function() {
             console.log({!! $products->count() !!});
@@ -560,9 +561,15 @@
                                                                             <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#basicModal" data-create-url="{!! route('web.shop.quickview', $product->slug) !!}" data-create-title="Quick View">
                                                                                 <i class="ri-eye-line"></i>
                                                                             </a>
-                                                                            {{--<a href="compare.html" title="Compare">
+                                                                            <a href="javascript:void(0);"
+                                                                               title="Compare"
+                                                                               class="ajax-compare"
+                                                                               data-compare-product-id="{{ $product->id }}"
+                                                                               data-compare-action="{{ route('compare.store') }}"
+                                                                               data-compare-method="POST">
                                                                                 <i class="ri-loop-left-line"></i>
-                                                                            </a>--}}
+                                                                            </a>
+
                                                                         </div>
                                                                     </div>
                                                                     <div class="product-detail">

@@ -10,7 +10,7 @@
 @endpush
 
 @push('script')
-
+    <script src="{!! asset('assets/js/compare-class.js') !!}"></script>
 @endpush
 
 @section('webpage')
@@ -131,9 +131,14 @@
                                 <a href="#quickView" data-bs-toggle="modal" title="Quick View">
                                     <i class="ri-eye-line"></i>
                                 </a>
-                                {{--<a href="compare.html" title="Compare">
+                                <a href="javascript:void(0);"
+                                   title="Compare"
+                                   class="ajax-compare"
+                                   data-compare-product-id="{{ $specialOffer?->product?->id }}"
+                                   data-compare-action="{{ route('compare.store') }}"
+                                   data-compare-method="POST">
                                     <i class="ri-loop-left-line"></i>
-                                </a>--}}
+                                </a>
                             </div>
                         </div>
                         <div class="product-detail">
@@ -257,9 +262,14 @@
                                                         <a href="#quickView" data-bs-toggle="modal" title="Quick View">
                                                             <i class="ri-eye-line"></i>
                                                         </a>
-                                                        {{--<a href="compare.html" title="Compare">
+                                                        <a href="javascript:void(0);"
+                                                           title="Compare"
+                                                           class="ajax-compare"
+                                                           data-compare-product-id="{{ $product->id }}"
+                                                           data-compare-action="{{ route('compare.store') }}"
+                                                           data-compare-method="POST">
                                                             <i class="ri-loop-left-line"></i>
-                                                        </a>--}}
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <div class="product-detail">

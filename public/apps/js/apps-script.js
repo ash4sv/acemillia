@@ -1,5 +1,6 @@
 var Apps = {
     init: function () {
+        Apps.ajaxSetup();
         Apps.applyPromoCode('promo-code', 'checkout-view', 'discount-details');
         Apps.createNewData();
         Apps.select2('.select2');
@@ -710,7 +711,15 @@ var Apps = {
             $(".btn-submission-set .btn:first-child").text(selectedText);
             $("#submission-status").val(selectedText);
         });
-    }
+    },
+
+    ajaxSetup: function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    },
 };
 
 $(document).ready(function () {
