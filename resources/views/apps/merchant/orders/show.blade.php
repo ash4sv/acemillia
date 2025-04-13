@@ -146,7 +146,7 @@
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="{{ $cardIconClass }} bg-pending"></i>
+                                    <i class="{{ $orderIconLabel }} {{ $cardIconClass }}"></i>
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
                                     <p class="fw-bold mb-1">{{ $cardStatus }}</p>
