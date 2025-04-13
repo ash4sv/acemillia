@@ -150,13 +150,20 @@
                             ];
                             $orderIconLabel = $cardIconLabels[$cardStatus] ?? 'Test';
 
+
+                            $paymentBorderColors = [
+                                'Complete'    => 'border-success',
+                                'In Progress' => 'border-primary',
+                            ];
+                            $paymentBorderColor = $paymentBorderColors[$paymentStatus] ?? 'border-light';
+
                             $cardIconClassMapping = [
                                  'Complete'    => 'bg-completed',  // your complete order icon style
                                  'In Progress' => 'bg-pending',    // your in progress order icon style
                             ];
                             $cardIconClass = $cardIconClassMapping[$cardStatus] ?? 'bg-default';
                         @endphp
-                        <div class="card-body p-2 border border-light">
+                        <div class="card-body p-2 border {{ $paymentBorderColor }}">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
                                     <i class="{{ $orderIconLabel }} {{ $cardIconClass }}"></i>
