@@ -49,6 +49,11 @@
                                 'paid'    => 'Payment Completed',
                                 'failed'  => 'Payment Failed',
                             ];
+                            $paymentBorderColors = [
+                                'pending' => 'border-light',
+                                'paid'    => 'border-success',
+                                'failed'  => 'border-danger',
+                            ];
                             $paymentIconLabels = [
                                 'pending' => 'ri-loader-3-line',
                                 'paid'    => 'ri-check-line',
@@ -56,9 +61,10 @@
                             ];
 
                             $paymentStatusSubLabel = $paymentStatusSubLabels[$paymentStatus] ?? 'Test';
-                            $paymentIconLabel = $paymentIconLabels[$paymentStatus] ?? 'Test';
+                            $paymentBorderColor    = $paymentBorderColors[$paymentStatus] ?? 'border-light';
+                            $paymentIconLabel      = $paymentIconLabels[$paymentStatus] ?? 'Test';
                         @endphp
-                        <div class="card-body p-2 border border-light">
+                        <div class="card-body p-2 border {{ $paymentBorderColor }}">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
                                     <i class="{{ $paymentIconLabel }} {{ $paymentStatusClass }}"></i>
