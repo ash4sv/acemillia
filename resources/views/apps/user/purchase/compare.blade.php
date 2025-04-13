@@ -17,7 +17,24 @@
 @endpush
 
 @push('script')
+    <script>
+        $(document).ready(function(){
+            $('.shortcut-add-to-cart').each(function(){
+                var $form = $(this);
+                var basePrice = parseFloat($form.find('input[name="base-price"]').val());
+                var additionalTotal = 0;
 
+                $form.find('input[type="radio"]:checked').each(function(){
+                    var addPrice = parseFloat($(this).data('additional-price')) || 0;
+                    additionalTotal += addPrice;
+                });
+
+                var finalPrice = basePrice + additionalTotal;
+
+                $form.find('input[name="price"]').val(finalPrice.toFixed(2));
+            });
+        });
+    </script>
 @endpush
 
 @section('webpage')
@@ -107,10 +124,34 @@
                                                 {{--<strong>On Sale: </strong><span>$89,00</span>--}}
                                                 <h4 class="mb-0">{{ $product->price }}</h4>
                                             </div>
-                                            <form class="variants clearfix mb-1">
-                                                <input type="hidden">
-                                                <button title="Add to Cart" class="add-to-cart btn btn-solid">Add to Cart</button>
+
+                                            <a href="javascript:void(0);" class="add-to-cart btn btn-solid" onclick="event.preventDefault(); $('#add-to-cart-{{ __($product->slug . '-' . $product->id) }}').trigger('submit');">
+                                                Add to Cart
+                                            </a>
+                                            <form class="shortcut-add-to-cart d-none" id="add-to-cart-{{ __($product->slug . '-' . $product->id) }}" action="{{ route('purchase.add-to-cart') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="product" readonly value="{{ $product->id }}">
+                                                <input type="hidden" name="price" readonly value="{{ $product->price }}">
+                                                <input type="hidden" name="base-price" class="base-price" value="{{ (float) $product->getRawOriginal('price') }}">
+                                                <input type="hidden" name="quantity" value="1" />
+                                                @php
+                                                    $sortedOptions = $product->options->sortBy('name');
+                                                @endphp
+                                                @foreach($sortedOptions as $p => $option)
+                                                    <input type="hidden" name="options[{{ $p }}][option]" value="{{ $option->id }}">
+                                                    @forelse($option->values as $i => $value)
+                                                        <input type="radio"
+                                                               id="option{{ $p }}-{{ $i }}"
+                                                               name="options[{{ $p }}][value]"
+                                                               value="{{ $value->id }}"
+                                                               data-additional-price="{{ $value->additional_price }}"
+                                                               {{ $loop->first ? 'checked' : '' }} hidden>
+                                                    @empty
+                                                        {{-- No values for this option --}}
+                                                    @endforelse
+                                                @endforeach
                                             </form>
+
                                             @if ($category)
                                                 <p class="grid-link__title hidde mb-1">{{ $category->name }}</p>
                                             @endif
