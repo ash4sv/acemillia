@@ -241,6 +241,18 @@
 
                 <hr class="py-0 mt-0">
 
+                <div class="single-cart-item d-flex align-items-stretch">
+                    <h4>Order Summary</h4>
+                    <div class="box flex-shrink-0">
+                        Total Sales
+                    </div>
+                    <div class="box flex-grow-1">
+
+                    </div>
+                    <div class="box flex-shrink-0">
+                        {{ 'RM' . number_format($subOrder->subtotal, 2) }}
+                    </div>
+                </div>
             </div>
 
             {!! $subOrder !!}
