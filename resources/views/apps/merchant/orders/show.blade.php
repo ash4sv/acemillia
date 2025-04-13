@@ -18,7 +18,7 @@
                         <div class="card-body p-2 border border-warning">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line"></i>
+                                    <i class="ri-home-line bg-pending"></i>
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
                                     <p class="fw-bold mb-1">Order made</p>
@@ -36,7 +36,7 @@
                         <div class="card-body p-2 border border-warning">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line"></i>
+                                    <i class="ri-home-line bg-pending"></i>
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
                                     <p class="fw-bold mb-1">Order paid</p>
@@ -53,7 +53,7 @@
                         <div class="card-body p-2 border border-warning">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line"></i>
+                                    <i class="ri-home-line bg-pending"></i>
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
                                     <p class="fw-bold mb-1">Shipped Complete</p>
@@ -70,7 +70,7 @@
                         <div class="card-body p-2 border border-warning">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line"></i>
+                                    <i class="ri-home-line bg-pending"></i>
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
                                     <p class="fw-bold mb-1">Complete</p>
