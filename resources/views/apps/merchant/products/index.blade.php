@@ -29,7 +29,7 @@
                         <td>{!! $product->name !!}</td>
                         <td class="text-theme">{!! $product->price !!}</td>
                         <td>{!! $product->total_stock !!}</td>
-                        <td>2000</td>
+                        <td></td>
                         <td class="py-2">
                             <div class="dropdown">
                                 <button class="btn btn-xs btn-solid text-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
