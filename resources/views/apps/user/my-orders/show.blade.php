@@ -52,7 +52,7 @@
                 <div class="col-md-3 col-12">
                     <div class="card my-sm-3 my-0">
                         @php
-                            $shippingStatus = $order->subOrder->shipping_status;
+                            $shippingStatus = $order->subOrders->shipping_status;
 
                             $shippingStatusClassMap = [
                                 'pending'   => 'bg-pending',
@@ -106,7 +106,7 @@
                     <div class="card my-sm-3 my-0">
                         @php
                             $paymentStatus = $order->payment_status;
-                            $shippingStatus = $order->subOrder->shipping_status;
+                            $shippingStatus = $order->subOrders->shipping_status;
 
                             $orderComplete = ($paymentStatus === 'paid' && $shippingStatus === 'delivered');
 
