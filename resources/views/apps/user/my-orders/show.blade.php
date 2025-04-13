@@ -9,39 +9,43 @@
                     <h3>Order ID : TXIND953621</h3>
                 </div>
                 <div class="col-md-5">
-
+                    <!-- (Optional extra content) -->
                 </div>
             </div>
 
             <div class="border border-solid p-4">
                 <div class="row">
+                    <!-- Billing Address -->
                     <div class="col-md-6 order-detail">
                         @isset($order->billingAddress)
                             @php($b = $order->billingAddress)
-                            <h3 class="fw-bold">{!! __('Billing Address') !!}</h3>
-                            <p class="fw-semibold">{!! $b->recipient_name !!}</p>
-                            <p>{!! $b->street_address !!}, {!! $b->address !!}</p>
-                            <p>{!! $b->postcode !!}, {!! $b->city !!}</p>
-                            <p>{!! $b->state !!}, {!! $b->country !!}</p>
-                            <p>{!! $b->phone !!}</p>
+                            <h3 class="fw-bold">{{ __('Billing Address') }}</h3>
+                            <p class="fw-semibold">{{ $b->recipient_name }}</p>
+                            <p>{{ $b->street_address }}, {{ $b->address }}</p>
+                            <p>{{ $b->postcode }}, {{ $b->city }}</p>
+                            <p>{{ $b->state }}, {{ $b->country }}</p>
+                            <p>{{ $b->phone }}</p>
                         @endisset
                     </div>
+                    <!-- Shipping Address -->
                     <div class="col-md-6 order-detail">
                         @isset($order->shippingAddress)
                             @php($s = $order->shippingAddress)
-                            <h3 class="fw-bold">{!! __('Shipping Address') !!}</h3>
-                            <p class="fw-semibold">{!! $s->recipient_name !!}</p>
-                            <p>{!! $s->street_address !!}, {!! $s->address !!}</p>
-                            <p>{!! $s->postcode !!}, {!! $s->city !!}</p>
-                            <p>{!! $s->state !!}, {!! $s->country !!}</p>
-                            <p>{!! $s->phone !!}</p>
+                            <h3 class="fw-bold">{{ __('Shipping Address') }}</h3>
+                            <p class="fw-semibold">{{ $s->recipient_name }}</p>
+                            <p>{{ $s->street_address }}, {{ $s->address }}</p>
+                            <p>{{ $s->postcode }}, {{ $s->city }}</p>
+                            <p>{{ $s->state }}, {{ $s->country }}</p>
+                            <p>{{ $s->phone }}</p>
                         @endisset
                     </div>
                 </div>
             </div>
 
-            @forelse($order->subOrders as $i => $subOrder)
+            {{-- Loop through each suborder and display order tracking information --}}
+            @forelse($order->subOrders as $subOrder)
                 <div class="row g-sm-1 g-2 mb-sm-0 mb-2">
+                    <!-- Order Made Card -->
                     <div class="col-md-3 col-12">
                         <div class="card my-sm-3 my-0">
                             <div class="card-body p-2 border border-light">
@@ -54,17 +58,18 @@
                                         <p class="small fw-light mb-0">Create order</p>
                                     </div>
                                     <div class="box-custom-container flex-shrink-0 align-content-center">
-
+                                        <!-- (Optional extra content) -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Payment Status Card -->
                     <div class="col-md-3 col-12">
                         <div class="card my-sm-3 my-0">
                             @php
                                 $paymentStatus = $order->payment_status;
-
                                 $paymentStatusClassMap = [
                                     'pending' => 'bg-pending',
                                     'paid'    => 'bg-credit',
@@ -73,11 +78,6 @@
                                 $paymentStatusClass = $paymentStatusClassMap[$paymentStatus] ?? 'bg-default';
                                 $paymentStatusLabel = ucfirst($paymentStatus);
 
-                                $paymentStatusSubLabels = [
-                                    'pending' => 'Awaiting Payment Confirmation',
-                                    'paid'    => 'Payment Completed',
-                                    'failed'  => 'Payment Failed',
-                                ];
                                 $paymentBorderColors = [
                                     'pending' => 'border-light',
                                     'paid'    => 'border-success',
@@ -89,9 +89,8 @@
                                     'failed'  => 'ri-close-large-line',
                                 ];
 
-                                $paymentStatusSubLabel = $paymentStatusSubLabels[$paymentStatus] ?? 'Test';
-                                $paymentBorderColor    = $paymentBorderColors[$paymentStatus] ?? 'border-light';
-                                $paymentIconLabel      = $paymentIconLabels[$paymentStatus] ?? 'Test';
+                                $paymentBorderColor = $paymentBorderColors[$paymentStatus] ?? 'border-light';
+                                $paymentIconLabel   = $paymentIconLabels[$paymentStatus] ?? 'icon-default';
                             @endphp
                             <div class="card-body p-2 border {{ $paymentBorderColor }}">
                                 <div class="d-flex flex-column flex-md-row align-items-stretch">
@@ -103,17 +102,18 @@
                                         <p class="small fw-light mb-0">{{ $paymentStatusLabel }}s</p>
                                     </div>
                                     <div class="box-custom-container flex-shrink-0 align-content-center text-sm-start">
-
+                                        <!-- (Optional extra content) -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Shipping Status Card -->
                     <div class="col-md-3 col-12">
                         <div class="card my-sm-3 my-0">
                             @php
                                 $shippingStatus = $subOrder->shipping_status;
-
                                 $shippingStatusClassMap = [
                                     'pending'   => 'bg-pending',
                                     'shipped'   => 'bg-credit',
@@ -142,9 +142,9 @@
                                     'cancelled' => 'ri-close-large-line',
                                 ];
 
-                                $shippingStatusSubLabel = $shippingStatusSubLabels[$shippingStatus] ?? 'Test';
+                                $shippingStatusSubLabel = $shippingStatusSubLabels[$shippingStatus] ?? 'Status Unknown';
                                 $shippingBorderColor    = $shippingBorderColors[$shippingStatus] ?? 'border-light';
-                                $shippingIconLabel      = $shippingIconLabels[$shippingStatus] ?? 'Test';
+                                $shippingIconLabel      = $shippingIconLabels[$shippingStatus] ?? 'icon-default';
                             @endphp
                             <div class="card-body p-2 border {{ $shippingBorderColor }}">
                                 <div class="d-flex flex-column flex-md-row align-items-stretch">
@@ -156,26 +156,24 @@
                                         <p class="small fw-light mb-0">{{ $shippingStatusSubLabel }}</p>
                                     </div>
                                     <div class="box-custom-container flex-shrink-0 align-content-center">
-
+                                        <!-- (Optional extra content) -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Order Completion Card -->
                     <div class="col-md-3 col-12">
                         <div class="card my-sm-3 my-0">
                             @php
-                                $paymentStatus = $order->payment_status;
-                                $shippingStatus = $subOrder->shipping_status;
-
-                                $orderComplete = ($paymentStatus === 'paid' && $shippingStatus === 'delivered');
-
+                                $orderComplete = ($order->payment_status === 'paid' && $subOrder->shipping_status === 'delivered');
                                 $cardStatus  = $orderComplete ? 'Complete' : 'In Progress';
                                 $cardMessage = $orderComplete ? 'Order completed' : 'Order in progress';
 
                                 $cardIconLabels = [
-                                     'Complete'    => 'ri-check-double-line',  // e.g., icon for complete order
-                                     'In Progress' => 'ri-progress-5-line',       // e.g., icon for in-progress order  < i class=""></i>
+                                    'Complete'    => 'ri-check-double-line',
+                                    'In Progress' => 'ri-progress-5-line',
                                 ];
 
                                 $orderBorderColors = [
@@ -184,11 +182,11 @@
                                 ];
 
                                 $cardIconClassMapping = [
-                                     'Complete'    => 'bg-completed',  // your complete order icon style
-                                     'In Progress' => 'bg-pending',    // your in progress order icon style
+                                    'Complete'    => 'bg-completed',
+                                    'In Progress' => 'bg-pending',
                                 ];
 
-                                $orderIconLabel = $cardIconLabels[$cardStatus] ?? 'Test';
+                                $orderIconLabel = $cardIconLabels[$cardStatus] ?? 'icon-default';
                                 $orderBorderColor = $orderBorderColors[$cardStatus] ?? 'border-light';
                                 $cardIconClass = $cardIconClassMapping[$cardStatus] ?? 'bg-default';
                             @endphp
@@ -202,7 +200,7 @@
                                         <p class="small fw-light mb-0">{{ $cardMessage }}</p>
                                     </div>
                                     <div class="box-custom-container flex-shrink-0 align-content-center">
-
+                                        <!-- (Optional extra content) -->
                                     </div>
                                 </div>
                             </div>
@@ -210,92 +208,51 @@
                     </div>
                 </div>
 
+                {{-- Display items for this suborder --}}
                 <div class="border border-solid p-4">
                     <hr class="py-0">
-
                     <div class="order-detail-item p-3 mb-3">
-                        @forelse($subOrder->items as $j => $item)
+                        @forelse($subOrder->items as $item)
                             <div class="order-itemize d-flex align-items-stretch w-100">
                                 <div class="order-item-img flex-shrink-0 me-3">
                                     <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
                                 </div>
-
                                 <div class="order-item-description flex-grow-1">
                                     <p class="mb-1 text-muted">Jacket</p>
-                                    <h3 class="h5 fw-medium mb-1">{!! $item->product_name !!}</h3>
+                                    <h3 class="h5 fw-medium mb-1">{{ $item->product_name }}</h3>
                                     <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
                                 </div>
-
                                 <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                                    <p class="mb-0">{!! 'RM' . number_format($item->price, 2) !!} &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
+                                    <p class="mb-0">RM{{ number_format($item->price, 2) }} &nbsp;<span class="text-muted">× {{ $item->quantity }}</span></p>
                                 </div>
                             </div>
                         @empty
-
+                            <div class="order-itemize d-flex align-items-stretch w-100">
+                                <div class="flex-grow-1 text-center py-5">
+                                    <h3 class="m-0 text-center">
+                                        No valid items found for this order — they may have been removed or never existed.
+                                    </h3>
+                                </div>
+                            </div>
                         @endforelse
                     </div>
-
                     <hr class="py-0 mt-0">
+                    <h4 class="mb-4">Order Summary</h4>
+                    <div class="single-cart-item d-flex align-items-stretch">
+                        <div class="box flex-shrink-0">
+                            <h4 class="fw-medium">Total Sales</h4>
+                        </div>
+                        <div class="box flex-grow-1">
+                            <!-- (Optional extra content) -->
+                        </div>
+                        <div class="box flex-shrink-0 text-end">
+                            <h4 class="fw-medium">{{ $order->total_amount }}</h4>
+                        </div>
+                    </div>
                 </div>
             @empty
-
+                <p>No suborders found.</p>
             @endforelse
-
-            <div class="border border-solid p-4">
-
-
-                <hr class="py-0">
-
-                <div class="order-detail-item p-3 mb-3">
-                    @forelse($order->subOrders as $i => $subOrder)
-                        @forelse($subOrder->items as $j => $item)
-                        <div class="order-itemize d-flex align-items-stretch w-100">
-                            <div class="order-item-img flex-shrink-0 me-3">
-                                <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
-                            </div>
-
-                            <div class="order-item-description flex-grow-1">
-                                <p class="mb-1 text-muted">Jacket</p>
-                                <h3 class="h5 fw-medium mb-1">{!! $item->product_name !!}</h3>
-                                <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
-                            </div>
-
-                            <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                                <p class="mb-0">{!! 'RM' . number_format($item->price, 2) !!} &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
-                            </div>
-                        </div>
-                        @empty
-
-                        @endforelse
-                    @empty
-                        <div class="order-itemize d-flex align-items-stretch w-100">
-                            <div class="flex-grow-1 text-center py-5">
-                                <h3 class="m-0 text-center">
-                                    No valid items found for this order — they may have been removed or never existed.
-                                </h3>
-                            </div>
-                        </div>
-                    @endforelse
-                </div>
-
-
-
-                <hr class="py-0 mt-0">
-
-                <h4 class="mb-4">Order Summary</h4>
-                <div class="single-cart-item d-flex align-items-stretch">
-                    <div class="box flex-shrink-0">
-                        <h4 class="fw-medium">Total Sales</h4>
-                    </div>
-                    <div class="box flex-grow-1">
-
-                    </div>
-                    <div class="box flex-shrink-0 text-end">
-                        <h4 class="fw-medium">{!! $order->total_amount !!}</h4>
-                    </div>
-                </div>
-
-            </div>
         </div>
     </div>
 
