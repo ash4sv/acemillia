@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col">
                     <div class="card my-3">
-                        <div class="card-body p-3 bg-warning">
+                        <div class="card-body p-1 bg-warning">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col">
                     <div class="card my-3">
-                        <div class="card-body p-3 bg-warning">
+                        <div class="card-body p-1 bg-warning">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -50,7 +50,7 @@
                     </div>
                 </div><div class="col">
                     <div class="card my-3">
-                        <div class="card-body p-3 bg-warning">
+                        <div class="card-body p-1 bg-warning">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -67,7 +67,7 @@
                     </div>
                 </div><div class="col">
                     <div class="card my-3">
-                        <div class="card-body p-3 bg-warning">
+                        <div class="card-body p-1 bg-warning">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
