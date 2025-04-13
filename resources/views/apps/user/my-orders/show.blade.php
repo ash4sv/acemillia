@@ -43,7 +43,7 @@
             </div>
 
             {{-- Loop through each suborder and display order tracking information --}}
-            @foreach($order->subOrders as $subOrder)
+            {{--@foreach($order->subOrders as $subOrder)--}}
                 {{--<div class="row g-sm-1 g-2 mb-sm-0 mb-2">
                     <!-- Order Made Card -->
                     <div class="col-md-3 col-12">
@@ -242,7 +242,7 @@
                         </div>
                     </div>
                 </div>--}}
-            @endforeach
+            {{--@endforeach--}}
         </div>
     </div>
 
