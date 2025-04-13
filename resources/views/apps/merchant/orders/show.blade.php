@@ -14,15 +14,75 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                            test
+                    <div class="card my-3">
+                        <div class="card-body p-3 bg-warning">
+                            <div class="d-flex flex-column flex-md-row align-items-stretch border-bottom pb-3">
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                    Order made
+                                    Create order
+                                </div>
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col"></div>
-                <div class="col"></div>
-                <div class="col"></div>
+                <div class="col">
+                    <div class="card my-3">
+                        <div class="card-body p-3 bg-warning">
+                            <div class="d-flex flex-column flex-md-row align-items-stretch border-bottom pb-3">
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                    Order paid
+                                    Customer payment
+                                </div>
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="col">
+                    <div class="card my-3">
+                        <div class="card-body p-3 bg-warning">
+                            <div class="d-flex flex-column flex-md-row align-items-stretch border-bottom pb-3">
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                    Shipped Complete
+                                    On delivery
+                                </div>
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><div class="col">
+                    <div class="card my-3">
+                        <div class="card-body p-3 bg-warning">
+                            <div class="d-flex flex-column flex-md-row align-items-stretch border-bottom pb-3">
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                    Complete
+                                    Order completed
+                                </div>
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="border border-solid p-4">
