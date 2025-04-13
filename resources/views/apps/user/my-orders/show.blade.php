@@ -42,8 +42,39 @@
                     </div>
                 </div>
 
-
                 <hr class="py-0">
+
+                <div class="order-detail-item p-3 mb-3">
+                    @forelse($order->subOrders->items as $i => $item)
+                        <div class="order-itemize d-flex align-items-stretch w-100">
+                            <div class="order-item-img flex-shrink-0 me-3">
+                                <img src="https://dummyimage.com/600x400/000/fff" alt="Jacket" class="img-fluid">
+                            </div>
+
+                            <div class="order-item-description flex-grow-1">
+                                <p class="mb-1 text-muted">Jacket</p>
+                                <h3 class="h5 fw-medium mb-1">{!! $item->product_name !!}</h3>
+                                <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
+                            </div>
+
+                            <div class="order-item-price flex-shrink-0 text-end ms-auto">
+                                <p class="mb-0">{!! 'RM' . number_format($item->price, 2) !!} &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="order-itemize d-flex align-items-stretch w-100">
+                            <div class="flex-grow-1 text-center py-5">
+                                <h3 class="m-0 text-center">
+                                    No valid items found for this order — they may have been removed or never existed.
+                                </h3>
+                            </div>
+                        </div>
+                    @endforelse
+                </div>
+
+                <hr class="py-0 mt-0">
+
+                
             </div>
         </div>
     </div>
