@@ -117,7 +117,7 @@
                             $shippingBorderColor    = $shippingBorderColors[$shippingStatus] ?? 'border-light';
                             $shippingIconLabel      = $shippingIconLabels[$shippingStatus] ?? 'Test';
                         @endphp
-                        <div class="card-body p-2 border {{ $paymentBorderColor }}">
+                        <div class="card-body p-2 border {{ $shippingBorderColor }}">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
                                     <i class="{{ $shippingIconLabel }} {{ $shippingStatusClass }}"></i>
@@ -163,7 +163,7 @@
                             $orderBorderColor = $orderBorderColors[$cardStatus] ?? 'border-light';
                             $cardIconClass = $cardIconClassMapping[$cardStatus] ?? 'bg-default';
                         @endphp
-                        <div class="card-body p-2 border {{ $paymentBorderColor }}">
+                        <div class="card-body p-2 border {{ $orderBorderColor }}">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
                                     <i class="{{ $orderIconLabel }} {{ $cardIconClass }}"></i>
