@@ -241,16 +241,16 @@
                         @endforelse
                     </div>
                     <hr class="py-0 mt-0">
-                    <h4 class="mb-4">Order Summary</h4>
+                    <h4 class="mb-4">Summary</h4>
                     <div class="single-cart-item d-flex align-items-stretch">
                         <div class="box flex-shrink-0">
-                            <h4 class="fw-medium">Total Sales</h4>
+                            <h4 class="fw-medium">Total</h4>
                         </div>
                         <div class="box flex-grow-1">
                             <!-- (Optional extra content) -->
                         </div>
                         <div class="box flex-shrink-0 text-end">
-                            <h4 class="fw-medium">{{ $order->total_amount }}</h4>
+                            <h4 class="fw-medium">{{ $subOrder->subtotal }}</h4>
                         </div>
                     </div>
                 </div>
