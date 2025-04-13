@@ -13,7 +13,78 @@
                 </div>
             </div>
             <div class="row g-sm-1 g-2 mb-sm-0 mb-2">
+                <div class="col-md-3 col-12">
+                    <div class="card my-sm-3 my-0">
+                        <div class="card-body p-2 border border-light">
+                            <div class="d-flex flex-column flex-md-row align-items-stretch">
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                    <i class="ri-home-line bg-pending"></i>
+                                </div>
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                    <p class="fw-bold mb-1">Order made</p>
+                                    <p class="small fw-light mb-0">Create order</p>
+                                </div>
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-12">
+                    <div class="card my-sm-3 my-0">
+                        <div class="card-body p-2 border border-light">
+                            <div class="d-flex flex-column flex-md-row align-items-stretch">
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                    <i class="ri-home-line bg-pending"></i>
+                                </div>
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                    <p class="fw-bold mb-1">Order made</p>
+                                    <p class="small fw-light mb-0">Create order</p>
+                                </div>
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-12">
+                    <div class="card my-sm-3 my-0">
+                        <div class="card-body p-2 border border-light">
+                            <div class="d-flex flex-column flex-md-row align-items-stretch">
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                    <i class="ri-home-line bg-pending"></i>
+                                </div>
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                    <p class="fw-bold mb-1">Order made</p>
+                                    <p class="small fw-light mb-0">Create order</p>
+                                </div>
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-12">
+                    <div class="card my-sm-3 my-0">
+                        <div class="card-body p-2 border border-light">
+                            <div class="d-flex flex-column flex-md-row align-items-stretch">
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+                                    <i class="ri-home-line bg-pending"></i>
+                                </div>
+                                <div class="box-custom-container flex-grow-1 align-content-center mx-2">
+                                    <p class="fw-bold mb-1">Order made</p>
+                                    <p class="small fw-light mb-0">Create order</p>
+                                </div>
+                                <div class="box-custom-container flex-shrink-0 align-content-center">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="border border-solid p-4">
