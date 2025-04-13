@@ -574,7 +574,7 @@
                                                                             <a href="javascript:void(0);" onclick="event.preventDefault(); $('#add-to-cart-{{ __($product->slug . '-' . $product->id) }}').trigger('submit');">
                                                                                 <i class="ri-shopping-cart-line"></i>
                                                                             </a>
-                                                                            <form class="shortcut-add-to-cart" id="add-to-cart-{{ __($product->slug . '-' . $product->id) }}" action="{{ route('purchase.add-to-cart') }}" method="POST">
+                                                                            <form class="shortcut-add-to-cart d-none" id="add-to-cart-{{ __($product->slug . '-' . $product->id) }}" action="{{ route('purchase.add-to-cart') }}" method="POST">
                                                                                 @csrf
                                                                                 <input type="hidden" name="product" readonly value="{{ $product->id }}">
                                                                                 <input type="hidden" name="price" readonly value="{{ $product->price }}">
