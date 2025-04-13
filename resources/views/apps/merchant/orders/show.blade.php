@@ -33,14 +33,39 @@
                 </div>
                 <div class="col-md-3 col-12">
                     <div class="card my-3">
+                        @php
+                            $paymentStatus = $subOrder->order->payment_status;
+
+                            $paymentStatusClassMap = [
+                                'pending' => 'bg-label-warning',
+                                'paid'    => 'bg-label-success',
+                                'failed'  => 'bg-label-danger',
+                            ];
+                            $paymentStatusClass = $paymentStatusClassMap[$paymentStatus] ?? 'bg-default';
+                            $paymentStatusLabel = ucfirst($paymentStatus);
+
+                            $paymentStatusSubLabels = [
+                                'pending' => 'Awaiting Payment Confirmation',
+                                'paid'    => 'Payment Completed',
+                                'failed'  => 'Payment Failed',
+                            ];
+                            $paymentIconLabels = [
+                                'pending' => 'ri-loader-3-line',
+                                'paid'    => 'ri-check-line',
+                                'failed'  => 'ri-close-large-line',
+                            ];
+
+                            $paymentStatusSubLabel = $paymentStatusSubLabels[$paymentStatus] ?? 'Test';
+                            $paymentIconLabel = $paymentIconLabels[$paymentStatus] ?? 'Test';
+                        @endphp
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line bg-pending"></i>
+                                    <i class="{{ $paymentIconLabel }} bg-pending"></i>
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <p class="fw-bold mb-1">Order paid</p>
-                                    <p class="small fw-light mb-0">Customer payment</p>
+                                    <p class="fw-bold mb-1">{{ $paymentStatusLabel }}</p>
+                                    <p class="small fw-light mb-0">{{ $paymentStatusLabel }}s</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -51,6 +76,16 @@
                 </div>
                 <div class="col-md-3 col-12">
                     <div class="card my-3">
+                        @php
+                            $shippingStatus = $subOrder->shipping_status;
+                            $statusClass = [
+                                'pending'   => 'bg-pending',
+                                'shipped'   => 'bg-credit',
+                                'delivered' => 'bg-completed',
+                                'cancelled' => 'bg-debit',
+                            ][$shippingStatus] ?? 'bg-default';
+                            $statusLabel = ucfirst($shippingStatus);
+                        @endphp
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
@@ -69,6 +104,10 @@
                 </div>
                 <div class="col-md-3 col-12">
                     <div class="card my-3">
+                        @php
+                            $subOrder->order->payment_status && $subOrder->shipping_status;
+                            order complete or order fail
+                        @endphp
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
