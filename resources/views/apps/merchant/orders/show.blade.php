@@ -114,7 +114,7 @@
                             ];
 
                             $shippingStatusSubLabel = $shippingStatusSubLabels[$shippingStatus] ?? 'Test';
-                            $shippingBorderColor    = $shippingBorderColors[$paymentStatus] ?? 'border-light';
+                            $shippingBorderColor    = $shippingBorderColors[$shippingStatus] ?? 'border-light';
                             $shippingIconLabel      = $shippingIconLabels[$shippingStatus] ?? 'Test';
                         @endphp
                         <div class="card-body p-2 border {{ $paymentBorderColor }}">
