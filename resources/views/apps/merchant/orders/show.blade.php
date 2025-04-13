@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
                                     Order made
-                                    Create order
+                                    <p class="small fw-light">Create order</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
                                     Order paid
-                                    Customer payment
+                                    <p class="small fw-light">Customer payment</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
                                     Shipped Complete
-                                    On delivery
+                                    <p class="small fw-light">On delivery</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
                                     Complete
-                                    Order completed
+                                    <p class="small fw-light">Order completed</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
