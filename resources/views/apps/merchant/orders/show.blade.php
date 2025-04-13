@@ -132,8 +132,8 @@
                             $cardMessage = $orderComplete ? 'Order completed' : 'Order in progress';
 
                             $cardIconLabels = [
-                                 'Complete'    => 'check-circle',  // e.g., icon for complete order
-                                 'In Progress' => 'spinner',       // e.g., icon for in-progress order
+                                 'Complete'    => 'ri-check-double-line',  // e.g., icon for complete order
+                                 'In Progress' => 'ri-progress-5-line',       // e.g., icon for in-progress order  < i class=""></i>
                             ];
                             $orderIconLabel = $cardIconLabels[$cardStatus] ?? 'Test';
 
