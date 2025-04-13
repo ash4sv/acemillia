@@ -62,7 +62,13 @@ abstract class ProductBaseController extends Controller
             // Map additional fields.
             $data['status']       = $request->input('publish', 'Draft');
             $data['stock_status'] = $request->input('stock_status', 'in_stock');
-            $data['price']        = preg_replace('/^MYR\s*/', '', $data['price']);
+            $data['price'] = isset($data['price'])
+                ? floatval(str_replace(',', '', preg_replace('/[^\d.]/', '', $data['price'])))
+                : 0;
+
+            $data['promo_price'] = isset($data['promo_price'])
+                ? floatval(str_replace(',', '', preg_replace('/[^\d.]/', '', $data['promo_price'])))
+                : 0;
 
             $slugProduct = SlugGenerator::generateUniqueSlug($data['name'], Product::class, $id);
 
