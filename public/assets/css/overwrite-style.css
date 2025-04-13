@@ -661,7 +661,7 @@ footer p,
     margin-bottom: 0;
 }
 
-.dashboard-table .box-custom-container i {
+.box-custom-container i {
     width: calc(36px + (40 - 36) * ((100vw - 320px) / (1920 - 320)));
     height: calc(36px + (40 - 36) * ((100vw - 320px) / (1920 - 320)));
     display: -webkit-box;
@@ -681,7 +681,7 @@ footer p,
     font-size: calc(16px + (19 - 16) * ((100vw - 320px) / (1920 - 320)));
 }
 @media (max-width: 991px) {
-    .dashboard-table .box-custom-container i {
+    .box-custom-container i {
         background-color: #f8f8f8;
     }
 }
