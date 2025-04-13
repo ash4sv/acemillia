@@ -14,8 +14,8 @@
                     <tr>
                         <th>{!! __('Order Id') !!}</th>
                         <th>{!! __('Customer Name') !!}</th>
-                        <th>{!! __('Shipping Status') !!}</th>
                         <th>{!! __('Price') !!}</th>
+                        <th>{!! __('Shipping Status') !!}</th>
                         <th>{!! __('Date') !!}</th>
                         <th>{!! __('Action') !!}</th>
                     </tr>
