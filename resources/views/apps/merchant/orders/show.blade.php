@@ -37,9 +37,9 @@
                             $paymentStatus = $subOrder->order->payment_status;
 
                             $paymentStatusClassMap = [
-                                'pending' => 'bg-label-warning',
-                                'paid'    => 'bg-label-success',
-                                'failed'  => 'bg-label-danger',
+                                'pending' => 'bg-pending',
+                                'paid'    => 'bg-credit',
+                                'failed'  => 'bg-debit',
                             ];
                             $paymentStatusClass = $paymentStatusClassMap[$paymentStatus] ?? 'bg-default';
                             $paymentStatusLabel = ucfirst($paymentStatus);
