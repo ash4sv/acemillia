@@ -104,7 +104,6 @@
                             $shippingStatusSubLabel = $shippingStatusSubLabels[$shippingStatus] ?? 'Test';
                             $shippingIconLabel = $shippingIconLabels[$shippingStatus] ?? 'Test';
                         @endphp
-
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
@@ -123,18 +122,35 @@
                 </div>
                 <div class="col-md-3 col-12">
                     <div class="card my-3">
-                        {{--@php
-                            $subOrder->order->payment_status && $subOrder->shipping_status;
-                            order complete or order fail
-                        @endphp--}}
+                        @php
+                            $paymentStatus = $subOrder->order->payment_status;
+                            $shippingStatus = $subOrder->shipping_status;
+
+                            $orderComplete = ($paymentStatus === 'paid' && $shippingStatus === 'delivered');
+
+                            $cardStatus  = $orderComplete ? 'Complete' : 'In Progress';
+                            $cardMessage = $orderComplete ? 'Order completed' : 'Order in progress';
+
+                            $cardIconLabels = [
+                                 'Complete'    => 'check-circle',  // e.g., icon for complete order
+                                 'In Progress' => 'spinner',       // e.g., icon for in-progress order
+                            ];
+                            $orderIconLabel = $cardIconLabels[$cardStatus] ?? 'Test';
+
+                            $cardIconClassMapping = [
+                                 'Complete'    => 'bg-completed',  // your complete order icon style
+                                 'In Progress' => 'bg-pending',    // your in progress order icon style
+                            ];
+                            $cardIconClass = $cardIconClassMapping[$cardStatus] ?? 'bg-default';
+                        @endphp
                         <div class="card-body p-2 border border-light">
                             <div class="d-flex flex-column flex-md-row align-items-stretch">
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
-                                    <i class="ri-home-line bg-pending"></i>
+                                    <i class="{{ $cardIconClass }} bg-pending"></i>
                                 </div>
                                 <div class="box-custom-container flex-grow-1 align-content-center mx-2">
-                                    <p class="fw-bold mb-1">Complete</p>
-                                    <p class="small fw-light mb-0">Order completed</p>
+                                    <p class="fw-bold mb-1">{{ $cardStatus }}</p>
+                                    <p class="small fw-light mb-0">{{ $cardMessage }}</p>
                                 </div>
                                 <div class="box-custom-container flex-shrink-0 align-content-center">
 
