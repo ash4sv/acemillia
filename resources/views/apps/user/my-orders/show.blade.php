@@ -17,7 +17,7 @@
                 <div class="row">
                     <!-- Billing Address -->
                     <div class="col-md-6 order-detail">
-                        {{--@isset($order->billingAddress)
+                        @isset($order->billingAddress)
                             @php($b = $order->billingAddress)
                             <h3 class="fw-bold">{{ __('Billing Address') }}</h3>
                             <p class="fw-semibold">{{ $b->recipient_name }}</p>
@@ -25,11 +25,11 @@
                             <p>{{ $b->postcode }}, {{ $b->city }}</p>
                             <p>{{ $b->state }}, {{ $b->country }}</p>
                             <p>{{ $b->phone }}</p>
-                        @endisset--}}
+                        @endisset
                     </div>
                     <!-- Shipping Address -->
                     <div class="col-md-6 order-detail">
-                        {{--@isset($order->shippingAddress)
+                        @isset($order->shippingAddress)
                             @php($s = $order->shippingAddress)
                             <h3 class="fw-bold">{{ __('Shipping Address') }}</h3>
                             <p class="fw-semibold">{{ $s->recipient_name }}</p>
@@ -37,7 +37,7 @@
                             <p>{{ $s->postcode }}, {{ $s->city }}</p>
                             <p>{{ $s->state }}, {{ $s->country }}</p>
                             <p>{{ $s->phone }}</p>
-                        @endisset--}}
+                        @endisset
                     </div>
                 </div>
             </div>
