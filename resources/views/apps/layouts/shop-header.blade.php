@@ -101,7 +101,7 @@
                             <div class="top-header">
                                 <ul class="header-dropdown">
                                     <li class="mobile-wishlist"><a href="{{ route('compare.index') }}"><i class="ri-refresh-line"></i> </a></li>
-                                    <li class="mobile-wishlist"><a href="#!"><i class="ri-heart-line"></i> </a></li>
+                                    <li class="mobile-wishlist"><a href="{{ route('user.wishlist.index') }}"><i class="ri-heart-line"></i> </a></li>
                                     <li class="onhover-dropdown mobile-account">
                                         <i class="ri-user-6-line"></i>
                                         <ul class="onhover-show-div">

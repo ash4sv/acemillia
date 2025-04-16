@@ -11,7 +11,7 @@
                 </svg>
             </span>--}}
             {{--<span class="app-brand-text demo menu-text fw-bold">NEXES | EMS</span>--}}
-            <img src="{{ asset('apps/img/nexes_01.png') }}" alt="" class="w-px-150 d-block">
+            <img src="{{ asset('assets/images/logo-neuraloka_black_admin.png') }}" alt="" class="w-px-150 d-block">
         </a>
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
             <i class="ti menu-toggle-icon d-none d-xl-block ti-sm align-middle"></i>

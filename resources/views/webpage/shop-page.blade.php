@@ -178,21 +178,6 @@
                 $(".product-wrapper-grid .col-grid-box").addClass("col-lg-2");
                 $(this).addClass('active').siblings().removeClass('active');
             });
-
-            $('.shortcut-add-to-cart').each(function(){
-                var $form = $(this);
-                var basePrice = parseFloat($form.find('input[name="base-price"]').val());
-                var additionalTotal = 0;
-
-                $form.find('input[type="radio"]:checked').each(function(){
-                    var addPrice = parseFloat($(this).data('additional-price')) || 0;
-                    additionalTotal += addPrice;
-                });
-
-                var finalPrice = basePrice + additionalTotal;
-
-                $form.find('input[name="price"]').val(finalPrice.toFixed(2));
-            });
         });
     </script>
 @endpush

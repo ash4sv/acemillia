@@ -38,6 +38,7 @@ use App\Http\Controllers\User\NewsFeedLikeUserController;
 use App\Http\Controllers\User\NewsFeedUserController;
 use App\Http\Controllers\User\ProfileUserController;
 use App\Http\Controllers\User\PurchaseUserController;
+use App\Http\Controllers\User\WishlistUserController;
 use App\Http\Controllers\WebPage\WebController;
 use Illuminate\Support\Facades\Route;
 
@@ -102,6 +103,8 @@ Route::middleware(['custom.auth:web', 'apps-verified:web'])->group(function (){
         Route::resource('news-feed', NewsFeedUserController::class)->except(['index', 'create', 'show']);
         Route::resource('news-feed-like', NewsFeedLikeUserController::class)->except(['index', 'create', 'show', 'edit', 'update', 'destroy']);
         Route::resource('news-feed-comment', NewsFeedCommentUserController::class)->except(['index', 'create', 'show', 'edit']);
+        Route::resource('wishlist', WishlistUserController::class);
+        Route::post('wishlist/refresh', [WishlistUserController::class, 'refresh'])->name('wishlist.refresh');
     });
 
     Route::get('address', [ProfileUserController::class, 'addressBook'])->name('address');

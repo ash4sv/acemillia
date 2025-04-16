@@ -10,25 +10,7 @@
 @endpush
 
 @push('script')
-    <script src="{!! asset('assets/js/compare-class.js') !!}"></script>
-    <script>
-        $(document).ready(function(){
-            $('.shortcut-add-to-cart').each(function(){
-                var $form = $(this);
-                var basePrice = parseFloat($form.find('input[name="base-price"]').val());
-                var additionalTotal = 0;
 
-                $form.find('input[type="radio"]:checked').each(function(){
-                    var addPrice = parseFloat($(this).data('additional-price')) || 0;
-                    additionalTotal += addPrice;
-                });
-
-                var finalPrice = basePrice + additionalTotal;
-
-                $form.find('input[name="price"]').val(finalPrice.toFixed(2));
-            });
-        });
-    </script>
 @endpush
 
 @section('webpage')
@@ -66,10 +48,14 @@
             <div class="col-md-5">
                 <div class="row g-4 home-banner">
                     <div class="col-12">
-                        <a href="category-page.html"><img src="../assets/images/electronics-2/banner/2.png" class="img-fluid blur-up lazyload" alt=""></a>
+                        <a href="category-page.html">
+                            <img src="../assets/images/electronics-2/banner/2.png" class="img-fluid blur-up lazyload" alt="">
+                        </a>
                     </div>
                     <div class="col-12">
-                        <a href="category-page.html"><img src="../assets/images/electronics-2/banner/3.png" class="img-fluid blur-up lazyload" alt=""></a>
+                        <a href="category-page.html">
+                            <img src="../assets/images/electronics-2/banner/3.png" class="img-fluid blur-up lazyload" alt="">
+                        </a>
                     </div>
                 </div>
             </div>

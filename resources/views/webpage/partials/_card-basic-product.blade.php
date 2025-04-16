@@ -32,7 +32,12 @@
             </div>
             --}}
             <div class="cart-info">
-                <a href="#!" title="Add to Wishlist" class="wishlist-icon">
+                <a href="javascript:void(0);"
+                   class="wishlist-icon"
+                   data-wishlist-product-id="{{ $product->id }}"
+                   data-wishlist-product-action=""
+                   data-wishlist-product-post="POST"
+                   title="Add to Wishlist">
                     <i class="ri-heart-line"></i>
                 </a>
                 <a href="javascript:void(0);" onclick="event.preventDefault(); $('#add-to-cart-{{ $uniqueId }}').trigger('submit');">

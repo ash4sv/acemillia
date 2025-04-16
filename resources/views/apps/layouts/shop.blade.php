@@ -844,6 +844,7 @@
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/custom-slick-animated.js') }}"></script>
 
+    <script src="{{ asset('assets/js/compare-class.js') }}"></script>
     <script src="{{ asset('apps/js/apps-script.js') }}"></script>
 
     @include(__('sweetalert::alert'))

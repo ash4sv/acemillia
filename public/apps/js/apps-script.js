@@ -1,6 +1,8 @@
 var Apps = {
     init: function () {
         Apps.ajaxSetup();
+        Apps.addToCartShortCut('.shortcut-add-to-cart');
+        Apps.addToWishlist('.wishlist-icon');
         Apps.applyPromoCode('promo-code', 'checkout-view', 'discount-details');
         Apps.createNewData();
         Apps.select2('.select2');
@@ -720,6 +722,29 @@ var Apps = {
             }
         });
     },
+
+    addToCartShortCut: function (selector) {
+        $(selector).each(function(){
+            var $form = $(this);
+            var basePrice = parseFloat($form.find('input[name="base-price"]').val());
+            var additionalTotal = 0;
+
+            $form.find('input[type="radio"]:checked').each(function(){
+                var addPrice = parseFloat($(this).data('additional-price')) || 0;
+                additionalTotal += addPrice;
+            });
+
+            var finalPrice = basePrice + additionalTotal;
+
+            $form.find('input[name="price"]').val(finalPrice.toFixed(2));
+        });
+    },
+
+    addToWishlist: function (selector) {
+        $(selector).each(function () {
+
+        });
+    }
 };
 
 $(document).ready(function () {

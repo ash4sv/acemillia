@@ -3,7 +3,7 @@
 
             <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-md-none">
                 <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
-                    <img src="{{ asset('apps/img/nexes_01.png') }}" alt="" class="img-fluid">
+                    <img src="{{ asset('assets/images/logo-neuraloka_black_admin.png') }}" alt="" class="w-auto h-px-40">
                 </a>
             </div>
 
