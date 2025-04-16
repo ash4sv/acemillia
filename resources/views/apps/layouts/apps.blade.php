@@ -143,8 +143,8 @@
     {{--@include(__('apps.layouts.script'))--}}
 
     <!-- Page JS -->
-    @stack('script')
     <script src="{{ asset('apps/js/dashboards-analytics.js') }}"></script>
+    @stack('script')
 
     @production
         <!-- Google tag (gtag.js) -->
