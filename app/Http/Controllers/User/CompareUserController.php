@@ -11,6 +11,7 @@ class CompareUserController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         if (auth()->guard('web')->check() && ! session()->pull('_compare_migrated')) {
             Compare::migrate();
             session()->put('_compare_migrated', true); // run only once per session
@@ -22,8 +23,12 @@ class CompareUserController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Compare'],
+        ]);
         return view('apps.user.purchase.compare', [
             'products' => Compare::all(),
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 

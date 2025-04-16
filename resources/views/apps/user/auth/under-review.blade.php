@@ -28,10 +28,15 @@
             <h2>@yield('title')</h2>
             <nav class="theme-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{!! url('/') !!}">{!! __('Home') !!}</a>
-                    </li>
-                    <li class="breadcrumb-item active">{!! strtoupper(__($title)) !!}</li>
+                    @foreach ($breadcrumbs ?? [] as $breadcrumb)
+                        <li class="breadcrumb-item">
+                            @if (!empty($breadcrumb['url']))
+                                <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a>
+                            @else
+                                {{ $breadcrumb['label'] }}
+                            @endif
+                        </li>
+                    @endforeach
                 </ol>
             </nav>
         </div>

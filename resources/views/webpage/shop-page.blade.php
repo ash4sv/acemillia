@@ -190,19 +190,15 @@
             <h2>{!! $menuSlug->name !!}</h2>
             <nav class="theme-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{!! url('/') !!}">Home</a></li>
-                    @if(isset($menuSlug))
-                    <li class="breadcrumb-item"><a href="{!! route('web.shop.index', $menuSlug->slug) !!}">{!! $menuSlug->name !!}</a></li>
-                    @endif
-                    @if(isset($category))
-                    <li class="breadcrumb-item"><a href="{!! route('web.shop.category', [$menuSlug->slug, $category->slug]) !!}">{!! $category->name !!}</a></li>
-                    @endif
-                    @if(isset($product->sub_categories) && $product->sub_categories->isNotEmpty())
-                    <li class="breadcrumb-item"><a href="">{!! $product->sub_categories->pluck('name')->implode('/') !!}</a></li>
-                    @endif
-                    @if(isset($product))
-                    <li class="breadcrumb-item active">{!! strtoupper($product->name) !!}</li>
-                    @endif
+                    @foreach ($breadcrumbs ?? [] as $breadcrumb)
+                        <li class="breadcrumb-item">
+                            @if (!empty($breadcrumb['url']))
+                                <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a>
+                            @else
+                                {{ $breadcrumb['label'] }}
+                            @endif
+                        </li>
+                    @endforeach
                 </ol>
             </nav>
         </div>

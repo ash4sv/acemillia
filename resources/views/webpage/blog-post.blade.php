@@ -28,14 +28,15 @@
             <h2>{!! $title !!}</h2>
             <nav class="theme-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{!! url('/') !!}">{!! __('Home') !!}</a></li>
-                    <li class="breadcrumb-item"><a href="{!! route('web.blog.index') !!}">{!! __('Blog') !!}</a></li>
-                    @if(isset($post->category) && $post->category->count() > 0)
-                    <li class="breadcrumb-item"><a href="{!! route('web.blog.category', $post?->category?->slug) !!}">{!! Str::limit($post?->category?->name, 20, '...') !!}</a></li>
-                    @endif
-                    @if(isset($post))
-                    <li class="breadcrumb-item"><a href="">{!! Str::limit($title, 20, '...') !!}</a></li>
-                    @endif
+                    @foreach ($breadcrumbs ?? [] as $breadcrumb)
+                        <li class="breadcrumb-item">
+                            @if (!empty($breadcrumb['url']))
+                                <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a>
+                            @else
+                                {{ $breadcrumb['label'] }}
+                            @endif
+                        </li>
+                    @endforeach
                 </ol>
             </nav>
         </div>

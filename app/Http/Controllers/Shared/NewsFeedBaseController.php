@@ -11,6 +11,7 @@ class NewsFeedBaseController extends Controller
 {
     public function __construct()
     {
+        parent::__construct();
         $this->newsFeeds = NewsFeed::active()->orderBy('created_at', 'desc')->get();
     }
 

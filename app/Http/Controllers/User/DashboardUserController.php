@@ -12,20 +12,33 @@ class DashboardUserController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->authUser = auth()->guard('web')->user();
     }
 
     public function index(Request $request)
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'My Account', 'url' => route('dashboard')],
+            ['label' => 'Dashboard'],
+        ]);
+
         return response()->view('apps.user.dashboard.index', [
-            'authUser' => $this->authUser
+            'authUser' => $this->authUser,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 
     public function notifications(Request $request)
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'My Account', 'url' => route('dashboard')],
+            ['label' => 'Notifications'],
+        ]);
+
         return response()->view('apps.user.notifications.index', [
-            'authUser' => $this->authUser
+            'authUser' => $this->authUser,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 
@@ -40,9 +53,16 @@ class DashboardUserController extends Controller
         ])->auth()
             ->paginate(12)
             ->appends(['section' => 'my-order']);
+
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'My Account', 'url' => route('dashboard')],
+            ['label' => 'My Orders'],
+        ]);
+
         return response()->view('apps.user.my-orders.index', [
             'authUser' => $this->authUser,
             'orders'   => $orders,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 
@@ -58,9 +78,15 @@ class DashboardUserController extends Controller
             'shippingAddress',
         ])->auth()->findOrFail($orderId);
 
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'My Account', 'url' => route('dashboard')],
+            ['label' => 'My Order Show'],
+        ]);
+
         return response()->view('apps.user.my-orders.show', [
             'authUser' => $this->authUser,
             'order'    => $order,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 }

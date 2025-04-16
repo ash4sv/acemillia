@@ -17,12 +17,23 @@ class AuthUserController extends Controller
     protected string $view  = 'apps.user.auth.';
     protected string $route = '';
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function login()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Login'],
+        ]);
+
         if (auth()->guard('web')->check()) {
             return redirect()->route('dashboard');
         }
-        return response()->view($this->view . 'login');
+        return response()->view($this->view . 'login', [
+            'breadcrumbs' => $breadcrumbs
+        ]);
     }
 
     public function loginAuth(Request $request)
@@ -46,6 +57,10 @@ class AuthUserController extends Controller
 
     public function register()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Register'],
+        ]);
+
         $genders = [
             ['name' => 'male'],
             ['name' => 'female'],
@@ -59,6 +74,7 @@ class AuthUserController extends Controller
         return response()->view($this->view . 'register', [
             'genders' => $genders,
             'countries' => $countries,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 
@@ -127,10 +143,16 @@ class AuthUserController extends Controller
 
     public function forgetPassword()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Forgot password'],
+        ]);
+
         if (auth()->guard('web')->check()) {
             return redirect()->route('dashboard');
         }
-        return response()->view($this->view . 'password-request');
+        return response()->view($this->view . 'password-request', [
+            'breadcrumbs' => $breadcrumbs
+        ]);
     }
 
     public function forgetPasswordAuth(Request $request)
@@ -153,11 +175,16 @@ class AuthUserController extends Controller
 
     public function resetPassword(Request $request)
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Reset Password'],
+        ]);
+
         if (auth()->guard('web')->check()) {
             return redirect()->route('dashboard');
         }
         return response()->view($this->view . 'reset-password', [
             'request' => $request,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 

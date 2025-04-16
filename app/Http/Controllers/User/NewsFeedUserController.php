@@ -27,9 +27,15 @@ class NewsFeedUserController extends NewsFeedBaseController
         $title = 'Delete News Feed!';
         $text = "Are you sure you want to delete?";
         confirmDelete($title, $text);
+
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'My Account', 'url' => route('dashboard')],
+            ['label' => 'News Feed'],
+        ]);
         return view($this->view . 'index', [
             'authUser' => $this->auth,
             'newsfeeds' => $this->newsFeeds,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 

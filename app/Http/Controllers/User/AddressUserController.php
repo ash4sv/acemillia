@@ -16,6 +16,7 @@ class AddressUserController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->authUser = auth()->guard('web')->user();
     }
 
@@ -24,8 +25,14 @@ class AddressUserController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'My Account', 'url' => route('dashboard')],
+            ['label' => 'Saved Address'],
+        ]);
+
         return response()->view($this->view . 'index', [
-            'authUser' => $this->authUser
+            'authUser' => $this->authUser,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

@@ -15,6 +15,11 @@ use Billplz\Client;
 
 class PurchaseUserController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function updateOrCreateCart(Request $request)
     {
         // 1. Validate incoming data
@@ -216,14 +221,24 @@ class PurchaseUserController extends Controller
 
     public function viewCart()
     {
-        return response()->view('apps.user.purchase.cart');
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Cart'],
+        ]);
+        return response()->view('apps.user.purchase.cart', [
+            'breadcrumbs' => $breadcrumbs
+        ]);
     }
 
     public function checkout()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Checkout'],
+        ]);
+
         $temporaryUniqid = sprintf("%06d", mt_rand(1, 999999));
         return response()->view('apps.user.purchase.checkout', [
-            'temporaryUniqid' => $temporaryUniqid
+            'temporaryUniqid' => $temporaryUniqid,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 

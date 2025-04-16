@@ -21,6 +21,7 @@ class WebController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->tagsSidebar = PostTag::active()->get();
         $this->categoriesSidebar = PostCategory::active()->get();
         $this->recentPosts = Post::where('created_at', '>=', Carbon::now()->subWeeks(4))->orderBy('created_at', 'desc')->get();
@@ -73,11 +74,16 @@ class WebController extends Controller
                 ->get();
         })->unique('id')->sortBy('name')->values();
 
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => $menuSlug->name],
+        ]);
+
         return view('webpage.shop-page', [
             'menuSlug' => $menuSlug,
             'products' => $products,
             'categories' => null,
             'subCategories' => $subCategories,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -110,12 +116,18 @@ class WebController extends Controller
             ->orderBy('name', 'asc')
             ->get();
 
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => $menuSlug->name, 'url' => route('web.shop.index', $menuSlug->slug)],
+            ['label' => $categoryModel->name, 'url' => route('web.shop.category', [$menuSlug->slug, $categoryModel->slug])],
+        ]);
+
         return view('webpage.shop-page', [
             'menuSlug' => $menuSlug,
             'category' => $categoryModel,
             'products' => $products,
             'categories' => null,
             'subCategories' => $subCategories,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -144,12 +156,19 @@ class WebController extends Controller
             ->with('categories')
             ->get();
 
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => $menuSlug->name, 'url' => route('web.shop.index', $menuSlug->slug)],
+            ['label' => $categoryModel->name, 'url' => route('web.shop.category', [$menuSlug->slug, $categoryModel->slug])],
+            ['label' => $product->name,]
+        ]);
+
         // Pass all the necessary data to the view
         return view('webpage.shop-single', [
             'menuSlug'        => $menuSlug,
             'category'        => $categoryModel,
             'product'         => $product,
             'relatedProducts' => $relatedProducts,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -270,11 +289,15 @@ class WebController extends Controller
     public function blog()
     {
         $posts = Post::active()->paginate(12);
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Blog'],
+        ]);
         return response()->view('webpage.blog-page', [
             'categoriesSidebar' => $this->categoriesSidebar,
             'tagsSidebar' => $this->tagsSidebar,
             'recentPosts' => $this->recentPosts,
             'posts' => $posts,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -282,11 +305,16 @@ class WebController extends Controller
     {
         $categories = PostCategory::active()->where('slug', $category)->firstOrFail();
         $posts = $categories->posts()->active()->paginate(12);
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Blog', 'url' => route('web.blog.index')],
+            ['label' => $categories->name],
+        ]);
         return response()->view('webpage.blog-page', [
             'categoriesSidebar' => $this->categoriesSidebar,
             'tagsSidebar' => $this->tagsSidebar,
             'recentPosts' => $this->recentPosts,
             'posts' => $posts,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -294,8 +322,14 @@ class WebController extends Controller
     {
         $posting = PostCategory::active()->where('slug', $category)->firstOrFail();
         $post = $posting->posts()->active()->where('slug', $post)->firstOrFail();
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Blog', 'url' => route('web.blog.index')],
+            ['label' => $post->category?->name, 'url' => route('web.blog.category', $post->category?->slug)],
+            ['label' => $post->title, 'url' => route('web.blog.post', [$post->category?->slug, $post->slug])],
+        ]);
         return response()->view('webpage.blog-post', [
             'post' => $post,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 }

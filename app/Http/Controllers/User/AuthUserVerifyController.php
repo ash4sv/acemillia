@@ -11,6 +11,11 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthUserVerifyController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     private function redirectPath()
     {
         return '/dashboard';
@@ -18,6 +23,10 @@ class AuthUserVerifyController extends Controller
 
     public function notice(Request $request)
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Verify your email'],
+        ]);
+
         $user = $request->user();
 
         if ($user && $user->hasVerifiedEmail()) {
@@ -26,7 +35,10 @@ class AuthUserVerifyController extends Controller
 
         $email = null;
         $email = auth()->guard('web')->user()->email;
-        return view('apps.user.auth.verify-email', ['email' => $email]);
+        return view('apps.user.auth.verify-email', [
+            'email' => $email,
+            'breadcrumbs' => $breadcrumbs,
+        ]);
     }
 
     public function verify(EmailVerificationRequest $request)
@@ -69,6 +81,12 @@ class AuthUserVerifyController extends Controller
 
     public function underReview()
     {
-        return view('apps.user.auth.under-review');
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Account is under review'],
+        ]);
+
+        return view('apps.user.auth.under-review', [
+            'breadcrumbs' => $breadcrumbs,
+        ]);
     }
 }
