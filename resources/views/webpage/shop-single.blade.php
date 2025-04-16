@@ -39,123 +39,123 @@
             // });
 
 
-    // -----------------------------------------------------------------
-    // 1) QUANTITY INCREMENT/DECREMENT (unchanged)
-    // -----------------------------------------------------------------
-    $(document).on('click', '.quantity-right-plus', function () {
-        var $qtyInput = $(this).closest('.input-group').find('.input-number');
-        var currentVal = parseInt($qtyInput.val(), 10);
-        if (!isNaN(currentVal)) {
-            $qtyInput.val(currentVal + 1);
-        }
-    });
-    $(document).on('click', '.quantity-left-minus', function () {
-        var $qtyInput = $(this).closest('.input-group').find('.input-number');
-        var currentVal = parseInt($qtyInput.val(), 10);
-        if (!isNaN(currentVal) && currentVal > 1) {
-            $qtyInput.val(currentVal - 1);
-        }
-    });
+            // -----------------------------------------------------------------
+            // 1) QUANTITY INCREMENT/DECREMENT (unchanged)
+            // -----------------------------------------------------------------
+            $(document).on('click', '.quantity-right-plus', function () {
+                var $qtyInput = $(this).closest('.input-group').find('.input-number');
+                var currentVal = parseInt($qtyInput.val(), 10);
+                if (!isNaN(currentVal)) {
+                    $qtyInput.val(currentVal + 1);
+                }
+            });
+            $(document).on('click', '.quantity-left-minus', function () {
+                var $qtyInput = $(this).closest('.input-group').find('.input-number');
+                var currentVal = parseInt($qtyInput.val(), 10);
+                if (!isNaN(currentVal) && currentVal > 1) {
+                    $qtyInput.val(currentVal - 1);
+                }
+            });
 
-    // -----------------------------------------------------------------
-    // 2) PRICE CALCULATION & ADD-TO-CART LOGIC
-    // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
+            // 2) PRICE CALCULATION & ADD-TO-CART LOGIC
+            // -----------------------------------------------------------------
 
-    // Grab original text (range or single) from .price-text-data h3
-    const $priceText = $('.price-text-data h3');
-    const originalPriceDisplay = $priceText.text().trim();
+            // Grab original text (range or single) from .price-text-data h3
+            const $priceText = $('.price-text-data h3');
+            const originalPriceDisplay = $priceText.text().trim();
 
-    // The hint element
-    const $priceHint = $('.price-hint');
+            // The hint element
+            const $priceHint = $('.price-hint');
 
-    // The Add to Cart button
-    const $addToCartBtn = $('#add-to-cart-btn');
+            // The Add to Cart button
+            const $addToCartBtn = $('#add-to-cart-btn');
 
-    // Numeric base price (no "RM" prefix)
-    let basePrice = parseFloat($('#base-price').val()) || 0.0;
+            // Numeric base price (no "RM" prefix)
+            let basePrice = parseFloat($('#base-price').val()) || 0.0;
 
-    // Enhanced logging in allOptionsSelected: log group names and checked counts
-    function allOptionsSelected() {
-        let allSelected = true;
-        $('.variation-box.size-box.product-page').each(function(index) {
-            const $radios = $(this).find('input[type="radio"]');
-            const groupName = $radios.first().attr('name') || 'unknown';
-            const count = $(this).find('input[type="radio"]:checked').length;
-            console.log('Group', index, 'with name', groupName, 'has', count, 'checked.');
-            if (count === 0) {
-                allSelected = false;
+            // Enhanced logging in allOptionsSelected: log group names and checked counts
+            function allOptionsSelected() {
+                let allSelected = true;
+                $('.variation-box.size-box.product-page').each(function(index) {
+                    const $radios = $(this).find('input[type="radio"]');
+                    const groupName = $radios.first().attr('name') || 'unknown';
+                    const count = $(this).find('input[type="radio"]:checked').length;
+                    console.log('Group', index, 'with name', groupName, 'has', count, 'checked.');
+                    if (count === 0) {
+                        allSelected = false;
+                    }
+                });
+                return allSelected;
             }
-        });
-        return allSelected;
-    }
 
-    // Recalculate final price
-    function recalcPrice() {
-        console.log('--- recalcPrice() triggered ---');
+            // Recalculate final price
+            function recalcPrice() {
+                console.log('--- recalcPrice() triggered ---');
 
-        if (!allOptionsSelected()) {
-            $priceText.text(originalPriceDisplay);
-            $priceHint.text('Select all options to see final price').show();
-            $addToCartBtn.prop('disabled', true);
-            return;
-        }
+                if (!allOptionsSelected()) {
+                    $priceText.text(originalPriceDisplay);
+                    $priceHint.text('Select all options to see final price').show();
+                    $addToCartBtn.prop('disabled', true);
+                    return;
+                }
 
-        // Sum up base price + additional prices from all checked radios
-        let total = basePrice;
-        $('input.product-option-radio[type="radio"]:checked').each(function() {
-            let addPrice = parseFloat($(this).data('additional-price')) || 0.0;
-            total += addPrice;
-        });
+                // Sum up base price + additional prices from all checked radios
+                let total = basePrice;
+                $('input.product-option-radio[type="radio"]:checked').each(function() {
+                    let addPrice = parseFloat($(this).data('additional-price')) || 0.0;
+                    total += addPrice;
+                });
 
-        $priceText.text('RM' + total.toFixed(2));
-        $priceHint.hide();
-        $addToCartBtn.prop('disabled', false);
-        $('input[name="price"]').val(total);
+                $priceText.text('RM' + total.toFixed(2));
+                $priceHint.hide();
+                $addToCartBtn.prop('disabled', false);
+                $('input[name="price"]').val(total);
 
-        console.log('All options selected! Computed price =', total);
-    }
+                console.log('All options selected! Computed price =', total);
+            }
 
-    // -----------------------------------------------------------------
-    // 3) RADIO "CHANGE" EVENT (delegated)
-    // -----------------------------------------------------------------
-    $(document).on('change', 'input.product-option-radio[type="radio"]', function() {
-        console.log('Radio changed! name=', $(this).attr('name'),
-                    '| value=', $(this).val(),
-                    '| now checked?', $(this).prop('checked'));
-        // Call recalcPrice; sometimes triggering change alone may be too fast.
-        setTimeout(recalcPrice, 10);
-    });
+            // -----------------------------------------------------------------
+            // 3) RADIO "CHANGE" EVENT (delegated)
+            // -----------------------------------------------------------------
+            $(document).on('change', 'input.product-option-radio[type="radio"]', function() {
+                console.log('Radio changed! name=', $(this).attr('name'),
+                            '| value=', $(this).val(),
+                            '| now checked?', $(this).prop('checked'));
+                // Call recalcPrice; sometimes triggering change alone may be too fast.
+                setTimeout(recalcPrice, 10);
+            });
 
-    // -----------------------------------------------------------------
-    // 4) OPTION BUTTON CLICK (delegated)
-    // -----------------------------------------------------------------
-    // Using delegated binding in case the elements load dynamically.
-    $(document).on('click', '.variation-box ul li button', function() {
-        console.log('Option button clicked!');
-        let $li = $(this).closest('li');
+            // -----------------------------------------------------------------
+            // 4) OPTION BUTTON CLICK (delegated)
+            // -----------------------------------------------------------------
+            // Using delegated binding in case the elements load dynamically.
+            $(document).on('click', '.variation-box ul li button', function() {
+                console.log('Option button clicked!');
+                let $li = $(this).closest('li');
 
-        // Toggle active class on the clicked li
-        $li.siblings().removeClass('active');
-        $li.addClass('active');
+                // Toggle active class on the clicked li
+                $li.siblings().removeClass('active');
+                $li.addClass('active');
 
-        // Find the radio inside this li and force it checked and trigger change
-        let $radio = $li.find('input[type="radio"]');
-        if ($radio.length) {
-            console.log('Found radio for group', $radio.attr('name'),
-                        '=> setting checked and triggering change.');
-            $radio.prop('checked', true).trigger('change');
-            // Also explicitly call recalcPrice to ensure update.
+                // Find the radio inside this li and force it checked and trigger change
+                let $radio = $li.find('input[type="radio"]');
+                if ($radio.length) {
+                    console.log('Found radio for group', $radio.attr('name'),
+                                '=> setting checked and triggering change.');
+                    $radio.prop('checked', true).trigger('change');
+                    // Also explicitly call recalcPrice to ensure update.
+                    recalcPrice();
+                } else {
+                    console.log('No radio found in this li.');
+                }
+            });
+
+            // -----------------------------------------------------------------
+            // 5) INITIAL CALL
+            // -----------------------------------------------------------------
             recalcPrice();
-        } else {
-            console.log('No radio found in this li.');
-        }
-    });
-
-    // -----------------------------------------------------------------
-    // 5) INITIAL CALL
-    // -----------------------------------------------------------------
-    recalcPrice();
-    console.log('Script loaded, initial recalcPrice() called.');
+            console.log('Script loaded, initial recalcPrice() called.');
         });
     </script>
 @endpush
@@ -702,61 +702,12 @@
                 </div>
             </div>
 
-            <div class="product-5 product-m no-arrow">
+            <div class="product-4 product-m no-arrow override-custom">
                 @forelse($relatedProducts as $key => $relatedProduct)
-                    <div class="basic-product theme-product-1">
-                        <div class="overflow-hidden">
-                            <div class="img-wrapper">
-                                <a href="{{ route('web.shop.product', [$menuSlug->slug, $relatedProduct->categories->pluck('slug')->first(), $relatedProduct->slug]) }}">
-                                    <img src="{{ asset($relatedProduct->image) }}" class="img-fluid blur-up lazyload" alt="">
-                                </a>
-                                {{--<div class="rating-label">
-                                    <i class="ri-star-fill"></i><span>4.5</span>
-                                </div>--}}
-                                <div class="cart-info">
-                                    <ul class="hover-action">
-                                        <li>
-                                            <button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
-                                                <i class="ri-shopping-cart-line"></i>
-                                            </button>
-                                        </li>
-                                        {{--<li>
-                                            <a href="#!" title="Add to Wishlist">
-                                                <i class="ri-heart-line"></i>
-                                            </a>
-                                        </li>--}}
-                                        <li>
-                                            <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                                <i class="ri-eye-line"></i>
-                                            </a>
-                                        </li>
-                                        {{--<li>
-                                            <a href="compare.html" title="Compare">
-                                                <i class="ri-loop-left-line"></i>
-                                            </a>
-                                        </li>--}}
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-detail">
-                                <div>
-                                    <div class="brand-w-color">
-                                        <a class="product-title" href="{{ route('web.shop.product', [$menuSlug->slug, $relatedProduct->categories->pluck('slug')->first(), $relatedProduct->slug]) }}">{!! Str::limit($relatedProduct->name, 20, '...') !!}</a>
-                                    </div>
-                                    {{--<h6>Purple Mini Dress</h6>--}}
-                                    <h4 class="price">
-                                        {!! $relatedProduct->price !!} {{--<del> $5.00 </del>--}}
-                                        {{--<span class="discounted-price">5% Off</span>--}}
-                                    </h4>
-                                </div>
-                                <ul class="offer-panel">
-                                    <li><span class="offer-icon"><i class="ri-discount-percent-fill"></i></span> Limited Time Offer: 5% off</li>
-                                    <li><span class="offer-icon"><i class="ri-discount-percent-fill"></i></span> Limited Time Offer: 5% off</li>
-                                    <li><span class="offer-icon"><i class="ri-discount-percent-fill"></i></span> Limited Time Offer: 5% off</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    @include('webpage.partials._card-basic-product', [
+                        'product' => $relatedProduct,
+                        'theme'   => 'theme-product-1'
+                    ])
                 @empty
 
                 @endforelse

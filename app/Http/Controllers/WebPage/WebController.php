@@ -31,7 +31,12 @@ class WebController extends Controller
         $carousels = CarouselSlider::active()->get();
         $categories = Category::active()->get();
         $products = Product::active()->where('price', '<=', 500)->inRandomOrder()->take(8)->get();
-        $specialOffers = SpecialOffer::approved()->active()->get();
+        $specialOffers = SpecialOffer::with([
+            'product',
+            'product.categories',
+            'product.categories.menus',
+            'product.sub_categories',
+        ])->approved()->active()->get();
         $blogPosts = Post::active()->get();
         return view('webpage.index', [
             'carousels' => $carousels,

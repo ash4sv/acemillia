@@ -122,95 +122,21 @@
     <!-- Paragraph end -->
 
     <!-- Product slider -->
-    <section class="pt-0 ratio_asos section-b-space">
+    <section class="section-b-space pt-0 ratio_asos override-custom">
         <div class="container">
-            <div class="row gy-4 dark-box partition-five justify-content-center">
+            <div class="g-3 g-md-4 row row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 @forelse($specialOffers as $key => $specialOffer)
                     @php
-                        $specialOfferUrl = route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]);
-                        [$minPrice, $maxPrice] = $specialOffer?->product?->min_max_price;
+                        $menuSlug = $specialOffer?->product?->categories?->first()->menus?->first();
+                        $product = $specialOffer->product;
                     @endphp
-                <div class="col">
-                    <div class="basic-product theme-product-4">
-                        <div class="img-wrapper">
-                            <a href="{{ $specialOfferUrl }}">
-                                @if($specialOffer->single_image)
-                                <img src="{{ asset($specialOffer->single_image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! __($specialOffer?->product?->name) !!}">
-                                @else
-                                <img src="{{ asset($specialOffer?->product?->image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! __($specialOffer?->product?->name) !!}">
-                                @endif
-                            </a>
-                            <div class="cart-info">
-                                <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                    <i class="ri-heart-line"></i>
-                                </a>
-                                <a href="javascript:void(0);" onclick="event.preventDefault(); $('#add-to-cart-{{ __($specialOffer?->product?->slug . '-' . $specialOffer?->product?->id) }}').trigger('submit');">
-                                    <i class="ri-shopping-cart-line"></i>
-                                </a>
-                                <form class="shortcut-add-to-cart d-none" id="add-to-cart-{{ __($specialOffer?->product?->slug . '-' . $specialOffer?->product?->id) }}" action="{{ route('purchase.add-to-cart') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="product" readonly value="{{ $specialOffer?->product?->id }}">
-                                    <input type="hidden" name="price" readonly value="{{ $specialOffer?->product?->price }}">
-                                    <input type="hidden" name="base-price" class="base-price" value="{{ (float) $specialOffer?->product?->getRawOriginal('price') }}">
-                                    <input type="hidden" name="quantity" value="1" />
-                                    @php
-                                        $sortedOptions = $specialOffer?->product->options->sortBy('name');
-                                    @endphp
-                                    @foreach($sortedOptions as $p => $option)
-                                        <input type="hidden" name="options[{{ $p }}][option]" value="{{ $option->id }}">
-                                        @forelse($option->values as $i => $value)
-                                            <input type="radio"
-                                                   id="option{{ $p }}-{{ $i }}"
-                                                   name="options[{{ $p }}][value]"
-                                                   value="{{ $value->id }}"
-                                                   data-additional-price="{{ $value->additional_price }}"
-                                                {{ $loop->first ? 'checked' : '' }} hidden>
-                                        @empty
-                                            {{-- No values for this option --}}
-                                        @endforelse
-                                    @endforeach
-                                </form>
-                                <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                    <i class="ri-eye-line"></i>
-                                </a>
-                                <a href="javascript:void(0);"
-                                   title="Compare"
-                                   class="ajax-compare"
-                                   data-compare-product-id="{{ $specialOffer?->product?->id }}"
-                                   data-compare-action="{{ route('compare.store') }}"
-                                   data-compare-method="POST">
-                                    <i class="ri-loop-left-line"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="product-detail">
-                            <a class="product-title" href="{{ $specialOfferUrl }}">
-                                {!! __($specialOffer?->product?->name) !!}
-                            </a>
-                            <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                {{--<div class="rating">
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                </div>
-                                <span>(10)</span>--}}
-                            </div>
-                            <h4 class="price">
-                                @if(abs($minPrice - $maxPrice) < 0.0001)
-                                    {{ 'RM' . number_format($minPrice, 2) }}
-                                @else
-                                    {{ 'RM' . number_format($minPrice, 2) }}
-                                    -
-                                    {{ 'RM' . number_format($maxPrice, 2) }}
-                                @endif
-                                {{--<del class="ms-auto"> $20.00 </del>--}}
-                                {{--<span class="discounted-price">8% Off </span>--}}
-                            </h4>
-                        </div>
+                    <div class="col">
+                        @include('webpage.partials._card-basic-product', [
+                            'menuSlug' => $menuSlug,
+                            'product'  => $product,
+                            'theme'    => 'theme-product-1'
+                        ])
                     </div>
-                </div>
                 @empty
 
                 @endforelse

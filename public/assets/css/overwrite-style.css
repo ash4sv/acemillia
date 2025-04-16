@@ -685,3 +685,6 @@ footer p,
         /*background-color: inherit;*/
     }
 }
+.override-custom .product-detail p {
+    display: none;
+}
