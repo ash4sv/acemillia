@@ -688,3 +688,7 @@ footer p,
 .override-custom .product-detail p {
     display: none;
 }
+
+.theme-color-22 .btn-outline {
+    color: var(--theme-color);
+}
