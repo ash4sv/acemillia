@@ -42,7 +42,7 @@
                     <h4>Account Information</h4>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-8">
                         <div class="box">
                             <ul class="box-content">
                                 @isset($authUser->name)
@@ -76,6 +76,31 @@
                                     </li>
                                 @endisset
                             </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="single-form text-center">
+                            <div id="avatarPreview" class="avatar-preview">
+                                @if(!empty($authUser->img_avatar))
+                                    <img src="{{ asset($authUser->img_avatar) }}" alt="Avatar">
+                                @else
+                                    {{ $authUser->icon_avatar }}
+                                @endif
+                            </div>
+                            <button type="button" id="avatarBtn" class="btn btn-solid mt-4">
+                                {{ empty($authUser->img_avatar) ? 'Select Image' : 'Change Image' }}
+                            </button>
+                            <input
+                                type="file"
+                                id="avatarInput"
+                                name="avatar"
+                                accept=".jpg,.jpeg,.png"
+                                class="d-none"
+                            >
+                            <div class="col-md-8 mx-auto mt-4">
+                                <p class="mb-0">File size: maximum 1 MB</p>
+                                <p class="mb-0">File extension: JPEG, PNG</p>
+                            </div>
                         </div>
                     </div>
                 </div>

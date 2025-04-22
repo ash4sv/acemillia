@@ -692,3 +692,25 @@ footer p,
 .theme-color-22 .btn-outline {
     color: var(--theme-color);
 }
+
+/*============= CUSTOMER PROFILE VIEW ==============*/
+
+.avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #dee2e6;        /* neutral gray */
+    color: #6c757d;                   /* darker gray for the letter */
+    font-size: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0 auto;
+    border:1px solid #dee2e6;
+}
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
