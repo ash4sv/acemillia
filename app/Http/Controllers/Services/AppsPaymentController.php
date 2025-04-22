@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Billplz\Client;
+use Illuminate\Support\Str;
+use RealRashid\Cart\Facades\Cart;
 
 class AppsPaymentController extends Controller
 {
@@ -50,13 +52,36 @@ class AppsPaymentController extends Controller
                 $updateOrderData = DB::table('order_temps')->whereJsonContains('transaction_data->id', $id)->first();
                 $updateCartData  = DB::table('carts_temps')->where('temporary_uniq', $updateOrderData->temporary_uniq)->first();
 
-                if ($updateCartData->user == 'user') {
+                if ($updateCartData->user == 'user' && auth()->guard('web')->check()) {
                     Log::info('PAYMENT REDIRECT FUNCTION END: SUCCESS TRUE ' . $id . ' ' . date('Ymd/m/y H:i'));
-                    return response()->view($this->view . 'success');
+                    $cleanup = DB::table('cart_cleanup_queue')->where('transaction_id', $id)->where('user_id', auth()->guard('web')->id())->first();
+                    if ($cleanup) {
+                        $itemKeys = json_decode($cleanup->item_ids, true);
+
+                        Cart::instance('default'); // or 'user_' . auth()->id() if you use named instances
+                        foreach ($itemKeys as $itemKey) {
+                            try {
+                                Cart::remove($itemKey);
+                            } catch (\Exception $e) {
+                                Log::warning("Failed to remove cart item [$itemKey]: " . $e->getMessage());
+                            }
+                        }
+
+                        DB::table('cart_cleanup_queue')
+                            ->where('id', $cleanup->id)
+                            ->update([
+                                'deleted_at' => now()
+                            ]);
+                    }
+                    return response()->view($this->view . 'success', [
+                        'transaction_id' => strtoupper($id)
+                    ]);
                 }
             } elseif ($bill['data']['paid'] == 'false') {
                 Log::info('PAYMENT REDIRECT FUNCTION END: FALSE ' . $bill['data']['id']  . ' ' . date('Ymd/m/y H:i'));
-                return response()->view($this->view . 'failed');
+                return response()->view($this->view . 'failed', [
+                    'transaction_id' => strtoupper($bill['data']['id'])
+                ]);
             } else {
                 $id = $bill['data']['id'];
                 $whatUser = DB::table('order_temps')->whereJsonContains('transaction_data->id', $id)->first();
@@ -64,7 +89,9 @@ class AppsPaymentController extends Controller
                 Log::error(['RESPONSE ERROR' => $response]);
                 Log::info('PAYMENT REDIRECT UNSUCCESSFULLY FUNCTION END: ERROR');
                 if ($whatUser->user == 'user') {
-                    return response()->view($this->view . 'failed');
+                    return response()->view($this->view . 'failed', [
+                        'transaction_id' => strtoupper($id)
+                    ]);
                 }
             }
 
@@ -92,8 +119,10 @@ class AppsPaymentController extends Controller
             if ($response['paid'] == 'true') {
                 // STEP 2: Convert temp data into real order
                 if ($orderTemp->user == 'user') {
-                    DB::transaction(function () use ($orderTemp, $response) {
+                    DB::transaction(function () use ($billplzId, $orderTemp, $response) {
                         $cartTemp = DB::table('carts_temps')->where('temporary_uniq', $orderTemp->temporary_uniq)->first();
+
+                        $orderRef = Order::generateOrderReference();
 
                         $cart = json_decode($cartTemp->cart, true);
                         $cartItems = $cart['cart'] ?? [];
@@ -104,12 +133,14 @@ class AppsPaymentController extends Controller
 
                         // 2. Create final order
                         $order = Order::create([
-                            'user_id'        => $orderTemp->user_id,
-                            'total_amount'   => $cartTemp->total,
-                            'cart_temp_id'   => $cartTemp->id,
-                            'payment_status' => 'paid',
-                            'status'         => 'processing',
-                            'billing_address_id' => $billingAddress ? $billingAddress->id : null,
+                            'uniq'                => $orderRef['uniq'],
+                            'order_number'        => $orderRef['order_number'],
+                            'user_id'             => $orderTemp->user_id,
+                            'total_amount'        => $cartTemp->total,
+                            'cart_temp_id'        => $cartTemp->id,
+                            'payment_status'      => 'paid',
+                            'status'              => 'processing',
+                            'billing_address_id'  => $billingAddress ? $billingAddress->id : null,
                             'shipping_address_id' => $shippingAddress ? $shippingAddress->id : null,
                         ]);
 
@@ -158,14 +189,28 @@ class AppsPaymentController extends Controller
                         ]);
 
                         DB::table('carts_temps')->where('id', $cartTemp->id)->update([
+                            'uniq'           => $orderRef['uniq'],
+                            'order_number'   => $orderRef['order_number'],
                             'payment_status' => true,
                             'updated_at'     => now(),
                         ]);
 
                         DB::table('order_temps')->where('id', $orderTemp->id)->update([
+                            'uniq'           => $orderRef['uniq'],
+                            'order_number'   => $orderRef['order_number'],
                             'return_url_2'   => json_encode($response),
                             'payment_status' => true,
                             'created_at'     => now(),
+                        ]);
+
+                        // 5. Save item in cart cleanup queue
+                        DB::table('cart_cleanup_queue')->insert([
+                            'transaction_id' => $billplzId,
+                            'user_id'        => $orderTemp->user_id,
+                            'item_ids'       => json_encode(array_keys($cartItems)),
+                            'order_id'       => $order->id,
+                            'created_at'     => now(),
+                            'updated_at'     => now(),
                         ]);
                     });
                 } elseif ($orderTemp->user == 'merchant') {}

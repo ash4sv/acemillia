@@ -7,6 +7,7 @@ use App\Models\User\AddressBook;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Order extends Model
 {
@@ -17,6 +18,7 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'uniq',
+        'order_number',
         'cart_temp_id',
         'total_amount',
         'payment_status',
@@ -65,5 +67,27 @@ class Order extends Model
             $user = Auth::guard('web')->user();
         }
         return $query->where('user_id', $user->id);
+    }
+
+    public static function generateOrderReference(): array
+    {
+        $lastUniqueValue = DB::table('orders')
+            ->whereNotNull('uniq')
+            ->where('uniq', '!=', '')
+            ->orderBy('uniq', 'desc')
+            ->value('uniq');
+
+        $lastNumber = $lastUniqueValue && is_numeric($lastUniqueValue)
+            ? intval(substr($lastUniqueValue, -8))
+            : 0;
+
+        $newNumber = str_pad($lastNumber + 1, 8, '0', STR_PAD_LEFT);
+        $randomString = collect(range('A', 'Z'))->shuffle()->take(5)->implode('');
+        $orderNumber = now()->format('YmdHi') . $randomString . $newNumber;
+
+        return [
+            'uniq' => $newNumber,
+            'order_number' => $orderNumber
+        ];
     }
 }

@@ -309,8 +309,8 @@ class PurchaseUserController extends Controller
                 'updated_at'      => now(),
             ]);
 
-            cart()->removeCoupon();
-            cart()->clear();
+            // cart()->removeCoupon();
+            // cart()->clear();
 
             Log::info('CHECKOUT SUBMIT ' . date('Y-m-d H:i:s') . ' - ' . $uniq);
 

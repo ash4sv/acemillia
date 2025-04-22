@@ -150,7 +150,7 @@ $(document).ready(function(){
         <div class="container">
             <h2>{!! __($title) !!}</h2>
             <nav class="theme-breadcrumb">
-                <ol class="breadcrumb">
+                <ol class="rd">
                     @foreach ($breadcrumbs ?? [] as $breadcrumb)
                         <li class="breadcrumb-item">
                             @if (!empty($breadcrumb['url']))
