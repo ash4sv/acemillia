@@ -26,7 +26,7 @@
                                     <tbody>
                                     @forelse($orders as $n => $order)
                                     <tr>
-                                        <td><span class="fw-bolder">#1020</span></td>
+                                        <td><span class="fw-bolder">{{ $order->order_number }}</span></td>
                                         <td class="text-theme">{!! $order->total_amount !!}</td>
                                         <td>
                                             @php
