@@ -83,7 +83,7 @@ class Order extends Model
 
         $newNumber = str_pad($lastNumber + 1, 8, '0', STR_PAD_LEFT);
         $randomString = collect(range('A', 'Z'))->shuffle()->take(5)->implode('');
-        $orderNumber = now()->format('YmdHi') . $randomString . $newNumber;
+        $orderNumber = now()->format('Ymd') . $randomString . $newNumber;
 
         return [
             'uniq' => $newNumber,
