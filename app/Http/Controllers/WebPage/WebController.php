@@ -332,4 +332,34 @@ class WebController extends Controller
             'breadcrumbs' => $breadcrumbs,
         ]);
     }
+
+    public function about()
+    {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'About Us']
+        ]);
+        return view('webpage.about', [
+            'breadcrumbs' => $breadcrumbs
+        ]);
+    }
+
+    public function privacyPolicy()
+    {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Privacy Policy']
+        ]);
+        return view('webpage.privacy-policy', [
+            'breadcrumbs' => $breadcrumbs
+        ]);
+    }
+
+    public function termsConditions()
+    {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Terms And Condition']
+        ]);
+        return view('webpage.terms-and-conditions', [
+            'breadcrumbs' => $breadcrumbs
+        ]);
+    }
 }

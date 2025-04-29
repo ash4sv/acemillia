@@ -94,10 +94,11 @@
                             </div>
                             <div class="footer-content">
                                 <ul>
+                                    <li><a href="{{ route('web.about') }}">{!! __('About Us') !!}</a></li>
                                     <li><a href="#!">{!! __('shipping & return') !!}</a></li>
                                     <li><a href="#!">{!! __('secure shopping') !!}</a></li>
-                                    <li><a href="#!">{!! __('gallery') !!}</a></li>
-                                    <li><a href="#!">{!! __('affiliates') !!}</a></li>
+                                    <li><a href="{{ route('web.terms-and-conditions') }}">{!! __('Terms and Condition') !!}</a></li>
+                                    <li><a href="{{ route('web.privacy-policy') }}">{!! __('Privacy Policy') !!}</a></li>
                                     <li><a href="#!">{!! __('contacts') !!}</a></li>
                                     <li><a href="{!! route('merchant.redirect') !!}">{!! __('Become a Merchant') !!}</a></li>
                                 </ul>
