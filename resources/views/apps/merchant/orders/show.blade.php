@@ -255,8 +255,8 @@
                 </div>
             </div>
 
-            <div class="border border-solid p-4">
-                
+            <div class="border border-solid p-4 mt-3">
+
             </div>
         </div>
     </div>
