@@ -23,6 +23,7 @@ class MerchantSeeder extends Seeder
 
         $merchants = [
             [
+                'id'                          => 2,
                 'name'                        => 'Miriam Franks',
                 'email'                       => 'voza@mailinator.com',
                 'password'                    => Hash::make('password'),
