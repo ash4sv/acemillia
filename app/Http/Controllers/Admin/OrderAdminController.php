@@ -91,7 +91,15 @@ class OrderAdminController extends Controller
      */
     private function findOrFailOrder(string $id): Order
     {
-        return Order::findOrFail($id);
+        return Order::with([
+            'subOrders',
+            'subOrders.merchant',
+            'subOrders.items',
+            'subOrders.shippingLogs',
+            'payment',
+            'billingAddress',
+            'shippingAddress',
+        ])->findOrFail($id);
     }
 
     /**
