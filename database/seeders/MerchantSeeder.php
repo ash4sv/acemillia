@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin\MenuSetup;
 use App\Models\Merchant;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,6 +22,8 @@ class MerchantSeeder extends Seeder
         DB::table('merchants')->truncate();
         Schema::enableForeignKeyConstraints();
 
+        $marketing = MenuSetup::where('name', 'Marketing')->first();
+
         $merchants = [
             [
                 'id'                          => 2,
@@ -34,7 +37,7 @@ class MerchantSeeder extends Seeder
                 'business_license_document'   => null,
                 'bank_name_account'           => null,
                 'bank_account_details'        => null,
-                'menu_setup_id'               => 2,
+                'menu_setup_id'               => $marketing->id,
                 'status_submission'           => 'approved',
                 'email_verified_at'            => now(),
                 'remember_token'              => Str::random(10),
