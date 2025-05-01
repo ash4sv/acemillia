@@ -18,6 +18,12 @@ class OrderAdminDataTable extends DataTable
 {
     protected string $route = 'admin.order.';
     protected string $permission = 'admin-systems-management-';
+    protected array $dataModalConfig = [
+        'scrollable'      => 'false',
+        'centered'        => 'false',
+        'optional_size'   => 'modal-lg',
+        'fullscreen_mode' => ''
+    ];
 
     /**
      * Build the DataTable class.
@@ -34,13 +40,25 @@ class OrderAdminDataTable extends DataTable
                         $this->permission . 'read',
                         true,
                         $item->uniq,
-                        route($this->route . 'show', $item->id)
+                        route($this->route . 'show', $item->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
                     ],
                     'edit-btn'   => [
                         $this->permission . 'update',
                         true,
                         $item->uniq,
-                        route($this->route . 'edit', $item->id)
+                        route($this->route . 'edit', $item->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
                     ],
                     'delete-btn' => [ $this->permission . 'delete', false, route($this->route . 'destroy', $item->id) ]
                 ]);
@@ -110,7 +128,14 @@ class OrderAdminDataTable extends DataTable
                         [
                             'buttons'    => [
                                 Button::make('reload'),
-                                /*DataTableParameter::createBtn('Create Post', route($this->route . 'create')),*/
+                                DataTableParameter::createBtn(
+                                    'Create Post',
+                                    route($this->route . 'create'),
+                                    $this->dataModalConfig['scrollable'],
+                                    $this->dataModalConfig['centered'],
+                                    $this->dataModalConfig['optional_size'],
+                                    $this->dataModalConfig['fullscreen_mode']
+                                ),
                             ],
                         ]
                     ));
