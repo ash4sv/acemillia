@@ -46,8 +46,10 @@
                                 </div>
                             @empty
                                 <div class="select-box active col-xl-12 col-md-12">
-                                    <div class="address-box">
-                                        <h4 class="mb-0 p-4">{!! __('have no registered address') !!}</h4>
+                                    <div class="d-flex align-items-center justify-content-center bg-white" style="min-height:10rem;">
+                                        <h3 class="m-0 text-center fw-lighter" style="font-size: 24px;">
+                                            {{ __('No addresses saved yet—add one now and checkout will be a breeze!') }}
+                                        </h3>
                                     </div>
                                 </div>
                             @endforelse

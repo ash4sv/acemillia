@@ -10,10 +10,16 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class ProfileUserController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function profileEdit()
     {
         return response()->view('apps.user.profile.profile', [
-            'authUser' => auth()->guard('web')->user()
+            'authUser' => auth()->guard('web')->user(),
+            'genders' => $this->genders,
         ]);
     }
 
@@ -32,7 +38,8 @@ class ProfileUserController extends Controller
             'name' => $registerName,
             'phone' => $phoneNo,
             'icon_avatar' => $char,
-            'img_avatar' => $imageFilePath
+            'img_avatar' => $imageFilePath,
+            'identification_number' => $request->input('identification_number'),
         ]);
 
         Alert::success('Successfully Update!', 'Profile has been updated!');

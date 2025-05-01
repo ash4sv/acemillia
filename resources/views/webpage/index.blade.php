@@ -192,7 +192,11 @@
         <div class="row">
             <div class="col-xl-3 d-xl-block d-none">
                 <a href="">
-                    <img src="{!! asset('assets/images/furniture-3/banner/3.png') !!}" class="img-fluid" alt="">
+                    @php
+                        $image = \App\Models\Admin\Widget::getRandomActive([320, 820]);
+                        $img = $image->image ?? 'assets/images/furniture-3/banner/3.png';
+                    @endphp
+                    <img src="{!! asset($img) !!}" class="img-fluid" alt="">
                 </a>
             </div>
             <div class="col-xl-9">

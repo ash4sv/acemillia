@@ -61,18 +61,13 @@ class AuthUserController extends Controller
             ['label' => 'Register'],
         ]);
 
-        $genders = [
-            ['name' => 'male'],
-            ['name' => 'female'],
-        ];
-
         $countries = public_path('assets/data/countries.json');
 
         if (auth()->guard('web')->check()) {
             return redirect()->route('dashboard');
         }
         return response()->view($this->view . 'register', [
-            'genders' => $genders,
+            'genders' => $this->genders,
             'countries' => $countries,
             'breadcrumbs' => $breadcrumbs
         ]);

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AuthAdminController;
 use App\Http\Controllers\Admin\AuthAdminVerifyController;
 use App\Http\Controllers\Admin\CarouselSliderAdminController;
 use App\Http\Controllers\Admin\CategoryAdminController;
+use App\Http\Controllers\Admin\CourierAdminController;
 use App\Http\Controllers\Admin\DashboardAdminController;
 use App\Http\Controllers\Admin\MenuAdminController;
 use App\Http\Controllers\Admin\MerchantAdminController;
@@ -14,10 +15,13 @@ use App\Http\Controllers\Admin\PostAdminController;
 use App\Http\Controllers\Admin\PostCategoryAdminController;
 use App\Http\Controllers\Admin\PostTagAdminController;
 use App\Http\Controllers\Admin\ProductAdminController;
+use App\Http\Controllers\Admin\ShipmentAdminController;
+use App\Http\Controllers\Admin\ShippingProviderAdminController;
 use App\Http\Controllers\Admin\ShopAdminController;
 use App\Http\Controllers\Admin\SubCategoryAdminController;
 use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
+use App\Http\Controllers\Admin\WidgetAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\Merchant\AuthMerchantVerifyController;
 use App\Http\Controllers\Merchant\DashboardMerchantController;
@@ -191,6 +195,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'posts' => PostAdminController::class,
             ]);
         });
+        Route::prefix('shipping-service')->name('shipping-service.')->group(function () {
+            Route::resources([
+                'shipping-provider' => ShippingProviderAdminController::class,
+                'courier' => CourierAdminController::class,
+                'shipment' => ShipmentAdminController::class,
+            ]);
+        });
         Route::prefix('shop')->name('shop.')->group(function () {
             Route::get('categories/{category}/subcategories', [ShopAdminController::class, 'getSubcategories'])->name('categories.subcategories');
             Route::resources([
@@ -207,5 +218,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('news-feed', NewsFeedUserController::class)->except(['index', 'create', 'show']);
         Route::resource('news-feed-like', NewsFeedLikeAdminController::class)->except(['index', 'create', 'show', 'edit', 'update', 'destroy']);
         Route::resource('news-feed-comment', NewsFeedCommentAdminController::class)->except(['index', 'create', 'show', 'edit']);
+        Route::resource('widget', WidgetAdminController::class);
     });
 });

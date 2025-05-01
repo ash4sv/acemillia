@@ -78,8 +78,8 @@
                 <div class="col-lg-4">
                     <h3>Merchant Access</h3>
                     <div class="theme-card authentication-right">
-                        <h4 class="title-font mb-4">Merchant Login</h4>
-                        <h5 class="small">Welcome back, valued partner! Log in to your ACEMILLIA Merchant Dashboard to:</h5>
+                        <h6 class="title-font">Merchant Login</h6>
+                        <p>Welcome back, valued partner! Log in to your ACEMILLIA Merchant Dashboard to:</p>
                         <ul class="ps-0 mb-4">
                             <li class="mb-2">Track & manage orders in real time</li>
                             <li class="mb-2">View performance insights & analytics</li>
@@ -87,8 +87,8 @@
                         </ul>
                         <a href="{{ route('merchant.login') }}" class="btn btn-primary w-100 mb-4">Merchant Login</a>
 
-                        <h4 class="title-font mb-4">Merchant Registration</h4>
-                        <h5 class="small">Ready to grow with ACEMILLIA? Join our network to enjoy:</h5>
+                        <h6 class="title-font">Merchant Registration</h6>
+                        <p>Ready to grow with ACEMILLIA? Join our network to enjoy:</p>
                         <ul class="ps-0 mb-4">
                             <li class="mb-2">Seamless onboarding</li>
                             <li class="mb-2">Dedicated pharma-specialist support</li>

@@ -63,7 +63,13 @@
                                     </tr>
                                     @empty
                                     <tr>
-                                        <td colspan="6"></td>
+                                        <td colspan="6">
+                                            <div class="d-flex align-items-center justify-content-center" style="min-height:10rem;">
+                                                <h3 class="m-0 text-center fw-lighter" style="font-size: 24px;">
+                                                    {{ __('You haven’t placed any orders yet—start shopping and your purchases will appear here.') }}
+                                                </h3>
+                                            </div>
+                                        </td>
                                     </tr>
                                     @endforelse
                                     </tbody>
