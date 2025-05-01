@@ -115,7 +115,7 @@ class Merchant extends Authenticatable implements MustVerifyEmail
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'product_id', 'id');
+        return $this->hasMany(Product::class, 'merchant_id', 'id');
     }
 
     public function subOrders()

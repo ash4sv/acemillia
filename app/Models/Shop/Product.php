@@ -2,6 +2,7 @@
 
 namespace App\Models\Shop;
 
+use App\Models\Merchant;
 use App\Models\Order\OrderItem;
 use App\Services\QueryScopes;
 use Illuminate\Database\Eloquent\Model;
@@ -66,6 +67,11 @@ class Product extends Model
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'model', 'tag_relations');
+    }
+
+    public function merchant()
+    {
+        return $this->belongsTo(Merchant::class, 'merchant_id', 'id');
     }
 
     public function specialOffers()

@@ -41,6 +41,9 @@ class ProductAdminDataTable extends DataTable
             ->addColumn('status', function ($product) {
                 return $product->status;
             })
+            ->addColumn('merchant', function ($product) {
+                return $product->merchant->company_name ?? '';
+            })
             ->rawColumns(['updated_at', 'status', 'action'])
             ->setRowId('id');
     }
