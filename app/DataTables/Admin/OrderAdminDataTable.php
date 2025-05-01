@@ -114,6 +114,7 @@ class OrderAdminDataTable extends DataTable
         return [
             Column::computed('DT_RowIndex')->title('No')->className('text-start w-px-50'),
             Column::computed('uniq'),
+            Column::computed('order_number'),
             Column::computed('merchant'),
             Column::computed('total_amount'),
             Column::computed('payment_status'),
