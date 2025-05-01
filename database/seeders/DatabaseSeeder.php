@@ -24,14 +24,14 @@ class DatabaseSeeder extends Seeder
             // PermissionRoleSeeder::class,
             // AdminSeeder::class,
             // UserSeeder::class,
-            MerchantSeeder::class,
+            // MerchantSeeder::class,
             // CarouselSliderSeeder::class,
             // MenuSetupSeeder::class,
             // ProductSeeder::class,
             // PostCategorySeeder::class,
             // PostTagSeeder::class,
             // PostSeeder::class,
-            // ShippingProviderSeeder::class
+            ShippingProviderSeeder::class
         ]);
     }
 }
