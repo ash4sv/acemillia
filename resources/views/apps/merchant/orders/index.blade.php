@@ -23,7 +23,7 @@
                     <tbody>
                     @forelse($subOrders as $i => $subOrder)
                         <tr>
-                            <td><span class="fw-bolder">{!! $subOrder->order?->order_number ?? '' !!}</span></td>
+                            <td style="overflow-wrap: break-word;"><span class="fw-bolder">{!! $subOrder->order?->order_number ?? '' !!}</span></td>
                             <td>{!! $subOrder->order->user?->name !!}</td>
                             <td class="text-theme">{!! $subOrder->subtotal !!}</td>
                             <td>
