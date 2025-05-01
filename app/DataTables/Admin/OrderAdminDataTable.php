@@ -21,7 +21,7 @@ class OrderAdminDataTable extends DataTable
     protected array $dataModalConfig = [
         'scrollable'      => 'false',
         'centered'        => 'false',
-        'optional_size'   => 'modal-lg',
+        'optional_size'   => 'modal-xl',
         'fullscreen_mode' => ''
     ];
 
