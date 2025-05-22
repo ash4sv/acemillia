@@ -93,6 +93,8 @@ class AuthMerchantController extends Controller
             'status_submission'         => 'pending'
         ]));
 
+        $merchant->addressMerchant()->create($data);
+
         $merchant->assignRole('merchant');
         $merchant->sendMerchantEmailVerificationNotification();
         auth()->guard('merchant')->login($merchant);

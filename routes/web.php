@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\PostAdminController;
 use App\Http\Controllers\Admin\PostCategoryAdminController;
 use App\Http\Controllers\Admin\PostTagAdminController;
 use App\Http\Controllers\Admin\ProductAdminController;
+use App\Http\Controllers\Admin\ReviewAdminController;
 use App\Http\Controllers\Admin\ShipmentAdminController;
 use App\Http\Controllers\Admin\ShippingProviderAdminController;
 use App\Http\Controllers\Admin\ShopAdminController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\Admin\UserAdminController;
 use App\Http\Controllers\Admin\WidgetAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\Merchant\AuthMerchantVerifyController;
+use App\Http\Controllers\Merchant\CourierMerchantController;
 use App\Http\Controllers\Merchant\DashboardMerchantController;
 use App\Http\Controllers\Merchant\DashboardMerchantRedirectController;
 use App\Http\Controllers\Merchant\NewsFeedCommentMerchantController;
@@ -116,6 +118,11 @@ Route::middleware(['custom.auth:web', 'apps-verified:web'])->group(function (){
 
     Route::get('address', [ProfileUserController::class, 'addressBook'])->name('address');
 
+    Route::prefix('reviews')->name('reviews.')->group(function () {
+        Route::get('products/{product}/reviews/create', [ReviewUserController::class, 'create'])->name('create');
+        Route::post('products/{product}/reviews', [ReviewUserController::class, 'store'])->name('store');
+        Route::post('{review}/reply', [ReviewUserController::class, 'storeReply'])->name('reply');
+    });
     Route::prefix('purchase')->name('purchase.')->middleware('approved')->group(function () {
         Route::get('cart', [PurchaseUserController::class, 'viewCart'])->name('cart');
         Route::post('cart-qty-update', [PurchaseUserController::class, 'updateCartQuantity'])->name('cart.quantity.update');
@@ -157,6 +164,9 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
         Route::resource('news-feed', NewsFeedMerchantController::class)->except(['index', 'create', 'show']);
         Route::resource('news-feed-like', NewsFeedLikeMerchantController::class)->except(['index', 'create', 'show', 'edit', 'update', 'destroy']);
         Route::resource('news-feed-comment', NewsFeedCommentMerchantController::class)->except(['index', 'create', 'show', 'edit']);
+
+        Route::post('couriers/fetch', [CourierMerchantController::class, 'fetchFromProvider'])->name('couriers.fetch');
+        Route::post('couriers/submit-order', [CourierMerchantController::class, 'submitOrder'])->name('couriers.submit-order');
     });
 });
 
@@ -201,6 +211,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'courier' => CourierAdminController::class,
                 'shipment' => ShipmentAdminController::class,
             ]);
+            Route::post('generate-po', [ShipmentGeneralAdminController::class, 'generatePo'])->name('generate.po');
         });
         Route::prefix('shop')->name('shop.')->group(function () {
             Route::get('categories/{category}/subcategories', [ShopAdminController::class, 'getSubcategories'])->name('categories.subcategories');
@@ -209,7 +220,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'sub-categories' => SubCategoryAdminController::class,
                 'tags' => TagAdminController::class,
                 'products' => ProductAdminController::class,
-                'special-offer' => SpecialOfferMerchantController::class
+                'special-offer' => SpecialOfferMerchantController::class,
+                'reviews' => ReviewAdminController::class
             ]);
         });
         Route::resource('order', OrderAdminController::class);

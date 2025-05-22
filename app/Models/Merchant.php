@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Admin\MenuSetup;
+use App\Models\Merchant\AddressMerchant;
 use App\Models\Order\ShippingStatusLog;
 use App\Models\Order\SubOrder;
 use App\Models\Shop\Product;
@@ -81,6 +82,11 @@ class Merchant extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MerchantResetPasswordNotification($token));
+    }
+
+    public function address()
+    {
+        return $this->hasOne(AddressMerchant::class, 'merchant_id', 'id');
     }
 
     public function specialOffers()

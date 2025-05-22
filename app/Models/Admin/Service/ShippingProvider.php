@@ -37,4 +37,9 @@ class ShippingProvider extends Model
     {
         return QueryScopes::scopeInactive($query);
     }
+
+    public function couriers()
+    {
+        return $this->hasMany(Courier::class, 'shipping_provider_id', 'id');
+    }
 }

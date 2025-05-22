@@ -43,6 +43,10 @@ class Product extends Model
     {
         return QueryScopes::scopeInactive($query);
     }
+    public function scopePriceValue($query)
+    {
+        return $query->where('price', '>', 0);
+    }
 
     public function images()
     {

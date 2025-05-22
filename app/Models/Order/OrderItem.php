@@ -2,6 +2,7 @@
 
 namespace App\Models\Order;
 
+use App\Models\Admin\Service\ShipmentItem;
 use App\Models\Shop\Product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,5 +30,10 @@ class OrderItem extends Model
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+
+    public function shipmentItem()
+    {
+        return $this->hasOne(ShipmentItem::class, 'order_item_id', 'id');
     }
 }

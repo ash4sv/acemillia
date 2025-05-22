@@ -13,6 +13,7 @@ class Courier extends Model
     protected $table = 'couriers';
 
     protected $fillable = [
+        'merchant_id',
         'shipping_provider_id',
         'image',
         'name',
@@ -38,5 +39,10 @@ class Courier extends Model
     public function scopeInactive($query)
     {
         return QueryScopes::scopeInactive($query);
+    }
+
+    public function shippingProvider()
+    {
+        return $this->belongsTo(ShippingProvider::class, 'shipping_provider_id', 'id');
     }
 }

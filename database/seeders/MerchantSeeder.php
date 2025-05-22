@@ -20,6 +20,7 @@ class MerchantSeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
         DB::table('merchants')->truncate();
+        DB::table('address_merchants')->truncate();
         Schema::enableForeignKeyConstraints();
 
         $marketing = MenuSetup::where('name', 'Marketing')->first();
@@ -41,20 +42,39 @@ class MerchantSeeder extends Seeder
                 'status_submission'           => 'approved',
                 'email_verified_at'            => now(),
                 'remember_token'              => Str::random(10),
+                'address'                     => [
+                    [
+                        'country'             => 'MY',
+                        'state'               => 'KDH',
+                        'city'                => 'Kodiang',
+                        'postcode'            => '06100',
+                        'street_address'      => 'Kampung Guar Batu Hitam',
+                        'business_address'    => 'B-80, Jalan Jakarta Barat',
+                    ]
+                ],
             ]
         ];
 
-        foreach ($merchants as $merchant) {
-            $registerName = ucfirst($merchant['name']);
-            $char = $registerName[0] ?? '';
 
-            $createdMerchant = Merchant::create(
-                array_merge($merchant, [
-                    'name' => $registerName,
-                    'icon_avatar' => $char,
-                ])
-            );
-            $createdMerchant->assignRole('merchant');
+        foreach ($merchants as $data) {
+            // 1. Extract & remove the address payload
+            $addressData = $data['address'][0] ?? [];
+            unset($data['address']);
+
+            // 2. Build the merchant payload
+            $data['name']        = ucfirst($data['name']);
+            $data['icon_avatar'] = substr($data['name'], 0, 1);
+
+            // 3. Create the merchant (no 'address' key in $data)
+            $merchant = Merchant::create($data);
+
+            // 4. Create the related address record
+            if ($addressData) {
+                $merchant->address()->create($addressData);
+            }
+
+            // 5. Assign the 'merchant' role
+            $merchant->assignRole('merchant');
         }
     }
 }

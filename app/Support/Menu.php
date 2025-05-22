@@ -102,6 +102,14 @@ class Menu
                                 'text'       => __('Special Offer'),
                                 'target'     => '',
                             ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shop.reviews.index'),
+                                'active_on'  => 'admin/shop/reviews*',
+                                'icon'       => 'tf-icons ti ti-star',
+                                'text'       => __('Reviews'),
+                                'target'     => '',
+                            ],
                         ]
                     ],
                     [

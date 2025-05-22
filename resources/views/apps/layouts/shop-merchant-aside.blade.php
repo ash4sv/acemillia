@@ -20,7 +20,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link {!! in_array(request('section'), ['profile', 'profile-edit', 'password-edit']) ? 'active' : '' !!}" href="{!! route('merchant.dashboard', ['section' => 'profile']) !!}">
+        <a class="nav-link {!! in_array(request('section'), ['profile', 'profile-edit', 'password-edit', 'address-edit']) ? 'active' : '' !!}" href="{!! route('merchant.dashboard', ['section' => 'profile']) !!}">
             <i class="ri-user-3-line"></i> {!! __('Profile') !!}
         </a>
     </li>

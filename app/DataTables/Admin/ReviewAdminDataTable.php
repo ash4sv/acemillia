@@ -2,7 +2,8 @@
 
 namespace App\DataTables\Admin;
 
-use App\Models\Order\Order;
+use App\Models\ReviewAdmin;
+use App\Models\Shop\Review;
 use App\Services\DataTable\DataTableParameter;
 use App\Services\DataTable\EloquentDataTableBtnElement;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
@@ -14,9 +15,9 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class OrderAdminDataTable extends DataTable
+class ReviewAdminDataTable extends DataTable
 {
-    protected string $route = 'admin.order.';
+    protected string $route = 'admin.shop.reviews.';
     protected string $permission = 'admin-systems-management-';
     protected array $dataModalConfig = [
         'scrollable'      => 'false',
@@ -39,7 +40,7 @@ class OrderAdminDataTable extends DataTable
                     'show-btn'   => [
                         $this->permission . 'read',
                         true,
-                        $item->order_number,
+                        $item->name ?? 'Show',
                         route($this->route . 'show', $item->id),
                         'modal' => [
                             'scrollable'      => $this->dataModalConfig['scrollable'],
@@ -51,7 +52,7 @@ class OrderAdminDataTable extends DataTable
                     'edit-btn'   => [
                         $this->permission . 'update',
                         true,
-                        $item->order_number,
+                        $item->name ?? 'Edit',
                         route($this->route . 'edit', $item->id),
                         'modal' => [
                             'scrollable'      => $this->dataModalConfig['scrollable'],
@@ -60,52 +61,25 @@ class OrderAdminDataTable extends DataTable
                             'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
                         ],
                     ],
-                    'delete-btn' => [ $this->permission . 'delete', false, route($this->route . 'destroy', $item->id) ]
+                    'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $item->id) ]
                 ]);
             })
             ->addColumn('updated_at', function ($item) {
                 return $item->updated_at->format('d-m-y, h:i A');
             })
-            ->addColumn('payment_status', function ($item){
-                $status = $item->payment_status;
-                $statusClass = [
-                    'pending' => 'bg-label-warning',
-                    'paid'    => 'bg-label-success',
-                    'failed'  => 'bg-label-danger',
-                ][$status] ?? 'bg-label-primary';
-                $statusLabel = ucfirst($status);
-                return '<div class="badge ' . $statusClass . ' "><span>' . $statusLabel . '</span></div>';
+            ->addColumn('review_user', function ($item) {
+                return $item->visibility_type->value === 'anonymous' ? 'Anonymous' : ($item->user->name ?? 'Unknown User') ?? '';
             })
-            ->addColumn('status', function ($item){
-                $status = $item->status;
-                $statusClass = [
-                    'processing' => 'bg-label-warning',
-                    'completed'  => 'bg-label-success',
-                    'cancelled'  => 'bg-label-danger',
-                ][$status] ?? 'bg-label-primary';
-                $statusLabel = ucfirst($status);
-                return '<div class="badge ' . $statusClass . ' "><span>' . $statusLabel . '</span></div>';
-            })
-            ->addColumn('merchant', function ($item){
-                return $item->subOrders->pluck('merchant.company_name')->unique()->implode(', ') ?: '-';
-            })
-            ->rawColumns(['payment_status', 'status', 'updated_at', 'action'])
+            ->rawColumns(['review_user', 'updated_at', 'action'])
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(Order $model): QueryBuilder
+        public function query(Review $model): QueryBuilder
     {
-        return $model->with([
-                    'user',
-                    'subOrders.merchant',
-                    'subOrders.items',
-                    'payment',
-                    'billingAddress',
-                    'shippingAddress',
-                ])->newQuery();
+        return $model->newQuery();
     }
 
     /**
@@ -114,7 +88,7 @@ class OrderAdminDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('order-admin-table')
+                    ->setTableId('review-admin-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -128,14 +102,14 @@ class OrderAdminDataTable extends DataTable
                         [
                             'buttons'    => [
                                 Button::make('reload'),
-                                DataTableParameter::createBtn(
-                                    'Create Post',
+                                /*DataTableParameter::createBtn(
+                                    'Create Group Product',
                                     route($this->route . 'create'),
                                     $this->dataModalConfig['scrollable'],
                                     $this->dataModalConfig['centered'],
                                     $this->dataModalConfig['optional_size'],
                                     $this->dataModalConfig['fullscreen_mode']
-                                ),
+                                ),*/
                             ],
                         ]
                     ));
@@ -148,12 +122,7 @@ class OrderAdminDataTable extends DataTable
     {
         return [
             Column::computed('DT_RowIndex')->title('No')->className('text-start w-px-50'),
-            Column::computed('uniq'),
-            Column::computed('order_number'),
-            Column::computed('merchant'),
-            Column::computed('total_amount'),
-            Column::computed('payment_status'),
-            Column::computed('status'),
+            Column::computed('review_user')->title('Review'),
             Column::computed('updated_at')->className('w-px-200'),
             Column::computed('action')->title('Action')->className('w-px-150'),
         ];
@@ -164,6 +133,6 @@ class OrderAdminDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'OrderAdmin_' . date('YmdHis');
+        return 'ReviewAdmin_' . date('YmdHis');
     }
 }

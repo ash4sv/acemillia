@@ -17,22 +17,28 @@ class EloquentDataTableBtnElement
         $html = '';
 
         if (self::isButtonEnabled($config, 'show-btn')) {
+            // Pull modal configuration if provided for show-btn.
+            $modalConfig = isset($config['show-btn']['modal']) ? $config['show-btn']['modal'] : [];
             $html .= self::generateButton(
                 'btn-warning me-1',
                 'ti ti-eye',
                 $config['show-btn'][2] ?? 'Show', // Title
                 $config['show-btn'][3] ?? '#',    // URL
-                'Show'
+                'Show',
+                $modalConfig
             );
         }
 
         if (self::isButtonEnabled($config, 'edit-btn')) {
+            // Pull modal configuration if provided for edit-btn.
+            $modalConfig = isset($config['edit-btn']['modal']) ? $config['edit-btn']['modal'] : [];
             $html .= self::generateButton(
                 'btn-info me-1',
                 'ti ti-pencil',
                 $config['edit-btn'][2] ?? 'Edit', // Title
                 $config['edit-btn'][3] ?? '#',    // URL
-                'Edit'
+                'Edit',
+                $modalConfig
             );
         }
 
@@ -60,8 +66,8 @@ class EloquentDataTableBtnElement
         $permission = $config[$key][0] ?? null;
 
         return isset($config[$key]) &&
-            $config[$key][1] === true && // Button enabled
-            ($permission === null || self::hasPermission($permission)); // Use custom permission check
+            $config[$key][1] === true &&
+            ($permission === null || self::hasPermission($permission));
     }
 
     /**
@@ -92,6 +98,7 @@ class EloquentDataTableBtnElement
      * @param string $title
      * @param string $url
      * @param string $type
+     * @param array|null $modalConfig
      * @return string
      */
     private static function generateButton(
@@ -99,13 +106,24 @@ class EloquentDataTableBtnElement
         string $iconClass,
         string $title,
         string $url,
-        string $type
+        string $type,
+        ?array $modalConfig = null
     ): string {
+        // Use modal config if provided; otherwise, default to empty strings.
+        $dialogScrollable = $modalConfig['scrollable'] ?? '';
+        $dialogCentered   = $modalConfig['centered'] ?? '';
+        $optionalSize     = $modalConfig['optional_size'] ?? '';
+        $fullscreenMode   = $modalConfig['fullscreen_mode'] ?? '';
+
         return <<<HTML
         <a href="#"
            class="btn btn-icon btn-sm {$btnClass}"
            data-bs-toggle="modal"
            data-bs-target="#basicModal"
+           data-modal-dialog-scrollable="{$dialogScrollable}"
+           data-modal-dialog-centered="{$dialogCentered}"
+           data-modal-optional-size="{$optionalSize}"
+           data-modal-fullscreen-mode="{$fullscreenMode}"
            data-create-url="{$url}"
            data-create-title="{$title}">
            <i class="{$iconClass}"></i>

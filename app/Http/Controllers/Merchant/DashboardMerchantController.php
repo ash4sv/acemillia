@@ -136,6 +136,13 @@ class DashboardMerchantController extends Controller
         return redirect()->route('merchant.dashboard', ['section' => 'profile']);
     }
 
+    public function addressEdit()
+    {
+        return view($this->view . 'profile.address', [
+            'authUser' => $this->auth
+        ]);
+    }
+
     public function settings()
     {
         return view($this->view . 'settings.index', [

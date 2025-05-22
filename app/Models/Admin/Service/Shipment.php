@@ -2,6 +2,7 @@
 
 namespace App\Models\Admin\Service;
 
+use App\Models\Order\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,4 +23,14 @@ class Shipment extends Model
     ];
 
     protected $guarded = [];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+    public function shipmentItems()
+    {
+        return $this->hasMany(ShipmentItem::class, 'shipment_id', 'id');
+    }
 }

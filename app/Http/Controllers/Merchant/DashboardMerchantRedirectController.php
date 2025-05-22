@@ -29,6 +29,8 @@ class DashboardMerchantRedirectController extends Controller
                 return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@profileEdit');
             case 'password-edit':
                 return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@passwordEdit');
+            case 'address-edit':
+                return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@addressEdit');
             case 'settings':
                 return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@settings');
             default:

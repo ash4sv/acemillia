@@ -283,6 +283,37 @@ var Apps = {
             var createUrl = $(this).data('create-url');
             var modalTitle = $(this).data('create-title');
 
+            // Get the modal-dialog element
+            var $modalDialog = $('#basicModal .modal-dialog');
+            // Reset to default classes: modal-dialog and default size modal-lg
+            $modalDialog.attr('class', 'modal-dialog modal-lg');
+
+            // 1. Scrollable: if the button has a non-empty data attribute, add the class
+            // (If you want to check for a specific truthy value like "true", you may adjust the condition.)
+            var scrollable = $(this).attr('data-modal-dialog-scrollable');
+            if (scrollable === 'true') {
+                $modalDialog.addClass('modal-dialog-scrollable');
+            }
+
+            // 2. Centered: if the attribute exists (even if empty), add the centered class
+            var centered = $(this).attr('data-modal-dialog-centered');
+            if (centered === 'true') {
+                $modalDialog.addClass('modal-dialog-centered');
+            }
+
+            // 3. Optional Size: if a valid size class (e.g. modal-xl, modal-sm) is provided, override the default modal-lg
+            var optionalSize = $(this).attr('data-modal-optional-size');
+            if (typeof optionalSize !== 'undefined' && optionalSize !== "") {
+                $modalDialog.removeClass('modal-lg').addClass(optionalSize);
+            }
+
+            // 4. Fullscreen Mode: if the attribute exists, add the appropriate fullscreen class.
+            // If the attribute value is empty, default to "modal-fullscreen".
+            var fullscreenMode = $(this).attr('data-modal-fullscreen-mode');
+            if (fullscreenMode && fullscreenMode.trim() !== '') {
+                $modalDialog.addClass(fullscreenMode);
+            }
+
             // Load content via AJAX
             $.ajax({
                 url: createUrl,
@@ -723,6 +754,16 @@ var Apps = {
         });
     },
 
+    ajaxDocumentToken: function () {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        $('form[method]').each(function() {
+            var $form = $(this);
+            var method = ($form.attr('method') || '').toLowerCase();
+            if (method === 'post' && $form.find('input[name="_token"]').length === 0) {
+                $form.prepend('<input type="hidden" name="_token" value="' + csrfToken + '">');
+            }
+        });
+    },
     addToCartShortCut: function (selector) {
         $(selector).each(function(){
             var $form = $(this);

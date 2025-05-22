@@ -5,7 +5,8 @@
     <div class="dashboard-box">
         <div class="dashboard-title">
             <h4>{!! __('Profile') !!}</h4>
-            <a class="ms-auto" href="{!! route('merchant.dashboard', ['section' => 'profile-edit']) !!}"><span>{!! __('Edit') !!}</span></a>
+            <a class="ms-auto" href="{!! route('merchant.dashboard', ['section' => 'profile-edit']) !!}"><span>{!! __('Profile Edit') !!}</span></a>
+            <a class="ms-4" href="{!! route('merchant.dashboard', ['section' => 'address-edit']) !!}"><span>{!! __('Address Edit') !!}</span></a>
             <a class="ms-4" href="{!! route('merchant.dashboard', ['section' => 'password-edit']) !!}"><span>{!! __('Edit Password') !!}</span></a>
         </div>
         <div class="dashboard-detail">

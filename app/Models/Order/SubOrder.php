@@ -27,6 +27,19 @@ class SubOrder extends Model
         return 'RM' . number_format($value, 2);
     }
 
+    public function totalWeightValue(): float
+    {
+        return $this->items()
+            ->with('product:id,weight')
+            ->get()
+            ->sum(fn($item) => ($item->quantity ?? 0) * ($item->product->weight ?? 0));
+    }
+
+    public function totalWeight(): string
+    {
+        return number_format($this->totalWeightValue(), 2);
+    }
+
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
