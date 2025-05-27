@@ -4,6 +4,9 @@ namespace App\Models;
 
 use App\Models\Admin\MenuSetup;
 use App\Models\Merchant\AddressMerchant;
+use App\Models\Merchant\MerchantWallet;
+use App\Models\Merchant\WalletTransaction;
+use App\Models\Merchant\WalletWithdrawRequest;
 use App\Models\Order\ShippingStatusLog;
 use App\Models\Order\SubOrder;
 use App\Models\Shop\Product;
@@ -132,5 +135,22 @@ class Merchant extends Authenticatable implements MustVerifyEmail
     public function shippingLogs()
     {
         return $this->hasMany(ShippingStatusLog::class, 'created_by', 'id');
+    }
+
+    public function wallet() {
+        return $this->hasOne(MerchantWallet::class, 'merchant_id', 'id');
+    }
+
+    public function getWalletAttribute()
+    {
+        return $this->wallet()->firstOrCreate([]);
+    }
+
+    public function walletTransactions() {
+        return $this->hasMany(WalletTransaction::class, 'merchant_id', 'id');
+    }
+
+    public function withdrawRequests() {
+        return $this->hasMany(WalletWithdrawRequest::class, 'merchant_id', 'id');
     }
 }

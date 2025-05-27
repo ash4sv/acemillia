@@ -14,6 +14,7 @@ use App\Models\Shop\SpecialOffer;
 use App\Models\Shop\SubCategory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Spatie\Sitemap\SitemapGenerator;
 
 class WebController extends Controller
 {
@@ -361,5 +362,14 @@ class WebController extends Controller
         return view('webpage.terms-and-conditions', [
             'breadcrumbs' => $breadcrumbs
         ]);
+    }
+
+    public function sitemap($value='')
+    {
+        $indexing = url('/');
+        SitemapGenerator::create($indexing)->writeToFile(public_path('sitemap.xml'));
+        $xmldata = file_get_contents('sitemap.xml');
+
+        return response($xmldata, 200, ['Content-Type' => 'application/xml']);
     }
 }

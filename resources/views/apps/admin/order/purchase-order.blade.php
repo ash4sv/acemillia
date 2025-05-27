@@ -1,180 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Purchase Order {{ $po_number }}</title>
-    {{--<link rel="stylesheet" type="text/css" media="screen" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">--}}
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('apps/img/favicon/favicon.ico') }}" type="image/x-icon" />
+
     <style>
-        @page { margin: 0 }
-        body { margin: 0 }
-        .sheet {
-            margin: 0;
-            overflow: hidden;
-            position: relative;
-            box-sizing: border-box;
-            page-break-after: always;
-        }
-
-        /** Paper sizes **/
-        body.A3               .sheet { width: 297mm; height: 419mm }
-        body.A3.landscape     .sheet { width: 420mm; height: 296mm }
-        body.A4               .sheet { width: 210mm; height: 296mm }
-        body.A4.landscape     .sheet { width: 297mm; height: 209mm }
-        body.A5               .sheet { width: 148mm; height: 209mm }
-        body.A5.landscape     .sheet { width: 210mm; height: 147mm }
-        body.letter           .sheet { width: 216mm; height: 279mm }
-        body.letter.landscape .sheet { width: 280mm; height: 215mm }
-        body.legal            .sheet { width: 216mm; height: 356mm }
-        body.legal.landscape  .sheet { width: 357mm; height: 215mm }
-
-        /** Padding area **/
-        .sheet.padding-10mm { padding: 10mm }
-        .sheet.padding-15mm { padding: 15mm }
-        .sheet.padding-20mm { padding: 20mm }
-        .sheet.padding-25mm { padding: 25mm }
-
-        /** For screen preview **/
-        @media screen {
-            body { background: #e0e0e0 }
-            .sheet {
-                background: white;
-                box-shadow: 0 .5mm 2mm rgba(0,0,0,.3);
-                margin: 5mm auto;
-            }
-        }
-
-        /** Fix for Chrome issue #273306 **/
-        @media print {
-            body.A3.landscape { width: 420mm }
-            body.A3, body.A4.landscape { width: 297mm }
-            body.A4, body.A5.landscape { width: 210mm }
-            body.A5                    { width: 148mm }
-            body.letter, body.legal    { width: 216mm }
-            body.letter.landscape      { width: 280mm }
-            body.legal.landscape       { width: 357mm }
-        }
-
-        @page { size: A4 }
         body {
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; margin: 0;
-            font-family: Arial, sans-serif; font-size: 9pt; line-height: 1.2;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            text-align: center;
+            color: #777;
+            margin: 0;
+            padding: 0;
         }
-        .sheet { padding: 8mm; width: 210mm; }
-        h1,h2,h3,p { margin: .25rem 0; }
-        table { width:100%; border-collapse: collapse; }
-        .table-receipt-content th,
-        .table-receipt-content td {
-            border:1px solid black; padding:.35rem .15rem;
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 0;
+            border: 0;
+            font-size: 12px;
+            line-height: 20px;
+            color: #555;
+        }
+        .invoice-box table {
+            width: 100%;
+            text-align: left;
+            border-collapse: collapse;
+        }
+        .invoice-box table td {
+            padding: 5px;
             vertical-align: top;
         }
-        .text-left  { text-align: left; }
-        .text-right { text-align: right; }
-        .text-center{ text-align: center; }
-        .remove-border td, .remove-border th { border:none; }
-        .item td:nth-child(2) { text-align: left; }
-        .item td:nth-child(3),
-        .item td:nth-child(4) { text-align: right; }
+        .invoice-box table tr.top table td {
+            padding-bottom: 5x;
+        }
+        .invoice-box table tr.top table td.title {
+            font-size: 16px;
+            color: #333;
+        }
+        .invoice-box table tr.information table td {
+            padding-bottom: 5x;
+        }
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+        .invoice-box table tr.total td:nth-child(6) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+        .invoice-box ol.noted-printer {
+            text-align: left;
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        .invoice-box ol.noted-printer li {
+            margin-left: 0;
+            padding-left: 0;
+        }
+
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td,
+            .invoice-box table tr.information table td {
+                display: block;
+                text-align: center;
+                width: 100%;
+            }
+        }
+        .invoice-box table tr.top {
+            vertical-align: middle;
+        }
     </style>
 </head>
-<body class="A4">
-<section class="sheet">
-    <table>
-        <tr><td colspan="6"><h2>Purchase Order</h2></td></tr>
-        <tr>
-            <td colspan="3">
-                <img
-                    src="https://www.ardianexus.com/assets/imgs/an-logo-light.png"
-                    alt="Logo"
-                    style="max-width:150px;"
-                >
-            </td>
-            <td colspan="3"></td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <p><strong>From:</strong></p>
-                <p>Tekadex by Ardia Nexus Enterprise</p>
-                <p>28-1, Jalan Sierra 10/3, Bandar 16 Sierra,</p>
-                <p>47120 Puchong, Selangor, Malaysia</p>
-                <p>www.tekad.my | info@tekad.com | +6017 670 5705</p>
-            </td>
-            <td colspan="3">
-                <p><strong>To:</strong></p>
-                <p>{{ $supplier->name }}</p>
-                <p>{{ $supplier->address ?? '' }}</p>
-                {{--<p>{{ $supplier->postcode ?? '' }} {{ $supplier->city ?? '' }}, {{ $supplier->state ?? '' }}</p>
-                <p>{{ $supplier->country ?? '' }}</p>--}}
-                <p>Tel: {{ $supplier->phone ?? '–' }}</p>
-                <p>Email: {{ $supplier->email ?? '–' }}</p>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3"><p><strong>PO Number:</strong> {{ $po_number }}</p></td>
-            <td colspan="3"><p><strong>Date:</strong> {{ $date }}</p></td>
-        </tr>
-        <tr>
-            <td colspan="6">
-                <table class="table-receipt-content">
-                    <thead>
-                    <tr class="header">
-                        <th colspan="2" class="text-left">Product</th>
-                        <th class="text-center">Qty</th>
-                        <th class="text-right">Unit Price</th>
-                        <th class="text-right">Total Price</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($items as $item)
-                        @php
-                            $opts = json_decode($item->options, true) ?: [];
-                        @endphp
-                        <tr class="item">
-                            <td colspan="2">
-                                <p><strong>{{ $item->product->name ?? $item->product_name }}</strong></p>
-                                @if(! empty($opts['selected_options']))
-                                    <p>{{ collect($opts['selected_options'])
-                                        ->map(fn($o)=> "{$o['name']}: {$o['value']}")
-                                        ->implode(', ')
-                                    }}</p>
-                                @endif
-                            </td>
-                            <td class="text-center">{{ $item->quantity }}</td>
-                            <td class="text-right">RM{{ number_format($item->price, 2) }}</td>
-                            <td class="text-right">
-                                RM{{ number_format($item->price * $item->quantity, 2) }}
-                            </td>
-                        </tr>
-                    @endforeach
 
-                    <tr class="remove-border">
-                        <td colspan="3"></td>
-                        <td class="text-right"><strong>Sub-Total:</strong></td>
-                        <td class="text-right">RM{{ number_format($subtotal, 2) }}</td>
+<body>
+<div class="invoice-box">
+    <table>
+        {{-- Header --}}
+        <tr class="top">
+            <td colspan="6">
+                <table>
+                    <tr>
+                        <td class="title">
+                            <img src="{{ 'data:image/png;base64,' . base64_encode( file_get_contents( asset('assets/images/logo-neuraloka_black_admin.png') ) ) }}" alt="{{ __(env('APP_NAME')) }}" style="width: 100%; max-width: 200px; margin-bottom: 10px;" ><br>
+                            {{--<img src="{{ 'data:image/png;base64,' . base64_encode( file_get_contents( 'https://www.ardianexus.com/assets/imgs/an-logo-light.png' ) ) }}" alt="PO PDF" style="width:100%;max-width:200px;">--}}
+                            PO Number: {{ $po_number }}<br>
+                            Date: {{ $date }}
+                        </td>
+                        <td style="text-align: right;">
+                            <h1>Purchase Order</h1>
+                            {{--<img src="{{ asset('apps/img/favicon/favicon.ico') }}" alt="Logo" style="width:100%;max-width:100px;">--}}
+                        </td>
                     </tr>
-                    <tr class="remove-border">
-                        <td colspan="3"></td>
-                        <td class="text-right"><strong>Total:</strong></td>
-                        <td class="text-right">RM{{ number_format($total, 2) }}</td>
-                    </tr>
-                    </tbody>
                 </table>
             </td>
         </tr>
-        <tr>
+
+        {{-- Supplier & Company Info --}}
+        <tr class="information">
             <td colspan="6">
-                <p><strong>Terms & Conditions</strong></p>
-                <ol style="margin-top:0;">
-                    <li>The quotation is valid for 23 days from the date above. After this period, Ardia Nexus Sdn Bhd may modify, revise, or refuse any.</li>
-                    <li>All prices stated are in Malaysian Ringgit (MYR).</li>
-                    <li>Once the client agrees, client should sign and return the quotation.</li>
-                    <li>For any inquiries, please contact Muhamad Ashrafbin Abdullah at 017-571 3297.</li>
-                    <li>Ardia Nexus Sdn Bhd may modify these terms without prior notice; changes will be communicated to the customer.</li>
-                    <li>These terms shall be governed by the laws of Malaysia.</li>
-                </ol>
+                <table>
+                    <tr>
+                        <td width="50%" style="">
+                            <div class="address-item">
+                                <strong>From:</strong><br>
+                                Tekadex by Ardia Nexus Enterprise<br>
+                                28-1, Jalan Sierra 10/3, Bandar 16 Sierra,<br>
+                                47120 Puchong, Selangor, Malaysia<br>
+                                www.tekad.my | info@tekad.com | +6017 670 5705
+                            </div>
+                        </td>
+                        <td width="50%" style="word-wrap: break-word;">
+                            <div class="address-item">
+                                <strong>To:</strong><br>
+                                {{ $supplier->name }}<br>
+                                {!! $supplier->address ?? '' !!}<br>
+                                {{--{{ $supplier->postcode ?? '' }} {{ $supplier->city ?? '' }}, {{ $supplier->state ?? '' }}<br>--}}
+                                {{--{{ $supplier->country ?? '' }}<br>--}}
+                                Tel: {{ $supplier->phone ?? '–' }} <br>
+                                Email: {{ $supplier->email ?? '–' }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="50%" style="">
+                            <div class="address-item">
+                                <strong>Delivery to:</strong><br>
+                                {{ $shippingAddress['recipient_name'] }}<br>
+                                {{ $shippingAddress['address'] }}<br>
+                                {{ $shippingAddress['postcode'] }}, {{ $shippingAddress['city'] }}<br>
+                                {{ $shippingAddress['state'] }}, {{ $shippingAddress['country'] }}<br>
+                                Tel: {{ $shippingAddress['phone'] }}
+                            </div>
+                        </td>
+                        <td width="50%" style="word-wrap: break-word;">
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
+
+        {{-- Items --}}
+        <tr class="heading">
+            <td>Item</td>
+            <td colspan="2">Variation</td>
+            <td style="text-align: center;">Qty</td>
+            <td style="text-align: right;">Unit Price</td>
+            <td style="text-align: right;">Total</td>
+        </tr>
+
+        @foreach($items as $item)
+            {{--@php
+                $opts = json_decode($item->options, true) ?: [];
+                $variation = collect($opts['selected_options'] ?? [])
+                    ->map(fn($o) => "{$o['name']}: {$o['value']}")
+                    ->implode(', ');
+            @endphp--}}
+            <tr class="item">
+                <td>{{ $item->product->name ?? $item->product_name }}</td>
+                <td colspan="2">
+                    {{--@if($variation)
+                        {{ $variation }}
+                    @else
+                        –
+                    @endif--}}
+                </td>
+                <td style="text-align: center;">{{ $item->quantity }}</td>
+                <td style="text-align: right;">RM{{ number_format($item->price, 2) }}</td>
+                <td style="text-align: right;">RM{{ number_format($item->price * $item->quantity, 2) }}</td>
+            </tr>
+        @endforeach
+
+        {{-- Totals --}}
+        <tr class="total">
+            <td colspan="4"></td>
+            <td style="text-align: right;"><strong>Sub-Total:</strong></td>
+            <td style="text-align: right;">RM{{ number_format($subtotal, 2) }}</td>
+        </tr>
+        <tr class="total">
+            <td colspan="4"></td>
+            <td style="text-align: right;"><strong>Total:</strong></td>
+            <td style="text-align: right;">RM{{ number_format($total, 2) }}</td>
+        </tr>
     </table>
-</section>
+
+    {{-- Terms & Conditions --}}
+    <h4 style="text-align:left; margin:1rem 0 0.5rem;">Terms &amp; Conditions:</h4>
+    <ol class="noted-printer">
+        <li>All price quoted are in Ringgit Malaysia (MYR).</li>
+        <li>All amounts payable in MYR unless otherwise specified.</li>
+        <li>Price are subjected to change without prior notice.</li>
+        <li>Remit payment to the designated bank account provided on the invoice.</li>
+        <li>These terms are governed by the laws of Malaysia.</li>
+        <li>Thank you for your prompt attention to this matter.</li>
+    </ol>
+</div>
+
 </body>
 </html>

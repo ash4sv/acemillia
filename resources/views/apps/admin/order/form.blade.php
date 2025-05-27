@@ -28,7 +28,7 @@
         <fieldset class="border p-3 mb-4">
             <legend class="float-none w-auto px-2 mb-0">SubOrder #{{ $sub->id }}</legend>
 
-            {{-- Supplier --}}
+            {{-- Merchant --}}
             <div class="mb-3">
                 <label for="merchant" class="form-label">Merchant</label>
                 <div class="input-group">
@@ -38,7 +38,7 @@
                     @endisset
                     <button class="btn btn-outline-primary generate-purchase-order" type="button" id="supplier-addon"
                         data-generate-url="{{ route('admin.shipping-service.generate.po') }}"
-                        data-supplier="{{--{{ $sub->supplier->id }}--}}"
+                        data-merchant="{{ $sub->merchant->id }}"
                         data-order="{{ $order->id }}"
                         data-sub-order="{{ $sub->id }}">
                             Generate P.O
@@ -190,14 +190,14 @@
 
                 // Read data attributes
                 const url      = btn.data('generate-url');
-                const supplier = btn.data('supplier');
+                const merchant = btn.data('merchant');
                 const order    = btn.data('order');
                 const subOrder = btn.data('sub-order');
 
                 // Disable & show loading
                 btn.prop('disabled', true).text('Generating…');
 
-                $.post(url, { supplier, order, sub_order: subOrder })
+                $.post(url, { merchant, order, sub_order: subOrder })
                     .done(function(res) {
                         if (res.success) {
                             Swal.fire({
@@ -215,7 +215,7 @@
                                 document.body.removeChild(link);
                             });
                         } else {
-                            Swal.fire('Error', 'Failed to generate PO.', 'error');
+                            Swal.fire('Error', 'Failed to generate P.O.', 'error');
                         }
                     })
                     .fail(function(xhr) {
@@ -223,7 +223,7 @@
                         Swal.fire('Error', msg, 'error');
                     })
                     .always(function() {
-                        btn.prop('disabled', false).text('Generate PO');
+                        btn.prop('disabled', false).text('Generate P.O');
                     });
             });
         });

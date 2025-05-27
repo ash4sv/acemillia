@@ -93,6 +93,8 @@ class AuthMerchantController extends Controller
             'status_submission'         => 'pending'
         ]));
 
+        $merchant->wallet()->firstOrCreate([], ['balance' => 0]);
+
         $merchant->addressMerchant()->create($data);
 
         $merchant->assignRole('merchant');

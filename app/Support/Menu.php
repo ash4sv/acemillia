@@ -56,6 +56,14 @@ class Menu
                     ],
                     [
                         'permission' => 'admin-systems-management-access',
+                        'url'        => route('admin.wallet-request.index'),
+                        'active_on'  => 'admin/wallet-request*',
+                        'icon'       => 'tf-icons ti ti-layout-sidebar',
+                        'text'       => __('Wallet Request'),
+                        'target'     => '',
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
                         'url'        => '#',
                         'active_on'  => 'admin/shop*',
                         'icon'       => 'tf-icons ti ti-shopping-cart',

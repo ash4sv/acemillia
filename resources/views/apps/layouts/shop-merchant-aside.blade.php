@@ -29,6 +29,11 @@
             <i class="ri-settings-line"></i> {!! __('Settings') !!}
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link {!! request('section') == 'wallet' ? 'active' : '' !!}" href="{!! route('merchant.dashboard', ['section' => 'wallet']) !!}">
+            <i class="fa fa-university me-1"></i> {!! __('Wallet') !!}
+        </a>
+    </li>
     @forelse(\App\Support\LogOut::LogOut() as $key => $logout)
         @if(Auth::guard('merchant')->check() && Auth::guard('merchant')->user()->hasAnyRole($logout['role']))
             <li class="nav-item logout-cls">

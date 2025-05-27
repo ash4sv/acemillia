@@ -45,26 +45,26 @@
 <div class="row mb-4">
     <div class="col-md-6">
         <div class="py-2 mb-2 bg-label-primary text-white text-center rounded-2 flex-grow-1">Billing Address</div>
-        <address class="mb-0">
+        <address class="mb-0 address-item">
             <strong>{{ $order->billingAddress->recipient_name }}</strong><br>
             {{ $order->billingAddress->phone }}<br>
             {{ $order->billingAddress->address }}<br>
             {{ $order->billingAddress->postcode }},
-            {{ $order->billingAddress->city }},
-            {{ $order->billingAddress->state }}<br>
-            {{ $order->billingAddress->country }}
+            <span data-address-city="{!! $order->shippingAddress->city !!}"></span>,  <br>
+            <span data-address-state="{!! $order->shippingAddress->state !!}"></span>,
+            <span data-address-country="{!! $order->shippingAddress->country !!}"></span>
         </address>
     </div>
     <div class="col-md-6">
         <div class="py-2 mb-2 bg-label-primary text-white text-center rounded-2 flex-grow-1">Shipping Address</div>
-        <address class="mb-0">
+        <address class="mb-0 address-item">
             <strong>{{ $order->shippingAddress->recipient_name }}</strong><br>
             {{ $order->shippingAddress->phone }}<br>
             {{ $order->shippingAddress->address }}<br>
             {{ $order->shippingAddress->postcode }},
-            {{ $order->shippingAddress->city }},
-            {{ $order->shippingAddress->state }}<br>
-            {{ $order->shippingAddress->country }}
+            <span data-address-city="{!! $order->shippingAddress->city !!}"></span>, <br>
+            <span data-address-state="{!! $order->shippingAddress->state !!}"></span>,
+            <span data-address-country="{!! $order->shippingAddress->country !!}"></span>
         </address>
     </div>
 </div>
@@ -122,7 +122,16 @@
 </table>
 
 {{-- Payment --}}
-<div class="py-2 mb-2 bg-label-primary text-white text-center rounded-2 flex-grow-1">Payment</div>
+<div class="mb-3 d-flex align-items-center">
+    <div class="py-2 bg-label-primary text-white text-center rounded-2 flex-grow-1 me-1">Payment</div>
+    <a href="{{ asset('assets/upload/pdf/RECEIPT-' . $order->order_number . '.pdf')  }}" target="_blank" class="btn btn-secondary me-1">Download Receipt</a>
+    <button type="button"
+        data-generate-url="{{ route('admin.shipping-service.generate.receipt') }}"
+        data-order="{{ $order->id }}"
+        class="btn btn-primary generate-receipt">
+            Generate Receipt
+    </button>
+</div>
 <ul class="list-unstyled mb-4">
     <li><strong>Gateway:</strong> {{ $order->payment->gateway ?? '–' }}</li>
     <li><strong>Reference:</strong> {{ $order->payment->reference_id ?? '–' }}</li>
@@ -178,9 +187,54 @@
                 {{ $sub->shipment?->delivery_date?->format('d-m-Y') ?? '–' }}
             </td>
             <td class="px-0">
-                <a href="{{ asset($sub->purchase_order) ?? '–' }}">{{ $sub->po_number ?? '–' }}</a>
+                <a target="_blank" href="{{ asset($sub->purchase_order) ?? '–' }}">{{ $sub->po_number ?? '–' }}</a>
             </td>
         </tr>
     @endforeach
     </tbody>
 </table>
+
+<script>
+    $(function() {
+        window.CountryMap           = @json(\App\Services\LocationService::countries()->toArray());
+        $('.generate-receipt').on('click', function(e) {
+            e.preventDefault();
+            const btn   = $(this);
+            const url   = btn.data('generate-url');
+            const order = btn.data('order');
+
+            // Disable & show loading text
+            btn.prop('disabled', true).text('Generating…');
+
+            $.post(url, { order })
+                .done(function(res) {
+                    if (res.success) {
+                        Swal.fire({
+                            title: 'Receipt Generated!',
+                            text: 'Your PDF receipt will download shortly.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            // Trigger automatic download
+                            const a = document.createElement('a');
+                            a.href = res.pdf_url;
+                            a.download = res.filename;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                        });
+                    } else {
+                        Swal.fire('Error', res.message || 'Failed to generate receipt.', 'error');
+                    }
+                })
+                .fail(function(xhr) {
+                    const msg = xhr.responseJSON?.message || 'Server error';
+                    Swal.fire('Error', msg, 'error');
+                })
+                .always(function() {
+                    btn.prop('disabled', false).text('Generate Receipt');
+                });
+        });
+    });
+</script>
+<script src="{{ asset('assets_v2/js/location-services.js') }}"></script>

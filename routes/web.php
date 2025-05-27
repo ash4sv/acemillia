@@ -17,11 +17,14 @@ use App\Http\Controllers\Admin\PostTagAdminController;
 use App\Http\Controllers\Admin\ProductAdminController;
 use App\Http\Controllers\Admin\ReviewAdminController;
 use App\Http\Controllers\Admin\ShipmentAdminController;
+use App\Http\Controllers\Admin\ShipmentGeneralAdminController;
 use App\Http\Controllers\Admin\ShippingProviderAdminController;
 use App\Http\Controllers\Admin\ShopAdminController;
 use App\Http\Controllers\Admin\SubCategoryAdminController;
 use App\Http\Controllers\Admin\TagAdminController;
 use App\Http\Controllers\Admin\UserAdminController;
+use App\Http\Controllers\Admin\WalletWithdrawRequestAdminController;
+use App\Http\Controllers\Admin\WalletWithdrawRequestApprovalAdminController;
 use App\Http\Controllers\Admin\WidgetAdminController;
 use App\Http\Controllers\Merchant\AuthMerchantController;
 use App\Http\Controllers\Merchant\AuthMerchantVerifyController;
@@ -33,6 +36,8 @@ use App\Http\Controllers\Merchant\NewsFeedLikeMerchantController;
 use App\Http\Controllers\Merchant\NewsFeedMerchantController;
 use App\Http\Controllers\Merchant\ProductMerchantController;
 use App\Http\Controllers\Merchant\SpecialOfferMerchantController;
+use App\Http\Controllers\Merchant\WalletMerchantController;
+use App\Http\Controllers\Merchant\WalletWithdrawRequestMerchantController;
 use App\Http\Controllers\Services\AppsPaymentController;
 use App\Http\Controllers\User\AddressUserController;
 use App\Http\Controllers\User\AuthUserController;
@@ -44,6 +49,7 @@ use App\Http\Controllers\User\NewsFeedLikeUserController;
 use App\Http\Controllers\User\NewsFeedUserController;
 use App\Http\Controllers\User\ProfileUserController;
 use App\Http\Controllers\User\PurchaseUserController;
+use App\Http\Controllers\User\ReviewUserController;
 use App\Http\Controllers\User\WishlistUserController;
 use App\Http\Controllers\WebPage\WebController;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +71,8 @@ Route::name('web.')->group(function () {
         Route::get('{category}', [WebController::class, 'blogCategory'])->name('category');
         Route::get('{category}/{post}', [WebController::class, 'blogPost'])->name('post');
     });
+
+    Route::get('sitemap.xml', [WebController::class, 'sitemap'])->name('sitemap');
 });
 
 Route::get('login', [AuthUserController::class, 'login'])->name('login');
@@ -164,6 +172,7 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
         Route::resource('news-feed', NewsFeedMerchantController::class)->except(['index', 'create', 'show']);
         Route::resource('news-feed-like', NewsFeedLikeMerchantController::class)->except(['index', 'create', 'show', 'edit', 'update', 'destroy']);
         Route::resource('news-feed-comment', NewsFeedCommentMerchantController::class)->except(['index', 'create', 'show', 'edit']);
+        Route::resource('wallet-request', WalletWithdrawRequestMerchantController::class);
 
         Route::post('couriers/fetch', [CourierMerchantController::class, 'fetchFromProvider'])->name('couriers.fetch');
         Route::post('couriers/submit-order', [CourierMerchantController::class, 'submitOrder'])->name('couriers.submit-order');
@@ -212,6 +221,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'shipment' => ShipmentAdminController::class,
             ]);
             Route::post('generate-po', [ShipmentGeneralAdminController::class, 'generatePo'])->name('generate.po');
+            Route::post('generate-receipt', [ShipmentGeneralAdminController::class, 'generateReceipt'])->name('generate.receipt');
         });
         Route::prefix('shop')->name('shop.')->group(function () {
             Route::get('categories/{category}/subcategories', [ShopAdminController::class, 'getSubcategories'])->name('categories.subcategories');
@@ -224,6 +234,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 'reviews' => ReviewAdminController::class
             ]);
         });
+        Route::resource('wallet-request', WalletWithdrawRequestAdminController::class);
+        Route::patch('wallet-request/{id}/approve', [WalletWithdrawRequestApprovalAdminController::class, 'approve'])->name('wallet.withdraw.approval');
         Route::resource('order', OrderAdminController::class);
         Route::resource('menus', MenuAdminController::class);
         Route::resource('carousel-slider', CarouselSliderAdminController::class);

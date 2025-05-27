@@ -33,6 +33,8 @@ class DashboardMerchantRedirectController extends Controller
                 return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@addressEdit');
             case 'settings':
                 return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@settings');
+            case 'wallet':
+                return app()->call('App\Http\Controllers\Merchant\WalletWithdrawRequestMerchantController@index');
             default:
                 return app()->call('App\Http\Controllers\Merchant\DashboardMerchantController@index');
         }

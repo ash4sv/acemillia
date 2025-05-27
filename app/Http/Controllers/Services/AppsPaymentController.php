@@ -3,21 +3,25 @@
 namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Apps\Services\ReceiptMail;
 use App\Models\Order\Order;
 use App\Models\Order\OrderItem;
 use App\Models\Order\Payment;
 use App\Models\Order\SubOrder;
 use App\Models\User\AddressBook;
-use Carbon\Carbon;
+use App\Traits\GeneratesPdfs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Billplz\Client;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use RealRashid\Cart\Facades\Cart;
+use Carbon\Carbon;
+use Billplz\Client;
 
 class AppsPaymentController extends Controller
 {
+    use GeneratesPdfs;
     protected string $view = 'apps.user.payment.';
 
     public function redirectUrl(Request $request)
@@ -175,6 +179,20 @@ class AppsPaymentController extends Controller
                                     'options' => json_encode($item['options']),
                                 ]);
                             }
+
+                            if ($subOrder->po_number) {
+                                $poNumber = $subOrder->po_number;
+                            } else {
+                                $poNumber = 'PO-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(4));
+                                $subOrder->po_number = $poNumber;
+                            }
+                            $relativePath = $this->generatePurchaseOrderPdf($subOrder);
+                            $subOrder->purchase_order = $relativePath;
+                            $subOrder->save();
+
+                            $subOrder->shippingLogs()->create([
+                                'status' => 'pending'
+                            ]);
                         }
 
                         // 4. Store payment info
@@ -212,6 +230,12 @@ class AppsPaymentController extends Controller
                             'created_at'     => now(),
                             'updated_at'     => now(),
                         ]);
+
+                        // 6. Generate Receipt PDF
+                        $relative = $this->generateReceiptPdf($order);
+
+                        // 7. Send the email
+                        Mail::to($order->user->email)->send(new ReceiptMail($order, $relative));
                     });
                 } elseif ($orderTemp->user == 'merchant') {}
 
