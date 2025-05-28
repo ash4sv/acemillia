@@ -158,15 +158,15 @@
         </tr>
 
         @foreach($items as $item)
-            @php
+            {{--@php
                 $opts = json_decode($item->options, true) ?: [];
                 $variation = collect($opts['selected_options'] ?? [])
                     ->map(fn($o) => "{$o['name']}: {$o['value']}")
                     ->implode(', ');
-            @endphp
+            @endphp--}}
             <tr class="item">
                 <td>{{ $item->product->name ?? $item->product_name }}</td>
-                <td colspan="2">{{ $variation ?: '–' }}</td>
+                <td colspan="2">{{--{{ $variation ?: '–' }}--}}</td>
                 <td style="text-align: center;">{{ $item->quantity }}</td>
                 <td style="text-align:right;">RM{{ number_format($item->price, 2) }}</td>
                 <td style="text-align:right;">RM{{ number_format($item->price * $item->quantity, 2) }}</td>
