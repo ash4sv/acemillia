@@ -249,23 +249,36 @@ class PurchaseUserController extends Controller
             'billingAddress'  => 'required|string',
             'uniq'            => 'required|string',
             'type'            => 'required|string',
+            'subtotal'        => 'required|string',
+            'total'           => 'required|string',
         ]);
 
         $user = auth()->guard('web')->user();
 
         if (cart()->count() > 0 && $user)
         {
+            if ($request->type == 'pharmaceuticals') {
+                $dataCart = collect(cart()->all())->filter(fn($item) => $item->options->item_menu === 'Pharmaceuticals');
+            } elseif ($request->type == 'marketing') {
+                $dataCart = collect(cart()->all())->filter(fn($item) => $item->options->item_menu === 'Marketing');
+            } else {
+                $dataCart = cart()->all();
+            }
+
             $additionalFee   = 0;
             $description     = 'User Purchase of Ticket';
-            $subTotal        = cart()->subtotal();
-            $total           = cart()->total();
+            /*$subTotal        = cart()->subtotal();*/
+            $subTotal        = $validated['subtotal'];
+            /*$total           = cart()->total();*/
+            $total           = $validated['total'];
             $priceMyr        = env('APP_ENV') === 'production' ? (100 * $total) + $additionalFee : 100;
             $mobileNumber    = preg_replace('/[^0-9]/', '', $user->phone);
 
             $shippingAddress = $validated['shippingAddress'];
             $billingAddress  = $validated['billingAddress'];
             $uniq            = $validated['uniq'];
-            $cartData        = cart()->all();
+            /*$cartData        = cart()->all();*/
+            $cartData        = $dataCart;
 
             $mergedData = [
                 'uniq'            => $uniq,

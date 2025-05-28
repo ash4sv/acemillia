@@ -57,8 +57,10 @@ $(document).ready(function(){
     $('.order-btn').on('click', function(e) {
         e.preventDefault();
 
-        let checkoutUrl  = $(this).data('checkout-url');
-        let checkoutType = $(this).data('checkout-type');
+        let checkoutUrl      = $(this).data('checkout-url');
+        let checkoutType     = $(this).data('checkout-type');
+        let checkoutSubTotal = $(this).data('checkout-subtotal');
+        let checkoutTotal    = $(this).data('checkout-total');
 
         // Re-check the cart count in case it changed
         if (cartCount === 0) {
@@ -100,7 +102,9 @@ $(document).ready(function(){
             shippingAddress: shippingAddress,
             billingAddress: billingAddress,
             uniq: uniq,
-            type: checkoutType
+            type: checkoutType,
+            subtotal: checkoutSubTotal,
+            total: checkoutTotal
         };
 
         // Save the original button content for later restoration
@@ -487,7 +491,9 @@ $(document).ready(function(){
                                         <div class="text-end">
                                             <button class="btn order-btn"
                                                 data-checkout-type="pharmaceuticals"
-                                                data-checkout-url="{{ route('purchase.checkout-post') }}">
+                                                data-checkout-url="{{ route('purchase.checkout-post') }}"
+                                                data-checkout-subtotal="{{ $pharmaSubtotal }}"
+                                                data-checkout-total="{{ $pharmaTotal }}">
                                                 {!! __('Place Order') !!}
                                             </button>
                                         </div>
@@ -560,7 +566,9 @@ $(document).ready(function(){
                                         <div class="text-end">
                                             <button class="btn order-btn"
                                                 data-checkout-type="marketing"
-                                                data-checkout-url="{{ route('purchase.checkout-post') }}">
+                                                data-checkout-url="{{ route('purchase.checkout-post') }}"
+                                                data-checkout-subtotal="{{ $marketingSubtotal }}"
+                                                data-checkout-total="{{ $marketingTotal }}">
                                                 {!! __('Place Order') !!}
                                             </button>
                                         </div>
