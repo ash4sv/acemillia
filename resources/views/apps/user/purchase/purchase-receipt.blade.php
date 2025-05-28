@@ -110,10 +110,12 @@
                         <td width="50%" style="text-align:left;">
                             <div class="address-item">
                                 <strong>From:</strong><br>
-                                Tekadex by Ardia Nexus Enterprise<br>
-                                28-1, Jalan Sierra 10/3, Bandar 16 Sierra,<br>
-                                47120 Puchong, Selangor, Malaysia<br>
-                                www.tekad.my | info@tekad.com | +6017 670 5705
+                                <strong>ACEMILLIA MARKETING</strong> <br>
+                                <strong>ACEMILLIA PHARMACEUTICALS (M) SDN. BHD.</strong> <br>
+                                63 (1st Floor) Jalan Metro 1/1, <br>
+                                Bandar Metro, 47160 Puchong, <br>
+                                Selangor Darul Ehsan <br>
+                                www.acemillia.com | info@acemillia.com | +603-8082 1362
                             </div>
                         </td>
                         <td width="50%">
