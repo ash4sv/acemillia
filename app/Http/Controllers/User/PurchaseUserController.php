@@ -248,6 +248,7 @@ class PurchaseUserController extends Controller
             'shippingAddress' => 'required|string',
             'billingAddress'  => 'required|string',
             'uniq'            => 'required|string',
+            'type'            => 'required|string',
         ]);
 
         $user = auth()->guard('web')->user();
@@ -273,13 +274,38 @@ class PurchaseUserController extends Controller
                 'cart'            => $cartData,
             ];
 
-            $billplz = Client::make(config('billplz.billplz_key'), config('billplz.billplz_signature'));
-            if(config('billplz.billplz_sandbox')) {
-                $billplz->useSandbox();
+            if ($request->type == 'pharmaceuticals') {
+                $billplz = Client::make(
+                    config('billplz.billplz_pharmaceuticals_key'),
+                    config('billplz.billplz_pharmaceuticals_signature')
+                );
+                if(config('billplz.billplz_pharmaceuticals_sandbox')) {
+                    $billplz->useSandbox();
+                }
+                $collectionId = config('billplz.billplz_pharmaceuticals_collection_id');
+            } elseif ($request->type == 'marketing') {
+                $billplz = Client::make(
+                    config('billplz.billplz_marketing_key'),
+                    config('billplz.billplz_marketing_signature')
+                );
+                if(config('billplz.billplz_sandbox')) {
+                    $billplz->useSandbox();
+                }
+                $collectionId = config('billplz.billplz_marketing_collection_id');
+            } else {
+                $billplz = Client::make(
+                    config('billplz.billplz_key'),
+                    config('billplz.billplz_signature')
+                );
+                if(config('billplz.billplz_marketing_sandbox')) {
+                    $billplz->useSandbox();
+                }
+                $collectionId = config('billplz.billplz_collection_id');
             }
+
             $bill = $billplz->bill();
             $bill = $bill->create(
-                config('billplz.billplz_collection_id'),
+                $collectionId,
                 $user->email,
                 $mobileNumber,
                 $user->name,
