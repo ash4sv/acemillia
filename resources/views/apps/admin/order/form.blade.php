@@ -2,7 +2,7 @@
     $route = 'admin.order.';
 @endphp
 
-<form action="{{ isset($order) ? route( $route . 'update', $order->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
+<form id="modal-form" action="{{ isset($order) ? route( $route . 'update', $order->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
     @csrf
     @if(isset($order))
         @method('PUT')

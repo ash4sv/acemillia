@@ -2,7 +2,7 @@
     $route = 'admin.registered-user.users.';
 @endphp
 
-<form action="{{ isset($user) ? route( $route . 'update', $user->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
+<form id="modal-form" action="{{ isset($user) ? route( $route . 'update', $user->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
     @csrf
     @if(isset($user))
         @method('PUT')

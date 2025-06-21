@@ -2,7 +2,7 @@
     $route = 'admin.shop.special-offer.';
 @endphp
 
-<form action="{{ isset($specialOffer) ? route( $route . 'update', $specialOffer->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
+<form id="modal-form" action="{{ isset($specialOffer) ? route( $route . 'update', $specialOffer->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
     @csrf
     @if(isset($specialOffer))
         @method('PUT')

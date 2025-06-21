@@ -2,7 +2,7 @@
     $route = 'admin.shop.sub-categories.';
 @endphp
 
-<form action="{{ isset($subCategory) ? route( $route . 'update', $subCategory->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
+<form id="modal-form" action="{{ isset($subCategory) ? route( $route . 'update', $subCategory->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
     @csrf
     @if(isset($subCategory))
         @method('PUT')

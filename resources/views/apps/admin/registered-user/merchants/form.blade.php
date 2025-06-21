@@ -2,7 +2,7 @@
     $route = 'admin.registered-user.merchants.';
 @endphp
 
-<form action="{{ isset($merchant) ? route( $route . 'update', $merchant->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
+<form id="modal-form" action="{{ isset($merchant) ? route( $route . 'update', $merchant->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
     @csrf
     @if(isset($merchant))
         @method('PUT')
