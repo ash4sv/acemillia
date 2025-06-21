@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\MenuSetup;
 use App\Models\Shop\Category;
 use App\Services\ImageUploader;
+use App\Services\ModelResponse;
 use App\Services\SlugGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -49,8 +50,11 @@ class CategoryAdminController extends Controller
     public function store(Request $request)
     {
         $this->updateOrCreateCategory($request);
-        Alert::success('Successfully Create!', 'Category has been created!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message('Category has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -80,8 +84,11 @@ class CategoryAdminController extends Controller
     public function update(Request $request, string $id)
     {
         $this->updateOrCreateCategory($request, $id);
-        Alert::success('Successfully Update!', 'Category has been updated!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message('Category has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -92,7 +99,7 @@ class CategoryAdminController extends Controller
         $category = $this->findOrFailCategory($id);
         $category->delete();
         Alert::success('Successfully Deleted!', 'Category has been deleted!');
-        return redirect()->back();
+        return back();
     }
 
     /**

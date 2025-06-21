@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\Admin\ReviewAdminDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\Review;
+use App\Services\ModelResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -12,6 +13,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class ReviewAdminController extends Controller
 {
     protected string $view = 'apps.admin.shop.review.';
+    protected string $title = 'Review';
 
     /**
      * Display a listing of the resource.
@@ -40,8 +42,11 @@ class ReviewAdminController extends Controller
     public function store(Request $request)
     {
         $this->updateOrCreateReview($request);
-        Alert::success('Successfully Create!', 'Review has been created!');
-        return back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message($this->title . ' has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -70,8 +75,11 @@ class ReviewAdminController extends Controller
     public function update(Request $request, string $id)
     {
         $this->updateOrCreateReview($request, $id);
-        Alert::success('Successfully Update!', 'Review has been updated!');
-        return back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message($this->title . ' has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**

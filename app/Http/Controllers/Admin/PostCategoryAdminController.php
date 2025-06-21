@@ -6,6 +6,7 @@ use App\DataTables\Admin\PostCategoryAdminDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Blog\PostCategory;
 use App\Services\ImageUploader;
+use App\Services\ModelResponse;
 use App\Services\SlugGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class PostCategoryAdminController extends Controller
 {
     protected string $view = 'apps.admin.blog.categories.';
+    protected string $title = 'Post Category';
 
     /**
      * Display a listing of the resource.
@@ -42,8 +44,11 @@ class PostCategoryAdminController extends Controller
     public function store(Request $request)
     {
         $this->updateOrCreatePostCategory($request);
-        Alert::success('Successfully Create!', 'Post Category has been created!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message($this->title . ' has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -72,8 +77,11 @@ class PostCategoryAdminController extends Controller
     public function update(Request $request, string $id)
     {
         $this->updateOrCreatePostCategory($request, $id);
-        Alert::success('Successfully Update!', 'Post Category has been updated!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message($this->title . ' has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**

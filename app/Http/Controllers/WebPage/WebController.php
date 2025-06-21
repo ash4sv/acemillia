@@ -8,6 +8,7 @@ use App\Models\Admin\Blog\PostCategory;
 use App\Models\Admin\Blog\PostTag;
 use App\Models\Admin\CarouselSlider;
 use App\Models\Admin\MenuSetup;
+use App\Models\Admin\Widget;
 use App\Models\Shop\Category;
 use App\Models\Shop\Product;
 use App\Models\Shop\SpecialOffer;
@@ -40,12 +41,16 @@ class WebController extends Controller
             'product.sub_categories',
         ])->approved()->active()->get();
         $blogPosts = Post::active()->get();
+        $widgetsBanner = Widget::getMultipleRandomActive(2, [670, 306]);
+        $onerowsBg     = Widget::getMultipleRandomActive(2, [610, 407]);
         return view('webpage.index', [
             'carousels' => $carousels,
             'categories' => $categories,
             'specialOffers' => $specialOffers,
             'blogPosts' => $blogPosts,
             'products' => $products,
+            'widgetsBanner' => $widgetsBanner,
+            'onerowsBg' => $onerowsBg,
         ]);
     }
 

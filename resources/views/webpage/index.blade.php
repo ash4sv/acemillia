@@ -15,28 +15,31 @@
 
 @section('webpage')
 
-    {{--@if(isset($carousels) && $carousels->count() > 0)
-    <!-- Home slider -->
-    <section class="p-0 sm-responsive"> --}}{{--height-100--}}{{--
-        <div class="slide-1 home-slider">
-            @forelse($carousels as $key => $carousel)
-            <div>
-                <a href="{!! $carousel->url !!}" class="home">
-                    <img src="{!! asset($carousel->image) !!}" alt="" class="bg-img blur-up lazyload">
-                </a>
-            </div>
-            @empty
-            <div>
-                <a href="{{ url('/') }}" class="home">
-                    <img src="{!! asset('assets/images/furniture-3/full-banner/1.png') !!}" alt="" class="bg-img blur-up lazyload">
-                </a>
-            </div>
-            @endforelse
-        </div>
-    </section>
-    <!-- Home slider end -->
-    @endif--}}
+    @if(env('STATUS_HOME_SLIDER'))
+        @if(isset($carousels) && $carousels->count() > 0)
+            <!-- Home slider -->
+            <section class="p-0 sm-responsive"> <!--height-100-->
+                <div class="slide-1 home-slider">
+                    @forelse($carousels as $key => $carousel)
+                        <div>
+                            <a href="{!! $carousel->url !!}" class="home">
+                                <img src="{!! asset($carousel->image) !!}" alt="" class="bg-img blur-up lazyload">
+                            </a>
+                        </div>
+                    @empty
+                        <div>
+                            <a href="{{ url('/') }}" class="home">
+                                <img src="{!! asset('assets/images/furniture-3/full-banner/1.png') !!}" alt="" class="bg-img blur-up lazyload">
+                            </a>
+                        </div>
+                    @endforelse
+                </div>
+            </section>
+            <!-- Home slider end -->
+        @endif
+    @endif
 
+    @if(env('STATUS_BANNER_START'))
     <!-- home banner start -->
     <div class="container banner-slider acemillia" style="overflow: hidden !important;">
         <div class="row gx-4">
@@ -62,29 +65,34 @@
         </div>
     </div>
     <!-- home banner end  -->
+    @endif
 
     <!-- collection banner -->
     <section class="banner-padding banner-goggles banner-section ratio2_1">
         <div class="container">
             <div class="row partition2 g-4">
+                @if(isset($widgetsBanner[0]))
                 <div class="col-md-6">
-                    <a href="category-page.html">
+                    <a href="{{ $widgetsBanner[0]->url }}">
                         <div class="collection-banner acemillia p-left text-start">
                             <div class="img-part">
-                                <img src="../assets/images/game/banner/1.png" class="img-fluid blur-up lazyload" alt="">
+                                <img src="{{ asset($widgetsBanner[0]->image) }}" class="img-fluid blur-up lazyload" alt="{{ $widgetsBanner[0]->name }}">
                             </div>
                         </div>
                     </a>
                 </div>
+                @endif
+                @if(isset($widgetsBanner[1]))
                 <div class="col-md-6">
-                    <a href="category-page.html">
+                    <a href="{{ $widgetsBanner[1]->url }}">
                         <div class="collection-banner acemillia p-right text-end">
                             <div class="img-part">
-                                <img src="../assets/images/game/banner/2.png" class="img-fluid blur-up lazyload" alt="">
+                                <img src="{{ asset($widgetsBanner[1]->image) }}" class="img-fluid blur-up lazyload" alt="{{ $widgetsBanner[1]->name }}">
                             </div>
                         </div>
                     </a>
                 </div>
+                @endif
             </div>
         </div>
     </section>
@@ -154,15 +162,18 @@
     @endif
 
 
+    @if(isset($onerowsBg))
     <!-- category -->
     <div class="category-bg onerow-cat ratio3_2">
         <div class="container-fluid p-0">
             <div class="row order-section">
+                @if(isset($onerowsBg[0]))
                 <div class="col-sm-4 p-0">
-                    <a href="#!" class="image-block">
-                        <img alt="" src="{!! asset('assets/images/furniture-3/banner/1.png') !!}" class="img-fluid blur-up lazyload bg-img">
+                    <a href="{{ $onerowsBg[0]->url }}" class="image-block">
+                        <img alt="{{ $onerowsBg[0]->name ?? '-' }}" src="{!! asset($onerowsBg[0]->image ?? 'assets/images/furniture-3/banner/1.png') !!}" class="img-fluid blur-up lazyload bg-img">
                     </a>
                 </div>
+                @endif
                 <div class="col-sm-4 p-0">
                     <div class="contain-block even">
                         <div>
@@ -172,20 +183,23 @@
                             </a>
                             <a href="category-page.html" class="btn btn-solid category-btn">{!! __('-80% off') !!}</a>
                             <a href="category-page.html">
-                                <h6><span>{!! __('shop now') !!}</span></h6>
+                                <h6><span>{!! __('Shop Now') !!}</span></h6>
                             </a>
                         </div>
                     </div>
                 </div>
+                @if(isset($onerowsBg[1]))
                 <div class="col-sm-4 p-0">
-                    <a href="#!" class="image-block">
-                        <img alt="" src="{!! asset('assets/images/furniture-3/banner/2.png') !!}" class="img-fluid blur-up lazyload bg-img">
+                    <a href="{{ $onerowsBg[1]->url }}" class="image-block">
+                        <img alt="{{ $onerowsBg[1]->name ?? '-' }}" src="{!! asset($onerowsBg[1]->image ?? 'assets/images/furniture-3/banner/2.png') !!}" class="img-fluid blur-up lazyload bg-img">
                     </a>
                 </div>
+                @endif
             </div>
         </div>
     </div>
     <!-- category end -->
+    @endif
 
     <!-- slider and product -->
     <section class="container">

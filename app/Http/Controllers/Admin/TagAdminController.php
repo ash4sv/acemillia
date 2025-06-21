@@ -6,6 +6,7 @@ use App\DataTables\Admin\TagAdminDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\Tag;
 use App\Services\ImageUploader;
+use App\Services\ModelResponse;
 use App\Services\SlugGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,8 +43,11 @@ class TagAdminController extends Controller
     public function store(Request $request)
     {
         $this->updateOrCreateTag($request);
-        Alert::success('Successfully Create!', 'Sub Category has been created!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message('Tag has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -72,8 +76,11 @@ class TagAdminController extends Controller
     public function update(Request $request, string $id)
     {
         $this->updateOrCreateTag($request, $id);
-        Alert::success('Successfully Update!', 'Sub Category has been updated!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message('Tag has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**

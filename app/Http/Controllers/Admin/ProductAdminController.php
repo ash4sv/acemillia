@@ -9,6 +9,7 @@ use App\Models\Shop\Category;
 use App\Models\Shop\Product;
 use App\Models\Shop\Tag;
 use App\Services\ImageUploader;
+use App\Services\ModelResponse;
 use App\Services\SlugGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -48,8 +49,11 @@ class ProductAdminController extends ProductBaseController
     public function store(Request $request)
     {
         $this->updateOrCreateProduct($request);
-        Alert::success('Successfully Create!', 'Sub Category has been created!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message('Product has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -81,8 +85,11 @@ class ProductAdminController extends ProductBaseController
     {
         // return $request->all();
         $this->updateOrCreateProduct($request, $id);
-        Alert::success('Successfully Update!', 'Sub Category has been updated!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message('Product has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**

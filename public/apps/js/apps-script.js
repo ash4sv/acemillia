@@ -1,5 +1,6 @@
 var Apps = {
     init: function () {
+        Apps.ajaxDocumentToken();
         Apps.ajaxSetup();
         Apps.addToCartShortCut('.shortcut-add-to-cart');
         Apps.addToWishlist('.wishlist-icon');
@@ -259,28 +260,28 @@ var Apps = {
         // Append modal HTML to the body if it doesn't exist
         if (!$('#basicModal').length) {
             $('body').append(`
-            <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel1"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Content will be loaded here -->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-label-secondary m-0" data-bs-dismiss="modal">Close</button>
+                <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel1"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Content will be loaded here -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-label-secondary m-0" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `);
+            `);
         }
 
         // Rebind the click event to handle dynamically loaded or existing buttons
         $(document).off('click', '[data-bs-toggle="modal"]').on('click', '[data-bs-toggle="modal"]', function() {
-            var createUrl = $(this).data('create-url');
+            var createUrl  = $(this).data('create-url');
             var modalTitle = $(this).data('create-title');
 
             // Get the modal-dialog element
@@ -322,6 +323,8 @@ var Apps = {
                     $('#basicModal .modal-body').html(response);
                     $('#basicModal .modal-title').text(modalTitle);
                     $('#basicModal').modal('show'); // Show the modal
+
+                    // Initialize additional features if needed
                     Apps.select2('.select2');
                     Apps.socialMedia();
                     Apps.flatpickrDate('.flatpickr-start');
@@ -333,10 +336,151 @@ var Apps = {
                     Apps.initBootyAreaType();
                     Apps.btnPublishBtn();
                     Apps.btnSubmissionBtn();
+                    Apps.bindModalFormHandler().then((res) => {
+                        console.log('✅ Modal form submitted successfully:', res);
+                    }).catch((err) => {
+                        console.error('❌ Modal form submission failed:', err);
+                    });
+                    Apps.bindDeleteHandler();
                 },
                 error: function(xhr) {
                     console.error('AJAX Error:', xhr.status, xhr.statusText);
                     $('#basicModal .modal-body').html('<p>Error loading content...</p>');
+                }
+            });
+        });
+    },
+
+    bindModalFormHandler: function (formSelector = '#modal-form') {
+        return new Promise((resolve, reject) => {
+            $(formSelector).off('submit').on('submit', function (e) {
+                e.preventDefault();
+
+                const $form = $(this);
+                const action = $form.attr('action');
+                const rawMethod = $form.find('input[name="_method"]').val() || $form.attr('method') || 'POST';
+                const method = rawMethod.toUpperCase();
+
+                const formData = new FormData(this);
+
+                // 👇 Ensure the spoofed method is included for Laravel
+                if (method !== 'POST') {
+                    formData.append('_method', method);
+                }
+
+                // Always use POST in the actual HTTP request
+                const httpMethod = 'POST';
+
+                // Clear previous errors
+                $form.find('.is-invalid').removeClass('is-invalid');
+                $form.find('.invalid-feedback').remove();
+
+                $.ajax({
+                    url: action,
+                    method: httpMethod, // ✅ always POST in the request
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.modal) {
+                            Swal.fire({
+                                icon: response.type || 'success',
+                                title: response.title || 'Success!',
+                                text: response.message || 'Operation completed.',
+                                timer: 2000,
+                                showConfirmButton: false,
+                            });
+
+                            $('#basicModal').modal('hide');
+
+                            $('.table.dataTable').each(function () {
+                                $(this).DataTable().ajax.reload(null, false);
+                            });
+
+                            if (response.redirect) {
+                                setTimeout(() => {
+                                    window.location.href = response.redirect;
+                                }, 2000);
+                            }
+                        }
+                    },
+                    error: function (xhr) {
+                        if (xhr.status === 422) {
+                            const errors = xhr.responseJSON.errors;
+                            for (let field in errors) {
+                                const $input = $form.find(`[name="${field}"]`);
+                                $input.addClass('is-invalid');
+                                if ($input.next('.invalid-feedback').length === 0) {
+                                    $input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                                }
+                            }
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Something went wrong. Please try again.',
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    },
+
+    bindDeleteHandler: function () {
+        $(document).off('click', '[data-confirm-delete]').on('click', '[data-confirm-delete]', function (e) {
+            e.preventDefault();
+
+            const $btn = $(this);
+            const url = $btn.attr('href');
+            const title = $btn.data('confirm-title') || 'Are you sure?';
+            const text = $btn.data('confirm-text') || 'This action cannot be undone.';
+
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                            _method: 'DELETE',
+                            _token: $('meta[name="csrf-token"]').attr('content'),
+                        },
+                        success: function (response) {
+                            if (response.modal) {
+                                Swal.fire({
+                                    icon: response.type || 'success',
+                                    title: response.title || 'Deleted!',
+                                    text: response.message || 'Item successfully deleted.',
+                                    timer: 2000,
+                                    showConfirmButton: false,
+                                });
+
+                                $('.table.dataTable').each(function () {
+                                    $(this).DataTable().ajax.reload(null, false);
+                                });
+
+                                if (response.redirect) {
+                                    setTimeout(() => {
+                                        window.location.href = response.redirect;
+                                    }, 2000);
+                                }
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error!',
+                                text: 'Failed to delete item. Please try again.',
+                            });
+                        }
+                    });
                 }
             });
         });

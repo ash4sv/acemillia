@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\Admin\MenuAdminDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\MenuSetup;
+use App\Services\ImageUploader;
+use App\Services\ModelResponse;
 use App\Services\SlugGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +15,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class MenuAdminController extends Controller
 {
     protected string $view = 'apps.admin.menus.';
+    protected string $title = 'Menu';
 
     /**
      * Display a listing of the resource.
@@ -41,8 +44,11 @@ class MenuAdminController extends Controller
     public function store(Request $request)
     {
         $this->updateOrCreateMenu($request);
-        Alert::success('Successfully Create!', 'Menu has been created!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message($this->title . ' has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -71,8 +77,11 @@ class MenuAdminController extends Controller
     public function update(Request $request, string $id)
     {
         $this->updateOrCreateMenu($request, $id);
-        Alert::success('Successfully Update!', 'Menu has been updated!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message($this->title . ' has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -83,7 +92,7 @@ class MenuAdminController extends Controller
         $category = $this->findOrFailMenu($id);
         $category->delete();
         Alert::success('Successfully Deleted!', 'Menu has been deleted!');
-        return redirect()->back();
+        return back();
     }
 
     /**

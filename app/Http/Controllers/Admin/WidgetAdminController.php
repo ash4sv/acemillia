@@ -6,6 +6,7 @@ use App\DataTables\Admin\WidgetAdminDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Widget;
 use App\Services\ImageUploader;
+use App\Services\ModelResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -23,6 +24,10 @@ class WidgetAdminController extends Controller
             [
                 'name' => 'Landscape',
                 'data' => '610, 407'
+            ],
+            [
+                'name' => 'Landscape',
+                'data' => '670, 306'
             ],
             [
                 'name' => 'Portrait',
@@ -59,8 +64,11 @@ class WidgetAdminController extends Controller
     public function store(Request $request)
     {
         $this->updateOrCreateWidget($request);
-        Alert::success('Successfully Create!', $this->title . 'slider has been created!');
-        return back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message($this->title . ' has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -90,8 +98,11 @@ class WidgetAdminController extends Controller
     public function update(Request $request, string $id)
     {
         $this->updateOrCreateWidget($request, $id);
-        Alert::success('Successfully Update!', $this->title . 'slider has been updated!');
-        return back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message($this->title . ' has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**

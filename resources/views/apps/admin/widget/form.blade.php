@@ -2,7 +2,7 @@
     $route = 'admin.widget.';
 @endphp
 
-<form action="{{ isset($widget) ? route( $route . 'update', $widget->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
+<form id="modal-form" action="{{ isset($widget) ? route( $route . 'update', $widget->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
     @csrf
     @if(isset($widget))
         @method('PUT')
