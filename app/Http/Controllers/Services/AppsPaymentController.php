@@ -171,7 +171,7 @@ class AppsPaymentController extends Controller
 
                             MerchantWalletService::credit(
                                 $subOrder->merchant,
-                                $subOrder->subtotal,
+                                (float) $subtotal,
                                 $subOrder,
                                 'SALE',
                                 'Payment received'
