@@ -170,7 +170,8 @@ class AppsPaymentController extends Controller
                         // 3. Group items by merchant
                         $grouped = collect($cartItems)->groupBy(fn($item) => $item['options']['merchant_id']);
 
-                        $commissionFactor = 1 + (config('commission.rate') / 100);
+                        $commissionRate   = config('commission.rate');
+                        $commissionFactor = 1 + ($commissionRate / 100);
 
                         foreach ($grouped as $merchantId => $items) {
                             $subtotal = collect($items)->sum(function ($i) use ($commissionFactor) {
@@ -180,10 +181,15 @@ class AppsPaymentController extends Controller
                                 return ($base + $additional) * $i['quantity'];
                             });
 
+                            $subtotalWithCommission = $subtotal * $commissionFactor;
+                            $commissionAmount       = $subtotalWithCommission - $subtotal;
+
                             $subOrder = SubOrder::create([
                                 'order_id' => $order->id,
                                 'merchant_id' => $merchantId,
                                 'subtotal' => $subtotal,
+                                'subtotal_with_commission' => $subtotalWithCommission,
+                                'commission_amount' => $commissionAmount,
                                 'shipping_status' => 'pending',
                             ]);
 
