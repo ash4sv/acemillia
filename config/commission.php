@@ -1,5 +1,5 @@
 <?php
 return [
-    'rate' => (float) env('COMMISSION_PERCENT', 10.0), // percent
+    // Commission rate applied to product prices (percentage).
+    'rate' => env('COMMISSION_RATE', 0),
 ];
-
