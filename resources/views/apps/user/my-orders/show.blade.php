@@ -271,7 +271,7 @@
                 <h4 class="mb-4">Order Summary</h4>
                 <div class="single-cart-item d-flex align-items-stretch">
                     <div class="box flex-shrink-0">
-                        <h4 class="fw-medium">Total Sales</h4>
+                        <h4 class="fw-medium">Total</h4>
                     </div>
                     <div class="box flex-grow-1">
                         <!-- (Optional extra content) -->
@@ -280,7 +280,7 @@
                         <h4 class="fw-medium">{{ $order->total_amount }}</h4>
                     </div>
                 </div>
-                <div class="single-cart-item d-flex align-items-stretch">
+                {{--<div class="single-cart-item d-flex align-items-stretch">
                     <div class="box flex-shrink-0">
                         <h4 class="fw-medium">Admin Commission</h4>
                     </div>
@@ -288,7 +288,7 @@
                     <div class="box flex-shrink-0 text-end">
                         <h4 class="fw-medium">RM{{ number_format($order->admin_commission, 2) }}</h4>
                     </div>
-                </div>
+                </div>--}}
             </div>
         </div>
     </div>
