@@ -58,7 +58,21 @@ class AppsPaymentController extends Controller
 
                 if ($updateCartData->user == 'user' && auth()->guard('web')->check()) {
                     Log::info('PAYMENT REDIRECT FUNCTION END: SUCCESS TRUE ' . $id . ' ' . date('Ymd/m/y H:i'));
-                    $cleanup = DB::table('cart_cleanup_queue')->where('transaction_id', $id)->where('user_id', auth()->guard('web')->id())->first();
+                    $attempt = 0;
+                    $cleanup = DB::table('cart_cleanup_queue')
+                        ->where('transaction_id', $id)
+                        ->where('user_id', auth()->guard('web')->id())
+                        ->first();
+
+                    while (! $cleanup && $attempt < 25) {
+                        usleep(200000); // wait up to ~5s for webhook processing
+                        $cleanup = DB::table('cart_cleanup_queue')
+                            ->where('transaction_id', $id)
+                            ->where('user_id', auth()->guard('web')->id())
+                            ->first();
+                        $attempt++;
+                    }
+
                     if ($cleanup) {
                         $itemKeys = json_decode($cleanup->item_ids, true);
 
