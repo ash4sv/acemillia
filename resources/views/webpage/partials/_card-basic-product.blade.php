@@ -90,9 +90,9 @@
                 <p>{!! Str::limit($product->product_description, 225, '...') !!}</p>
                 <h4 class="price">
                     @if(abs($minPrice - $maxPrice) < 0.0001)
-                        {{ 'RM' . number_format($minPrice * 1.10, 2) }}
+                        {{ 'RM' . number_format($minPrice * env('COMMISSION_VALUE'), 2) }}
                     @else
-                        {{ 'RM' . number_format($minPrice * 1.10, 2) }} - {{ 'RM' . number_format($maxPrice * 1.10, 2) }}
+                        {{ 'RM' . number_format($minPrice * env('COMMISSION_VALUE'), 2) }} - {{ 'RM' . number_format($maxPrice * env('COMMISSION_VALUE'), 2) }}
                     @endif
                 </h4>
             </div>
