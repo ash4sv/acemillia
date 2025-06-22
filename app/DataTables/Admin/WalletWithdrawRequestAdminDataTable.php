@@ -73,7 +73,7 @@ class WalletWithdrawRequestAdminDataTable extends DataTable
                 return number_format($item->amount, 2);
             })
             ->addColumn('bank_info', function ($item) {
-                return $item;
+                return "{$item->bank_name}<br><small>{$item->bank_account_name} ({$item->bank_account_number})</small>";
             })
             ->addColumn('status', function ($item) {
                 return ucfirst($item->status->value);
