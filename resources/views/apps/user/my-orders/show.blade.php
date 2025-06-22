@@ -253,7 +253,7 @@
                             <h4 class="fw-medium">RM{{ number_format($subOrder->subtotal_with_commission, 2) }}</h4>
                         </div>
                     </div>
-                    <div class="single-cart-item d-flex align-items-stretch">
+                    {{--<div class="single-cart-item d-flex align-items-stretch">
                         <div class="box flex-shrink-0">
                             <h4 class="fw-medium">Admin Commission</h4>
                         </div>
@@ -261,7 +261,7 @@
                         <div class="box flex-shrink-0 text-end">
                             <h4 class="fw-medium">RM{{ number_format($subOrder->commission_amount, 2) }}</h4>
                         </div>
-                    </div>
+                    </div>--}}
                 </div>
             @empty
                 <p>No suborders found.</p>
