@@ -116,43 +116,32 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>#21515</td>
-                                <td>neck velvet dress</td>
-                                <td>
-                                    <span class="badge bg-pending custom-badge rounded-0">pending</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#78153</td>
-                                <td>belted trench coat</td>
+                            @forelse($recentOrders as $order)
+                                <tr>
+                                    <td>{{ $order->order?->order_number }}</td>
+                                    <td>
+                                        {{ $order->items->pluck('product_name')->implode(', ') }}
+                                    </td>
+                                    <td>
+                                        @php
+                                            $shippingStatus = $order->shipping_status;
+                                            $statusClass = [
+                                                'pending'   => 'bg-pending',
+                                                'shipped'   => 'bg-credit',
+                                                'delivered' => 'bg-completed',
+                                                'cancelled' => 'bg-debit',
+                                            ][$shippingStatus] ?? 'bg-default';
+                                            $statusLabel = ucfirst($shippingStatus);
+                                        @endphp
 
-                                <td>
-                                    <span class="badge bg-debit custom-badge rounded-0">cancelled</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#51512</td>
-                                <td>man print tee</td>
-
-                                <td>
-                                    <span class="badge bg-credit custom-badge rounded-0">shipped</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#78153</td>
-                                <td>belted trench coat</td>
-                                <td>
-                                    <span class="badge bg-pending custom-badge rounded-0">pending</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#51512</td>
-                                <td>man print tee</td>
-                                <td>
-                                    <span class="badge bg-credit custom-badge rounded-0">shipped</span>
-                                </td>
-                            </tr>
+                                        <span class="badge {{ $statusClass }} custom-badge rounded-0">{{ $statusLabel }}</span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="text-center">No recent orders found.</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>

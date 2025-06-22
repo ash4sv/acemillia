@@ -33,9 +33,16 @@ class DashboardMerchantController extends Controller
 
     public function index()
     {
+        $recentOrders = SubOrder::with(['order', 'items'])
+            ->where('merchant_id', $this->getMerchantId())
+            ->latest()
+            ->take(5)
+            ->get();
+
         return view($this->view . 'dashboard.index', [
-            'authUser' => $this->auth,
-            'products' => Product::where('merchant_id', $this->getMerchantId())->get(),
+            'authUser'     => $this->auth,
+            'products'     => Product::where('merchant_id', $this->getMerchantId())->get(),
+            'recentOrders' => $recentOrders,
         ]);
     }
 
