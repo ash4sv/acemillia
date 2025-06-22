@@ -44,8 +44,8 @@ class WalletTransactionMerchantDataTable extends DataTable
                     ? "<span class='text-success'>+RM $amount</span>"
                     : "<span class='text-danger'>-RM $amount</span>";
             })
-            ->addColumn('created_at', fn($row) => $row->created_at->format('Y-m-d H:i'))
-            ->rawColumns(['amount', 'created_at', 'type'])
+            ->addColumn('updated_at', fn($row) => $row->updated_at->format('d F Y  - H:i'))
+            ->rawColumns(['amount', 'updated_at', 'type'])
             ->setRowId('id');
     }
 
