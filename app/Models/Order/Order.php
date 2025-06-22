@@ -23,6 +23,7 @@ class Order extends Model
         'order_number',
         'cart_temp_id',
         'total_amount',
+        'admin_commission',
         'payment_status',
         'status',
         'billing_address_id',
