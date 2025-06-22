@@ -245,9 +245,9 @@
                                 <div class="price-text price-text-data">
                                     <h3>
                                         @if(abs($minPrice - $maxPrice) < 0.0001)
-                                            {{ 'RM' . number_format($minPrice, 2) }}
+                                            {{ 'RM' . number_format($minPrice * 1.10, 2) }}
                                         @else
-                                            {{ 'RM' . number_format($minPrice, 2) }} - {{ 'RM' . number_format($maxPrice, 2) }}
+                                            {{ 'RM' . number_format($minPrice * 1.10, 2) }} - {{ 'RM' . number_format($maxPrice * 1.10, 2) }}
                                         @endif
                                         {{--<del> $ 18.00 </del>--}}
                                         {{--<span class="discounted-price"> 7% Off </span>--}}
