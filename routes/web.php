@@ -166,6 +166,7 @@ Route::prefix('merchant')->name('merchant.')->group(function () {
     Route::middleware(['custom.auth:merchant', 'apps-verified:merchant', 'approved'])->group(function (){
         Route::get('dashboard', [DashboardMerchantRedirectController::class, 'index'])->name('dashboard');
         Route::put('profile-update', [DashboardMerchantController::class, 'profileUpdate'])->name('profile.update');
+        Route::put('address-update', [DashboardMerchantController::class, 'addressUpdate'])->name('address.update');
         Route::put('password-update', [DashboardMerchantController::class, 'passwordUpdate'])->name('password.update');
         Route::get('categories/{category}/subcategories', [ShopAdminController::class, 'getSubcategories'])->name('categories.subcategories');
         Route::resource('products', ProductMerchantController::class);

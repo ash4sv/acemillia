@@ -144,6 +144,25 @@ class DashboardMerchantController extends Controller
         ]);
     }
 
+    public function addressUpdate(Request $request)
+    {
+        $merchant = auth()->guard('merchant')->user();
+        $data = $request->only([
+            'business_address',
+            'country',
+            'state',
+            'city',
+            'street_address',
+            'postcode',
+        ]);
+        $merchant->address()->updateOrCreate(
+            ['merchant_id' => $merchant->id],
+            $data
+        );
+        Alert::success('Success', 'Your address has been updated');
+        return back();
+    }
+
     public function settings()
     {
         return view($this->view . 'settings.index', [
