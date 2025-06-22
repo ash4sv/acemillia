@@ -17,8 +17,8 @@
                 <div class="counter-box">
                     <img src="{!! asset('assets/images/icon/dashboard/sale.png') !!}" alt="" class="img-fluid">
                     <div>
-                        <h3>12500</h3>
-                        <h5>total sales</h5>
+                        <h3>RM{{ number_format($authUser->wallet->balance, 2) }}</h3>
+                        <h5>Wallet Balance</h5>
                     </div>
                 </div>
             </div>
