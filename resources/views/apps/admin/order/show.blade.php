@@ -46,13 +46,13 @@
     <div class="col-md-6">
         <div class="py-2 mb-2 bg-label-primary text-white text-center rounded-2 flex-grow-1">Billing Address</div>
         <address class="mb-0 address-item">
-            <strong>{{ $order->billingAddress->recipient_name }}</strong><br>
-            {{ $order->billingAddress->phone }}<br>
-            {{ $order->billingAddress->address }}<br>
-            {{ $order->billingAddress->postcode }},
-            <span data-address-city="{!! $order->shippingAddress->city !!}"></span>,  <br>
-            <span data-address-state="{!! $order->shippingAddress->state !!}"></span>,
-            <span data-address-country="{!! $order->shippingAddress->country !!}"></span>
+            <strong>{{ $order->billingAddress->recipient_name ?? '--' }}</strong><br>
+            {{ $order->billingAddress->phone ?? '--' }}<br>
+            {{ $order->billingAddress->address ?? '--' }}<br>
+            {{ $order->billingAddress->postcode ?? '--' }},
+            <span data-address-city="{!! $order->shippingAddress->city ?? '--' !!}"></span>,  <br>
+            <span data-address-state="{!! $order->shippingAddress->state ?? '--' !!}"></span>,
+            <span data-address-country="{!! $order->shippingAddress->country ?? '--' !!}"></span>
         </address>
     </div>
     <div class="col-md-6">
