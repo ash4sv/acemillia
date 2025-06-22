@@ -120,7 +120,7 @@
                                 <tr>
                                     <td>{{ $order->order?->order_number }}</td>
                                     <td>
-                                        {{ $order->items->pluck('product_name')->implode('\n ') }}
+                                        {{ $order->items->pluck('product_name')->implode(', ') }}
                                     </td>
                                     <td>
                                         @php
