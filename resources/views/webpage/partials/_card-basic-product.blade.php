@@ -89,10 +89,13 @@
                 {{-- Uncomment for extended description if needed --}}
                 <p>{!! Str::limit($product->product_description, 225, '...') !!}</p>
                 <h4 class="price">
+                    @php
+                        $commissionFactor = 1 + config('commission.rate') / 100;
+                    @endphp
                     @if(abs($minPrice - $maxPrice) < 0.0001)
-                        {{ 'RM' . number_format($minPrice, 2) }}
+                        {{ 'RM' . number_format($minPrice * $commissionFactor, 2) }}
                     @else
-                        {{ 'RM' . number_format($minPrice, 2) }} - {{ 'RM' . number_format($maxPrice, 2) }}
+                        {{ 'RM' . number_format($minPrice * $commissionFactor, 2) }} - {{ 'RM' . number_format($maxPrice * $commissionFactor, 2) }}
                     @endif
                 </h4>
             </div>
