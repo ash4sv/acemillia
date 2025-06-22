@@ -98,7 +98,7 @@ class WalletWithdrawRequestAdminDataTable extends DataTable
     public function query(WalletWithdrawRequest $model): QueryBuilder
     {
         return $model->newQuery()
-            ->select(['id', 'merchant_id', 'amount', 'status', 'updated_at'])
+            ->select(['id', 'merchant_id', 'amount', 'status', 'updated_at', 'amount', 'bank_name', 'bank_account_name', 'bank_account_number'])
             ->with(['merchant:id,name']);
     }
 
