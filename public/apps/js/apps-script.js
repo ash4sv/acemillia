@@ -1,3 +1,7 @@
+const COMMISSION_RATE = parseFloat(
+    document.head.querySelector('meta[name="commission-rate"]')?.content || '0'
+);
+
 var Apps = {
     init: function () {
         Apps.ajaxDocumentToken();
@@ -920,6 +924,7 @@ var Apps = {
             });
 
             var finalPrice = basePrice + additionalTotal;
+            finalPrice = finalPrice * (1 + COMMISSION_RATE / 100);
 
             $form.find('input[name="price"]').val(finalPrice.toFixed(2));
         });

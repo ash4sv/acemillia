@@ -73,6 +73,9 @@
 
             // Numeric base price (no "RM" prefix)
             let basePrice = parseFloat($('#base-price').val()) || 0.0;
+            const COMMISSION_RATE = parseFloat(
+                $('meta[name="commission-rate"]').attr('content')
+            ) || 0;
 
             // Enhanced logging in allOptionsSelected: log group names and checked counts
             function allOptionsSelected() {
@@ -107,10 +110,12 @@
                     total += addPrice;
                 });
 
+                total = total * (1 + COMMISSION_RATE / 100);
+
                 $priceText.text('RM' + total.toFixed(2));
                 $priceHint.hide();
                 $addToCartBtn.prop('disabled', false);
-                $('input[name="price"]').val(total);
+                $('input[name="price"]').val(total.toFixed(2));
 
                 console.log('All options selected! Computed price =', total);
             }
