@@ -196,14 +196,20 @@ class AppsPaymentController extends Controller
                             );
 
                             foreach ($items as $item) {
-                                $finalPrice = ($item['price'] / $commissionFactor) + collect($item['options']['selected_options'] ?? [])
-                                        ->sum('additional_price');
+                                $priceWithCommission = (float) $item['price'];
+                                $basePrice = $item['price'] / $commissionFactor;
+                                $additional = collect($item['options']['selected_options'] ?? [])
+                                    ->sum('additional_price');
+                                $finalPrice = $basePrice + $additional;
+                                $commissionAmount = $priceWithCommission - $finalPrice;
 
                                 OrderItem::create([
                                     'sub_order_id' => $subOrder->id,
                                     'product_id' => $item['options']['item_product_id'] ?? null,
                                     'product_name' => $item['name'],
                                     'price' => $finalPrice,
+                                    'price_with_commission' => $priceWithCommission,
+                                    'commission_amount' => $commissionAmount,
                                     'quantity' => $item['quantity'],
                                     'options' => json_encode($item['options']),
                                 ]);
