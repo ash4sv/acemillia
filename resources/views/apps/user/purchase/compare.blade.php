@@ -105,10 +105,7 @@
                                             <img src="{{ asset($product->image) }}" alt="" class="featured-image">
                                             <div class="product-price product_price">
                                                 {{--<strong>On Sale: </strong><span>$89,00</span>--}}
-                                                @php
-                                                    $commissionFactor = 1 + config('commission.rate') / 100;
-                                                @endphp
-                                                <h4 class="mb-0">{{ 'RM' . number_format($product->price * $commissionFactor, 2) }}</h4>
+                                                <h4 class="mb-0">{{ 'RM' . number_format($product->price, 2) }}</h4>
                                             </div>
 
                                             <a href="javascript:void(0);" class="add-to-cart btn btn-solid" onclick="event.preventDefault(); $('#add-to-cart-{{ __($product->slug . '-' . $product->id) }}').trigger('submit');">
