@@ -17,6 +17,8 @@ class SubOrder extends Model
         'order_id',
         'merchant_id',
         'subtotal',
+        'subtotal_with_commission',
+        'commission_amount',
         'shipping_status',
         'tracking_number',
         'notes',

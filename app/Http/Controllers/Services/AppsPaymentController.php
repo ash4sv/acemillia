@@ -182,10 +182,15 @@ class AppsPaymentController extends Controller
                                 return ($base + $additional) * $i['quantity'];
                             });
 
+                            $subtotalWithCommission = $subtotal * $commissionFactor;
+                            $commissionAmount       = $subtotalWithCommission - $subtotal;
+
                             $subOrder = SubOrder::create([
                                 'order_id' => $order->id,
                                 'merchant_id' => $merchantId,
                                 'subtotal' => $subtotal,
+                                'subtotal_with_commission' => $subtotalWithCommission,
+                                'commission_amount' => $commissionAmount,
                                 'shipping_status' => 'pending',
                             ]);
 
@@ -196,8 +201,6 @@ class AppsPaymentController extends Controller
                                 'SALE',
                                 'Payment received'
                             );
-
-                            $adminCommission += $subtotal * ($commissionRate / 100);
 
                             foreach ($items as $item) {
                                 $finalPrice = ($item['price'] / $commissionFactor) + collect($item['options']['selected_options'] ?? [])
@@ -227,8 +230,6 @@ class AppsPaymentController extends Controller
                                 'status' => 'pending'
                             ]);
                         }
-
-                        $order->update(['admin_commission' => $adminCommission]);
 
                         // 4. Store payment info
                         Payment::create([
