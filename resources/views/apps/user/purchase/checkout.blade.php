@@ -564,7 +564,7 @@ $(document).ready(function(){
                                             <li>{!! __('Total') !!} <span class="count">MYR{{ number_format($marketingTotal, 2) }}</span></li>
                                         </ul>
                                         <div class="text-end">
-                                            <button class="btn order-btn"
+                                            <button @if(env('SALES_PROCEED_PAUSE')) disabled @endif class="btn order-btn"
                                                 data-checkout-type="marketing"
                                                 data-checkout-url="{{ route('purchase.checkout-post') }}"
                                                 data-checkout-subtotal="{{ $marketingSubtotal }}"

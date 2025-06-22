@@ -26,9 +26,8 @@ class Product extends Model
 
     public function getPriceAttribute($price): string
     {
-        $price *= 1.10;
-
-        return 'RM' . number_format($price, 2);
+        $commissioned = $price * (1 + config('commission.rate') / 100);
+        return 'RM' . number_format($commissioned, 2);
     }
 
     public function scopeDraft($query)
@@ -223,7 +222,12 @@ class Product extends Model
         $min = $basePrice + $totalMinAddPrice;
         $max = $basePrice + $totalMaxAddPrice;
 
-        return [$min, $max];
+        $commissionMultiplier = 1 + config('commission.rate') / 100;
+
+        return [
+            $min * $commissionMultiplier,
+            $max * $commissionMultiplier,
+        ];
     }
 
 }
