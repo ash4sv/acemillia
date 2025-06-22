@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            {{--<div class="col-md-4">
                 <div class="counter-box">
                     <img src="{!! asset('assets/images/icon/dashboard/homework.png') !!}" alt="" class="img-fluid">
                     <div>
@@ -30,7 +30,7 @@
                         <h5>order pending</h5>
                     </div>
                 </div>
-            </div>
+            </div>--}}
         </div>
     </div>
 
