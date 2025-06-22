@@ -221,7 +221,12 @@ class Product extends Model
         $min = $basePrice + $totalMinAddPrice;
         $max = $basePrice + $totalMaxAddPrice;
 
-        return [$min, $max];
+        $commissionMultiplier = 1 + config('commission.rate') / 100;
+
+        return [
+            $min * $commissionMultiplier,
+            $max * $commissionMultiplier,
+        ];
     }
 
 }
