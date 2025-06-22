@@ -52,7 +52,7 @@
     </div>
 
     <div class="row g-sm-4 g-3">
-        <div class="col-12">
+        {{--<div class="col-12">
             <div class="dashboard-table">
                 <div class="wallet-table">
                     <div class="top-sec mb-3">
@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
 
         <div class="col-12">
             <div class="dashboard-table">
