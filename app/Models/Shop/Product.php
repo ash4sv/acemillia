@@ -2,6 +2,8 @@
 
 namespace App\Models\Shop;
 
+use App\Models\Merchant;
+use App\Models\Order\OrderItem;
 use App\Services\QueryScopes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,7 +26,9 @@ class Product extends Model
 
     public function getPriceAttribute($price): string
     {
-        return 'MYR' . number_format($price, 2);
+        $price *= 1.10;
+
+        return 'RM' . number_format($price, 2);
     }
 
     public function scopeDraft($query)
@@ -40,6 +44,10 @@ class Product extends Model
     public function scopeInactive($query)
     {
         return QueryScopes::scopeInactive($query);
+    }
+    public function scopePriceValue($query)
+    {
+        return $query->where('price', '>', 0);
     }
 
     public function images()
@@ -67,9 +75,19 @@ class Product extends Model
         return $this->morphToMany(Tag::class, 'model', 'tag_relations');
     }
 
+    public function merchant()
+    {
+        return $this->belongsTo(Merchant::class, 'merchant_id', 'id');
+    }
+
     public function specialOffers()
     {
         return $this->hasMany(SpecialOffer::class, 'product_id', 'id');
+    }
+
+    public function orderItem()
+    {
+    return $this->hasMany(OrderItem::class, 'product_id', 'id');
     }
 
     /**

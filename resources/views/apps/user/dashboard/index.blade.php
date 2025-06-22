@@ -42,7 +42,7 @@
                     <h4>Account Information</h4>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-8">
                         <div class="box">
                             <ul class="box-content">
                                 @isset($authUser->name)
@@ -55,7 +55,52 @@
                                         <h6>{{ 'Phone: ' . $authUser->phone }}</h6>
                                     </li>
                                 @endisset
+                                @isset($authUser->gender)
+                                    <li class="w-100">
+                                        <h6>{{ 'Gender: ' . ucfirst($authUser->gender) }}</h6>
+                                    </li>
+                                @endisset
+                                @isset($authUser->date_of_birth)
+                                    <li class="w-100">
+                                        <h6>{{ 'Date of Birth: ' . $authUser->date_of_birth }}</h6>
+                                    </li>
+                                @endisset
+                                @isset($authUser->nationality)
+                                    <li class="w-100">
+                                        <h6>{{ 'Nationality: ' . $authUser->nationality }}</h6>
+                                    </li>
+                                @endisset
+                                @isset($authUser->identification_number)
+                                    <li class="w-100">
+                                        <h6>{{ 'Identification Number: ' . $authUser->identification_number }}</h6>
+                                    </li>
+                                @endisset
                             </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="single-form text-center">
+                            <div id="avatarPreview" class="avatar-preview">
+                                @if(!empty($authUser->img_avatar))
+                                    <img src="{{ asset($authUser->img_avatar) }}" alt="Avatar">
+                                @else
+                                    {{ $authUser->icon_avatar }}
+                                @endif
+                            </div>
+                            <button type="button" id="avatarBtn" class="btn btn-solid mt-4">
+                                {{ empty($authUser->img_avatar) ? 'Select Image' : 'Change Image' }}
+                            </button>
+                            <input
+                                type="file"
+                                id="avatarInput"
+                                name="avatar"
+                                accept=".jpg,.jpeg,.png"
+                                class="d-none"
+                            >
+                            <div class="col-md-8 mx-auto mt-4">
+                                <p class="mb-0">File size: maximum 1 MB</p>
+                                <p class="mb-0">File extension: JPEG, PNG</p>
+                            </div>
                         </div>
                     </div>
                 </div>

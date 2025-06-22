@@ -81,6 +81,7 @@
 .dark .dark-box .theme-product-4 .product-detail .product-title,
 .dark .dark-box .theme-product-4 .product-detail .price,
 .dark .breadcrumb-section h2,
+.dark .login-page .form-box a,
 .dark .start-selling h4,
 .dark .start-selling p,
 .dark .about-page h4,
@@ -95,6 +96,29 @@
 .dark .footer-theme .sub-title li,
 .dark .sub-footer p {
     color:#fff !important;
+}
+
+.dark .selectize-control.single .selectize-input {
+    color: #ffffff;
+    background-color: #2b2b2b;
+    border-color: #404040;
+    background-image: none;
+    /*box-shadow: 0 1px 0 rgba(0,0,0,.05), inset 0 1px 0 rgba(64,64,64,.8);*/
+    box-shadow: none;
+}
+
+.dark .selectize-input > input[placeholder] {
+    color: #757575;
+    /*opacity:.3;*/
+}
+
+.dark .selectize-input {
+    border: 1px solid #404040;
+}
+
+.dark .selectize-dropdown .selected {
+    background-color: rgba(43, 43, 43, 0.5);
+    color: #fff;
 }
 
 .dark .load-more-sec a {
@@ -131,4 +155,596 @@ footer p,
 
 .btn-solid {
     color:#000000;
+}
+
+.form-control::placeholder {
+    opacity:.3;
+}
+
+.selectize-input. {
+    padding: 11px 8px;
+}
+
+.dashboard-section .dashboard-box .dashboard-detail ul li.details h5 span {
+    width:300px;
+}
+
+.dropdown-menu li {
+    display: block;
+}
+
+/* Container for the entire post composer */
+.aces-postbox {
+    width: 100%;                /* Full width */
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    /* font-family: Arial, sans-serif; Example font; adjust as needed */
+}
+
+/* Top section: avatar + textarea */
+.aces-postbox-top {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* User avatar */
+.aces-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.aces-avatar.icon {
+    text-align: center;
+    font-weight: 600;
+    font-size:1.2rem;
+    line-height:34.5px;
+}
+
+/* Textarea for sharing thoughts */
+.aces-textarea {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;           /* Remove manual resize handle */
+    font-size: 14px;
+    color: #333;
+    font-family: inherit;
+    min-height: 80px;       /* Initial minimum height */
+    overflow-y: hidden;     /* Hide scrollbar for auto-expand effect */
+    padding: .5rem .5rem;
+}
+
+.aces-textarea::placeholder {
+    color: #999;
+}
+
+/* Divider line between top and bottom sections */
+.aces-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 12px 0;
+}
+
+/* Bottom section: action icons + dropdown */
+.aces-postbox-bottom {
+    display: flex;
+    flex-wrap: wrap;         /* Allow actions to wrap onto a new row */
+    /*align-items: center;*/
+    /*justify-content: space-between;*/
+}
+
+/* Individual action buttons */
+.aces-action {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 14px;
+    margin-right: 8px;
+    padding: 6px 12px;
+    border-radius: .3rem;
+}
+
+.aces-action i {
+    font-size: 18px;
+    margin-right: 4px;
+}
+
+/* Dropdown container */
+.aces-dropdown {
+    position: relative;
+}
+
+/* The "..." button */
+.aces-dropdown-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #666;
+    padding: 4px 8px;
+    line-height: 1;
+    border-radius: .3rem;
+}
+
+/* Dropdown content */
+.aces-dropdown-content {
+    display: none;
+    position: absolute;
+    top: 28px;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    min-width: 15rem;
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Dropdown menu items */
+.aces-dropdown-content ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.aces-dropdown-content li {
+    display: block;
+    padding: 8px 12px;
+    cursor: pointer;
+    color: #333;
+    font-size: 14px;
+}
+
+.aces-dropdown-content li:hover {
+    background-color: #f2f2f2;
+}
+
+/*********************************
+ * Feed Container
+ *********************************/
+.aces-feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Spacing between feed items */
+}
+
+/*********************************
+ * Individual Feed Item (Card)
+ *********************************/
+.aces-feed-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-sizing: border-box;
+}
+
+/* Header: Avatar + User Info */
+.aces-feed-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* Main user avatar in feed (40x40, 2px ring) */
+.aces-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    margin-right: 10px;
+}
+
+/* User info next to avatar */
+.aces-feed-userinfo {
+    display: flex;
+    flex-direction: column;
+}
+.aces-feed-username {
+    /*font-size: 15px;*/
+    font-weight: 600 !important;
+    margin: 0;
+}
+.aces-feed-meta {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Post body: text + optional image */
+.aces-feed-body {
+    margin-bottom: 12px;
+}
+.aces-feed-body p {
+    margin: 0 0 8px 0;
+    /*font-size: 14px;*/
+    line-height: 1.4;
+}
+.aces-feed-image {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    object-fit: cover;
+}
+
+/*********************************
+ * Reaction Bar
+ *********************************/
+.aces-feed-actions {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ddd;
+    padding-top: 8px;
+    /*margin-bottom: 12px;*/
+    gap: 1rem;
+}
+
+/* Reaction buttons */
+.aces-feed-actions button {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 4px;
+    font-size: 14px;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.aces-feed-actions button i {
+    margin-right: 6px;
+    font-size: 16px;
+}
+.aces-feed-actions button:hover {
+    color: #333;
+}
+/* Let "Share" push to the right if needed */
+.ms-auto {
+    margin-left: auto;
+}
+
+/*********************************
+ * 1) "Add a comment..." at top
+ *********************************/
+.aces-add-comment {
+    display: flex;
+    align-items: center;
+    padding:.5rem 0 1rem 0;
+}
+
+.aces-add-comment-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 8px;
+}
+
+/* Wrapper for input and button */
+.aces-add-comment-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+/* Input styling */
+.aces-add-comment-input {
+    width: 100%;
+    padding: 12px 50px 12px 12px; /* Extra right padding for the button */
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    background-color: #f3f4f6;
+    border-radius: 0.4rem;
+}
+
+/* Optional placeholder styling */
+.aces-add-comment-input::placeholder {
+    color: #999;
+}
+
+/* Send button positioned inside the input */
+.aces-add-comment-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;  /* Matches input background */
+    color: #666;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+/*********************************
+ * 2) Comments Container
+ *********************************/
+.aces-feed-comments {
+    /*font-family: Arial, sans-serif;  Adjust as needed */
+    color: #333;
+}
+
+/*********************************
+ * 3) Each Comment
+ *********************************/
+.aces-comment {
+    margin-bottom: 0;
+}
+
+.aces-comment-main {
+    display: flex;
+    align-items: flex-start;
+    /*gap: 8px;*/
+}
+
+/* Avatar for each comment */
+.aces-comment-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+/* Content area (name/time, text, actions) */
+.aces-comment-content {
+    /*flex: 1;*/
+    display: block;
+    max-width: 100%;
+}
+
+.aces-comment-content-highlight {
+    min-width: 320px;
+    padding: .8rem .8rem;
+    background-color:rgba(238, 240, 242, 1);
+    border-radius: .4rem;
+}
+
+/*********************************
+ * Comment Header
+ * (Name on the left, time on the right)
+ *********************************/
+.aces-comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.aces-comment-author {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.aces-comment-time {
+    font-size: 12px;
+    color: #666;
+}
+
+/*********************************
+ * Comment Text
+ *********************************/
+.aces-comment-text {
+    /*font-size: 14px;*/
+    line-height: 1.4;
+    margin: .4rem 0 0 0;
+}
+
+/*********************************
+ * Comment Actions
+ *********************************/
+.aces-comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /*font-size: 13px;*/
+    color: #666;
+    padding:.5rem 0;
+}
+
+.aces-comment-like,
+.aces-comment-reply,
+.aces-comment-view-replies {
+    cursor: pointer;
+}
+
+.aces-comment-like:hover,
+.aces-comment-reply:hover,
+.aces-comment-view-replies:hover {
+    text-decoration: underline;
+    color: #333;
+}
+
+/* Separator (the "•" dot) */
+.aces-comment-separator {
+    color: #ccc;
+}
+
+/*********************************
+ * 4) Nested Replies
+ *********************************/
+.aces-replies {
+    margin-left: 45px; /* Slight indentation for nested replies */
+    /*margin-top: 0.5rem;*/
+}
+
+/*********************************
+ * 5) "Load more replies"
+ *********************************/
+.aces-load-replies {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+    /*font-size: 13px;*/
+    color: #666;
+    cursor: pointer;
+}
+
+.aces-load-replies:hover .aces-load-replies-text {
+    text-decoration: underline;
+    color: #333;
+}
+
+.aces-ellipsis {
+    margin-right: 6px;
+}
+
+/*********************************
+ * 6) "Load more comments"
+ *********************************/
+.aces-load-comments {
+    display: flex;
+    align-items: center;
+    /*font-size: 13px;*/
+    color: #666;
+    cursor: pointer;
+}
+
+.aces-load-comments:hover .aces-load-comments-text {
+    text-decoration: underline;
+    color: #333;
+}
+
+.order-detail p,
+.order-detail h3,
+.order-detail-item p,
+.order-detail-item h3,
+.order-detail-item .order-item-description p,
+.order-detail-item .order-item-description h3 {
+    font-weight: 400;
+    margin-bottom: 0;
+}
+
+/* --- order‑detail custom styles --- */
+.order-detail-item .order-item-img {
+    width: 80px;
+    height: 80px;
+    overflow: hidden;            /* crop anything that exceeds the box */
+    border-radius: .25rem;      /* optional: slight rounding to match BS cards */
+}
+
+.order-detail-item .order-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;          /* fills the square even with oversize images */
+}
+
+.order-detail-item .order-item-description,
+.order-detail-item .order-item-price {
+    padding: .25rem 0;
+    display: flex;               /* ensures equal height with image */
+    flex-direction: column;
+    justify-content: center;    /* vertically center text inside the row */
+}
+
+.order-detail-item .order-item-price {
+    justify-content: flex-start; /* vertically center text inside the row */
+}
+
+.order-detail-item .order-itemize {
+    margin-bottom: 1.25rem;
+}
+
+.order-detail-item .order-itemize:last-child {
+    margin-bottom: 0;
+}
+
+.box-custom-container i {
+    width: calc(36px + (40 - 36) * ((100vw - 320px) / (1920 - 320)));
+    height: calc(36px + (40 - 36) * ((100vw - 320px) / (1920 - 320)));
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    /*background-color: #fff;*/
+    border-radius: 0;
+    -webkit-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+    font-size: calc(16px + (19 - 16) * ((100vw - 320px) / (1920 - 320)));
+}
+@media (max-width: 991px) {
+    .box-custom-container i {
+        /*background-color: inherit;*/
+    }
+}
+.override-custom .product-detail p {
+    display: none;
+}
+
+.theme-color-22 .btn-outline {
+    color: var(--theme-color);
+}
+
+/*============= CUSTOMER PROFILE VIEW ==============*/
+
+.avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #dee2e6;        /* neutral gray */
+    color: #6c757d;                   /* darker gray for the letter */
+    font-size: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0 auto;
+    border:1px solid #dee2e6;
+}
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.blog-detail-page.all-new-writeup h1,
+.blog-detail-page.all-new-writeup h2,
+.blog-detail-page.all-new-writeup h3,
+.blog-detail-page.all-new-writeup p,
+.blog-detail-page.all-new-writeup ul {
+    margin-bottom:30px !important;
+}
+
+.blog-detail-page.all-new-writeup h1 {font-size:1.5rem !important;}
+.blog-detail-page.all-new-writeup h2 {font-size:1.25rem !important;}
+.blog-detail-page.all-new-writeup h3 {font-size:1rem !important;}
+.blog-detail-page.all-new-writeup p,
+.blog-detail-page.all-new-writeup ul li {font-size:16px !important;}
+
+.blog-detail-page.all-new-writeup ul.list-bullet {
+    list-style-position: inside !important;
+    list-style-type: circle !important;
+    display: block;
+}
+
+.blog-detail-page.all-new-writeup ul li {
+    display: block;
+    padding-left: 40px;
+    margin-bottom:5px;
+}
+
+.blog-detail-page.all-new-writeup ul li::marker {
+    color: #ffffff;
+}
+
+.blog-detail-page.all-new-writeup ul li:last-child {
+    margin-bottom:0;
 }

@@ -5,6 +5,11 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link {{ request('section') == 'news-feed' ? 'active' : '' }}" id="notification-tab" href="{{ route('dashboard', ['section' => 'news-feed']) }}">
+            <i class="ri-news-line"></i> News Feed
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link {{ request('section') == 'notifications' ? 'active' : '' }}" id="notification-tab" href="{{ route('dashboard', ['section' => 'notifications']) }}">
             <i class="ri-notification-line"></i> Notifications
         </a>
@@ -25,7 +30,7 @@
         </button>
     </li>--}}
     <li class="nav-item">
-        <a class="nav-link {{ request('section') == 'my-order' ? 'active' : '' }}" id="order-tab" href="{{ route('dashboard', ['section' => 'my-order']) }}">
+        <a class="nav-link {{ in_array(request('section'), ['my-order', 'my-order-show']) ? 'active' : '' }}" id="order-tab" href="{{ route('dashboard', ['section' => 'my-order']) }}">
             <i class="ri-file-text-line"></i>My Orders
         </a>
     </li>
@@ -39,12 +44,18 @@
             <i class="ri-map-pin-line"></i> Saved Address
         </a>
     </li>
-    <li class="nav-item logout-cls">
-        <a href="javascript:;" class="btn loagout-btn" onclick="Apps.logoutConfirm('user_log_out')">
-            <i class="ri-logout-box-r-line"></i> Logout
-        </a>
-        <form id="user_log_out" action="{{ route('auth.destroy') }}" method="POST" class="d-none">
-            @csrf
-        </form>
-    </li>
+    @forelse(\App\Support\LogOut::LogOut() as $key => $logout)
+        @if(Auth::guard('web')->check() && Auth::guard('web')->user()->hasAnyRole($logout['role']))
+            <li class="nav-item logout-cls">
+                <a href="javascript:;" onclick="Apps.logoutConfirm('{{ $logout['dropdown-item']['formId'] }}')" class="btn loagout-btn">
+                    <i class="ri-logout-box-r-line"></i> {{ __('Logout') }}
+                </a>
+                <form id="{{ $logout['dropdown-item']['formId'] }}" action="{{ $logout['dropdown-item']['formUrl'] }}" method="POST" class="d-none">
+                    @csrf
+                </form>
+            </li>
+        @endif
+    @empty
+        <!-- Optionally handle if no logout items are returned -->
+    @endforelse
 </ul>

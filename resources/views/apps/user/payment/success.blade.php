@@ -101,7 +101,7 @@
                         </div>
                         <h2>{!! __('Thank You') !!}</h2>
                         <p>{!! __('Payment is successfully processed') !!}</p>
-                        <p class="font-weight-bold">{!! __('Transaction ID:') !!} {!! __('267676GHERT105467') !!}</p>
+                        <p class="font-weight-bold">{!! __('Transaction ID:') !!} {!! __($transaction_id) !!}</p>
                     </div>
                 </div>
             </div>

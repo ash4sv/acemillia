@@ -4,6 +4,9 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Middleware\CustomEnsureEmailIsVerified;
+use App\Http\Middleware\EnsureUserIsApproved;
+use App\Http\Middleware\RedirectIfApproved;
+use App\Http\Middleware\CustomSessionRedirect;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,14 +16,17 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
-            'payment-redirect',
-            'payment-webhook',
+            'purchase/payment-redirect',
+            'purchase/payment-webhook',
         ]);
         $middleware->web(append: [
             \RealRashid\SweetAlert\ToSweetAlert::class,
         ]);
         $middleware->alias([
             'apps-verified' => CustomEnsureEmailIsVerified::class,
+            'approved'     => EnsureUserIsApproved::class,
+            'its_approved' => RedirectIfApproved::class,
+            'custom.auth'  => CustomSessionRedirect::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

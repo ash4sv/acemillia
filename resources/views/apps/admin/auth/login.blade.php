@@ -16,12 +16,12 @@
             <!-- Logo -->
             <div class="app-brand justify-content-center mb-2 mt-2">
                 <a href="{{ url('/') }}" class="app-brand-link gap-2">
-                    <img src="{{ asset('apps/img/nexes_01.png') }}" alt="" class="img-fluid d-block">
+                    <img src="{{ asset('assets/images/logo-neuraloka_black.png') }}" alt="" class="img-fluid d-block" style="height:80px;">
                 </a>
             </div>
             <!-- /Logo -->
 
-            <h4 class="mb-1 pt-2 text-center">{{ __('Event Management System') }}</h4>
+            <h4 class="mb-1 pt-2 text-center">{{ __('ProdifyX e-Commerce') }}</h4>
             <p class="mb-4 text-center">{{ __('Make your app management easy and fun!') }}</p>
 
             <form id="formAuthentication" class="mb-3" action="{{ route(__('admin.auth.login')) }}" method="POST">

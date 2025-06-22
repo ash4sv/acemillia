@@ -5,12 +5,17 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthUserVerifyController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     private function redirectPath()
     {
         return '/dashboard';
@@ -18,6 +23,10 @@ class AuthUserVerifyController extends Controller
 
     public function notice(Request $request)
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Verify your email'],
+        ]);
+
         $user = $request->user();
 
         if ($user && $user->hasVerifiedEmail()) {
@@ -26,7 +35,10 @@ class AuthUserVerifyController extends Controller
 
         $email = null;
         $email = auth()->guard('web')->user()->email;
-        return view('apps.user.auth.verify-email', ['email' => $email]);
+        return view('apps.user.auth.verify-email', [
+            'email' => $email,
+            'breadcrumbs' => $breadcrumbs,
+        ]);
     }
 
     public function verify(EmailVerificationRequest $request)
@@ -47,7 +59,7 @@ class AuthUserVerifyController extends Controller
             event(new Verified($request->user()));
         }
 
-        Alert::success('Email successfully verified! You are logged in', 'success');
+        Alert::success('Email successfully verified!', 'You are logged in');
         return redirect($this->redirectPath())->with('verified', true);
     }
 
@@ -63,7 +75,18 @@ class AuthUserVerifyController extends Controller
 
         $request->user()->sendUserEmailVerificationNotification();
 
-        Alert::success('Successfully sent! A fresh verification link has been sent to your email address.', 'success');
+        Alert::success('Successfully sent!', 'A fresh verification link has been sent to your email address.');
         return back()->with('resent', true);
+    }
+
+    public function underReview()
+    {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Account is under review'],
+        ]);
+
+        return view('apps.user.auth.under-review', [
+            'breadcrumbs' => $breadcrumbs,
+        ]);
     }
 }

@@ -2,7 +2,7 @@
     $route = 'admin.shop.tags.';
 @endphp
 
-<form action="{{ isset($tag) ? route( $route . 'update', $tag->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
+<form id="modal-form" action="{{ isset($tag) ? route( $route . 'update', $tag->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
     @csrf
     @if(isset($tag))
         @method('PUT')

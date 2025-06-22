@@ -6,16 +6,28 @@ use Yajra\DataTables\Html\Button;
 
 class DataTableParameter
 {
-    public static function createBtn(string $title, string $url): array
-    {
+    public static function createBtn(
+        string $title,
+        string $url,
+        string $scrollable    = '',
+        string $centered      = '',
+        string $optional_size = '',
+        string $fullscreen_mode = ''
+    ): array {
         return [
             'text' => $title,
             'className' => 'btn btn-primary mb-3 mb-md-0 waves-effect waves-light',
-            'attr' => [
-                'data-bs-toggle' => 'modal',
-                'data-bs-target' => '#basicModal',
-                'data-create-url' => $url,
-                'data-create-title' => $title,
+            'attr'      => [
+                'data-bs-toggle'               => 'modal',
+                'data-bs-target'               => '#basicModal',
+                // Only add "true" if explicitly provided as "true", otherwise default to empty.
+                'data-modal-dialog-scrollable' => $scrollable === 'true' ? 'true' : '',
+                'data-modal-dialog-centered'   => $centered === 'true' ? 'true' : '',
+                // For optional size and fullscreen mode, default to an empty string.
+                'data-modal-optional-size'     => $optional_size ?: '',
+                'data-modal-fullscreen-mode'   => $fullscreen_mode ?: '',
+                'data-create-url'              => $url,
+                'data-create-title'            => $title,
             ],
         ];
     }

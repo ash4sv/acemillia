@@ -16,6 +16,7 @@ class AddressUserController extends Controller
 
     public function __construct()
     {
+        parent::__construct();
         $this->authUser = auth()->guard('web')->user();
     }
 
@@ -24,8 +25,14 @@ class AddressUserController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'My Account', 'url' => route('dashboard')],
+            ['label' => 'Saved Address'],
+        ]);
+
         return response()->view($this->view . 'index', [
-            'authUser' => $this->authUser
+            'authUser' => $this->authUser,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -177,6 +184,19 @@ class AddressUserController extends Controller
             }
             return $postcodes;
         });
+    }
+
+    public function getCountries()
+    {
+        $countries = \Illuminate\Support\Facades\Cache::remember('countries_data', now()->addHours(1), function () {
+            $path = public_path('assets/data/countries.json');
+            if (file_exists($path)) {
+                $json = file_get_contents($path);
+                return json_decode($json, true);
+            }
+            return [];
+        });
+        return response()->json($countries);
     }
 
     /**

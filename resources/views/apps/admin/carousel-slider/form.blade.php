@@ -2,7 +2,7 @@
     $route = 'admin.carousel-slider.';
 @endphp
 
-<form action="{{ isset($carousel) ? route( $route . 'update', $carousel->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
+<form id="modal-form" action="{{ isset($carousel) ? route( $route . 'update', $carousel->id) : route( $route . 'store') }}" enctype="multipart/form-data" class="mb-0" method="POST">
     @csrf
     @if(isset($carousel))
         @method('PUT')

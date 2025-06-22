@@ -58,7 +58,7 @@
                     <div class="success-text pb-4">
                         <h2>{!! __('Payment failed') !!}</h2>
                         <p>{!! __('Payment is unsuccessfully') !!}</p>
-                        <p class="font-weight-bold">{!! __('Transaction ID:') !!} {!! __('267676GHERT105467') !!}</p>
+                        <p class="font-weight-bold">{!! __('Transaction ID:') !!} {!! __($transaction_id) !!}</p>
                     </div>
                 </div>
             </div>

@@ -13,21 +13,30 @@ class LogOut
                     'formUrl' => route('admin.auth.destroy'),
                     'formId'  => 'admin-logout-form',
                 ],
+                'dropdown-index' => [
+                    'url'  => 'admin-logout-form',
+                ],
             ],
 
             [
                 'role'          => ['merchant'],
                 'dropdown-item' => [
-                    'formUrl' => '#',
-                    'formId'  => 'organizer-logout-form',
+                    'formUrl' => route('merchant.auth.destroy'),
+                    'formId'  => 'merchant-logout-form',
+                ],
+                'dropdown-index' => [
+                    'url' => route('merchant.dashboard'),
                 ],
             ],
 
             [
                 'role'          => ['user'],
                 'dropdown-item' => [
-                    'formUrl' => '#',
+                    'formUrl' => route('auth.destroy'),
                     'formId'  => 'user-logout-form',
+                ],
+                'dropdown-index' => [
+                    'url' => route('dashboard'),
                 ],
             ],
         ];

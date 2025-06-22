@@ -2,8 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Order\Order;
+use App\Models\Social\NewsFeed;
+use App\Models\Social\NewsFeedComment;
+use App\Models\Social\NewsFeedLike;
 use App\Models\User\AddressBook;
 use App\Notifications\User\UserEmailVerificationNotification;
+use App\Notifications\User\UserResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -29,6 +34,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'phone',
         'icon_avatar',
         'img_avatar',
+        'gender',
+        'date_of_birth',
+        'nationality',
+        'identification_number',
+        'upload_documents',
+        'status_submission',
     ];
 
     /**
@@ -59,8 +70,38 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->notify(new UserEmailVerificationNotification());
     }
 
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new UserResetPasswordNotification($token));
+    }
+
     public function addressBooks()
     {
         return $this->hasMany(AddressBook::class, 'user_id', 'id');
+    }
+
+    public function newsfeeds()
+    {
+        return $this->morphMany(NewsFeed::class, 'newsfeedable', 'model_type', 'model_id');
+    }
+
+    public function newsfeedLikes()
+    {
+        return $this->morphMany(NewsFeedLike::class, 'actor', 'model_type', 'model_id');
+    }
+
+    public function newsfeedComments()
+    {
+        return $this->morphMany(NewsFeedComment::class, 'actor', 'model_type', 'model_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
     }
 }

@@ -3,13 +3,25 @@
 namespace App\Http\Controllers\Services;
 
 use App\Http\Controllers\Controller;
+use App\Mail\Apps\Services\ReceiptMail;
+use App\Models\Order\Order;
+use App\Models\Order\OrderItem;
+use App\Models\Order\Payment;
+use App\Models\Order\SubOrder;
+use App\Models\User\AddressBook;
+use App\Traits\GeneratesPdfs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use RealRashid\Cart\Facades\Cart;
+use Carbon\Carbon;
 use Billplz\Client;
 
 class AppsPaymentController extends Controller
 {
+    use GeneratesPdfs;
     protected string $view = 'apps.user.payment.';
 
     public function redirectUrl(Request $request)
@@ -44,13 +56,36 @@ class AppsPaymentController extends Controller
                 $updateOrderData = DB::table('order_temps')->whereJsonContains('transaction_data->id', $id)->first();
                 $updateCartData  = DB::table('carts_temps')->where('temporary_uniq', $updateOrderData->temporary_uniq)->first();
 
-                if ($updateCartData->user == 'user') {
+                if ($updateCartData->user == 'user' && auth()->guard('web')->check()) {
                     Log::info('PAYMENT REDIRECT FUNCTION END: SUCCESS TRUE ' . $id . ' ' . date('Ymd/m/y H:i'));
-                    return response()->view($this->view . 'success');
+                    $cleanup = DB::table('cart_cleanup_queue')->where('transaction_id', $id)->where('user_id', auth()->guard('web')->id())->first();
+                    if ($cleanup) {
+                        $itemKeys = json_decode($cleanup->item_ids, true);
+
+                        Cart::instance('default'); // or 'user_' . auth()->id() if you use named instances
+                        foreach ($itemKeys as $itemKey) {
+                            try {
+                                Cart::remove($itemKey);
+                            } catch (\Exception $e) {
+                                Log::warning("Failed to remove cart item [$itemKey]: " . $e->getMessage());
+                            }
+                        }
+
+                        DB::table('cart_cleanup_queue')
+                            ->where('id', $cleanup->id)
+                            ->update([
+                                'deleted_at' => now()
+                            ]);
+                    }
+                    return response()->view($this->view . 'success', [
+                        'transaction_id' => strtoupper($id)
+                    ]);
                 }
             } elseif ($bill['data']['paid'] == 'false') {
                 Log::info('PAYMENT REDIRECT FUNCTION END: FALSE ' . $bill['data']['id']  . ' ' . date('Ymd/m/y H:i'));
-                return response()->view($this->view . 'failed');
+                return response()->view($this->view . 'failed', [
+                    'transaction_id' => strtoupper($bill['data']['id'])
+                ]);
             } else {
                 $id = $bill['data']['id'];
                 $whatUser = DB::table('order_temps')->whereJsonContains('transaction_data->id', $id)->first();
@@ -58,7 +93,9 @@ class AppsPaymentController extends Controller
                 Log::error(['RESPONSE ERROR' => $response]);
                 Log::info('PAYMENT REDIRECT UNSUCCESSFULLY FUNCTION END: ERROR');
                 if ($whatUser->user == 'user') {
-                    return response()->view($this->view . 'failed');
+                    return response()->view($this->view . 'failed', [
+                        'transaction_id' => strtoupper($id)
+                    ]);
                 }
             }
 
@@ -75,7 +112,159 @@ class AppsPaymentController extends Controller
         Log::info('Queueing Payment Webhook for processing start.' . date('Ymd/m/y H:i'));
 
         $response = $request->all();
+        Log::info('PAYMENT WEBHOOK FUNCTION START ' . date('Ymd/m/y H:i'));
 
+        $billplzId = $response['id'];
+        $orderTemp = DB::table('order_temps')->whereJsonContains('transaction_data->id', $billplzId)->first();
+
+        DB::beginTransaction();
+        try {
+            // ====== //
+            if ($response['paid'] == 'true') {
+                // STEP 2: Convert temp data into real order
+                if ($orderTemp->user == 'user') {
+                    DB::transaction(function () use ($billplzId, $orderTemp, $response) {
+                        $cartTemp = DB::table('carts_temps')->where('temporary_uniq', $orderTemp->temporary_uniq)->first();
+
+                        $orderRef = Order::generateOrderReference();
+
+                        $cart = json_decode($cartTemp->cart, true);
+                        $cartItems = $cart['cart'] ?? [];
+
+                        // Fetch the billing and shipping address from the address_books table
+                        $billingAddress = AddressBook::find($cart['billingAddress']);
+                        $shippingAddress = AddressBook::find($cart['shippingAddress']);
+
+                        // 2. Create final order
+                        $order = Order::create([
+                            'uniq'                => $orderRef['uniq'],
+                            'order_number'        => $orderRef['order_number'],
+                            'user_id'             => $orderTemp->user_id,
+                            'total_amount'        => $cartTemp->total,
+                            'cart_temp_id'        => $cartTemp->id,
+                            'payment_status'      => 'paid',
+                            'status'              => 'processing',
+                            'billing_address_id'  => $billingAddress ? $billingAddress->id : null,
+                            'shipping_address_id' => $shippingAddress ? $shippingAddress->id : null,
+                        ]);
+
+                        // 3. Group items by merchant
+                        $grouped = collect($cartItems)->groupBy(fn($item) => $item['options']['merchant_id']);
+
+                        foreach ($grouped as $merchantId => $items) {
+                            $subtotal = collect($items)->sum(function ($i) {
+                                $base = $i['price'];
+                                $additional = collect($i['options']['selected_options'] ?? [])
+                                    ->sum('additional_price');
+                                return ($base + $additional) * $i['quantity'];
+                            });
+
+                            $subOrder = SubOrder::create([
+                                'order_id' => $order->id,
+                                'merchant_id' => $merchantId,
+                                'subtotal' => $subtotal,
+                                'shipping_status' => 'pending',
+                            ]);
+
+                            foreach ($items as $item) {
+                                $finalPrice = $item['price'] + collect($item['options']['selected_options'] ?? [])
+                                        ->sum('additional_price');
+
+                                OrderItem::create([
+                                    'sub_order_id' => $subOrder->id,
+                                    'product_id' => $item['options']['item_product_id'] ?? null,
+                                    'product_name' => $item['name'],
+                                    'price' => $finalPrice,
+                                    'quantity' => $item['quantity'],
+                                    'options' => json_encode($item['options']),
+                                ]);
+                            }
+
+                            if ($subOrder->po_number) {
+                                $poNumber = $subOrder->po_number;
+                            } else {
+                                $poNumber = 'PO-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(4));
+                                $subOrder->po_number = $poNumber;
+                            }
+                            $relativePath = $this->generatePurchaseOrderPdf($subOrder);
+                            $subOrder->purchase_order = $relativePath;
+                            $subOrder->save();
+
+                            $subOrder->shippingLogs()->create([
+                                'status' => 'pending'
+                            ]);
+                        }
+
+                        // 4. Store payment info
+                        Payment::create([
+                            'order_id' => $order->id,
+                            'gateway' => 'billplz',
+                            'reference_id' => $response['id'],
+                            'paid_at' => Carbon::parse($response['paid_at']),
+                            'amount' => $cartTemp->total,
+                            'status' => 'paid',
+                            'response_data' => json_encode($response),
+                        ]);
+
+                        DB::table('carts_temps')->where('id', $cartTemp->id)->update([
+                            'uniq'           => $orderRef['uniq'],
+                            'order_number'   => $orderRef['order_number'],
+                            'payment_status' => true,
+                            'updated_at'     => now(),
+                        ]);
+
+                        DB::table('order_temps')->where('id', $orderTemp->id)->update([
+                            'uniq'           => $orderRef['uniq'],
+                            'order_number'   => $orderRef['order_number'],
+                            'return_url_2'   => json_encode($response),
+                            'payment_status' => true,
+                            'created_at'     => now(),
+                        ]);
+
+                        // 5. Save item in cart cleanup queue
+                        DB::table('cart_cleanup_queue')->insert([
+                            'transaction_id' => $billplzId,
+                            'user_id'        => $orderTemp->user_id,
+                            'item_ids'       => json_encode(array_keys($cartItems)),
+                            'order_id'       => $order->id,
+                            'created_at'     => now(),
+                            'updated_at'     => now(),
+                        ]);
+
+                        // 6. Generate Receipt PDF
+                        $relative = $this->generateReceiptPdf($order);
+
+                        // 7. Send the email
+                        Mail::to($order->user->email)->send(new ReceiptMail($order, $relative));
+                    });
+                } elseif ($orderTemp->user == 'merchant') {}
+
+                Log::info('PAYMENT WEBHOOK FUNCTION END ' . date('Ymd/m/y H:i'));
+            } elseif ($response['paid'] == 'false') {
+                DB::transaction(function () use ($orderTemp, $response) {
+                    $cartTemp = DB::table('carts_temps')->where('temporary_uniq', $orderTemp->temporary_uniq)->first();
+
+                    DB::table('carts_temps')->where('id', $cartTemp->id)->update([
+                        'updated_at'     => now(),
+                    ]);
+
+                    DB::table('order_temps')->where('id', $orderTemp->id)->update([
+                        'return_url_2'   => json_encode($response),
+                        'created_at'     => now(),
+                    ]);
+                });
+                Log::info('PAYMENT UNSUCCESSFULLY WEBHOOK ' . date('Ymd/m/y H:i'));
+            } else {
+                Log::info('PAYMENT UNSUCCESSFULLY WEBHOOK ' . date('Ymd/m/y H:i'));
+            }
+            // ====== //
+            DB::commit();
+            return response('OK', 200);
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            DB::rollBack();
+            Log::info('PAYMENT UNSUCCESSFULLY WEBHOOK ' . date('Ymd/m/y H:i'));
+        }
 
         Log::info('Queueing Payment Webhook for processing end.' . date('Ymd/m/y H:i'));
     }

@@ -2,7 +2,20 @@
 
 namespace App\Models;
 
+use App\Models\Admin\MenuSetup;
+use App\Models\Merchant\AddressMerchant;
+use App\Models\Merchant\MerchantWallet;
+use App\Models\Merchant\WalletTransaction;
+use App\Models\Merchant\WalletWithdrawRequest;
+use App\Models\Order\ShippingStatusLog;
+use App\Models\Order\SubOrder;
+use App\Models\Shop\Product;
 use App\Models\Shop\SpecialOffer;
+use App\Models\Social\NewsFeed;
+use App\Models\Social\NewsFeedComment;
+use App\Models\Social\NewsFeedLike;
+use App\Notifications\Merchant\MerchantEmailVerificationNotification;
+use App\Notifications\Merchant\MerchantResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,6 +37,16 @@ class Merchant extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'remember_token',
+        'phone',
+        'company_name',
+        'company_registration_number',
+        'tax_id',
+        'business_license_document',
+        'bank_name_account',
+        'bank_account_details',
+        'menu_setup_id',
+        'status_submission',
     ];
 
     /**
@@ -49,8 +72,85 @@ class Merchant extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function sendMerchantEmailVerificationNotification()
+    {
+        $this->notify(new MerchantEmailVerificationNotification());
+    }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MerchantResetPasswordNotification($token));
+    }
+
+    public function address()
+    {
+        return $this->hasOne(AddressMerchant::class, 'merchant_id', 'id');
+    }
+
     public function specialOffers()
     {
         return $this->hasMany(SpecialOffer::class, 'product_id', 'id');
+    }
+
+    public function menuSetup()
+    {
+        return $this->belongsTo(MenuSetup::class, 'menu_setup_id', 'id');
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->where('status_submission', '=', 'approved');
+    }
+
+    public function newsfeeds()
+    {
+        return $this->morphMany(NewsFeed::class, 'newsfeedable', 'model_type', 'model_id');
+    }
+
+    public function newsfeedLikes()
+    {
+        return $this->morphMany(NewsFeedLike::class, 'actor', 'model_type', 'model_id');
+    }
+
+    public function newsfeedComments()
+    {
+        return $this->morphMany(NewsFeedComment::class, 'actor', 'model_type', 'model_id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'merchant_id', 'id');
+    }
+
+    public function subOrders()
+    {
+        return $this->hasMany(SubOrder::class, 'merchant_id', 'id');
+    }
+
+    public function shippingLogs()
+    {
+        return $this->hasMany(ShippingStatusLog::class, 'created_by', 'id');
+    }
+
+    public function wallet() {
+        return $this->hasOne(MerchantWallet::class, 'merchant_id', 'id');
+    }
+
+    public function getWalletAttribute()
+    {
+        return $this->wallet()->firstOrCreate([]);
+    }
+
+    public function walletTransactions() {
+        return $this->hasMany(WalletTransaction::class, 'merchant_id', 'id');
+    }
+
+    public function withdrawRequests() {
+        return $this->hasMany(WalletWithdrawRequest::class, 'merchant_id', 'id');
     }
 }

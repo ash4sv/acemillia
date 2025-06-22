@@ -8,6 +8,7 @@ use App\Models\Admin\Blog\Post;
 use App\Models\Admin\Blog\PostCategory;
 use App\Models\Admin\Blog\PostTag;
 use App\Services\ImageUploader;
+use App\Services\ModelResponse;
 use App\Services\SlugGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class PostAdminController extends Controller
 {
     protected string $view = 'apps.admin.blog.posts.';
+    protected string $title = 'Post';
     protected $postCategories, $postTags;
 
     public function __construct()
@@ -53,8 +55,11 @@ class PostAdminController extends Controller
     public function store(Request $request)
     {
         $this->updateOrCreatePost($request);
-        Alert::success('Successfully Create!', 'Post has been created!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message($this->title . ' has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -85,8 +90,11 @@ class PostAdminController extends Controller
     public function update(Request $request, string $id)
     {
         $this->updateOrCreatePost($request, $id);
-        Alert::success('Successfully Update!', 'Post has been updated!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message($this->title . ' has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**

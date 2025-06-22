@@ -15,28 +15,31 @@
 
 @section('webpage')
 
-    {{--@if(isset($carousels) && $carousels->count() > 0)
-    <!-- Home slider -->
-    <section class="p-0 sm-responsive"> --}}{{--height-100--}}{{--
-        <div class="slide-1 home-slider">
-            @forelse($carousels as $key => $carousel)
-            <div>
-                <a href="{!! $carousel->url !!}" class="home">
-                    <img src="{!! asset($carousel->image) !!}" alt="" class="bg-img blur-up lazyload">
-                </a>
-            </div>
-            @empty
-            <div>
-                <a href="{{ url('/') }}" class="home">
-                    <img src="{!! asset('assets/images/furniture-3/full-banner/1.png') !!}" alt="" class="bg-img blur-up lazyload">
-                </a>
-            </div>
-            @endforelse
-        </div>
-    </section>
-    <!-- Home slider end -->
-    @endif--}}
+    @if(env('STATUS_HOME_SLIDER'))
+        @if(isset($carousels) && $carousels->count() > 0)
+            <!-- Home slider -->
+            <section class="p-0 sm-responsive"> <!--height-100-->
+                <div class="slide-1 home-slider">
+                    @forelse($carousels as $key => $carousel)
+                        <div>
+                            <a href="{!! $carousel->url !!}" class="home">
+                                <img src="{!! asset($carousel->image) !!}" alt="" class="bg-img blur-up lazyload">
+                            </a>
+                        </div>
+                    @empty
+                        <div>
+                            <a href="{{ url('/') }}" class="home">
+                                <img src="{!! asset('assets/images/furniture-3/full-banner/1.png') !!}" alt="" class="bg-img blur-up lazyload">
+                            </a>
+                        </div>
+                    @endforelse
+                </div>
+            </section>
+            <!-- Home slider end -->
+        @endif
+    @endif
 
+    @if(env('STATUS_BANNER_START'))
     <!-- home banner start -->
     <div class="container banner-slider acemillia" style="overflow: hidden !important;">
         <div class="row gx-4">
@@ -48,39 +51,48 @@
             <div class="col-md-5">
                 <div class="row g-4 home-banner">
                     <div class="col-12">
-                        <a href="category-page.html"><img src="../assets/images/electronics-2/banner/2.png" class="img-fluid blur-up lazyload" alt=""></a>
+                        <a href="category-page.html">
+                            <img src="../assets/images/electronics-2/banner/2.png" class="img-fluid blur-up lazyload" alt="">
+                        </a>
                     </div>
                     <div class="col-12">
-                        <a href="category-page.html"><img src="../assets/images/electronics-2/banner/3.png" class="img-fluid blur-up lazyload" alt=""></a>
+                        <a href="category-page.html">
+                            <img src="../assets/images/electronics-2/banner/3.png" class="img-fluid blur-up lazyload" alt="">
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- home banner end  -->
+    @endif
 
     <!-- collection banner -->
     <section class="banner-padding banner-goggles banner-section ratio2_1">
         <div class="container">
             <div class="row partition2 g-4">
+                @if(isset($widgetsBanner[0]))
                 <div class="col-md-6">
-                    <a href="category-page.html">
+                    <a href="{{ $widgetsBanner[0]->url }}">
                         <div class="collection-banner acemillia p-left text-start">
                             <div class="img-part">
-                                <img src="../assets/images/game/banner/1.png" class="img-fluid blur-up lazyload" alt="">
+                                <img src="{{ asset($widgetsBanner[0]->image) }}" class="img-fluid blur-up lazyload" alt="{{ $widgetsBanner[0]->name }}">
                             </div>
                         </div>
                     </a>
                 </div>
+                @endif
+                @if(isset($widgetsBanner[1]))
                 <div class="col-md-6">
-                    <a href="category-page.html">
+                    <a href="{{ $widgetsBanner[1]->url }}">
                         <div class="collection-banner acemillia p-right text-end">
                             <div class="img-part">
-                                <img src="../assets/images/game/banner/2.png" class="img-fluid blur-up lazyload" alt="">
+                                <img src="{{ asset($widgetsBanner[1]->image) }}" class="img-fluid blur-up lazyload" alt="{{ $widgetsBanner[1]->name }}">
                             </div>
                         </div>
                     </a>
                 </div>
+                @endif
             </div>
         </div>
     </section>
@@ -104,60 +116,21 @@
     <!-- Paragraph end -->
 
     <!-- Product slider -->
-    <section class="pt-0 ratio_asos section-b-space">
+    <section class="section-b-space pt-0 ratio_asos override-custom">
         <div class="container">
-            <div class="row gy-4 dark-box partition-five justify-content-center">
+            <div class="g-3 g-md-4 row row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 @forelse($specialOffers as $key => $specialOffer)
                     @php
-                        $specialOfferUrl = route('web.shop.product', [$specialOffer?->product?->categories?->first()->menus?->first()->slug, $specialOffer?->product?->categories?->pluck('slug')->first(), $specialOffer?->product?->slug]);
+                        $menuSlug = $specialOffer?->product?->categories?->first()->menus?->first();
+                        $product = $specialOffer->product;
                     @endphp
-                <div class="col">
-                    <div class="basic-product theme-product-4">
-                        <div class="img-wrapper">
-                            <a href="{{ $specialOfferUrl }}">
-                                @if($specialOffer->single_image)
-                                <img src="{{ asset($specialOffer->single_image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! __($specialOffer?->product?->name) !!}">
-                                @else
-                                <img src="{{ asset($specialOffer?->product?->image) }}" class="img-fluid blur-up lazyload bg-img" alt="{!! __($specialOffer?->product?->name) !!}">
-                                @endif
-                            </a>
-                            <div class="cart-info">
-                                <a href="#!" title="Add to Wishlist" class="wishlist-icon">
-                                    <i class="ri-heart-line"></i>
-                                </a>
-                                {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
-                                    <i class="ri-shopping-cart-line"></i>
-                                </button>--}}
-                                <a href="#quickView" data-bs-toggle="modal" title="Quick View">
-                                    <i class="ri-eye-line"></i>
-                                </a>
-                                {{--<a href="compare.html" title="Compare">
-                                    <i class="ri-loop-left-line"></i>
-                                </a>--}}
-                            </div>
-                        </div>
-                        <div class="product-detail">
-                            <a class="product-title" href="{{ $specialOfferUrl }}">
-                                {!! __($specialOffer?->product?->name) !!}
-                            </a>
-                            <div class="rating-w-count mb-0 d-sm-inline-flex d-none">
-                                {{--<div class="rating">
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                    <i class="ri-star-fill"></i>
-                                </div>
-                                <span>(10)</span>--}}
-                            </div>
-                            <h4 class="price">
-                                {!! __($specialOffer?->product?->price) !!}
-                                {{--<del class="ms-auto"> $20.00 </del>--}}
-                                {{--<span class="discounted-price">8% Off </span>--}}
-                            </h4>
-                        </div>
+                    <div class="col">
+                        @include('webpage.partials._card-basic-product', [
+                            'menuSlug' => $menuSlug,
+                            'product'  => $product,
+                            'theme'    => 'theme-product-1'
+                        ])
                     </div>
-                </div>
                 @empty
 
                 @endforelse
@@ -189,15 +162,18 @@
     @endif
 
 
+    @if(isset($onerowsBg))
     <!-- category -->
     <div class="category-bg onerow-cat ratio3_2">
         <div class="container-fluid p-0">
             <div class="row order-section">
+                @if(isset($onerowsBg[0]))
                 <div class="col-sm-4 p-0">
-                    <a href="#!" class="image-block">
-                        <img alt="" src="{!! asset('assets/images/furniture-3/banner/1.png') !!}" class="img-fluid blur-up lazyload bg-img">
+                    <a href="{{ $onerowsBg[0]->url }}" class="image-block">
+                        <img alt="{{ $onerowsBg[0]->name ?? '-' }}" src="{!! asset($onerowsBg[0]->image ?? 'assets/images/furniture-3/banner/1.png') !!}" class="img-fluid blur-up lazyload bg-img">
                     </a>
                 </div>
+                @endif
                 <div class="col-sm-4 p-0">
                     <div class="contain-block even">
                         <div>
@@ -207,27 +183,34 @@
                             </a>
                             <a href="category-page.html" class="btn btn-solid category-btn">{!! __('-80% off') !!}</a>
                             <a href="category-page.html">
-                                <h6><span>{!! __('shop now') !!}</span></h6>
+                                <h6><span>{!! __('Shop Now') !!}</span></h6>
                             </a>
                         </div>
                     </div>
                 </div>
+                @if(isset($onerowsBg[1]))
                 <div class="col-sm-4 p-0">
-                    <a href="#!" class="image-block">
-                        <img alt="" src="{!! asset('assets/images/furniture-3/banner/2.png') !!}" class="img-fluid blur-up lazyload bg-img">
+                    <a href="{{ $onerowsBg[1]->url }}" class="image-block">
+                        <img alt="{{ $onerowsBg[1]->name ?? '-' }}" src="{!! asset($onerowsBg[1]->image ?? 'assets/images/furniture-3/banner/2.png') !!}" class="img-fluid blur-up lazyload bg-img">
                     </a>
                 </div>
+                @endif
             </div>
         </div>
     </div>
     <!-- category end -->
+    @endif
 
     <!-- slider and product -->
     <section class="container">
         <div class="row">
             <div class="col-xl-3 d-xl-block d-none">
                 <a href="">
-                    <img src="{!! asset('assets/images/furniture-3/banner/3.png') !!}" class="img-fluid" alt="">
+                    @php
+                        $image = \App\Models\Admin\Widget::getRandomActive([320, 820]);
+                        $img = $image->image ?? 'assets/images/furniture-3/banner/3.png';
+                    @endphp
+                    <img src="{!! asset($img) !!}" class="img-fluid" alt="">
                 </a>
             </div>
             <div class="col-xl-9">
@@ -239,7 +222,8 @@
                                 <div class="four-product row dark-box">
                                     @forelse($products as $key => $product)
                                         @php
-                                            $urlProduct = route('web.shop.product', [$product?->categories?->first()->menus?->first()->slug, $product?->categories?->pluck('slug')->first(), $product?->slug])
+                                            $urlProduct = route('web.shop.product', [$product?->categories?->first()->menus?->first()->slug, $product?->categories?->pluck('slug')->first(), $product?->slug]);
+                                            [$minPrice, $maxPrice] = $product->min_max_price;
                                         @endphp
                                         <div class="col">
                                             <div class="basic-product theme-product-4">
@@ -251,15 +235,44 @@
                                                         <a href="#!" title="Add to Wishlist" class="wishlist-icon">
                                                             <i class="ri-heart-line"></i>
                                                         </a>
-                                                        {{--<button data-bs-toggle="modal" data-bs-target="#addtocart" title="Add to cart">
+                                                        <a href="javascript:void(0);" onclick="event.preventDefault(); $('#add-to-cart-{{ __($product->slug . '-' . $product->id) }}').trigger('submit');">
                                                             <i class="ri-shopping-cart-line"></i>
-                                                        </button>--}}
+                                                        </a>
+                                                        <form class="shortcut-add-to-cart d-none" id="add-to-cart-{{ __($product->slug . '-' . $product->id) }}" action="{{ route('purchase.add-to-cart') }}" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="product" readonly value="{{ $product->id }}">
+                                                            <input type="hidden" name="price" readonly value="{{ $product->price }}">
+                                                            <input type="hidden" name="base-price" class="base-price" value="{{ (float) $product->getRawOriginal('price') }}">
+                                                            <input type="hidden" name="quantity" value="1" />
+                                                            @php
+                                                                $sortedOptions = $product->options->sortBy('name');
+                                                            @endphp
+                                                            @foreach($sortedOptions as $p => $option)
+                                                                <input type="hidden" name="options[{{ $p }}][option]" value="{{ $option->id }}">
+
+                                                                @forelse($option->values as $i => $value)
+                                                                    <input type="radio"
+                                                                           id="option{{ $p }}-{{ $i }}"
+                                                                           name="options[{{ $p }}][value]"
+                                                                           value="{{ $value->id }}"
+                                                                           data-additional-price="{{ $value->additional_price }}"
+                                                                        {{ $loop->first ? 'checked' : '' }} hidden>
+                                                                @empty
+                                                                    {{-- No values for this option --}}
+                                                                @endforelse
+                                                            @endforeach
+                                                        </form>
                                                         <a href="#quickView" data-bs-toggle="modal" title="Quick View">
                                                             <i class="ri-eye-line"></i>
                                                         </a>
-                                                        {{--<a href="compare.html" title="Compare">
+                                                        <a href="javascript:void(0);"
+                                                           title="Compare"
+                                                           class="ajax-compare"
+                                                           data-compare-product-id="{{ $product->id }}"
+                                                           data-compare-action="{{ route('compare.store') }}"
+                                                           data-compare-method="POST">
                                                             <i class="ri-loop-left-line"></i>
-                                                        </a>--}}
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <div class="product-detail">
@@ -277,7 +290,13 @@
                                                         <span>(10)</span>--}}
                                                     </div>
                                                     <h4 class="price">
-                                                        {!! $product->price !!}
+                                                        @if(abs($minPrice - $maxPrice) < 0.0001)
+                                                            {{ 'RM' . number_format($minPrice, 2) }}
+                                                        @else
+                                                            {{ 'RM' . number_format($minPrice, 2) }}
+                                                            -
+                                                            {{ 'RM' . number_format($maxPrice, 2) }}
+                                                        @endif
                                                         {{--<del class="ms-auto"> $20.00 </del>--}}
                                                         {{--<span class="discounted-price">8% Off </span>--}}
                                                     </h4>

@@ -37,19 +37,19 @@
                                     <span class="offer-icon">
                                         <i class="ri-discount-percent-fill"></i>
                                     </span>
-                                    Limited Time Offer: 5% off
+                                    {!! __('Limited Time Offer: 5% off') !!}
                                 </li>
                                 <li>
                                     <span class="offer-icon">
                                         <i class="ri-discount-percent-fill"></i>
                                     </span>
-                                    Limited Time Offer: 5% off
+                                    {!! __('Limited Time Offer: 5% off') !!}
                                 </li>
                                 <li>
                                     <span class="offer-icon">
                                         <i class="ri-discount-percent-fill"></i>
                                     </span>
-                                    Limited Time Offer: 5% off
+                                    {!! __('Limited Time Offer: 5% off') !!}
                                 </li>
                             </ul>
                         </div>
@@ -57,7 +57,11 @@
                 </div>
             </div>
         @empty
-            <p>No products found.</p>
+            <p>{!! __('No products found.') !!}</p>
         @endforelse
     </div>
 </div>
+
+<script>
+    console.log({!! $products->count() !!})
+</script>

@@ -48,6 +48,22 @@ class Menu
                     ],
                     [
                         'permission' => 'admin-systems-management-access',
+                        'url'        => route('admin.order.index'),
+                        'active_on'  => 'admin/order*',
+                        'icon'       => 'tf-icons ti ti-layout-sidebar',
+                        'text'       => __('Order'),
+                        'target'     => '',
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => route('admin.wallet-request.index'),
+                        'active_on'  => 'admin/wallet-request*',
+                        'icon'       => 'tf-icons ti ti-layout-sidebar',
+                        'text'       => __('Wallet Request'),
+                        'target'     => '',
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
                         'url'        => '#',
                         'active_on'  => 'admin/shop*',
                         'icon'       => 'tf-icons ti ti-shopping-cart',
@@ -94,6 +110,14 @@ class Menu
                                 'text'       => __('Special Offer'),
                                 'target'     => '',
                             ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shop.reviews.index'),
+                                'active_on'  => 'admin/shop/reviews*',
+                                'icon'       => 'tf-icons ti ti-star',
+                                'text'       => __('Reviews'),
+                                'target'     => '',
+                            ],
                         ]
                     ],
                     [
@@ -129,6 +153,40 @@ class Menu
                                 'target'     => '',
                             ],
                         ]
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => '#',
+                        'active_on'  => 'admin/shipping-service*',
+                        'icon'       => 'tf-icons ti ti-truck',
+                        'text'       => __('Shipping Services'),
+                        'target'     => '',
+                        'sub'        => [
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shipping-service.shipping-provider.index'),
+                                'active_on'  => 'admin/shipping-service/shipping-provider*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Shipping Providers'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shipping-service.courier.index'),
+                                'active_on'  => 'admin/shipping-service/courier*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Couriers'),
+                                'target'     => '',
+                            ],
+                            [
+                                'permission' => 'admin-systems-management-access',
+                                'url'        => route('admin.shipping-service.shipment.index'),
+                                'active_on'  => 'admin/shipping-service/shipment*',
+                                'icon'       => 'tf-icons ti ti-mail',
+                                'text'       => __('Shipments'),
+                                'target'     => '',
+                            ],
+                        ]
                     ]
                 ]
             ],
@@ -150,6 +208,14 @@ class Menu
                         'active_on'  => 'admin/carousel-slider*',
                         'icon'       => 'tf-icons ti ti-photo-cog',
                         'text'       => __('Carousel Slider'),
+                        'target'     => '',
+                    ],
+                    [
+                        'permission' => 'admin-systems-management-access',
+                        'url'        => route('admin.widget.index'),
+                        'active_on'  => 'admin/widget*',
+                        'icon'       => 'tf-icons ti ti-photo-cog',
+                        'text'       => __('Widgets'),
                         'target'     => '',
                     ],
                 ],

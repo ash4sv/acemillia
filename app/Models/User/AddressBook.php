@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Order\Order;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,5 +43,15 @@ class AddressBook extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function billingAddressOrders()
+    {
+        return $this->hasMany(Order::class, 'billing_address_id', 'id');
+    }
+
+    public function shippingAddressOrders()
+    {
+        return $this->hasMany(Order::class, 'shipping_address_id', 'id');
     }
 }

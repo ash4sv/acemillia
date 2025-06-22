@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('apps/img/favicon_io//favicon-32x32.png') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('apps/img/favicon_io//favicon-16x16.png') }}">
     <link rel="manifest" href="{{ asset('apps/img/favicon_io//site.webmanifest') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -143,8 +144,8 @@
     {{--@include(__('apps.layouts.script'))--}}
 
     <!-- Page JS -->
-    @stack('script')
     <script src="{{ asset('apps/js/dashboards-analytics.js') }}"></script>
+    @stack('script')
 
     @production
         <!-- Google tag (gtag.js) -->

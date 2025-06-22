@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\ImageUploader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -16,12 +17,23 @@ class AuthUserController extends Controller
     protected string $view  = 'apps.user.auth.';
     protected string $route = '';
 
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function login()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Login'],
+        ]);
+
         if (auth()->guard('web')->check()) {
             return redirect()->route('dashboard');
         }
-        return response()->view($this->view . 'login');
+        return response()->view($this->view . 'login', [
+            'breadcrumbs' => $breadcrumbs
+        ]);
     }
 
     public function loginAuth(Request $request)
@@ -45,50 +57,97 @@ class AuthUserController extends Controller
 
     public function register()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Register'],
+        ]);
+
+        $countries = public_path('assets/data/countries.json');
+
         if (auth()->guard('web')->check()) {
             return redirect()->route('dashboard');
         }
-        return response()->view($this->view . 'register');
+        return response()->view($this->view . 'register', [
+            'genders' => $this->genders,
+            'countries' => $countries,
+            'breadcrumbs' => $breadcrumbs
+        ]);
     }
 
     public function registerAuth(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+        $data = $request->validate([
+            'name'                  => 'required|string|max:255',
+            'gender'                => 'required|string|max:10',
+            'date_of_birth'         => 'required|date',
+            'nationality'           => 'required|string|max:255',
+            'identification_number'  => 'required|string|max:255',
+            'upload_documents'      => 'required|file|mimes:pdf,jpg,jpeg,png',
+            'address'               => 'required|string|max:255',
+            'state'                 => 'required|string|max:255',
+            'city'                  => 'required|string|max:255',
+            'street_address'        => 'required|string|max:255',
+            'postcode'              => 'required|string|max:20',
+            'email'                 => 'required|string|email|max:255|unique:users',
+            'phone_number'          => 'required|string|max:20',
+            'password'              => 'required|string|min:8|confirmed',
             // 'cf-turnstile-response' => ['required', Rule::turnstile()],
         ]);
 
-        $registerName = strtoupper($request->name);
+        $documentFilePath = $request->file('upload_documents')
+            ? ImageUploader::uploadSingleImage($request->file('upload_documents'), 'assets/upload/', $data['name'] . '_document')
+            : (null);
+
+        $registerName = $data['name'];
         $char = $registerName[0] ?? '';
 
         $user = User::create([
-            'name' => $registerName,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'email_verified_at' => null,
-            'remember_token' => Str::random(10),
-            'icon_avatar' => $char,
+            'name'                 => $registerName,
+            'gender'               => $data['gender'],
+            'phone'                => $data['phone_number'],
+            'date_of_birth'        => $data['date_of_birth'],
+            'nationality'          => $data['nationality'],
+            'identification_number' => $data['identification_number'],
+            'upload_documents'     => $documentFilePath,
+            'email'                => $data['email'],
+            'password'             => Hash::make($data['password']),
+            'email_verified_at'     => null,
+            'remember_token'       => Str::random(10),
+            'icon_avatar'          => $char,
+            'status_submission'    => 'pending'
+        ]);
+
+        $user->addressBooks()->create([
+            'recipient_name' => $data['name'],
+            'title'          => 'Default Address',
+            'phone'          => $data['phone_number'],
+            'address'        => $data['address'],
+            'country'        => 'MY',
+            'state'          => $data['state'],
+            'city'           => $data['city'],
+            'street_address' => $data['street_address'],
+            'postcode'       => $data['postcode'],
         ]);
 
         $user->assignRole('user');
 
         $user->sendUserEmailVerificationNotification();
-
         Auth::guard('web')->login($user);
-
         Alert::success('User registration successful!', 'Please check your email to verify your account.');
-
         return redirect()->route('verification.notice');
     }
 
     public function forgetPassword()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Forgot password'],
+        ]);
+
         if (auth()->guard('web')->check()) {
             return redirect()->route('dashboard');
         }
-        return response()->view($this->view . 'password-request');
+        return response()->view($this->view . 'password-request', [
+            'breadcrumbs' => $breadcrumbs
+        ]);
     }
 
     public function forgetPasswordAuth(Request $request)
@@ -111,11 +170,16 @@ class AuthUserController extends Controller
 
     public function resetPassword(Request $request)
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Reset Password'],
+        ]);
+
         if (auth()->guard('web')->check()) {
             return redirect()->route('dashboard');
         }
         return response()->view($this->view . 'reset-password', [
             'request' => $request,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 

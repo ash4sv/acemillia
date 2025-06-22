@@ -28,10 +28,15 @@
             <h2>@yield('title')</h2>
             <nav class="theme-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{!! url('/') !!}">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active">{!! strtoupper($title) !!}</li>
+                    @foreach ($breadcrumbs ?? [] as $breadcrumb)
+                        <li class="breadcrumb-item">
+                            @if (!empty($breadcrumb['url']))
+                                <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a>
+                            @else
+                                {{ $breadcrumb['label'] }}
+                            @endif
+                        </li>
+                    @endforeach
                 </ol>
             </nav>
         </div>
@@ -48,10 +53,10 @@
                         <form class="theme-form" action="{{ route('auth.password.request') }}" method="POST">
                             @csrf
                             <div class="form-box">
-                                <label for="" class="form-label">Email</label>
+                                <label for="" class="form-label">{!! __('Email') !!}</label>
                                 <input type="email" class="form-control" name="email" placeholder="Enter Your Email" required="">
                             </div>
-                            <button type="submit" class="btn btn-solid w-auto">Submit</button>
+                            <button type="submit" class="btn btn-solid w-auto">{!! __('Submit') !!}</button>
                         </form>
                     </div>
                 </div>

@@ -8,6 +8,7 @@
     <meta name="description" content="@yield('description')">
     <meta name="keywords" content="@yield('keywords')">
     <meta name="author" content="@yield('author')">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('assets/images/furniture-3/favicon.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ asset('assets/images/furniture-3/favicon.png') }}" type="image/x-icon">
 
@@ -30,9 +31,19 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/themify-icons.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/bootstrap.css') }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/datatables-select-bs5/select.bootstrap5.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/datatables-fixedcolumns-bs5/fixedcolumns.bootstrap5.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/datatables-fixedheader-bs5/fixedheader.bootstrap5.css') }}">
+
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/fancyapps/fancybox.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/select2/select2.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/selectize/css/selectize.default.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/sweetalert2/sweetalert2.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/summernote/dist/summernote-lite.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('apps/vendor/libs/jquery-ui/jquery-ui.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/overwrite-style.css') }}">
 
@@ -40,7 +51,7 @@
 
 </head>
 
-<body class="theme-color-5">
+<body class="theme-color-22">
 
     @include('apps.layouts.shop-header')
 
@@ -830,15 +841,19 @@
     <script src="{{ asset('assets/js/slick.js') }}"></script>
     <script src="{{ asset('assets/js/slick-animation.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('apps/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
-    <script src="{{ asset('apps/vendor/libs/fancyapps/fancybox.umd.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.vide.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap-notify.min.js') }}"></script>
-    <script src="{{ asset('apps/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('apps/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
+    <script src="{{ asset('apps/vendor/libs/fancyapps/fancybox.umd.js') }}"></script>
+    <script src="{{ asset('apps/vendor/libs/selectize/js/selectize.min.js') }}"></script>
+    <script src="{{ asset('apps/vendor/libs/jquery-ui/jquery-ui.js') }}"></script>
+    <script src="{{ asset('apps/vendor/libs/summernote/dist/summernote-lite.min.js') }}"></script>
+    <script src="{{ asset('apps/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('assets/js/theme-setting.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/custom-slick-animated.js') }}"></script>
 
+    <script src="{{ asset('assets/js/compare-class.js') }}"></script>
     <script src="{{ asset('apps/js/apps-script.js') }}"></script>
 
     @include(__('sweetalert::alert'))

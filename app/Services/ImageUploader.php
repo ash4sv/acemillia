@@ -6,35 +6,63 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 
 class ImageUploader extends Model
 {
     /**
-     * Upload a single image file to the specified directory with a custom name.
+     * Upload and optionally crop an image file.
      *
-     * @param UploadedFile $file The uploaded image file.
-     * @param string $directory The directory where the image file should be saved.
-     * @param string|null $filename The custom name to give to the image file (optional).
-     * @return string The path to the uploaded image file.
+     * @param UploadedFile $file
+     * @param string $directory
+     * @param string|null $filename
+     * @param array|null $resizeDimensions [width, height]
+     * @return string relative path of the saved image
      */
-    public static function uploadSingleImage(UploadedFile $file, string $directory, ?string $filename = null): string
-    {
-        // Use the original filename if no custom filename is provided.
-        $filename = $filename ?? $file->getClientOriginalName();
+    public static function uploadSingleImage(
+        UploadedFile $file,
+        string $directory,
+        ?string $filename = null,
+        ?array $resizeDimensions = null
+    ): string {
+        // Sanitize directory (remove trailing slash)
+        $directory = rtrim($directory, '/');
 
-        // Generate a unique filename to avoid overwriting existing files.
-        $uniqueFilename = uniqid() . '-' . $filename;
-
-        // Get the original file extension.
+        // Get file extension
         $extension = $file->getClientOriginalExtension();
 
-        // Save the file to the specified directory.
-        // $path = $file->storeAs($directory, $uniqueFilename.'.'.$extension);
-        // $path = $file->storeAs('public/'.$directory, $uniqueFilename.'.'.$extension);
-        $path = $file->move($directory,$uniqueFilename.'.'.$extension);
+        // Extract base filename (no extension)
+        if (!$filename) {
+            $filename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        } else {
+            $filenameInfo = pathinfo($filename);
+            if (!isset($filenameInfo['extension'])) {
+                $filename .= '.' . $extension;
+            }
+        }
 
-        // Return the path to the saved file.
-        return $path;
+        $uniqueFilename = uniqid() . '-' . $filename;
+
+        // Create directory if not exist
+        if (!file_exists(public_path($directory))) {
+            mkdir(public_path($directory), 0775, true);
+        }
+
+        $fullPath = public_path($directory . '/' . $uniqueFilename);
+
+        $manager = new ImageManager(new GdDriver());
+        $image = $manager->read($file->getRealPath());
+
+        if ($resizeDimensions && count($resizeDimensions) === 2) {
+            [$width, $height] = $resizeDimensions;
+            $image = $image->cover($width, $height);
+        }
+
+        $image->save($fullPath);
+
+        return $directory . '/' . $uniqueFilename;
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Shop\Category;
 use App\Models\Shop\SubCategory;
 use App\Services\ImageUploader;
+use App\Services\ModelResponse;
 use App\Services\SlugGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,8 +45,11 @@ class SubCategoryAdminController extends Controller
     public function store(Request $request)
     {
         $this->updateOrCreateSubCategory($request);
-        Alert::success('Successfully Create!', 'Sub Category has been created!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message('Sub Category has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -75,8 +79,11 @@ class SubCategoryAdminController extends Controller
     public function update(Request $request, string $id)
     {
         $this->updateOrCreateSubCategory($request, $id);
-        Alert::success('Successfully Update!', 'Sub Category has been updated!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message('Sub Category has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**

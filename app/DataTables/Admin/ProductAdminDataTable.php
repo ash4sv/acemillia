@@ -41,6 +41,9 @@ class ProductAdminDataTable extends DataTable
             ->addColumn('status', function ($product) {
                 return $product->status;
             })
+            ->addColumn('merchant', function ($product) {
+                return $product->merchant->company_name ?? '';
+            })
             ->rawColumns(['updated_at', 'status', 'action'])
             ->setRowId('id');
     }
@@ -87,6 +90,7 @@ class ProductAdminDataTable extends DataTable
         return [
             Column::computed('DT_RowIndex')->title('No')->className('text-start w-px-50'),
             Column::make('name'),
+            Column::computed('merchant'),
             Column::computed('status')->className('w-px-200'),
             Column::computed('updated_at')->className('w-px-200'),
             Column::computed('action')->title('Action')->className('w-px-150'),

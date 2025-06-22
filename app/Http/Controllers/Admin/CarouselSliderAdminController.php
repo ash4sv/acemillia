@@ -6,6 +6,7 @@ use App\DataTables\Admin\CarouselSliderAdminDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\CarouselSlider;
 use App\Services\ImageUploader;
+use App\Services\ModelResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 class CarouselSliderAdminController extends Controller
 {
     protected string $view = 'apps.admin.carousel-slider.';
+    protected string $title = 'Carousel slider';
 
     /**
      * Display a listing of the resource.
@@ -44,8 +46,11 @@ class CarouselSliderAdminController extends Controller
     public function store(Request $request)
     {
         $this->updateOrCreateCarouselSlider($request);
-        Alert::success('Successfully Create!', 'Carousel slider has been created!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Created!')
+            ->message($this->title . ' has been successfully created!')
+            ->type('success')
+            ->close();
     }
 
     /**
@@ -75,8 +80,11 @@ class CarouselSliderAdminController extends Controller
     public function update(Request $request, string $id)
     {
         $this->updateOrCreateCarouselSlider($request, $id);
-        Alert::success('Successfully Update!', 'Carousel slider has been updated!');
-        return redirect()->back();
+        return ModelResponse::make()
+            ->title('Successfully Updated!')
+            ->message($this->title . ' has been successfully updated.')
+            ->type('success')
+            ->close();
     }
 
     /**

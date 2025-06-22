@@ -13,7 +13,10 @@ class AuthAdminController extends Controller
 
     public function redirect()
     {
-        return 'test';
+        if (auth()->guard('admin')->check()) {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('admin.login');
     }
 
     public function login()

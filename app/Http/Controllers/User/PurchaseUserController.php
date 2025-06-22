@@ -15,6 +15,11 @@ use Billplz\Client;
 
 class PurchaseUserController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     public function updateOrCreateCart(Request $request)
     {
         // 1. Validate incoming data
@@ -55,9 +60,11 @@ class PurchaseUserController extends Controller
         // 5. Prepare the options array for the cart item.
         //    Adjust "item_menu" as needed (here we use a placeholder).
         $cartOptions = [
-            'item_menu'     => $product->categories->first()->menus->pluck('name')->implode(', ') ?? '', // or derive from $product if applicable
-            'item_category' => $product->categories->pluck('name')->implode(', ') ?? '',
-            'item_img'      => $product->image,
+            'item_menu'        => $product->categories->first()->menus->pluck('name')->implode(', ') ?? '', // or derive from $product if applicable
+            'item_category'    => $product->categories->pluck('name')->implode(', ') ?? '',
+            'item_img'         => $product->image,
+            'item_product_id'  => $product->id,
+            'merchant_id'      => $product->merchant_id,
             'selected_options' => $selectedOptions,
         ];
 
@@ -87,7 +94,7 @@ class PurchaseUserController extends Controller
         }
 
         Alert::success('Success', 'Product added to cart.');
-        return redirect()->back();
+        return back();
     }
 
     public function updateCartQuantity(Request $request)
@@ -151,7 +158,7 @@ class PurchaseUserController extends Controller
     {
         Cart::remove($id);
         Alert::success('Success', 'Booths removed from cart successfully.');
-        return redirect()->back();
+        return back();
     }
 
     public function removeOptionGroup($productId, $groupKey)
@@ -160,7 +167,7 @@ class PurchaseUserController extends Controller
         $existingItem = Cart::get($productId);
         if (!$existingItem) {
             Alert::error('Error', 'Product not found in cart.');
-            return redirect()->back();
+            return back();
         }
 
         // If Cart::get returns an array, use the first CartItem.
@@ -175,7 +182,7 @@ class PurchaseUserController extends Controller
         // Validate that the provided group key exists.
         if (!isset($optionGroups[$groupKey])) {
             Alert::error('Error', 'Option group not found.');
-            return redirect()->back();
+            return back();
         }
 
         // Remove the option group at the specified key.
@@ -201,7 +208,7 @@ class PurchaseUserController extends Controller
             Alert::success('Success', 'Option group removed from cart.');
         }
 
-        return redirect()->back();
+        return back();
     }
 
     public function clearCart(Request $request)
@@ -209,19 +216,29 @@ class PurchaseUserController extends Controller
         Cart::removeCoupon();
         Cart::clear();
         Alert::success('Success', 'Your cart cleared successfully.');
-        return redirect()->back();
+        return back();
     }
 
     public function viewCart()
     {
-        return response()->view('apps.user.purchase.cart');
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Cart'],
+        ]);
+        return response()->view('apps.user.purchase.cart', [
+            'breadcrumbs' => $breadcrumbs
+        ]);
     }
 
     public function checkout()
     {
+        $breadcrumbs = array_merge($this->breadcrumbs, [
+            ['label' => 'Checkout'],
+        ]);
+
         $temporaryUniqid = sprintf("%06d", mt_rand(1, 999999));
         return response()->view('apps.user.purchase.checkout', [
-            'temporaryUniqid' => $temporaryUniqid
+            'temporaryUniqid' => $temporaryUniqid,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 
@@ -231,23 +248,37 @@ class PurchaseUserController extends Controller
             'shippingAddress' => 'required|string',
             'billingAddress'  => 'required|string',
             'uniq'            => 'required|string',
+            'type'            => 'required|string',
+            'subtotal'        => 'required|string',
+            'total'           => 'required|string',
         ]);
 
         $user = auth()->guard('web')->user();
 
         if (cart()->count() > 0 && $user)
         {
+            if ($request->type == 'pharmaceuticals') {
+                $dataCart = collect(cart()->all())->filter(fn($item) => $item->options->item_menu === 'Pharmaceuticals');
+            } elseif ($request->type == 'marketing') {
+                $dataCart = collect(cart()->all())->filter(fn($item) => $item->options->item_menu === 'Marketing');
+            } else {
+                $dataCart = cart()->all();
+            }
+
             $additionalFee   = 0;
             $description     = 'User Purchase of Ticket';
-            $subTotal        = cart()->subtotal();
-            $total           = cart()->total();
+            /*$subTotal        = cart()->subtotal();*/
+            $subTotal        = $validated['subtotal'];
+            /*$total           = cart()->total();*/
+            $total           = $validated['total'];
             $priceMyr        = env('APP_ENV') === 'production' ? (100 * $total) + $additionalFee : 100;
             $mobileNumber    = preg_replace('/[^0-9]/', '', $user->phone);
 
             $shippingAddress = $validated['shippingAddress'];
             $billingAddress  = $validated['billingAddress'];
             $uniq            = $validated['uniq'];
-            $cartData        = cart()->all();
+            /*$cartData        = cart()->all();*/
+            $cartData        = $dataCart;
 
             $mergedData = [
                 'uniq'            => $uniq,
@@ -256,13 +287,38 @@ class PurchaseUserController extends Controller
                 'cart'            => $cartData,
             ];
 
-            $billplz = Client::make(config('billplz.billplz_key'), config('billplz.billplz_signature'));
-            if(config('billplz.billplz_sandbox')) {
-                $billplz->useSandbox();
+            if ($request->type == 'pharmaceuticals') {
+                $billplz = Client::make(
+                    config('billplz.billplz_pharmaceuticals_key'),
+                    config('billplz.billplz_pharmaceuticals_signature')
+                );
+                if(config('billplz.billplz_pharmaceuticals_sandbox')) {
+                    $billplz->useSandbox();
+                }
+                $collectionId = config('billplz.billplz_pharmaceuticals_collection_id');
+            } elseif ($request->type == 'marketing') {
+                $billplz = Client::make(
+                    config('billplz.billplz_marketing_key'),
+                    config('billplz.billplz_marketing_signature')
+                );
+                if(config('billplz.billplz_sandbox')) {
+                    $billplz->useSandbox();
+                }
+                $collectionId = config('billplz.billplz_marketing_collection_id');
+            } else {
+                $billplz = Client::make(
+                    config('billplz.billplz_key'),
+                    config('billplz.billplz_signature')
+                );
+                if(config('billplz.billplz_marketing_sandbox')) {
+                    $billplz->useSandbox();
+                }
+                $collectionId = config('billplz.billplz_collection_id');
             }
+
             $bill = $billplz->bill();
             $bill = $bill->create(
-                config('billplz.billplz_collection_id'),
+                $collectionId,
                 $user->email,
                 $mobileNumber,
                 $user->name,
@@ -292,8 +348,8 @@ class PurchaseUserController extends Controller
                 'updated_at'      => now(),
             ]);
 
-            cart()->removeCoupon();
-            cart()->clear();
+            // cart()->removeCoupon();
+            // cart()->clear();
 
             Log::info('CHECKOUT SUBMIT ' . date('Y-m-d H:i:s') . ' - ' . $uniq);
 

@@ -57,6 +57,11 @@ $(document).ready(function(){
     $('.order-btn').on('click', function(e) {
         e.preventDefault();
 
+        let checkoutUrl      = $(this).data('checkout-url');
+        let checkoutType     = $(this).data('checkout-type');
+        let checkoutSubTotal = $(this).data('checkout-subtotal');
+        let checkoutTotal    = $(this).data('checkout-total');
+
         // Re-check the cart count in case it changed
         if (cartCount === 0) {
             Swal.fire({
@@ -96,7 +101,10 @@ $(document).ready(function(){
         var data = {
             shippingAddress: shippingAddress,
             billingAddress: billingAddress,
-            uniq: uniq
+            uniq: uniq,
+            type: checkoutType,
+            subtotal: checkoutSubTotal,
+            total: checkoutTotal
         };
 
         // Save the original button content for later restoration
@@ -108,7 +116,7 @@ $(document).ready(function(){
 
         // Send AJAX POST request to the checkout route
         $.ajax({
-            url: "{{ route('purchase.checkout-post') }}",
+            url: checkoutUrl,
             method: 'POST',
             data: data,
             success: function(response) {
@@ -124,6 +132,7 @@ $(document).ready(function(){
                 }
             },
             error: function(xhr, status, error) {
+                console.log(xhr);
                 // Show SweetAlert2 error prompt
                 Swal.fire({
                     icon: 'error',
@@ -149,16 +158,16 @@ $(document).ready(function(){
         <div class="container">
             <h2>{!! __($title) !!}</h2>
             <nav class="theme-breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{!! url('/') !!}">{!! __('Home') !!}</a>
-                    </li>
-                    @if(auth()->guard('web')->check())
-                    <li class="breadcrumb-item">
-                        <a href="{!! route('dashboard') !!}">{!! __('Dashboard') !!}</a>
-                    </li>
-                    @endif
-                    <li class="breadcrumb-item active">{!! __($title) !!}</li>
+                <ol class="rd">
+                    @foreach ($breadcrumbs ?? [] as $breadcrumb)
+                        <li class="breadcrumb-item">
+                            @if (!empty($breadcrumb['url']))
+                                <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a>
+                            @else
+                                {{ $breadcrumb['label'] }}
+                            @endif
+                        </li>
+                    @endforeach
                 </ol>
             </nav>
         </div>
@@ -405,7 +414,170 @@ $(document).ready(function(){
                         </div>
 
                         <div class="col-lg-5">
+                            @php
+                                $pharmaItems = collect(cart()->all())->filter(fn($item) => $item->options->item_menu === 'Pharmaceuticals');
+                                $marketingItems = collect(cart()->all())->filter(fn($item) => $item->options->item_menu === 'Marketing');
+
+                                $taxRate = config('cart.tax') / 100;
+
+                                $pharmaSubtotal = $pharmaItems->sum(fn($i) => $i->price * $i->quantity);
+                                $pharmaTax = $pharmaSubtotal * $taxRate;
+                                $pharmaTotal = $pharmaSubtotal + $pharmaTax;
+
+                                $marketingSubtotal = $marketingItems->sum(fn($i) => $i->price * $i->quantity);
+                                $marketingTax = $marketingSubtotal * $taxRate;
+                                $marketingTotal = $marketingSubtotal + $marketingTax;
+                            @endphp
+
+                            @if($pharmaItems)
                             <div class="checkout-right-box">
+                                <div class="checkout-details">
+                                    <div class="order-box">
+                                        <div class="title-box">
+                                            <h4>{!! __('Summary Order Pharmaceuticals') !!}</h4>
+                                            <p>{!! __('For a better experience, verify your goods and choose your shipping option.') !!}</p>
+                                            <input type="hidden" name="uniq" value="{!! $temporaryUniqid !!}">
+                                        </div>
+
+                                        <ul class="qty">
+                                            @forelse($pharmaItems as $key => $item)
+                                                <li class="align-items-start">
+                                                    <div class="cart-image">
+                                                        <img src="{!! asset($item->options->item_img) !!}" class="img-fluid" alt="">
+                                                    </div>
+                                                    <div class="cart-content">
+                                                        <div>
+                                                            <h6 class="mb-1">{{ __($item->options->item_category) }}</h6>
+                                                            <h4>{{ __($item->name) }}</h4>
+                                                            <h5 class="mb-1">{{ __('MYR' . number_format($item->price, 2)) . ' x ' . __($item->quantity) }}</h5>
+                                                            @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
+                                                                @foreach($item->options->option_groups as $groupKey => $group)
+                                                                    @foreach($group->options as $option)
+                                                                        <p class="mb-1"><strong>{{ $option->option_name }}:</strong> {{ $option->value_name }}</p>
+                                                                    @endforeach
+                                                                    @isset($group->quantity)
+                                                                        <p class="mb-1"><strong>Quantity:</strong> {{ $group->quantity }}</p>
+                                                                    @endisset
+                                                                @endforeach
+                                                            @endif
+                                                        </div>
+                                                        <span class="text-theme">{{ __('MYR' . number_format($item->price * $item->quantity, 2)) }}</span>
+                                                    </div>
+                                                </li>
+                                            @empty
+                                                <li>
+                                                    <p class="mb-0 pb-0">{!! __('No items in cart') !!}</p>
+                                                </li>
+                                            @endforelse
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="checkout-details">
+                                    <div class="order-box">
+                                        <div class="title-box">
+                                            <h4>{!! __('Billing Summary') !!}</h4>
+                                            <div class="promo-code-box">
+                                            </div>
+                                        </div>
+                                        <div class="custom-box-loader">
+                                            <ul class="sub-total">
+                                                <li>{!! __('Sub Total') !!} <span class="count">MYR{{ number_format($pharmaSubtotal, 2) }}</span></li>
+                                            </ul>
+                                        </div>
+                                        <ul class="total">
+                                            <li>{!! __('Total') !!} <span class="count">MYR{{ number_format($pharmaTotal, 2) }}</span></li>
+                                        </ul>
+                                        <div class="text-end">
+                                            <button class="btn order-btn"
+                                                data-checkout-type="pharmaceuticals"
+                                                data-checkout-url="{{ route('purchase.checkout-post') }}"
+                                                data-checkout-subtotal="{{ $pharmaSubtotal }}"
+                                                data-checkout-total="{{ $pharmaTotal }}">
+                                                {!! __('Place Order') !!}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                            <hr>
+
+                            @if($marketingItems)
+                            <div class="checkout-right-box">
+                                <div class="checkout-details">
+                                    <div class="order-box">
+                                        <div class="title-box">
+                                            <h4>{!! __('Summary Order for Marketing') !!}</h4>
+                                            <p>{!! __('For a better experience, verify your goods and choose your shipping option.') !!}</p>
+                                            <input type="hidden" name="uniq" value="{!! $temporaryUniqid !!}">
+                                        </div>
+
+                                        <ul class="qty">
+                                            @forelse($marketingItems as $key => $item)
+                                                <li class="align-items-start">
+                                                    <div class="cart-image">
+                                                        <img src="{!! asset($item->options->item_img) !!}" class="img-fluid" alt="">
+                                                    </div>
+                                                    <div class="cart-content">
+                                                        <div>
+                                                            <h6 class="mb-1">{{ __($item->options->item_category) }}</h6>
+                                                            <h4>{{ __($item->name) }}</h4>
+                                                            <h5 class="mb-1">{{ __('MYR' . number_format($item->price, 2)) . ' x ' . __($item->quantity) }}</h5>
+                                                            @if(isset($item->options->option_groups) && is_array($item->options->option_groups))
+                                                                @foreach($item->options->option_groups as $groupKey => $group)
+                                                                    @foreach($group->options as $option)
+                                                                        <p class="mb-1"><strong>{{ $option->option_name }}:</strong> {{ $option->value_name }}</p>
+                                                                    @endforeach
+                                                                    @isset($group->quantity)
+                                                                        <p class="mb-1"><strong>Quantity:</strong> {{ $group->quantity }}</p>
+                                                                    @endisset
+                                                                @endforeach
+                                                            @endif
+                                                        </div>
+                                                        <span class="text-theme">{{ __('MYR' . number_format($item->price * $item->quantity, 2)) }}</span>
+                                                    </div>
+                                                </li>
+                                            @empty
+                                                <li>
+                                                    <p class="mb-0 pb-0">{!! __('No items in cart') !!}</p>
+                                                </li>
+                                            @endforelse
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="checkout-details">
+                                    <div class="order-box">
+                                        <div class="title-box">
+                                            <h4>{!! __('Billing Summary') !!}</h4>
+                                            <div class="promo-code-box">
+                                            </div>
+                                        </div>
+                                        <div class="custom-box-loader">
+                                            <ul class="sub-total">
+                                                <li>{!! __('Sub Total') !!} <span class="count">MYR{{ number_format($marketingSubtotal, 2) }}</span></li>
+                                            </ul>
+                                        </div>
+                                        <ul class="total">
+                                            <li>{!! __('Total') !!} <span class="count">MYR{{ number_format($marketingTotal, 2) }}</span></li>
+                                        </ul>
+                                        <div class="text-end">
+                                            <button class="btn order-btn"
+                                                data-checkout-type="marketing"
+                                                data-checkout-url="{{ route('purchase.checkout-post') }}"
+                                                data-checkout-subtotal="{{ $marketingSubtotal }}"
+                                                data-checkout-total="{{ $marketingTotal }}">
+                                                {!! __('Place Order') !!}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                            {{--<div class="checkout-right-box">
                                 <div class="checkout-details">
                                     <div class="order-box">
                                         <div class="title-box">
@@ -453,11 +625,11 @@ $(document).ready(function(){
                                         <div class="title-box">
                                             <h4>{!! __('Billing Summary') !!}</h4>
                                             <div class="promo-code-box">
-                                                {{--<div class="promo-title">
+                                                <div class="promo-title">
                                                     <h5>{!! __('Promo code') !!}</h5>
                                                     <button class="btn" data-bs-toggle="modal" data-bs-target="#couponModal"><i class="ri-coupon-line"></i>{!! __('View All') !!}</button>
-                                                </div>--}}
-                                                {{--<div class="row g-sm-3 g-2 mb-3">
+                                                </div>
+                                                <div class="row g-sm-3 g-2 mb-3">
                                                     <div class="col-md-6">
                                                         <div class="coupon-box">
                                                             <div class="card-name">
@@ -484,34 +656,34 @@ $(document).ready(function(){
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>--}}
-                                                {{--<div class="coupon-input-box">
+                                                </div>
+                                                <div class="coupon-input-box">
                                                     <input type="text" id="coupon" class="form-control" placeholder="Enter Coupon Code Here...">
                                                     <button class="apply-button btn">{!! __('Apply now') !!}</button>
-                                                </div>--}}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="custom-box-loader">
                                             <ul class="sub-total">
                                                 <li>{!! __('Sub Total') !!} <span class="count">{{ __('MYR' . number_format(cart()->subtotal(), 2)) }}</span></li>
-                                                {{--<li>Shipping <span class="count">$0.00</span></li>--}}
-                                                {{--<li>Tax <span class="count">$1.46</span></li>--}}
-                                                {{--<li>
+                                                --}}{{--<li>Shipping <span class="count">$0.00</span></li>--}}{{--
+                                                --}}{{--<li>Tax <span class="count">$1.46</span></li>--}}{{--
+                                                --}}{{--<li>
                                                     <h4 class="txt-muted">Points</h4>
                                                     <h4 class="price txt-muted">$65.66</h4>
-                                                </li>--}}
-                                                {{--<li class="border-cls">
+                                                </li>--}}{{--
+                                                --}}{{--<li class="border-cls">
                                                     <label for="ponts" class="form-check-label m-0">Would you prefer to pay using points?</label>
                                                     <input type="checkbox" id="ponts" class="checkbox_animated check-it">
-                                                </li>--}}
-                                                {{--<li>
+                                                </li>--}}{{--
+                                                --}}{{--<li>
                                                     <h4>Wallet Balance</h4>
                                                     <h4 class="price">$8.47</h4>
-                                                </li>--}}
-                                                {{--<li class="border-cls">
+                                                </li>--}}{{--
+                                                --}}{{--<li class="border-cls">
                                                     <label for="wallet" class="form-check-label m-0">Would you prefer to pay using wallet?</label>
                                                     <input type="checkbox" id="wallet" class="checkbox_animated check-it">
-                                                </li>--}}
+                                                </li>--}}{{--
                                             </ul>
                                         </div>
                                         <ul class="total">
@@ -522,7 +694,7 @@ $(document).ready(function(){
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>--}}
                         </div>
                     </div>
                 </div>

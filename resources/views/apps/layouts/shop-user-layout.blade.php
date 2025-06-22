@@ -14,7 +14,104 @@
 @endpush
 
 @push('script')
+    <script src="{!! asset('assets/js/aces-news-feed.js') !!}"></script>
+    <script>
+        $(function() {
+            $('#avatarBtn').on('click', function() {
+                $('#avatarInput').click();
+            });
 
+            $('#avatarInput').on('change', function() {
+                const file = this.files[0];
+                if (!file) return;
+
+                const ext = file.name.split('.').pop().toLowerCase();
+                const validExts = ['jpg','jpeg','png'];
+                if ($.inArray(ext, validExts) === -1) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid format',
+                        text: 'Only .jpg, .jpeg or .png files are allowed.'
+                    });
+                    $(this).val('');
+                    return;
+                }
+
+                if (file.size > 1048576) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'File too large',
+                        text: 'Please choose an image under 1 MB.'
+                    });
+                    $(this).val('');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const targetSize = 150;
+                        const minDim = Math.min(img.width, img.height);
+                        const sx = (img.width - minDim) / 2;
+                        const sy = (img.height - minDim) / 2;
+
+                        const cropCanvas = document.createElement('canvas');
+                        cropCanvas.width = targetSize;
+                        cropCanvas.height = targetSize;
+                        const cx = cropCanvas.getContext('2d');
+                        cx.drawImage(img, sx, sy, minDim, minDim, 0, 0, targetSize, targetSize);
+
+                        const finalSize = targetSize * 0.8; // 80% of 150px = 120px
+                        const finalCanvas = document.createElement('canvas');
+                        finalCanvas.width = finalSize;
+                        finalCanvas.height = finalSize;
+                        const fx = finalCanvas.getContext('2d');
+                        fx.drawImage(cropCanvas, 0, 0, targetSize, targetSize, 0, 0, finalSize, finalSize);
+
+                        const dataUrl = finalCanvas.toDataURL('image/png');
+                        $('#avatarPreview').html(`<img src="${dataUrl}" alt="Avatar preview">`);
+                        $('#avatarBtn').text('Change Image');
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+
+            $.validator.addMethod('filesize', function(_, element, maxBytes) {
+                if (!element.files.length) return true;
+                return element.files[0].size <= maxBytes;
+            }, 'File must be smaller than 1 MB.');
+
+            $('.form').validate({
+                rules: {
+                    avatar: {
+                        extension: 'jpg|jpeg|png',
+                        filesize: 1048576
+                    }
+                },
+                messages: {
+                    avatar: {
+                        extension: 'Only .jpg/.jpeg/.png are allowed.',
+                        filesize: 'File must be under 1 MB.'
+                    }
+                },
+                errorPlacement() {
+                    // no-op
+                },
+                invalidHandler(_, validator) {
+                    if (validator.errorList.length) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Invalid file',
+                            text: validator.errorList[0].message
+                        });
+                    }
+                }
+            });
+        });
+
+    </script>
 @endpush
 
 @section('webpage')
@@ -25,10 +122,15 @@
             <h2>@yield('title')</h2>
             <nav class="theme-breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{!! url('/') !!}">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active">{!! strtoupper($title) !!}</li>
+                    @foreach ($breadcrumbs ?? [] as $breadcrumb)
+                        <li class="breadcrumb-item">
+                            @if (!empty($breadcrumb['url']))
+                                <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['label'] }}</a>
+                            @else
+                                {{ $breadcrumb['label'] }}
+                            @endif
+                        </li>
+                    @endforeach
                 </ol>
             </nav>
         </div>
@@ -44,6 +146,7 @@
                         <button class="btn back-btn">
                             <i class="ri-close-line"></i><span>Close</span>
                         </button>
+                        @userrole
                         <div class="profile-top">
                             <div class="profile-top-box">
                                 <div class="profile-image">
@@ -68,8 +171,26 @@
                                 <h6>{{ $authUser->email }}</h6>
                             </div>
                         </div>
+                        @enduserrole
+                        @merchantrole
+                        <div class="profile-top">
+                            <div class="profile-image vendor-image">
+                                <img src="{!! asset('assets/images/logos/17.png') !!}" alt="" class="img-fluid">
+                            </div>
+                            <div class="profile-detail">
+                                <h5>{!! Str::limit($authUser->company_name, 17, '...') !!}</h5>
+                                {{--<h6>750 followers | 10 review</h6>--}}
+                                <h6>{!! $authUser->email !!}</h6>
+                            </div>
+                        </div>
+                        @endmerchantrole
                         <div class="faq-tab">
+                            @userrole
                             @include(__('apps.layouts.shop-user-aside'))
+                            @enduserrole
+                            @merchantrole
+                            @include(__('apps.layouts.shop-merchant-aside'))
+                            @endmerchantrole
                         </div>
                     </div>
                 </div>
