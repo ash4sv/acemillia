@@ -74,6 +74,7 @@ class AppsPaymentController extends Controller
                         $attempt++;
                     }
 
+                    $orderNumber = null;
                     if ($cleanup) {
                         $itemKeys = json_decode($cleanup->item_ids, true);
 
@@ -86,6 +87,8 @@ class AppsPaymentController extends Controller
                             }
                         }
 
+                        $orderNumber = Order::where('id', $cleanup->order_id)->value('order_number');
+
                         DB::table('cart_cleanup_queue')
                             ->where('id', $cleanup->id)
                             ->update([
@@ -93,7 +96,8 @@ class AppsPaymentController extends Controller
                             ]);
                     }
                     return response()->view($this->view . 'success', [
-                        'transaction_id' => strtoupper($id)
+                        'transaction_id' => strtoupper($id),
+                        'order_number'   => $orderNumber,
                     ]);
                 }
             } elseif ($bill['data']['paid'] == 'false') {
