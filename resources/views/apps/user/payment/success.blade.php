@@ -18,6 +18,23 @@
 
 @push('script')
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var container = document.querySelector('.success-text');
+            if (container) {
+                var spinner = document.createElement('div');
+                spinner.className = 'spinner-border text-primary mt-3';
+                spinner.setAttribute('role', 'status');
+                spinner.innerHTML = '<span class="visually-hidden">Loading...</span>';
+                container.appendChild(spinner);
+            }
+
+            setTimeout(function () {
+                location.reload();
+            }, 10000);
+        });
+    </script>
+
 @endpush
 
 @section('webpage')
