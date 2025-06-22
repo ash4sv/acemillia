@@ -26,7 +26,8 @@ class Product extends Model
 
     public function getPriceAttribute($price): string
     {
-        return 'RM' . number_format($price, 2); //  * 1.10
+        $commissioned = $price * (1 + config('commission.rate') / 100);
+        return 'RM' . number_format($commissioned, 2);
     }
 
     public function scopeDraft($query)
