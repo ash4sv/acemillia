@@ -9,6 +9,7 @@ use App\Models\Order\OrderItem;
 use App\Models\Order\Payment;
 use App\Models\Order\SubOrder;
 use App\Models\User\AddressBook;
+use App\Services\MerchantWalletService;
 use App\Traits\GeneratesPdfs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +60,18 @@ class AppsPaymentController extends Controller
                 if ($updateCartData->user == 'user' && auth()->guard('web')->check()) {
                     Log::info('PAYMENT REDIRECT FUNCTION END: SUCCESS TRUE ' . $id . ' ' . date('Ymd/m/y H:i'));
                     $cleanup = DB::table('cart_cleanup_queue')->where('transaction_id', $id)->where('user_id', auth()->guard('web')->id())->first();
+
+                    if (!$cleanup) {
+                        $start = microtime(true);
+                        do {
+                            usleep(500000); // wait 0.5 second before retrying
+                            $cleanup = DB::table('cart_cleanup_queue')
+                                ->where('transaction_id', $id)
+                                ->where('user_id', auth()->guard('web')->id())
+                                ->first();
+                        } while (!$cleanup && microtime(true) - $start < 5);
+                    }
+
                     if ($cleanup) {
                         $itemKeys = json_decode($cleanup->item_ids, true);
 
@@ -167,6 +180,14 @@ class AppsPaymentController extends Controller
                                 'subtotal' => $subtotal,
                                 'shipping_status' => 'pending',
                             ]);
+
+                            MerchantWalletService::credit(
+                                $subOrder->merchant,
+                                (float) $subtotal,
+                                $subOrder,
+                                'SALE',
+                                'Payment received'
+                            );
 
                             foreach ($items as $item) {
                                 $finalPrice = ($item['price'] / $commissionFactor) + collect($item['options']['selected_options'] ?? [])
