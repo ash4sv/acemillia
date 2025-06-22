@@ -442,7 +442,7 @@
 
                     </div>
                     <div class="box flex-shrink-0 text-end">
-                        <h4 class="fw-medium">RM{{ number_format($subOrder->commission_amount - $subOrder->subtotal_with_commission, 2) }}</h4>
+                        <h4 class="fw-medium">RM{{ number_format($subOrder->subtotal_with_commission - $subOrder->commission_amount, 2) }}</h4>
                     </div>
                 </div>
             </div>
