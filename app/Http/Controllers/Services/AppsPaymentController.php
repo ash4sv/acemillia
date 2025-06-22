@@ -9,6 +9,7 @@ use App\Models\Order\OrderItem;
 use App\Models\Order\Payment;
 use App\Models\Order\SubOrder;
 use App\Models\User\AddressBook;
+use App\Services\MerchantWalletService;
 use App\Traits\GeneratesPdfs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -58,7 +59,22 @@ class AppsPaymentController extends Controller
 
                 if ($updateCartData->user == 'user' && auth()->guard('web')->check()) {
                     Log::info('PAYMENT REDIRECT FUNCTION END: SUCCESS TRUE ' . $id . ' ' . date('Ymd/m/y H:i'));
-                    $cleanup = DB::table('cart_cleanup_queue')->where('transaction_id', $id)->where('user_id', auth()->guard('web')->id())->first();
+                    $attempt = 0;
+                    $cleanup = DB::table('cart_cleanup_queue')
+                        ->where('transaction_id', $id)
+                        ->where('user_id', auth()->guard('web')->id())
+                        ->first();
+
+                    while (! $cleanup && $attempt < 25) {
+                        usleep(200000); // wait up to ~5s for webhook processing
+                        $cleanup = DB::table('cart_cleanup_queue')
+                            ->where('transaction_id', $id)
+                            ->where('user_id', auth()->guard('web')->id())
+                            ->first();
+                        $attempt++;
+                    }
+
+                    $orderNumber = null;
                     if ($cleanup) {
                         $itemKeys = json_decode($cleanup->item_ids, true);
 
@@ -71,6 +87,8 @@ class AppsPaymentController extends Controller
                             }
                         }
 
+                        $orderNumber = Order::where('id', $cleanup->order_id)->value('order_number');
+
                         DB::table('cart_cleanup_queue')
                             ->where('id', $cleanup->id)
                             ->update([
@@ -78,7 +96,8 @@ class AppsPaymentController extends Controller
                             ]);
                     }
                     return response()->view($this->view . 'success', [
-                        'transaction_id' => strtoupper($id)
+                        'transaction_id' => strtoupper($id),
+                        'order_number'   => $orderNumber,
                     ]);
                 }
             } elseif ($bill['data']['paid'] == 'false') {
@@ -151,7 +170,9 @@ class AppsPaymentController extends Controller
                         // 3. Group items by merchant
                         $grouped = collect($cartItems)->groupBy(fn($item) => $item['options']['merchant_id']);
 
-                        $commissionFactor = 1 + (config('commission.rate') / 100);
+                        $commissionRate    = config('commission.rate');
+                        $commissionFactor  = 1 + ($commissionRate / 100);
+                        $adminCommission   = 0;
 
                         foreach ($grouped as $merchantId => $items) {
                             $subtotal = collect($items)->sum(function ($i) use ($commissionFactor) {
@@ -161,22 +182,42 @@ class AppsPaymentController extends Controller
                                 return ($base + $additional) * $i['quantity'];
                             });
 
+                            $subtotalWithCommission = $subtotal * $commissionFactor;
+                            $commissionAmount       = $subtotalWithCommission - $subtotal;
+                            $adminCommission       += $commissionAmount;
+
                             $subOrder = SubOrder::create([
                                 'order_id' => $order->id,
                                 'merchant_id' => $merchantId,
                                 'subtotal' => $subtotal,
+                                'subtotal_with_commission' => $subtotalWithCommission,
+                                'commission_amount' => $commissionAmount,
                                 'shipping_status' => 'pending',
                             ]);
 
+                            MerchantWalletService::credit(
+                                $subOrder->merchant,
+                                (float) $subtotal,
+                                $subOrder,
+                                'SALE',
+                                'Payment received'
+                            );
+
                             foreach ($items as $item) {
-                                $finalPrice = ($item['price'] / $commissionFactor) + collect($item['options']['selected_options'] ?? [])
-                                        ->sum('additional_price');
+                                $priceWithCommission = (float) $item['price'];
+                                $basePrice = $item['price'] / $commissionFactor;
+                                $additional = collect($item['options']['selected_options'] ?? [])
+                                    ->sum('additional_price');
+                                $finalPrice = $basePrice + $additional;
+                                $commissionAmount = $priceWithCommission - $finalPrice;
 
                                 OrderItem::create([
                                     'sub_order_id' => $subOrder->id,
                                     'product_id' => $item['options']['item_product_id'] ?? null,
                                     'product_name' => $item['name'],
                                     'price' => $finalPrice,
+                                    'price_with_commission' => $priceWithCommission,
+                                    'commission_amount' => $commissionAmount,
                                     'quantity' => $item['quantity'],
                                     'options' => json_encode($item['options']),
                                 ]);
@@ -192,10 +233,15 @@ class AppsPaymentController extends Controller
                             $subOrder->purchase_order = $relativePath;
                             $subOrder->save();
 
+
                             $subOrder->shippingLogs()->create([
                                 'status' => 'pending'
                             ]);
                         }
+
+                        // Save accumulated admin commission on order
+                        $order->admin_commission = $adminCommission;
+                        $order->save();
 
                         // 4. Store payment info
                         Payment::create([

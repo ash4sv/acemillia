@@ -13,14 +13,49 @@
 @section('title', $title)
 
 @push('style')
-
+    <style>
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(211, 211, 211, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1050;
+        }
+    </style>
 @endpush
 
 @push('script')
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var overlay = document.getElementById('loading-overlay');
+            var hasOrderNumber = document.getElementById('order-number-indicator') !== null;
+
+            if (!hasOrderNumber) {
+                overlay.style.display = 'flex';
+                setTimeout(function () {
+                    location.reload();
+                }, 10000);
+            } else {
+                overlay.style.display = 'none';
+            }
+        });
+    </script>
+
 @endpush
 
 @section('webpage')
+
+    <div id="loading-overlay">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 
     <!-- breadcrumb start -->
     <div class="breadcrumb-section">
@@ -102,6 +137,11 @@
                         <h2>{!! __('Thank You') !!}</h2>
                         <p>{!! __('Payment is successfully processed') !!}</p>
                         <p class="font-weight-bold">{!! __('Transaction ID:') !!} {!! __($transaction_id) !!}</p>
+                        @isset($order_number)
+                            <p id="order-number-indicator" class="font-weight-bold">
+                                {!! __('Order Number:') !!} {!! __($order_number) !!}
+                            </p>
+                        @endisset
                     </div>
                 </div>
             </div>

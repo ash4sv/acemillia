@@ -18,6 +18,8 @@ class OrderItem extends Model
         'product_id',
         'product_name',
         'price',
+        'price_with_commission',
+        'commission_amount',
         'quantity',
         'options',
     ];

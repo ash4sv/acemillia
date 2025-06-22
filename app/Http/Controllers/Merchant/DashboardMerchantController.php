@@ -33,9 +33,16 @@ class DashboardMerchantController extends Controller
 
     public function index()
     {
+        $recentOrders = SubOrder::with(['order', 'items'])
+            ->where('merchant_id', $this->getMerchantId())
+            ->latest()
+            ->take(5)
+            ->get();
+
         return view($this->view . 'dashboard.index', [
-            'authUser' => $this->auth,
-            'products' => Product::where('merchant_id', $this->getMerchantId())->get(),
+            'authUser'     => $this->auth,
+            'products'     => Product::where('merchant_id', $this->getMerchantId())->get(),
+            'recentOrders' => $recentOrders,
         ]);
     }
 
@@ -47,6 +54,7 @@ class DashboardMerchantController extends Controller
             'items.product',
             'shippingLogs',
         ])->where('merchant_id', $this->getMerchantId())
+            ->orderBy('created_at', 'desc')
             ->paginate(12)
             ->appends(['section' => 'orders']);
         return view($this->view . 'orders.index', [
@@ -142,6 +150,25 @@ class DashboardMerchantController extends Controller
         return view($this->view . 'profile.address', [
             'authUser' => $this->auth
         ]);
+    }
+
+    public function addressUpdate(Request $request)
+    {
+        $merchant = auth()->guard('merchant')->user();
+        $data = $request->only([
+            'business_address',
+            'country',
+            'state',
+            'city',
+            'street_address',
+            'postcode',
+        ]);
+        $merchant->address()->updateOrCreate(
+            ['merchant_id' => $merchant->id],
+            $data
+        );
+        Alert::success('Success', 'Your address has been updated');
+        return back();
     }
 
     public function settings()

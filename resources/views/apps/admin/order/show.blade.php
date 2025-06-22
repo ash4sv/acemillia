@@ -46,13 +46,13 @@
     <div class="col-md-6">
         <div class="py-2 mb-2 bg-label-primary text-white text-center rounded-2 flex-grow-1">Billing Address</div>
         <address class="mb-0 address-item">
-            <strong>{{ $order->billingAddress->recipient_name }}</strong><br>
-            {{ $order->billingAddress->phone }}<br>
-            {{ $order->billingAddress->address }}<br>
-            {{ $order->billingAddress->postcode }},
-            <span data-address-city="{!! $order->shippingAddress->city !!}"></span>,  <br>
-            <span data-address-state="{!! $order->shippingAddress->state !!}"></span>,
-            <span data-address-country="{!! $order->shippingAddress->country !!}"></span>
+            <strong>{{ $order->billingAddress->recipient_name ?? '--' }}</strong><br>
+            {{ $order->billingAddress->phone ?? '--' }}<br>
+            {{ $order->billingAddress->address ?? '--' }}<br>
+            {{ $order->billingAddress->postcode ?? '--' }},
+            <span data-address-city="{!! $order->shippingAddress->city ?? '--' !!}"></span>,  <br>
+            <span data-address-state="{!! $order->shippingAddress->state ?? '--' !!}"></span>,
+            <span data-address-country="{!! $order->shippingAddress->country ?? '--' !!}"></span>
         </address>
     </div>
     <div class="col-md-6">
@@ -97,9 +97,9 @@
                     @endif--}}
                 </td>
                 <td class="text-center px-0">{{ $item->quantity }}</td>
-                <td class="text-end px-0">RM{{ number_format($item->price, 2) }}</td>
+                <td class="text-end px-0">RM{{ number_format($item->price_with_commission, 2) }}</td>
                 <td class="text-end px-0">
-                    RM{{ number_format($item->price * $item->quantity, 2) }}
+                    RM{{ number_format($item->price_with_commission * $item->quantity, 2) }}
                 </td>
             </tr>
         @endforeach
@@ -113,6 +113,10 @@
     <tr>
         <td colspan="4" class="text-end px-0">Shipping Fee</td>
         <td class="text-end px-0">RM{{ number_format($order->shipping_fee, 2) }}</td>
+    </tr>
+    <tr>
+        <td colspan="4" class="text-end px-0">Admin Commission</td>
+        <td class="text-end px-0">RM{{ number_format($order->admin_commission, 2) }}</td>
     </tr>
     <tr class="fw-bold">
         <td colspan="4" class="text-end px-0">Total</td>

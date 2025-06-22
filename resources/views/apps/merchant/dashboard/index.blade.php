@@ -17,12 +17,12 @@
                 <div class="counter-box">
                     <img src="{!! asset('assets/images/icon/dashboard/sale.png') !!}" alt="" class="img-fluid">
                     <div>
-                        <h3>12500</h3>
-                        <h5>total sales</h5>
+                        <h3>RM{{ number_format($authUser->wallet->balance, 2) }}</h3>
+                        <h5>Wallet Balance</h5>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            {{--<div class="col-md-4">
                 <div class="counter-box">
                     <img src="{!! asset('assets/images/icon/dashboard/homework.png') !!}" alt="" class="img-fluid">
                     <div>
@@ -30,7 +30,7 @@
                         <h5>order pending</h5>
                     </div>
                 </div>
-            </div>
+            </div>--}}
         </div>
     </div>
 
@@ -52,7 +52,7 @@
     </div>
 
     <div class="row g-sm-4 g-3">
-        <div class="col-12">
+        {{--<div class="col-12">
             <div class="dashboard-table">
                 <div class="wallet-table">
                     <div class="top-sec mb-3">
@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>--}}
 
         <div class="col-12">
             <div class="dashboard-table">
@@ -116,43 +116,32 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>#21515</td>
-                                <td>neck velvet dress</td>
-                                <td>
-                                    <span class="badge bg-pending custom-badge rounded-0">pending</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#78153</td>
-                                <td>belted trench coat</td>
+                            @forelse($recentOrders as $order)
+                                <tr>
+                                    <td>{{ $order->order?->order_number }}</td>
+                                    <td>
+                                        {{ $order->items->pluck('product_name')->implode(', ') }}
+                                    </td>
+                                    <td>
+                                        @php
+                                            $shippingStatus = $order->shipping_status;
+                                            $statusClass = [
+                                                'pending'   => 'bg-pending',
+                                                'shipped'   => 'bg-credit',
+                                                'delivered' => 'bg-completed',
+                                                'cancelled' => 'bg-debit',
+                                            ][$shippingStatus] ?? 'bg-default';
+                                            $statusLabel = ucfirst($shippingStatus);
+                                        @endphp
 
-                                <td>
-                                    <span class="badge bg-debit custom-badge rounded-0">cancelled</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#51512</td>
-                                <td>man print tee</td>
-
-                                <td>
-                                    <span class="badge bg-credit custom-badge rounded-0">shipped</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#78153</td>
-                                <td>belted trench coat</td>
-                                <td>
-                                    <span class="badge bg-pending custom-badge rounded-0">pending</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#51512</td>
-                                <td>man print tee</td>
-                                <td>
-                                    <span class="badge bg-credit custom-badge rounded-0">shipped</span>
-                                </td>
-                            </tr>
+                                        <span class="badge {{ $statusClass }} custom-badge rounded-0">{{ $statusLabel }}</span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3" class="text-center">No recent orders found.</td>
+                                </tr>
+                            @endforelse
                             </tbody>
                         </table>
                     </div>

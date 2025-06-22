@@ -395,7 +395,7 @@
                         </div>
 
                         <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0">{!! 'RM' . number_format($item->price, 2) !!} &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
+                            <p class="mb-0">{!! 'RM' . number_format($item->price_with_commission, 2) !!} &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
                         </div>
                     </div>
                     @empty
@@ -412,7 +412,7 @@
                 <hr class="py-0 mt-0">
 
                 <h4 class="mb-4">Order Summary</h4>
-                <div class="single-cart-item d-flex align-items-stretch">
+                <div class="single-cart-item d-flex align-items-stretch mb-2">
                     <div class="box flex-shrink-0">
                         <h4 class="fw-medium">Total Sales</h4>
                     </div>
@@ -420,7 +420,29 @@
 
                     </div>
                     <div class="box flex-shrink-0 text-end">
-                        <h4 class="fw-medium">{!! $subOrder->subtotal !!}</h4>
+                        <h4 class="fw-medium">RM{{ number_format($subOrder->subtotal_with_commission, 2) }}</h4>
+                    </div>
+                </div>
+                <div class="single-cart-item d-flex align-items-stretch mb-2">
+                    <div class="box flex-shrink-0">
+                        <h4 class="fw-medium">Commission <small class="text-muted">({{ config('commission.rate') . '%' }})</small></h4>
+                    </div>
+                    <div class="box flex-grow-1">
+
+                    </div>
+                    <div class="box flex-shrink-0 text-end">
+                        <h4 class="fw-medium">RM{{ number_format($subOrder->commission_amount, 2) }}</h4>
+                    </div>
+                </div>
+                <div class="single-cart-item d-flex align-items-stretch">
+                    <div class="box flex-shrink-0">
+                        <h4 class="fw-medium">Total</h4>
+                    </div>
+                    <div class="box flex-grow-1">
+
+                    </div>
+                    <div class="box flex-shrink-0 text-end">
+                        <h4 class="fw-medium">RM{{ number_format($subOrder->subtotal_with_commission - $subOrder->commission_amount, 2) }}</h4>
                     </div>
                 </div>
             </div>

@@ -15,7 +15,7 @@
 
 @section('webpage')
 
-    @if(env('STATUS_HOME_SLIDER'))
+    @if(true)
         @if(isset($carousels) && $carousels->count() > 0)
             <!-- Home slider -->
             <section class="p-0 sm-responsive"> <!--height-100-->
