@@ -114,6 +114,11 @@
         <td colspan="4" class="text-end px-0">Shipping Fee</td>
         <td class="text-end px-0">RM{{ number_format($order->shipping_fee, 2) }}</td>
     </tr>
+    @php($adminCommission = $order->merchandise_subtotal * config('commission.rate') / 100)
+    <tr>
+        <td colspan="4" class="text-end px-0">Admin Commission</td>
+        <td class="text-end px-0">RM{{ number_format($adminCommission, 2) }}</td>
+    </tr>
     <tr class="fw-bold">
         <td colspan="4" class="text-end px-0">Total</td>
         <td class="text-end text-danger px-0">{{ $order->total_amount }}</td>
