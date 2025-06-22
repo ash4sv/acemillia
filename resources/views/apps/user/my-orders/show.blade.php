@@ -216,6 +216,7 @@
                 <div class="border border-solid p-4">
                     <hr class="py-0">
                     <div class="order-detail-item p-3 mb-3">
+                        @php($commissionFactor = 1 + config('commission.rate') / 100)
                         @forelse($subOrder->items as $item)
                             <div class="order-itemize d-flex align-items-stretch w-100">
                                 <div class="order-item-img flex-shrink-0 me-3">
@@ -227,7 +228,7 @@
                                     <p class="mb-0 text-secondary">Color: Black&nbsp;|&nbsp;Size: XL</p>
                                 </div>
                                 <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                                    <p class="mb-0">RM{{ number_format($item->price, 2) }} &nbsp;<span class="text-muted">× {{ $item->quantity }}</span></p>
+                                    <p class="mb-0">RM{{ number_format($item->price * $commissionFactor, 2) }} &nbsp;<span class="text-muted">× {{ $item->quantity }}</span></p>
                                 </div>
                             </div>
                         @empty
@@ -250,7 +251,7 @@
                             <!-- (Optional extra content) -->
                         </div>
                         <div class="box flex-shrink-0 text-end">
-                            <h4 class="fw-medium">{{ $subOrder->subtotal }}</h4>
+                            <h4 class="fw-medium">RM{{ number_format($subOrder->getRawOriginal('subtotal') * $commissionFactor, 2) }}</h4>
                         </div>
                     </div>
                 </div>

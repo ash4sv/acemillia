@@ -382,6 +382,7 @@
 
                 <!-- Order‑detail card -->
                 <div class="order-detail-item p-3 mb-3">
+                    @php($commissionFactor = 1 + config('commission.rate') / 100)
                     @forelse($subOrder->items as $i => $item)
                     <div class="order-itemize d-flex align-items-stretch w-100">
                         <div class="order-item-img flex-shrink-0 me-3">
@@ -395,7 +396,7 @@
                         </div>
 
                         <div class="order-item-price flex-shrink-0 text-end ms-auto">
-                            <p class="mb-0">{!! 'RM' . number_format($item->price, 2) !!} &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
+                            <p class="mb-0">{!! 'RM' . number_format($item->price * $commissionFactor, 2) !!} &nbsp;<span class="text-muted"> × {!! $item->quantity !!}</span></p>
                         </div>
                     </div>
                     @empty
@@ -421,6 +422,18 @@
                     </div>
                     <div class="box flex-shrink-0 text-end">
                         <h4 class="fw-medium">{!! $subOrder->subtotal !!}</h4>
+                    </div>
+                </div>
+                @php($adminCommission = $subOrder->getRawOriginal('subtotal') * config('commission.rate') / 100)
+                <div class="single-cart-item d-flex align-items-stretch">
+                    <div class="box flex-shrink-0">
+                        <h4 class="fw-medium">Admin Commission</h4>
+                    </div>
+                    <div class="box flex-grow-1">
+
+                    </div>
+                    <div class="box flex-shrink-0 text-end">
+                        <h4 class="fw-medium">RM{{ number_format($adminCommission, 2) }}</h4>
                     </div>
                 </div>
             </div>
