@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -55,5 +56,6 @@ class AppServiceProvider extends ServiceProvider
 
         //
         // URL::forceScheme('https');
+        Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');
     }
 }
