@@ -61,6 +61,10 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
+## Passport Key Storage
+
+OAuth keys generated using `php artisan passport:keys` should be placed in `app/secrets/oauth`. This directory is loaded in `AppServiceProvider` via `Passport::loadKeysFrom(__DIR__.'/../secrets/oauth');`. If you use a different location, update the `PASSPORT_PRIVATE_KEY` and `PASSPORT_PUBLIC_KEY` entries in your `.env` file accordingly.
+
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
