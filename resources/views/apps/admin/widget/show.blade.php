@@ -1,4 +1,4 @@
-<div class="card shadow-sm">
+<div class="card shadow-none border-1 border-solid">
     <div class="card-header">
         <h5 class="mb-0">Widget Details</h5>
     </div>

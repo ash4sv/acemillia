@@ -1,4 +1,4 @@
-<div class="card shadow-sm">
+<div class="card shadow-none border-1 border-solid">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">Carousel Slider Details</h5>
         <div class="btn-group">
