@@ -1,54 +1,49 @@
-<div class="table-responsive">
-    <table class="table">
-        <tbody>
-        @isset($widget->id)
-        <tr>
-            <td width="200px">ID</td>
-            <td>{!! $widget->id !!}</td>
-        </tr>
-        @endisset
-        @isset($widget->name)
-        <tr>
-            <td>Name</td>
-            <td>{!! $widget->name !!}</td>
-        </tr>
-        @endisset
-        @isset($widget->image)
-        <tr>
-            <td>Image</td>
-            <td><img src="{!! asset($widget->image) !!}" alt="" class="img-fluid"></td>
-        </tr>
-        @endisset
-        @isset($widget->url)
-        <tr>
-            <td>URL</td>
-            <td>{!! $widget->url !!}</td>
-        </tr>
-        @endisset
-        @isset($widget->size)
-        <tr>
-            <td>Size</td>
-            <td>{!! $widget->size !!}</td>
-        </tr>
-        @endisset
-        @isset($widget->start_at)
-        <tr>
-            <td>Start At</td>
-            <td>{!! $widget->start_at !!}</td>
-        </tr>
-        @endisset
-        @isset($widget->end_at)
-        <tr>
-            <td>End At</td>
-            <td>{!! $widget->end_at !!}</td>
-        </tr>
-        @endisset
-        @isset($widget->status)
-        <tr>
-            <td>Status</td>
-            <td>{!! $widget->status !!}</td>
-        </tr>
-        @endisset
-        </tbody>
-    </table>
+<div class="card shadow-sm">
+    <div class="card-header">
+        <h5 class="mb-0">Widget Details</h5>
+    </div>
+    <div class="card-body">
+        <dl class="row mb-0">
+            @isset($widget->id)
+                <dt class="col-sm-3">ID</dt>
+                <dd class="col-sm-9">{{ $widget->id }}</dd>
+            @endisset
+            @isset($widget->name)
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9">{{ $widget->name }}</dd>
+            @endisset
+            @isset($widget->image)
+                <dt class="col-sm-3">Image</dt>
+                <dd class="col-sm-9">
+                    <img src="{{ asset($widget->image) }}" alt="{{ $widget->name }}" class="img-fluid rounded">
+                </dd>
+            @endisset
+            @isset($widget->url)
+                <dt class="col-sm-3">URL</dt>
+                <dd class="col-sm-9">
+                    <a href="{{ $widget->url }}" target="_blank">{{ $widget->url }}</a>
+                </dd>
+            @endisset
+            @isset($widget->size)
+                <dt class="col-sm-3">Size</dt>
+                <dd class="col-sm-9">{{ $widget->size }}</dd>
+            @endisset
+            @isset($widget->start_at)
+                <dt class="col-sm-3">Start At</dt>
+                <dd class="col-sm-9">{{ $widget->start_at }}</dd>
+            @endisset
+            @isset($widget->end_at)
+                <dt class="col-sm-3">End At</dt>
+                <dd class="col-sm-9">{{ $widget->end_at }}</dd>
+            @endisset
+            @isset($widget->status)
+                <dt class="col-sm-3">Status</dt>
+                <dd class="col-sm-9">
+                    <span class="badge {{ $widget->status === 'active' ? 'bg-success' : 'bg-secondary' }}">
+                        {{ ucfirst($widget->status) }}
+                    </span>
+                </dd>
+            @endisset
+        </dl>
+    </div>
 </div>
