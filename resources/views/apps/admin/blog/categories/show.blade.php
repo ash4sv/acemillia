@@ -52,15 +52,10 @@
         </div>
         <div class="mt-4">
             <h6>Posts</h6>
-            @if($postCategory->posts->count())
-                <ul class="list-unstyled mb-0">
-                    @foreach($postCategory->posts as $post)
-                        <li><a href="{{ route('admin.blog.posts.show', $post->id) }}">{{ $post->title }}</a></li>
-                    @endforeach
-                </ul>
-            @else
-                <p class="mb-0">No posts available.</p>
-            @endif
+            @include('apps.admin.partials.relationship-list', [
+                'collection' => $postCategory->posts,
+                'route' => 'admin.blog.posts.show'
+            ])
         </div>
     </div>
 </div>

@@ -50,18 +50,13 @@
                 </dl>
             </div>
         </div>
-        @if($postTag->posts && $postTag->posts->count())
-            <div class="mt-4">
-                <h6>Posts</h6>
-                <ul class="list-unstyled mb-0">
-                    @foreach($postTag->posts as $post)
-                        <li>
-                            <a href="{{ route('admin.blog.posts.show', $post->id) }}">{{ $post->title }}</a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <div class="mt-4">
+            <h6>Posts</h6>
+            @include('apps.admin.partials.relationship-list', [
+                'collection' => $postTag->posts,
+                'route' => 'admin.blog.posts.show'
+            ])
+        </div>
     </div>
 </div>
 
