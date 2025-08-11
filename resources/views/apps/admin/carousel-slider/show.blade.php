@@ -1,11 +1,5 @@
 <div class="card shadow-none border-1 border-solid">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Carousel Slider Details</h5>
-        <div class="btn-group">
-            <a href="{{ route('admin.carousel-slider.edit', $carousel->id) }}" class="btn btn-sm btn-primary">Edit</a>
-            <a href="{{ route('admin.carousel-slider.index') }}" class="btn btn-sm btn-label-secondary">Back</a>
-        </div>
-    </div>
+    <x-show-header title="Carousel Slider Details" :editRoute="route('admin.carousel-slider.edit', $carousel->id)" :indexRoute="route('admin.carousel-slider.index')" />
     <div class="card-body">
         <div class="row g-4">
             <div class="col-md-6 text-center">

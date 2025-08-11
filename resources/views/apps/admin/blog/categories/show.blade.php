@@ -1,11 +1,5 @@
 <div class="card shadow-none border-1 border-solid">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">Category Details</h5>
-        <div class="btn-group">
-            <a href="{{ route('admin.blog.categories.edit', $postCategory->id) }}" class="btn btn-sm btn-primary">Edit</a>
-            <a href="{{ route('admin.blog.categories.index') }}" class="btn btn-sm btn-label-secondary">Back</a>
-        </div>
-    </div>
+    <x-show-header title="Category Details" :editRoute="route('admin.blog.categories.edit', $postCategory->id)" :indexRoute="route('admin.blog.categories.index')" />
     <div class="card-body">
         <div class="row g-4">
             <div class="col-md-6 text-center">
