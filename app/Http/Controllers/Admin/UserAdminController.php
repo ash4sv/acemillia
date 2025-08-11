@@ -46,7 +46,8 @@ class UserAdminController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = $this->findOrFailUser($id);
+        return response()->view($this->view . 'show', ['user' => $user]);
     }
 
     /**
