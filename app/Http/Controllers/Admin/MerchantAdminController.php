@@ -45,7 +45,10 @@ class MerchantAdminController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $merchant = Merchant::with(['address', 'menuSetup'])->findOrFail($id);
+        return response()->view($this->view . 'show', [
+            'merchant' => $merchant,
+        ]);
     }
 
     /**
