@@ -156,7 +156,6 @@
     </div>
 </div>
 
-@push('script')
 <script>
     document.querySelectorAll('.copy-text').forEach(button => {
         button.addEventListener('click', function () {
@@ -166,5 +165,4 @@
         });
     });
 </script>
-@endpush
 
