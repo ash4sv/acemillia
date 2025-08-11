@@ -28,8 +28,8 @@
                         <dd class="col-sm-8">
                             <div class="d-flex align-items-center">
                                 {{ $merchant->tax_id }}
-                                <button type="button" class="btn btn-sm btn-outline-secondary ms-2 copy-text" data-copy="{{ $merchant->tax_id }}" title="Copy Tax ID">
-                                    <i class="bx bx-copy"></i>
+                                <button type="button" class="btn btn-sm btn-icon btn-outline-secondary ms-2 copy-text" data-copy="{{ $merchant->tax_id }}" title="Copy Tax ID">
+                                    <i class="ti ti-copy"></i>
                                 </button>
                             </div>
                         </dd>
@@ -40,8 +40,8 @@
                         <dd class="col-sm-8">
                             <div class="d-flex align-items-center">
                                 <a href="{{ asset($merchant->business_license_document) }}" target="_blank">View Document</a>
-                                <button type="button" class="btn btn-sm btn-outline-secondary ms-2 copy-text" data-copy="{{ asset($merchant->business_license_document) }}" title="Copy URL">
-                                    <i class="bx bx-copy"></i>
+                                <button type="button" class="btn btn-sm btn-icon btn-outline-secondary ms-2 copy-text" data-copy="{{ asset($merchant->business_license_document) }}" title="Copy URL">
+                                    <i class="ti ti-copy"></i>
                                 </button>
                             </div>
                         </dd>
@@ -57,8 +57,8 @@
                         <dd class="col-sm-8">
                             <div class="d-flex align-items-center">
                                 {{ $merchant->email }}
-                                <button type="button" class="btn btn-sm btn-outline-secondary ms-2 copy-text" data-copy="{{ $merchant->email }}" title="Copy Email">
-                                    <i class="bx bx-copy"></i>
+                                <button type="button" class="btn btn-sm btn-icon btn-outline-secondary ms-2 copy-text" data-copy="{{ $merchant->email }}" title="Copy Email">
+                                    <i class="ti ti-copy"></i>
                                 </button>
                             </div>
                         </dd>
@@ -69,8 +69,8 @@
                         <dd class="col-sm-8">
                             <div class="d-flex align-items-center">
                                 {{ $merchant->phone }}
-                                <button type="button" class="btn btn-sm btn-outline-secondary ms-2 copy-text" data-copy="{{ $merchant->phone }}" title="Copy Phone">
-                                    <i class="bx bx-copy"></i>
+                                <button type="button" class="btn btn-sm btn-icon btn-outline-secondary ms-2 copy-text" data-copy="{{ $merchant->phone }}" title="Copy Phone">
+                                    <i class="ti ti-copy"></i>
                                 </button>
                             </div>
                         </dd>
@@ -90,8 +90,8 @@
                         <dd class="col-sm-8">
                             <div class="d-flex align-items-center">
                                 {{ $merchant->bank_account_details }}
-                                <button type="button" class="btn btn-sm btn-outline-secondary ms-2 copy-text" data-copy="{{ $merchant->bank_account_details }}" title="Copy Account">
-                                    <i class="bx bx-copy"></i>
+                                <button type="button" class="btn btn-sm btn-icon btn-outline-secondary ms-2 copy-text" data-copy="{{ $merchant->bank_account_details }}" title="Copy Account">
+                                    <i class="ti ti-copy"></i>
                                 </button>
                             </div>
                         </dd>
@@ -162,7 +162,7 @@
         button.addEventListener('click', function () {
             navigator.clipboard.writeText(this.dataset.copy);
             this.innerHTML = '<i class="bx bx-check"></i>';
-            setTimeout(() => this.innerHTML = '<i class="bx bx-copy"></i>', 2000);
+            setTimeout(() => this.innerHTML = '<i class="ti ti-copy"></i>', 2000);
         });
     });
 </script>
