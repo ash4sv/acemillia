@@ -18,6 +18,12 @@ class UserAdminDataTable extends DataTable
 {
     protected string $route = 'admin.registered-user.users.';
     protected string $permission = 'admin-systems-management-';
+    protected array $dataModalConfig = [
+        'scrollable'      => 'false',
+        'centered'        => 'false',
+        'optional_size'   => 'modal-xl',
+        'fullscreen_mode' => ''
+    ];
 
     /**
      * Build the DataTable class.
@@ -30,8 +36,30 @@ class UserAdminDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function ($data) {
                 return EloquentDataTableBtnElement::button([
-                    'show-btn'   => [ $this->permission . 'read', true, $data->name, route($this->route . 'show', $data->id) ],
-                    'edit-btn'   => [ $this->permission . 'update', true, $data->name, route($this->route . 'edit', $data->id) ],
+                    'show-btn'   => [
+                        $this->permission . 'read',
+                        true,
+                        $data->name,
+                        route($this->route . 'show', $data->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
+                    ],
+                    'edit-btn'   => [
+                        $this->permission . 'update',
+                        true,
+                        $data->name,
+                        route($this->route . 'edit', $data->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
+                    ],
                     'delete-btn' => [ $this->permission . 'delete', true, $data->name, route($this->route . 'destroy', $data->id) ]
                 ]);
             })
@@ -76,7 +104,14 @@ class UserAdminDataTable extends DataTable
                         [
                             'buttons'    => [
                                 Button::make('reload'),
-                                DataTableParameter::createBtn('Create User', route($this->route . 'create')),
+                                DataTableParameter::createBtn(
+                                    'Create User',
+                                    route($this->route . 'create'),
+                                    $this->dataModalConfig['scrollable'],
+                                    $this->dataModalConfig['centered'],
+                                    $this->dataModalConfig['optional_size'],
+                                    $this->dataModalConfig['fullscreen_mode']
+                                ),
                             ],
                         ]
                     ));

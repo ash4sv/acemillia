@@ -18,6 +18,12 @@ class TagAdminDataTable extends DataTable
 {
     protected string $route = 'admin.shop.tags.';
     protected string $permission = 'admin-systems-management-';
+    protected array $dataModalConfig = [
+        'scrollable'      => 'false',
+        'centered'        => 'false',
+        'optional_size'   => 'modal-xl',
+        'fullscreen_mode' => ''
+    ];
 
     /**
      * Build the DataTable class.
@@ -30,8 +36,30 @@ class TagAdminDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function ($category) {
                 return EloquentDataTableBtnElement::button([
-                    'show-btn'   => [ $this->permission . 'read', true, $category->name, route($this->route . 'show', $category->id) ],
-                    'edit-btn'   => [ $this->permission . 'update', true, 'Edit Category', route($this->route . 'edit', $category->id) ],
+                    'show-btn'   => [
+                        $this->permission . 'read',
+                        true,
+                        $category->name,
+                        route($this->route . 'show', $category->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
+                    ],
+                    'edit-btn'   => [
+                        $this->permission . 'update',
+                        true,
+                        'Edit Category',
+                        route($this->route . 'edit', $category->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
+                    ],
                     'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $category->id) ]
                 ]);
             })
@@ -70,7 +98,14 @@ class TagAdminDataTable extends DataTable
                         [
                             'buttons'    => [
                                 Button::make('reload'),
-                                DataTableParameter::createBtn('Create Tag', route($this->route . 'create')),
+                                DataTableParameter::createBtn(
+                                    'Create Tag',
+                                    route($this->route . 'create'),
+                                    $this->dataModalConfig['scrollable'],
+                                    $this->dataModalConfig['centered'],
+                                    $this->dataModalConfig['optional_size'],
+                                    $this->dataModalConfig['fullscreen_mode']
+                                ),
                             ],
                         ]
                     ));
