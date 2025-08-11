@@ -31,7 +31,12 @@
                     @endisset
                     @isset($post->tags)
                         <dt class="col-sm-4">Tags</dt>
-                        <dd class="col-sm-8">{{ $post->tags->pluck('name')->join(', ') }}</dd>
+                        <dd class="col-sm-8">
+                            @include('apps.admin.partials.relationship-list', [
+                                'collection' => $post->tags,
+                                'route' => 'admin.blog.tags.show'
+                            ])
+                        </dd>
                     @endisset
                     @isset($post->author)
                         <dt class="col-sm-4">Author</dt>
