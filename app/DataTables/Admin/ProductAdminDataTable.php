@@ -18,6 +18,12 @@ class ProductAdminDataTable extends DataTable
 {
     protected string $route = 'admin.shop.products.';
     protected string $permission = 'admin-systems-management-';
+    protected array $dataModalConfig = [
+        'scrollable'      => 'false',
+        'centered'        => 'false',
+        'optional_size'   => 'modal-xl',
+        'fullscreen_mode' => ''
+    ];
 
     /**
      * Build the DataTable class.
@@ -30,8 +36,30 @@ class ProductAdminDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function ($product) {
                 return EloquentDataTableBtnElement::button([
-                    'show-btn'   => [ $this->permission . 'read', true, $product->name, route($this->route . 'show', $product->id) ],
-                    'edit-btn'   => [ $this->permission . 'update', true, $product->name, route($this->route . 'edit', $product->id) ],
+                    'show-btn'   => [
+                        $this->permission . 'read',
+                        true,
+                        $product->name,
+                        route($this->route . 'show', $product->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
+                    ],
+                    'edit-btn'   => [
+                        $this->permission . 'update',
+                        true,
+                        $product->name,
+                        route($this->route . 'edit', $product->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
+                    ],
                     'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $product->id) ]
                 ]);
             })
@@ -76,7 +104,14 @@ class ProductAdminDataTable extends DataTable
                         [
                             'buttons'    => [
                                 Button::make('reload'),
-                                DataTableParameter::createBtn('Create Product', route($this->route . 'create')),
+                                DataTableParameter::createBtn(
+                                    'Create Product',
+                                    route($this->route . 'create'),
+                                    $this->dataModalConfig['scrollable'],
+                                    $this->dataModalConfig['centered'],
+                                    $this->dataModalConfig['optional_size'],
+                                    $this->dataModalConfig['fullscreen_mode']
+                                ),
                             ],
                         ]
                     ));
