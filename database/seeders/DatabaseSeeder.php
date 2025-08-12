@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         ]);*/
 
         $this->call([
-            // PermissionRoleSeeder::class,
-            AdminSeeder::class,
+            PermissionRoleSeeder::class,
+            // AdminSeeder::class,
             // UserSeeder::class,
             // MerchantSeeder::class,
             // CarouselSliderSeeder::class,
