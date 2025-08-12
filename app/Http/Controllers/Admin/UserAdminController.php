@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserAdminController extends Controller
@@ -94,6 +95,10 @@ class UserAdminController extends Controller
      */
     private function updateOrCreateUser(Request $request, string $id = null): User
     {
+        $request->validate([
+            'password' => 'nullable|min:8|confirmed',
+        ]);
+
         DB::beginTransaction();
         try {
             $data = $request->only([
@@ -105,8 +110,15 @@ class UserAdminController extends Controller
                 'nationality',
                 'identification_number',
                 'upload_documents',
-                'submission'
+                'submission',
+                'password',
             ]);
+
+            if (!empty($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            } else {
+                unset($data['password']);
+            }
 
             $user = User::updateOrCreate(
                 ['id' => $id],
