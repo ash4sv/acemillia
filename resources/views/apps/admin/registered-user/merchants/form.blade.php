@@ -54,6 +54,15 @@
     </div>
 
     <div class="mb-3">
+        <label for="password" class="form-label">{!! __('Password') !!}</label>
+        <input type="password" name="password" id="password" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label for="password_confirmation" class="form-label">{!! __('Password Confirmation') !!}</label>
+        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+    </div>
+
+    <div class="mb-3">
         {!! \App\Services\Publish::submissionBtn($merchant->status_submission ?? 'Pending') !!}
     </div>
 
