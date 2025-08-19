@@ -28,7 +28,7 @@ class AuthUserController extends Controller
             ['label' => 'Login'],
         ]);
 
-        if (auth()->guard('web')->check()) {
+        if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard');
         }
         return response()->view($this->view . 'login', [
@@ -63,7 +63,7 @@ class AuthUserController extends Controller
 
         $countries = public_path('assets/data/countries.json');
 
-        if (auth()->guard('web')->check()) {
+        if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard');
         }
         return response()->view($this->view . 'register', [
@@ -142,7 +142,7 @@ class AuthUserController extends Controller
             ['label' => 'Forgot password'],
         ]);
 
-        if (auth()->guard('web')->check()) {
+        if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard');
         }
         return response()->view($this->view . 'password-request', [
@@ -174,7 +174,7 @@ class AuthUserController extends Controller
             ['label' => 'Reset Password'],
         ]);
 
-        if (auth()->guard('web')->check()) {
+        if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard');
         }
         return response()->view($this->view . 'reset-password', [

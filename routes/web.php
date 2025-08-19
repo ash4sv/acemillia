@@ -75,14 +75,16 @@ Route::name('web.')->group(function () {
     Route::get('sitemap.xml', [WebController::class, 'sitemap'])->name('sitemap');
 });
 
-Route::get('login', [AuthUserController::class, 'login'])->name('login');
-Route::post('login', [AuthUserController::class, 'loginAuth'])->name('auth.login');
-Route::get('register', [AuthUserController::class, 'register'])->name('register');
-Route::post('register', [AuthUserController::class, 'registerAuth'])->name('auth.register');
-Route::get('forgot-password', [AuthUserController::class, 'forgetPassword'])->name('password.request');
-Route::post('forgot-password', [AuthUserController::class, 'forgetPasswordAuth'])->name('auth.password.request');
-Route::get('reset-password/{token}', [AuthUserController::class, 'resetPassword'])->name('password.reset');
-Route::post('reset-password', [AuthUserController::class, 'resetPasswordAuth'])->name('auth.password.reset');
+Route::middleware('guest:web')->group(function () {
+    Route::get('login', [AuthUserController::class, 'login'])->name('login');
+    Route::post('login', [AuthUserController::class, 'loginAuth'])->name('auth.login');
+    Route::get('register', [AuthUserController::class, 'register'])->name('register');
+    Route::post('register', [AuthUserController::class, 'registerAuth'])->name('auth.register');
+    Route::get('forgot-password', [AuthUserController::class, 'forgetPassword'])->name('password.request');
+    Route::post('forgot-password', [AuthUserController::class, 'forgetPasswordAuth'])->name('auth.password.request');
+    Route::get('reset-password/{token}', [AuthUserController::class, 'resetPassword'])->name('password.reset');
+    Route::post('reset-password', [AuthUserController::class, 'resetPasswordAuth'])->name('auth.password.reset');
+});
 Route::post('logout', [AuthUserController::class, 'destroy'])->name('auth.destroy');
 Route::resource('compare', CompareUserController::class)->except(['create', 'show', 'edit', 'update']);
 
