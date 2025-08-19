@@ -148,7 +148,7 @@ Route::prefix('purchase')->name('purchase.')->group(function () {
 // ======= //
 Route::get('merchant', [AuthMerchantController::class, 'redirect'])->name('merchant.redirect');
 Route::prefix('merchant')->name('merchant.')->group(function () {
-    Route::middleware(['guest'])->group(function () {
+    Route::middleware('guest:merchant')->group(function () {
         Route::get('login', [AuthMerchantController::class, 'login'])->name('login');
         Route::post('login', [AuthMerchantController::class, 'loginAuth'])->name('auth.login');
         Route::get('register', [AuthMerchantController::class, 'register'])->name('register');

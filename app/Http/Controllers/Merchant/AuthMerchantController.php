@@ -26,9 +26,10 @@ class AuthMerchantController extends Controller
 
     public function login()
     {
-        if (auth()->guard('merchant')->check()) {
+        if (Auth::guard('merchant')->check()) {
             return redirect()->route('merchant.dashboard');
         }
+
         return response()->view($this->view . 'login');
     }
 
