@@ -51,13 +51,6 @@ class CustomSessionRedirect
      */
     protected function redirectToLogin(string $guard)
     {
-        switch ($guard) {
-            case 'admin':
-                return redirect()->route('admin.login');
-            case 'merchant':
-                return redirect()->route('merchant.login');
-            default:
-                return redirect()->route('login');
-        }
+        return redirect()->route('force-login');
     }
 }
