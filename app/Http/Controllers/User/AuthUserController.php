@@ -31,7 +31,7 @@ class AuthUserController extends Controller
         if (Auth::guard('web')->check()) {
             return redirect()->route('dashboard');
         }
-        return response()->view($this->view . 'login', [
+        return response()->view('apps.auth.force-login', [
             'breadcrumbs' => $breadcrumbs
         ]);
     }

@@ -22,6 +22,7 @@
 
 @section('webpage')
 
+    @auth('web')
     <!-- breadcrumb start -->
     <div class="breadcrumb-section">
         <div class="container">
@@ -42,6 +43,13 @@
         </div>
     </div>
     <!-- breadcrumb end -->
+    @else
+    <div style="height: 228.283px;" class="d-flex align-items-center justify-content-center">
+        <div class="container">
+            <img src="{{ asset('assets/images/logo-neuraloka_black.png') }}" alt="" class="d-block mx-auto img-fluid" style="max-width: 450px;">
+        </div>
+    </div>
+    @endauth
 
     <!--section start-->
     <section class="login-page section-b-space">
@@ -85,7 +93,7 @@
                             <li class="mb-2">View performance insights & analytics</li>
                             <li>Access exclusive promotions</li>
                         </ul>
-                        <a href="{{ route('merchant.login') }}" class="btn btn-primary w-100 mb-4">Merchant Login</a>
+                        <a href="{{ route('merchant.login') }}" class="btn btn-primary w-100 mb-4 py-3">Merchant Login</a>
 
                         <h6 class="title-font">Merchant Registration</h6>
                         <p>Ready to grow with ACEMILLIA? Join our network to enjoy:</p>
@@ -94,7 +102,7 @@
                             <li class="mb-2">Dedicated pharma-specialist support</li>
                             <li>Powerful marketing & data-driven tools</li>
                         </ul>
-                        <a href="{{ route('merchant.register') }}" class="btn btn-success w-100">Create Merchant Account</a>
+                        <a href="{{ route('merchant.register') }}" class="btn btn-success w-100 py-3">Create Merchant Account</a>
 
                     </div>
                 </div>

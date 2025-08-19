@@ -55,11 +55,11 @@ use App\Http\Controllers\WebPage\WebController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('web.')->group(function () {
-    Route::get('/', [WebController::class, 'index'])->name('index');
     Route::get('about-us', [WebController::class, 'about'])->name('about');
     Route::get('privacy-policy', [WebController::class, 'privacyPolicy'])->name('privacy-policy');
     Route::get('terms-and-conditions', [WebController::class, 'termsConditions'])->name('terms-and-conditions');
     Route::middleware('auth:web')->group(function () {
+        Route::get('/', [WebController::class, 'index'])->name('index');
         Route::get('shop/{menu}', [WebController::class, 'shopIndex'])->name('shop.index');
         Route::get('shop/{menu}/{category}', [WebController::class, 'shopCategory'])->name('shop.category');
         Route::get('shop/{menu}/{category}/{product}', [WebController::class, 'shopProduct'])->name('shop.product');

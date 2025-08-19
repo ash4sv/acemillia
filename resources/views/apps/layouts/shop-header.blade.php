@@ -1,3 +1,4 @@
+@auth('web')
     <!-- header start -->
     <header class="header-5">
         <div class="mobile-fix-option"></div>
@@ -188,3 +189,4 @@
         </div>
     </header>
     <!-- header end -->
+@endauth
