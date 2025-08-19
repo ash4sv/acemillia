@@ -86,6 +86,7 @@ Route::middleware('guest:web')->group(function () {
     Route::post('reset-password', [AuthUserController::class, 'resetPasswordAuth'])->name('auth.password.reset');
 });
 Route::post('logout', [AuthUserController::class, 'destroy'])->name('auth.destroy');
+Route::view('force-login', 'apps.auth.force-login')->name('force-login');
 Route::resource('compare', CompareUserController::class)->except(['create', 'show', 'edit', 'update']);
 
 Route::prefix('user')->name('user.')->group(function () {
