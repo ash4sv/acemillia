@@ -7,6 +7,7 @@ use App\Http\Middleware\CustomEnsureEmailIsVerified;
 use App\Http\Middleware\EnsureUserIsApproved;
 use App\Http\Middleware\RedirectIfApproved;
 use App\Http\Middleware\CustomSessionRedirect;
+use App\Http\Middleware\Authenticate;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -28,6 +29,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'approved'     => EnsureUserIsApproved::class,
             'its_approved' => RedirectIfApproved::class,
             'custom.auth'  => CustomSessionRedirect::class,
+            'auth'         => Authenticate::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
