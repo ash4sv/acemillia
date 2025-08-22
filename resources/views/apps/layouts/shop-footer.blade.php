@@ -74,15 +74,16 @@
                     <div class="col offset-xl-1">
                         <div class="sub-title">
                             <div class="footer-title">
-                                <h4>{!! __('my account') !!}</h4>
+                                <h4>{!! __('My Account') !!}</h4>
                             </div>
                             <div class="footer-content">
                                 <ul>
-                                    <li><a href="#!">{!! __('mens') !!}</a></li>
-                                    <li><a href="#!">{!! __('womans') !!}</a></li>
-                                    <li><a href="#!">{!! __('clothing') !!}</a></li>
-                                    <li><a href="#!">{!! __('accessories') !!}</a></li>
-                                    <li><a href="#!">{!! __('featured') !!}</a></li>
+                                    <li><a href="{{ route('dashboard') }}">{!! __('Dashboard') !!}</a></li>
+                                    <li><a href="{{ route('dashboard', ['section' => 'news-feed']) }}">{!! __('News') !!}</a></li>
+                                    <li><a href="{{ route('dashboard', ['section' => 'my-order']) }}">{!! __('Orders') !!}</a></li>
+                                    <li><a href="{{ route('dashboard', ['section' => 'saved-address']) }}">{!! __('Addresses') !!}</a></li>
+                                    <li><a href="{{ route('web.shop.category', ['pharmaceuticals', 'pharmaceuticals']) }}">{!! __('Latest Product') !!}</a></li>
+                                    <li><a href="{!! route('merchant.redirect') !!}">{!! __('Become a Merchant') !!}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -100,7 +101,6 @@
                                     <li><a href="{{ route('web.terms-and-conditions') }}">{!! __('Terms and Condition') !!}</a></li>
                                     <li><a href="{{ route('web.privacy-policy') }}">{!! __('Privacy Policy') !!}</a></li>
                                     <li><a href="#!">{!! __('contacts') !!}</a></li>
-                                    <li><a href="{!! route('merchant.redirect') !!}">{!! __('Become a Merchant') !!}</a></li>
                                 </ul>
                             </div>
                         </div>
