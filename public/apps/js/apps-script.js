@@ -357,7 +357,7 @@ var Apps = {
 
     bindModalFormHandler: function (formSelector = '#modal-form') {
         return new Promise((resolve, reject) => {
-            $(formSelector).off('submit').on('submit', function (e) {
+            $(document).off('submit', '#modal-form').on('submit', '#modal-form', function (e) {
                 e.preventDefault();
 
                 const $form = $(this);
@@ -386,7 +386,7 @@ var Apps = {
                     contentType: false,
                     processData: false,
                     success: function (response) {
-                        if (response.modal) {
+                        if (typeof response === 'object' && response !== null) {
                             Swal.fire({
                                 icon: response.type || 'success',
                                 title: response.title || 'Success!',
@@ -395,7 +395,9 @@ var Apps = {
                                 showConfirmButton: false,
                             });
 
-                            $('#basicModal').modal('hide');
+                            if (response.modal) {
+                                $('#basicModal').modal('hide');
+                            }
 
                             $('.table.dataTable').each(function () {
                                 $(this).DataTable().ajax.reload(null, false);
@@ -410,12 +412,29 @@ var Apps = {
                     },
                     error: function (xhr) {
                         if (xhr.status === 422) {
-                            const errors = xhr.responseJSON.errors;
-                            for (let field in errors) {
-                                const $input = $form.find(`[name="${field}"]`);
-                                $input.addClass('is-invalid');
-                                if ($input.next('.invalid-feedback').length === 0) {
-                                    $input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                            const resp = xhr.responseJSON || {};
+                            if (resp.errors) {
+                                const errors = resp.errors;
+                                for (let field in errors) {
+                                    const $input = $form.find(`[name="${field}"]`);
+                                    $input.addClass('is-invalid');
+                                    if ($input.next('.invalid-feedback').length === 0) {
+                                        $input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                                    }
+                                }
+                            } else if (resp.title || resp.message) {
+                                Swal.fire({
+                                    icon: resp.type || 'error',
+                                    title: resp.title || 'Error!',
+                                    text: resp.message || 'Something went wrong.',
+                                });
+                                if (resp.modal) {
+                                    $('#basicModal').modal('hide');
+                                }
+                                if (resp.redirect) {
+                                    setTimeout(() => {
+                                        window.location.href = resp.redirect;
+                                    }, 2000);
                                 }
                             }
                         } else {

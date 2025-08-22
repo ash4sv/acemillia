@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Merchant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class MerchantAdminController extends Controller
@@ -45,7 +46,10 @@ class MerchantAdminController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $merchant = Merchant::with(['address', 'menuSetup'])->findOrFail($id);
+        return response()->view($this->view . 'show', [
+            'merchant' => $merchant,
+        ]);
     }
 
     /**
@@ -92,16 +96,30 @@ class MerchantAdminController extends Controller
      */
     private function updateOrCreateMerchant(Request $request, string $id = null): Merchant
     {
+        $request->validate([
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
         DB::beginTransaction();
         try {
             $data = $request->only([
-                'submission'
+                'submission',
+                'password',
             ]);
+
+            $statusSubmission = $data['submission'];
+            unset($data['submission']);
+
+            if (!empty($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            } else {
+                unset($data['password']);
+            }
 
             $merchant = Merchant::updateOrCreate(
                 ['id' => $id],
                 array_merge($data, [
-                    'status_submission' => $data['submission'],
+                    'status_submission' => $statusSubmission,
                 ])
             );
 

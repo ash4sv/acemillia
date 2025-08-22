@@ -98,6 +98,17 @@
         {!! \App\Services\Publish::submissionBtn($user->status_submission ?? 'Pending') !!}
     </div>
 
+    <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" name="password" id="password" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label for="password_confirmation" class="form-label">Confirm Password</label>
+        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+        <small class="form-text text-muted">Leave blank to keep existing password.</small>
+    </div>
+
     <div class="mb-0">
         <button type="submit" class="btn btn-primary">{{ isset($user) ? 'Update' : 'Create' }} User</button>
         <button type="reset" class="btn btn-label-secondary">Cancel</button>

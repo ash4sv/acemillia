@@ -10,7 +10,7 @@ class Menu
             // SYSTEM / ADMINISTRATOR TEMPLATE
             [
                 'header'     => __('NEXES | EMS'),
-                'role'       => ['system'],
+                'role'       => ['system', 'admin'],
                 'menus'      => [
                     [
                         'permission' => 'admin-systems-management-access',
@@ -192,7 +192,7 @@ class Menu
             ],
             [
                 'header'     => __('Config'),
-                'role'       => ['system'],
+                'role'       => ['system', 'admin'],
                 'menus'      => [
                     [
                         'permission' => 'admin-systems-management-access',

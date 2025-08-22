@@ -55,16 +55,18 @@ use App\Http\Controllers\WebPage\WebController;
 use Illuminate\Support\Facades\Route;
 
 Route::name('web.')->group(function () {
-    Route::get('/', [WebController::class, 'index'])->name('index');
     Route::get('about-us', [WebController::class, 'about'])->name('about');
     Route::get('privacy-policy', [WebController::class, 'privacyPolicy'])->name('privacy-policy');
     Route::get('terms-and-conditions', [WebController::class, 'termsConditions'])->name('terms-and-conditions');
-    Route::get('shop/{menu}', [WebController::class, 'shopIndex'])->name('shop.index');
-    Route::get('shop/{menu}/{category}', [WebController::class, 'shopCategory'])->name('shop.category');
-    Route::get('shop/{menu}/{category}/{product}', [WebController::class, 'shopProduct'])->name('shop.product');
-    Route::get('sort/{menu}/sort', [WebController::class, 'shopIndexSort'])->name('shop.menu.sort');
-    Route::get('sort/{menu}/{category}/sort', [WebController::class, 'shopCategorySort'])->name('shop.category.sort');
-    Route::get('quick-view/{product}', [WebController::class, 'quickview'])->name('shop.quickview');
+    Route::middleware('auth:web')->group(function () {
+        Route::get('/', [WebController::class, 'index'])->name('index');
+        Route::get('shop/{menu}', [WebController::class, 'shopIndex'])->name('shop.index');
+        Route::get('shop/{menu}/{category}', [WebController::class, 'shopCategory'])->name('shop.category');
+        Route::get('shop/{menu}/{category}/{product}', [WebController::class, 'shopProduct'])->name('shop.product');
+        Route::get('sort/{menu}/sort', [WebController::class, 'shopIndexSort'])->name('shop.menu.sort');
+        Route::get('sort/{menu}/{category}/sort', [WebController::class, 'shopCategorySort'])->name('shop.category.sort');
+        Route::get('quick-view/{product}', [WebController::class, 'quickview'])->name('shop.quickview');
+    });
 
     Route::prefix('blog')->name('blog.')->group(function () {
         Route::get('/', [WebController::class, 'blog'])->name('index');
@@ -75,15 +77,18 @@ Route::name('web.')->group(function () {
     Route::get('sitemap.xml', [WebController::class, 'sitemap'])->name('sitemap');
 });
 
-Route::get('login', [AuthUserController::class, 'login'])->name('login');
-Route::post('login', [AuthUserController::class, 'loginAuth'])->name('auth.login');
-Route::get('register', [AuthUserController::class, 'register'])->name('register');
-Route::post('register', [AuthUserController::class, 'registerAuth'])->name('auth.register');
-Route::get('forgot-password', [AuthUserController::class, 'forgetPassword'])->name('password.request');
-Route::post('forgot-password', [AuthUserController::class, 'forgetPasswordAuth'])->name('auth.password.request');
-Route::get('reset-password/{token}', [AuthUserController::class, 'resetPassword'])->name('password.reset');
-Route::post('reset-password', [AuthUserController::class, 'resetPasswordAuth'])->name('auth.password.reset');
+Route::middleware('guest:web')->group(function () {
+    Route::get('login', [AuthUserController::class, 'login'])->name('login');
+    Route::post('login', [AuthUserController::class, 'loginAuth'])->name('auth.login');
+    Route::get('register', [AuthUserController::class, 'register'])->name('register');
+    Route::post('register', [AuthUserController::class, 'registerAuth'])->name('auth.register');
+    Route::get('forgot-password', [AuthUserController::class, 'forgetPassword'])->name('password.request');
+    Route::post('forgot-password', [AuthUserController::class, 'forgetPasswordAuth'])->name('auth.password.request');
+    Route::get('reset-password/{token}', [AuthUserController::class, 'resetPassword'])->name('password.reset');
+    Route::post('reset-password', [AuthUserController::class, 'resetPasswordAuth'])->name('auth.password.reset');
+});
 Route::post('logout', [AuthUserController::class, 'destroy'])->name('auth.destroy');
+Route::view('force-login', 'apps.auth.force-login')->name('force-login');
 Route::resource('compare', CompareUserController::class)->except(['create', 'show', 'edit', 'update']);
 
 Route::prefix('user')->name('user.')->group(function () {
@@ -146,7 +151,7 @@ Route::prefix('purchase')->name('purchase.')->group(function () {
 // ======= //
 Route::get('merchant', [AuthMerchantController::class, 'redirect'])->name('merchant.redirect');
 Route::prefix('merchant')->name('merchant.')->group(function () {
-    Route::middleware(['guest'])->group(function () {
+    Route::middleware('guest:merchant')->group(function () {
         Route::get('login', [AuthMerchantController::class, 'login'])->name('login');
         Route::post('login', [AuthMerchantController::class, 'loginAuth'])->name('auth.login');
         Route::get('register', [AuthMerchantController::class, 'register'])->name('register');

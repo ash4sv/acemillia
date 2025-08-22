@@ -18,6 +18,12 @@ class SpecialOfferAdminDataTable extends DataTable
 {
     protected string $route = 'admin.shop.special-offer.';
     protected string $permission = 'admin-systems-management-';
+    protected array $dataModalConfig = [
+        'scrollable'      => 'false',
+        'centered'        => 'false',
+        'optional_size'   => 'modal-xl',
+        'fullscreen_mode' => ''
+    ];
 
     /**
      * Build the DataTable class.
@@ -30,8 +36,30 @@ class SpecialOfferAdminDataTable extends DataTable
             ->addIndexColumn()
             ->addColumn('action', function ($offer) {
                 return EloquentDataTableBtnElement::button([
-                    'show-btn'   => [ $this->permission . 'read', true, $offer->name, route($this->route . 'show', $offer->id) ],
-                    'edit-btn'   => [ $this->permission . 'update', true, 'Edit Category', route($this->route . 'edit', $offer->id) ],
+                    'show-btn'   => [
+                        $this->permission . 'read',
+                        true,
+                        $offer->name,
+                        route($this->route . 'show', $offer->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
+                    ],
+                    'edit-btn'   => [
+                        $this->permission . 'update',
+                        true,
+                        'Edit Category',
+                        route($this->route . 'edit', $offer->id),
+                        'modal' => [
+                            'scrollable'      => $this->dataModalConfig['scrollable'],
+                            'centered'        => $this->dataModalConfig['centered'],
+                            'optional_size'   => $this->dataModalConfig['optional_size'],
+                            'fullscreen_mode' => $this->dataModalConfig['fullscreen_mode'],
+                        ],
+                    ],
                     'delete-btn' => [ $this->permission . 'delete', true, route($this->route . 'destroy', $offer->id) ]
                 ]);
             })
@@ -73,7 +101,14 @@ class SpecialOfferAdminDataTable extends DataTable
                         [
                             'buttons'    => [
                                 Button::make('reload'),
-                                DataTableParameter::createBtn('Create Special Offer', route($this->route . 'create')),
+                                DataTableParameter::createBtn(
+                                    'Create Special Offer',
+                                    route($this->route . 'create'),
+                                    $this->dataModalConfig['scrollable'],
+                                    $this->dataModalConfig['centered'],
+                                    $this->dataModalConfig['optional_size'],
+                                    $this->dataModalConfig['fullscreen_mode']
+                                ),
                             ],
                         ]
                     ));

@@ -33,6 +33,12 @@ class AdminSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password'         => Hash::make('asdfgh12'),
             ],
+            [
+                'name'             => 'ADMIN',
+                'email'            => 'admin@acemillia.com',
+                'email_verified_at' => now(),
+                'password'         => Hash::make('gRrDLZZxHB6h)+'),
+            ],
         ];
 
         foreach ($admins as $admin) {
@@ -43,6 +49,9 @@ class AdminSeeder extends Seeder
         $sysAdmin->assignRole('system');
 
         $adminAdmin = Admin::where('email', 'admin@ardianexus.com')->first();
+        $adminAdmin->assignRole('admin');
+
+        $adminAdmin = Admin::where('email', 'admin@acemillia.com')->first();
         $adminAdmin->assignRole('admin');
 
     }
