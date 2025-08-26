@@ -7,16 +7,16 @@
                         <div class="col-lg-6">
                             <div class="subscribe">
                                 <div>
-                                    <h4>{!! __('KNOW IT ALL FIRST!') !!}</h4>
-                                    <p>{!! __('Never Miss Anything From Multikart By Signing Up To Our Newsletter.') !!}</p>
+                                    <h4>{!! __('Stay informed with our latest updates') !!}</h4>
+                                    <p>{!! __('Innovations, and healthcare insights, sign up for our newsletter today.') !!}</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <form
-                                action="https://pixelstrap.us19.list-manage.com/subscribe/post?u=5a128856334b598b395f1fc9b&amp;id=082f74cbda"
+                                action=""
                                 class="form-inline subscribe-form auth-form needs-validation" method="post"
-                                id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
+                                id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form">
                                 <div class="form-group mx-sm-3">
                                     <input type="text" class="form-control" name="EMAIL" id="mce-EMAIL"
                                         placeholder="Enter your email" required="required">
@@ -39,7 +39,7 @@
                             <a href="{!! url('/') !!}" class="footer-logo d-block acemilian-link">
                                 <img src="{{ asset('assets/images/logo-neuraloka_r0.png') }}" data-logo-white-mode="{{ asset('assets/images/logo-neuraloka_black.png') }}" alt="{!! __('ACEMILLIA PHARMACEUTICALS & ACEMILLIA MARKETING') !!}">
                             </a>
-                            <p>{!! __('Discover the latest fashion trends, explore unique styles, and enjoy seamless shopping with our carefully curated exclusive collections, designed to elevate your wardrobe.') !!}</p>
+                            <p>{!! __('Providing innovative pharmaceuticals, supplements, surgical instruments, and advanced robotic surgical systems, dedicated to advancing wellness, medical excellence, and sustainable healthcare.') !!}</p>
                             <div class="footer-social">
                                 <ul>
                                     <li>
